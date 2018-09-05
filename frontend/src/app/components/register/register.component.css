@@ -1,0 +1,12 @@
+.edit-form {
+  min-width: 150px;
+  width: 100%;
+}
+
+.field-full-width {
+  width : 100%;
+}
+
+.mat-form-field--no-underline .mat-input-underline {
+  background-color: transparent;
+}

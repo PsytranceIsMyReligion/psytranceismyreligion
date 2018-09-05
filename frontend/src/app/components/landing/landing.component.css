@@ -1,0 +1,52 @@
+table {
+    width : 95%;
+}
+.top-banner {
+    /* background-image:url('/src/assets/topbanner.jpg'); */
+    background-size: cover;
+    height: 180px;
+}
+
+
+.opaque-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .7;
+    z-index: -1;
+    background-size: cover;
+    background: url('/src/assets/background.jpg');
+  }
+
+ .header {
+    font-family: 'nasa', 'aero','sofachromeregular', sans-serif!important;
+    font-size: 24pt;
+    /* line-height: 3em; */
+ }
+
+
+.opaque-card {
+    font-family: 'Electrolize','orbitron','Electrolize', 'aero','sofachromeregular', sans-serif;
+    /* line-height: 1.6em; */
+    font-weight: bold;
+    z-index: 1;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    /* opacity: 0.6; */
+
+  }
+
+  mat-card-content {
+    font-size: 16pt;
+        line-height: 1.6em;
+
+}
+.mat-column-right {
+    text-align: center;
+}

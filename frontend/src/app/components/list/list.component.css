@@ -1,0 +1,21 @@
+table {
+    width : 95%;
+}
+
+.opaque-card {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    line-height: 125%;
+    opacity: 0.6;
+  }
+
+
+.mat-column-right {
+    text-align: center;
+}
+
+mat-card {
+    width: 900px;
+}
