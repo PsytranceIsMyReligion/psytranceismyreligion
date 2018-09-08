@@ -6,8 +6,10 @@
 <mat-card-content>
         <div style="float: right;">
                 <button mat-raised-button color="primary" (click)="socialSignIn('facebook')">Sign in with Facebook</button>
-<br><br>
-<button mat-raised-button color="primary" (click)="socialSignIn('google')">Sign in with Google</button>
+        <br><br>
+          <button mat-raised-button color="primary" (click)="socialSignIn('google')">Sign in with Google</button>
+          <br><br>
+          <button mat-raised-button color="primary" (click)="register()">Register</button>
 
         </div>
 <div #gmap style="width:80%; height:250px; opacity: 1"></div>
@@ -19,7 +21,8 @@
       Surely if enough of us come together and say 'psytrance is my religion', it will become a religion! If both the <a href="https://www.jedichurch.org/">Jedi Church</a>
       and <a href="https://www.venganza.org/">Church of the Flying Spaghetti Monster</a> can be officially recognised as religions in recent years, why not psytrance?
       <br><br>
-
+      <span>There are {{ memberCount }} members of which {{ conversionPercent }}% say psytrance is my religion</span>
+<br>
       <span class="header">What's the point?</span>
       If psytrance becomes officially recognised as a religion, we can then lobby our governments to legalise psychedelics as surely we will be consuming them for religious reasons. They would be the sacrament in our rituals.
       And isn't freedom of religious expression an inalienable human right? So in part this is a reality hack.

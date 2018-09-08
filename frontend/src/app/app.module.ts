@@ -8,10 +8,12 @@ import { ListComponent } from './components/list/list.component';
 import { MatToolbarModule, MatFormFieldModule, MatInputModule, MatOptionModule,
    MatSelectModule, MatIconModule, MatButtonModule, MatCardModule, MatTableModule,
   MatDividerModule, MatSnackBarModule, MatAutocompleteModule,MatSidenavModule,
-  MatListModule,MatStepperModule,MatDatepickerModule,MatRadioModule  } from '@angular/material';
+  MatListModule,MatStepperModule,MatDatepickerModule,MatRadioModule, MatExpansionModule  } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserService } from './services/user.service';
+import { MemberService } from './services/member.service';
+import {TokenService } from './services/token.service';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import {
   SocialLoginModule,
@@ -41,6 +43,10 @@ export function getAuthServiceConfigs() {
   return config;
 }
 
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,14 +63,21 @@ export function getAuthServiceConfigs() {
     MatToolbarModule,MatFormFieldModule, MatInputModule, MatOptionModule,
     MatSelectModule, MatIconModule, MatButtonModule, MatCardModule, MatTableModule,
     MatDividerModule, MatSnackBarModule,MatAutocompleteModule,MatSidenavModule,MatListModule,
-    SocialLoginModule,MatStepperModule,MatDatepickerModule,MatRadioModule,
-    ReactiveFormsModule,
+    SocialLoginModule,MatStepperModule,MatDatepickerModule,MatRadioModule,MatExpansionModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:4000'],
+        blacklistedRoutes: ['localhost:4000/api/auth']
+      }}),
+      ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     RouterModule.forRoot(ROUTES),
   ],
   providers: [
     AuthGuard,
     LandingGuard,
-    UserService,
+    MemberService,
+    TokenService,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs

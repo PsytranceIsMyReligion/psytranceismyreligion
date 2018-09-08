@@ -7,7 +7,7 @@ export class LandingGuard implements CanActivate {
     constructor(private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (sessionStorage.getItem('user')) {
+        if (sessionStorage.getItem('member')) {
             // logged in so return true
             this.router.navigate(['/nav/list']);
         }

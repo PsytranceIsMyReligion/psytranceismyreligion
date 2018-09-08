@@ -1,50 +1,24 @@
-<div class="card-container">
-<mat-card>
-<mat-card-content>
-  <div #gmap style="width:100%; height:200px;"></div>
-    <br>
-    <table mat-table [dataSource]="users" >
-      <ng-container matColumnDef="fname">
-        <th mat-header-cell *matHeaderCellDef>First Namne</th>
-        <td mat-cell *matCellDef="let element">{{ element.fname }}</td>
-      </ng-container>
-      <ng-container matColumnDef="lname">
-        <th mat-header-cell *matHeaderCellDef>Last Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.lname }}</td>
-      </ng-container>
-      <ng-container matColumnDef="postcode">
-        <th mat-header-cell *matHeaderCellDef>Post Code</th>
-        <td mat-cell *matCellDef="let element">{{ element.postcode }}</td>
-      </ng-container>
-       <ng-container matColumnDef="origin">
-            <th mat-header-cell *matHeaderCellDef>Origin</th>
-            <td mat-cell *matCellDef="let element">{{ element.origin }}</td>
-      </ng-container>
-      <ng-container matColumnDef="birthyear">
-        <th mat-header-cell *matHeaderCellDef>Year Of Birth</th>
-        <td mat-cell *matCellDef="let element">{{ element.birthyear }}</td>
-      </ng-container>
-      <ng-container matColumnDef="psystatus">
-        <th mat-header-cell *matHeaderCellDef>View</th>
-        <td mat-cell *matCellDef="let element">{{ element.psystatus }}</td>
-      </ng-container>
-      <ng-container matColumnDef="reason">
-        <th mat-header-cell *matHeaderCellDef>Reason</th>
-        <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
-      </ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="mat-column-right">Actions</th>
-        <td mat-cell *matCellDef="let element" class="mat-column-right">
-          <button mat-button color="primary" (click)="editUser(element._id)">Edit</button>
-          <button mat-button color="warn" (click)="deleteUser(element._id)">Delete</button>
-        </td>
-      </ng-container>
+<div class="flex-container">
+  <div #gmap class="flex-map"></div>
+  <div class="flex-members">
+    <span><br>We have {{ memberCount }} members <br>{{ conversionPercent }}% have converted</span>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns">
-      </tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-    </mat-card-content>
-  </mat-card>
+    <mat-accordion >
+      <mat-expansion-panel *ngFor="let member of members"  (click)="focusMember(member)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ member.fname }} {{ member.lname }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        Psytrance is my  {{ member.psystatus }}<br>
+        Because {{ member.reason }}<br>
+        About Me : {{ member.bio }}
+
+      </mat-expansion-panel>
+      </mat-accordion>
+  </div>
+  <div>
+ </div>
 </div>
 

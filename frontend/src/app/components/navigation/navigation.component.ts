@@ -14,7 +14,7 @@ export class NavigationComponent implements OnInit {
   }
 
   navigateToProfile() {
-      let user = JSON.parse(sessionStorage.getItem('user'));
-      this.router.navigate(['/nav/edit/' + user._id]);
+      let member = JSON.parse(sessionStorage.getItem('member'));
+      this.router.navigate(['/nav/edit/' + member._id]);
   }
 }

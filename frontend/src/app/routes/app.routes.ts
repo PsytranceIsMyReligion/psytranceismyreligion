@@ -6,8 +6,8 @@ import { ListComponent } from '../components/list/list.component';
 import { NavigationComponent } from '../components/navigation/navigation.component';
 import { RegisterComponent } from '../components/register/register.component';
 export const ROUTES: Routes = [
-    { path: 'landing', component: LandingComponent, canActivate : [LandingGuard] },
-    { path: 'register', component: RegisterComponent },
+    { path: 'landing', component: LandingComponent},
+    { path: 'register/:mode', component: RegisterComponent },
     { path: 'nav', canActivate: [AuthGuard], component: NavigationComponent,
       children: [
         { path: 'list',   canActivate: [AuthGuard], component: ListComponent },
