@@ -10,3 +10,7 @@
 .mat-form-field--no-underline .mat-input-underline {
   background-color: transparent;
 }
+
+.reasonField {
+  height: 100px;
+}

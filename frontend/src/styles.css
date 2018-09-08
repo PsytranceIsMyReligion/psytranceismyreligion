@@ -1,18 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css?family=Electrolize|Oswald'); */
-/* You can add global styles to this file, and also import other style files */
-
-
-
-@font-face {
-    font-family: 'aero';
-    src: url('./assets/Aero.ttf') format('truetype'),
-         url('./assets/aero-webfont.woff') format('woff'), 
-         url('./assets/aero-webfont.woff2') format('woff2');
-
-}
-
-
-
 @font-face {
     font-family: 'orbitron';
     src: url('./assets/orbitron-medium-webfont.ttf') format('truetype'),
@@ -54,13 +39,16 @@
 
 html, body { height: 100%; }
 body {
-     margin: 0; 
+     margin: 0;
      font-family: 'sofachromeregular', sans-serif;
      background-image: url('./assets/mainbackground.jpg');
  }
 
+
+[hidden] { display: none !important;}
+
  mat-card {
-     font-family: 'sofachromeregular', sans-serif; 
+     font-family: 'sofachromeregular', sans-serif;
 /* font-family: 'Oswald', sans-serif; */
 /* font-family: 'Electrolize', sans-serif; */
-} 
+}

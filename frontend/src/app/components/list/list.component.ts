@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../../models/user.model';
-import { UserService } from '../../services/user.service';
+import { Member } from '../../models/member.model';
+import { MemberService } from '../../services/member.service';
 
 
 @Component({
@@ -14,12 +14,14 @@ export class ListComponent implements OnInit {
   displayedColumns = ['fname', 'lname', 'birthyear','origin', 'postcode', 'psystatus', 'reason', 'actions'];
   @ViewChild('gmap') gmapElement: any;
   map: google.maps.Map;
-  users : User[];
+  members : Member[];
+  memberCount : number;
+  conversionPercent : number;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private memberService: MemberService, private router: Router) { }
 
   ngOnInit() {
-    this.fetchUsers();
+    this.fetchMembers();
     const mapProp = {
       zoom: 0,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -33,9 +35,9 @@ export class ListComponent implements OnInit {
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
   }
 
-  fetchUsers() {
-    this.userService.getUsers().subscribe((data: User[]) => {
-      this.users = data;
+  fetchMembers() {
+    this.memberService.getMembers().subscribe((data: Member[]) => {
+      this.members = data;
       const bounds = new google.maps.LatLngBounds();
       data.forEach((el) => {
         if ( el.lat && el.long ) {
@@ -57,16 +59,27 @@ export class ListComponent implements OnInit {
       }
       });
       this.map.fitBounds(bounds);
+
+      this.memberService.landingPageStats().subscribe((data) => {
+        console.log(data);
+        this.memberCount = data['count'];
+        this.conversionPercent = Math.round(data['conversionPercent']);
+    })
     });
   }
 
-  editUser(id) {
+  focusMember(member) {
+    const location = new google.maps.LatLng(member.lat, member.long);
+    this.map.panTo(location);
+  }
+
+  editMember(id) {
       this.router.navigate([`/nav/edit/${id}`]);
     }
 
-  deleteUser(id) {
-    this.userService.deleteUser(id).subscribe(() => {
-      this.fetchUsers();
+  deleteMember(id) {
+    this.memberService.deleteMember(id).subscribe(() => {
+      this.fetchMembers();
     });
   }
 

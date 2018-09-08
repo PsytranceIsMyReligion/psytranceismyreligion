@@ -1,11 +1,11 @@
 
 .image {
-    background-image:url('/src/assets/mainbackground.jpg');
+    /* background-image:url('/src/assets/mainbackground.jpg'); */
     background-size: cover;
 }
 
 mat-toolbar{
-    /* background:url('/src/assets/topbanner.jpg');  */
+    background:url('/src/assets/topbanner.jpg'); 
     background-size:cover;
     height: 170px;
 }

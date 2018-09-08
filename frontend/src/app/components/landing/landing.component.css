@@ -2,7 +2,7 @@ table {
     width : 95%;
 }
 .top-banner {
-    /* background-image:url('/src/assets/topbanner.jpg'); */
+    background-image:url('/src/assets/topbanner.jpg');
     background-size: cover;
     height: 180px;
 }
