@@ -45,10 +45,9 @@ router.route('/members').get((req, res ) => {
 });
 
 router.route('/api/auth').post((req, res)  => { 
-    var token = jwt.sign({ id: req.body.socialid }, config.secret, {
+    var token = jwt.sign({ id: req.body.socialid }, 'todo-app-super-shared-secret', {
     expiresIn: 86400 // expires in 24 hours
     });
-    console.log('token sent');
     res.status(200).send({ token: token });
 });
 

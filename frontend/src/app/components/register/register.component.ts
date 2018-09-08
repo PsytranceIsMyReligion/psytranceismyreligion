@@ -211,26 +211,24 @@ registerMember(fname, lname, gender, email, birthyear, origin, postcode, psystat
       favouritefestival : favouritefestival
     };
     if(this.member && this.member._id) {
-      console.log("updating ", updateMember)
       this.memberService.updateMember(this.member._id, updateMember).subscribe((member) => {
         sessionStorage.setItem('member', JSON.stringify(member));
         let snackBarRef = this.snackBar.open('Successfully updated','OK', {
           duration : 2000
         });
         snackBarRef.afterDismissed().subscribe(() => {
-          this.router.navigate(['/list']);
+          this.router.navigate(['/nav/list']);
         });
       });
     }
     else {
-      console.log("creating ", updateMember)
       this.memberService.createMember(updateMember).subscribe((member) => {
         sessionStorage.setItem('member', JSON.stringify(member));
         let snackBarRef = this.snackBar.open('Successfully updated','OK', {
           duration : 2000
         });
         snackBarRef.afterDismissed().subscribe(() => {
-          this.router.navigate(['/list']);
+          this.router.navigate(['/nav/list']);
         });
       });
     }
