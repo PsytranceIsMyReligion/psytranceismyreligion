@@ -25,7 +25,6 @@
     "@angular/router": "^6.1.10",
     "@auth0/angular-jwt": "^2.1.2",
     "@types/googlemaps": "^3.37.3",
-    "angular-6-social-login": "^1.1.1",
     "angular-jwt": "^0.1.11",
     "core-js": "^2.6.9",
     "lodash": "^4.17.15",
