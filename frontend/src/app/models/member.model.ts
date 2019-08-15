@@ -1,13 +1,13 @@
 export interface Member {
     _id ?: number;
-    socialid ?: String;
-    fname: String;
-    lname: String;
-    gender ?: String;
-    email: String;
+    socialid ?: string;
+    fname?: string;
+    lname?: string;
+    gender ?: string;
+    email?: string;
     birthyear ?: number;
-    origin ?: String;
-    postcode ?: String;
+    origin ?: string;
+    postcode ?: string;
     lat ?: number;
     long ?: number;
     membertype ?: string;
@@ -21,6 +21,6 @@ export interface Member {
     facebookurl ?: string;
     soundcloudurl ?: string;
     websiteurl ?: string;
-    psystatus ?: String;
-    reason ?: String;
+    psystatus ?: string;
+    reason ?: string;
 }

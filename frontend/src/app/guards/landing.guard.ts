@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Injectable } from "@angular/core";
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
 @Injectable()
 export class LandingGuard implements CanActivate {
+  constructor(private router: Router) {}
 
-    constructor(private router: Router) { }
-
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (sessionStorage.getItem('member')) {
-            // logged in so return true
-            this.router.navigate(['/nav/list']);
-        }
-        // not logged in so redirect to login page with the return url
-        return true;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (sessionStorage.getItem("member")) {
+      // logged in so return true
+      console.log("logged in redirecting");
+      this.router.navigate(["/nav/list"]);
     }
+    // not logged in so redirect to login page with the return url
+    return true;
+  }
 }

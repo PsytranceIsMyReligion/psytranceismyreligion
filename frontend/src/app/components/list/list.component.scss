@@ -1,0 +1,53 @@
+.opaque-card {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  line-height: 125%;
+  opacity: 0.6;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  background-color: lightgray;
+}
+
+.flex-map {
+  flex: 5;
+  width: 120em;
+  height: 21em;
+  margin: 1em;
+  align-self: flex-start;
+  order: 1;
+}
+
+.flex-members {
+  overflow: hidden;
+  display: flex;
+  margin-top: 20px;
+  margin-right: 20px;
+  background-color: gray;
+  margin-left: 20px;
+  flex: 2;
+  order: 2;
+  overflow-y: scroll;
+
+  mat-accordion {
+    border-radius: 0;
+  }
+}
+
+.summary {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.mat-column-right {
+  text-align: center;
+}
+
+mat-card {
+  width: 900px;
+}

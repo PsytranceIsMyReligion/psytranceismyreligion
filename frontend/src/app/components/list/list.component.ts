@@ -1,29 +1,48 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { Member } from '../../models/member.model';
-import { MemberService } from '../../services/member.service';
-
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Member } from "../../models/member.model";
+import { MemberService } from "../../services/member.service";
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  selector: "app-list",
+  templateUrl: "./list.component.html",
+  styleUrls: ["./list.component.scss"]
 })
 export class ListComponent implements OnInit {
-
-  displayedColumns = ['fname', 'lname', 'birthyear','origin', 'postcode', 'psystatus', 'reason', 'actions'];
-  @ViewChild('gmap') gmapElement: any;
+  displayedColumns = [
+    "fname",
+    "lname",
+    "birthyear",
+    "origin",
+    "postcode",
+    "psystatus",
+    "reason",
+    "actions"
+  ];
+  @ViewChild("gmap", { static: true }) gmapElement: any;
   map: google.maps.Map;
-  members : Member[];
-  memberCount : number;
-  conversionPercent : number;
+  members: Member[];
+  memberCount: number;
+  conversionPercent: number;
 
-  constructor(private memberService: MemberService, private router: Router) { }
+  constructor(
+    private memberService: MemberService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.members = this.route.snapshot.data["data"]["members"];
+    this.memberCount = this.route.snapshot.data["data"]["stats"]["count"];
+    this.conversionPercent = this.route.snapshot.data["data"]["stats"]["conversionPercent"];
+  }
 
   ngOnInit() {
-    this.fetchMembers();
+    this.generateMemberMap();
+  }
+
+  generateMemberMap() {
     const mapProp = {
-      zoom: 0,
+      zoom: 1,
+      center: { lat: 22.28, lng: 114.158 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControl: false,
       mapTypeControl: false,
@@ -33,39 +52,29 @@ export class ListComponent implements OnInit {
       fullscreenControl: false
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-  }
-
-  fetchMembers() {
-    this.memberService.getMembers().subscribe((data: Member[]) => {
-      this.members = data;
-      const bounds = new google.maps.LatLngBounds();
-      data.forEach((el) => {
-        if ( el.lat && el.long ) {
-         const location = new google.maps.LatLng(el.lat, el.long);
+    const bounds = new google.maps.LatLngBounds();
+    this.members.forEach(el => {
+      if (el.lat && el.long) {
+        const location = new google.maps.LatLng(el.lat, el.long);
         const marker = new google.maps.Marker({
           position: location,
           map: this.map
         });
         var infowindow = new google.maps.InfoWindow({
-          content: el.fname + ' ' + el.lname + ' says ' + el.psystatus
+          content: el.fname + " " + el.lname + " says " + el.psystatus
         });
-        marker.addListener('mouseover', function() {
+        marker.addListener("mouseover", () => {
           infowindow.open(this.map, marker);
         });
-        marker.addListener('mouseout', function() {
+        marker.addListener("mouseout", () => {
           infowindow.close();
         });
-        bounds.extend(location);
       }
-      });
-      this.map.fitBounds(bounds);
-
-      this.memberService.landingPageStats().subscribe((data) => {
-        console.log(data);
-        this.memberCount = data['count'];
-        this.conversionPercent = Math.round(data['conversionPercent']);
-    })
     });
+
+    let member: Member = JSON.parse(sessionStorage.getItem("member"));
+    let memberLocation = new google.maps.LatLng(member.lat, member.long);
+    this.map.setCenter(memberLocation);
   }
 
   focusMember(member) {
@@ -74,13 +83,12 @@ export class ListComponent implements OnInit {
   }
 
   editMember(id) {
-      this.router.navigate([`/nav/edit/${id}`]);
-    }
+    this.router.navigate([`/nav/edit/${id}`]);
+  }
 
   deleteMember(id) {
     this.memberService.deleteMember(id).subscribe(() => {
-      this.fetchMembers();
+      this.generateMemberMap();
     });
   }
-
 }

@@ -1,1 +1,14 @@
+<mat-toolbar class="top-banner">
+  <mat-toolbar-row [hidden]="!user">
+    <span style="flex: 1 1 auto;"></span>
+    <button
+      mat-raised-button
+      (click)="navigateToProfile()"
+      style="margin-top: -15px;"
+      color="primary"
+    >
+      <mat-icon>settings</mat-icon><mat-icon>person</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 <router-outlet></router-outlet>

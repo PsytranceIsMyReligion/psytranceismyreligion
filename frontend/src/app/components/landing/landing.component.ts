@@ -1,114 +1,153 @@
- /// <reference types="@types/googlemaps" />
+/// <reference types="@types/googlemaps" />
 
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Member } from '../../models/member.model';
-import { MemberService } from '../../services/member.service';
-import { TokenService } from '../../services/token.service';
-import { ViewChild } from '@angular/core';
-import {
-  AuthService,
-  FacebookLoginProvider,
-  GoogleLoginProvider
-} from 'angular-6-social-login';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Member } from "../../models/member.model";
+import { MemberService } from "../../services/member.service";
+import { TokenService } from "../../services/token.service";
+import { ViewChild } from "@angular/core";
+import { AuthService, SocialUser } from "angularx-social-login";
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css']
+  selector: "app-landing",
+  templateUrl: "./landing.component.html",
+  styleUrls: ["./landing.component.css"]
 })
 export class LandingComponent implements OnInit {
-
-
-  @ViewChild('gmap') gmapElement: any;
+  @ViewChild("gmap", { static: true }) gmapElement: any;
+  @ViewChild("gmap2", { static: true }) gmap2Element: any;
   map: google.maps.Map;
-  members : Member[];
- memberCount : number = 0;
- conversionPercent : number = 0;
+  map2: google.maps.Map;
+  members: Member[];
+  loggedInMember: Member;
+  memberCount: number = 0;
+  conversionPercent: number = 0;
+  user: SocialUser;
+  loggedIn: boolean;
+  mapOpened: boolean = false;
 
-  constructor(private memberService: MemberService, private socialAuthService: AuthService,
-    private router : Router, private  tokenService : TokenService) { }
+  constructor(
+    private memberService: MemberService,
+    private socialAuthService: AuthService,
+    private router: Router,
+    private tokenService: TokenService,
+    private route: ActivatedRoute
+  ) {
+    this.members = this.route.snapshot.data["data"]["members"];
+    this.memberCount = this.route.snapshot.data["data"]["stats"]["count"];
+    this.conversionPercent = this.route.snapshot.data["data"]["stats"]["conversionPercent"];
+  }
 
   ngOnInit() {
+    this.generateMemberMap();
 
-    console.log('expired',this.tokenService.isTokenExpired())
-    this.tokenService.logout();
+    this.socialAuthService.authState.subscribe(user => {
+      console.log("signed in user", user);
+      this.user = user;
+      this.loggedIn = user != null;
+      if (user) {
+        this.memberService.getMemberBySocialId(user.id).subscribe(member => {
+          console.log("member", member);
+          if (!member) this.router.navigate(["register", "social"]);
+          else {
+            this.loggedInMember = member;
+            console.log("member found", member);
+            sessionStorage.setItem("member", JSON.stringify(member));
+            this.tokenService.login(user.id).subscribe(token => {
+              this.router.navigate(["nav/list"]);
+            });
+          }
+        });
+      }
+    });
+  }
 
-    this.fetchMembers();
+  public openCloseMap(isOpened: boolean) {
+    this.mapOpened = isOpened;
+  }
+
+  public closeWindow() {
+    this.mapOpened = false;
+  }
+
+  generateMemberMap() {
     let mapProp = {
-      zoom: 0,
+      zoom: 1,
+      center: { lat: 22.28, lng: 114.158 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      zoomControl: false,
+      zoomControl: true,
       mapTypeControl: false,
       scaleControl: false,
       streetViewControl: false,
       rotateControl: false,
       fullscreenControl: false
     };
+    const bounds = new google.maps.LatLngBounds();
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-  }
-
-  fetchMembers() {
-    this.memberService.getMembers().subscribe((data: Member[]) => {
-      this.members = data;
-      var bounds = new google.maps.LatLngBounds();
-      this.members.forEach((el:Member) => {
-        if(el.lat && el.long) {
+    this.map2 = new google.maps.Map(this.gmap2Element.nativeElement, mapProp);
+    this.members.forEach((el: Member) => {
+      if (el.lat && el.long) {
         let location = new google.maps.LatLng(el.lat, el.long);
         let marker = new google.maps.Marker({
           position: location,
           map: this.map,
-          title: 'Got you!'
+          title: "Got you!"
+        });
+        let marker2 = new google.maps.Marker({
+          position: location,
+          map: this.map2,
+          title: "Got you!"
         });
         var infowindow = new google.maps.InfoWindow({
-          content: el.fname + ' ' + el.lname + ' thinks psytrance is ' + el.psystatus
+          content: el.fname + " " + el.lname + " thinks psytrance is " + el.psystatus
         });
-        marker.addListener('mouseover', function() {
+        marker.addListener("mouseover", () => {
           infowindow.open(this.map, marker);
         });
-        marker.addListener('mouseout', function() {
+        marker.addListener("mouseout", () => {
           infowindow.close();
-      });
-        bounds.extend(location);
+        });
+        marker2.addListener("mouseover", () => {
+          infowindow.open(this.map, marker);
+        });
+        marker2.addListener("mouseout", () => {
+          infowindow.close();
+        });
+        // bounds.extend(location);
       }
-      });
-      this.map.fitBounds(bounds);
-      this.memberService.landingPageStats().subscribe((data) => {
-        console.log(data);
-        this.memberCount = data['count'];
-        this.conversionPercent = Math.round(data['conversionPercent']);
-    })
+    });
+    // this.map.fitBounds(bounds);
+
+    this.memberService.landingPageStats().subscribe(data => {
+      this.memberCount = data["count"];
+      this.conversionPercent = Math.round(data["conversionPercent"]);
+    });
+    // let center = new google.maps.LatLng(this.members[0].lat, this.members[0].long);
+    // console.log("loggedInMember", this.loggedInMember);
+    // let loggedInMemberLocation = new google.maps.LatLng(
+    //   this.loggedInMember.lat,
+    //   this.loggedInMember.long
+    // );
+    // this.map.setCenter(center);
+  }
+
+  signInWithGoogle(): void {
+    console.log("google sign in");
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(memberData => {
+      console.log("memberData", memberData);
     });
   }
 
-
-  public socialSignIn(socialPlatform: string) {
-    let socialPlatformProvider;
-    if ( socialPlatform === 'facebook') {
-      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-    } else if ( socialPlatform === 'google' ) {
-      socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-    }
-
-    this.socialAuthService.signIn(socialPlatformProvider).then(
-      (memberData) => {
-       this.memberService.getMemberBySocialId(memberData.id)
-        .subscribe(member => {
-          console.log('member', member);
-          if(!member)
-              this.router.navigate(['register','social']);
-          else {
-            console.log('member found', member)
-            sessionStorage.setItem('member', JSON.stringify(member));
-            this.tokenService.login(memberData.id).subscribe((token)  =>{
-              this.router.navigate(['nav/list']);
-            });
-          }
-        })
-      }
-    );
+  signInWithFB(): void {
+    console.log("facebook sign in");
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then(memberData => {
+      console.log("memberData", memberData);
+    });
   }
-    public register() {
-      this.router.navigate(['register','new']);
-    }
+
+  public register() {
+    this.router.navigate(["register", "new"]);
   }
+}

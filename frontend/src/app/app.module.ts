@@ -1,50 +1,75 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { RouterModule }  from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ListComponent } from './components/list/list.component';
-import { MatToolbarModule, MatFormFieldModule, MatInputModule, MatOptionModule,
-   MatSelectModule, MatIconModule, MatButtonModule, MatCardModule, MatTableModule,
-  MatDividerModule, MatSnackBarModule, MatAutocompleteModule,MatSidenavModule,
-  MatListModule,MatStepperModule,MatDatepickerModule,MatRadioModule, MatExpansionModule  } from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MemberService } from './services/member.service';
-import {TokenService } from './services/token.service';
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { JwtModule } from '@auth0/angular-jwt';
-
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
+import { AppComponent } from "./app.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ListComponent } from "./components/list/list.component";
 import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-} from "angular-6-social-login";
-import { LandingComponent } from './components/landing/landing.component';
-import { AuthGuard } from './guards/auth.guard';
-import { LandingGuard} from './guards/landing.guard';
-import { ROUTES } from './routes/app.routes';
-import { RegisterComponent } from './components/register/register.component';
-import { MapComponent } from './components/map/map.component';
+  MatToolbarModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatOptionModule,
+  MatSelectModule,
+  MatIconModule,
+  MatButtonModule,
+  MatCardModule,
+  MatTableModule,
+  MatDividerModule,
+  MatSnackBarModule,
+  MatAutocompleteModule,
+  MatSidenavModule,
+  MatListModule,
+  MatStepperModule,
+  MatDatepickerModule,
+  MatRadioModule,
+  MatExpansionModule
+} from "@angular/material";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MemberService } from "./services/member.service";
+import { TokenService } from "./services/token.service";
+import { NavigationComponent } from "./components/navigation/navigation.component";
+import { JwtModule } from "@auth0/angular-jwt";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import { WindowModule } from '@progress/kendo-angular-dialog';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
-export function getAuthServiceConfigs() {
-  let config = new AuthServiceConfig(
-      [
-        {
-          id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider("315354469236603")
-        },
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider("793868332939-gm2ov87opcq217snn9g285k3nq97i81h.apps.googleusercontent.com")
-        }
-      ]);
+import { LandingComponent } from "./components/landing/landing.component";
+import { AuthGuard } from "./guards/auth.guard";
+import { LandingGuard } from "./guards/landing.guard";
+import { ROUTES } from "./routes/app.routes";
+import { RegisterComponent } from "./components/register/register.component";
+import { MapComponent } from "./components/map/map.component";
+import { AgmCoreModule } from "@agm/core";
+import { WatchComponent } from './components/watch/watch.component';
+import { LearnComponent } from './components/learn/learn.component';
+import { ListenComponent } from './components/listen/listen.component';
+import { DiscussComponent } from './components/discuss/discuss.component';
+import { RecruitComponent } from './components/recruit/recruit.component';
+import { MemberListResolve } from "./resolvers/member-list.resolve";
+import { HomeComponent } from './components/home/home.component';
+
+let config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(
+      "793868332939-gm2ov87opcq217snn9g285k3nq97i81h.apps.googleusercontent.com"
+    )
+  }
+  // {
+  //   id: FacebookLoginProvider.PROVIDER_ID,
+  //   provider: new FacebookLoginProvider("315354469236603")
+  // }
+]);
+
+export function provideConfig() {
   return config;
 }
 
 export function tokenGetter() {
-  return localStorage.getItem('access_token');
+  return localStorage.getItem("access_token");
 }
 
 @NgModule({
@@ -54,36 +79,64 @@ export function tokenGetter() {
     NavigationComponent,
     LandingComponent,
     RegisterComponent,
-    MapComponent
+    MapComponent,
+    WatchComponent,
+    LearnComponent,
+    ListenComponent,
+    DiscussComponent,
+    RecruitComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatToolbarModule,MatFormFieldModule, MatInputModule, MatOptionModule,
-    MatSelectModule, MatIconModule, MatButtonModule, MatCardModule, MatTableModule,
-    MatDividerModule, MatSnackBarModule,MatAutocompleteModule,MatSidenavModule,MatListModule,
-    SocialLoginModule,MatStepperModule,MatDatepickerModule,MatRadioModule,MatExpansionModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    MatTableModule,
+    MatDividerModule,
+    MatSnackBarModule,
+    MatAutocompleteModule,
+    MatSidenavModule,
+    MatListModule,
+    SocialLoginModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatRadioModule,
+    MatExpansionModule,
+    FlexLayoutModule,
+    WindowModule, 
+    ButtonsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:4000'],
-        blacklistedRoutes: ['localhost:4000/api/auth']
-      }}),
-      ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
-    RouterModule.forRoot(ROUTES),
+        whitelistedDomains: ["localhost:4000"],
+        blacklistedRoutes: ["localhost:4000/api/auth"]
+      }
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyC2a9dmYWLxP4sXevYRuL4EClEHjBofMQM"
+    }),
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: "never" }),
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [
     AuthGuard,
     LandingGuard,
     MemberService,
     TokenService,
+    MemberListResolve,
     {
       provide: AuthServiceConfig,
-      useFactory: getAuthServiceConfigs
-    }],
+      useFactory: provideConfig
+    }
+  ],
   bootstrap: [AppComponent]
 })
-
-
-export class AppModule { }
+export class AppModule {}

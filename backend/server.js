@@ -10,11 +10,19 @@ import config from "./config";
 const app = express();
 const router = express.Router();
 app.use(cors());
+app.options("*", cors());
 router.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(
   expressJwt({ secret: "todo-app-super-shared-secret" }).unless({
-    path: ["/api/auth", "/members", "/members/landingpagestats", /^\/members\/bysocialid\/.*/]
+    path: [
+      "/api/auth",
+      "/members",
+      "/members/add",
+      /^\/members\/update\/.*/,
+      "/members/landingpagestats",
+      /^\/members\/bysocialid\/.*/
+    ]
   })
 );
 
@@ -22,7 +30,7 @@ app.use(
 //   "mongodb+srv://psytrance:myreligion@cluster0-bdyrv.mongodb.net/test?retryWrites=true&w=majority",
 //   { useNewUrlParser: true }
 // );
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser : true});
+mongoose.connect("mongodb://localhost:27017/test", { useNewUrlParser: true });
 
 const connection = mongoose.connection;
 connection.once("open", () => {

@@ -1,10 +1,19 @@
-.edit-form {
+/* .edit-form {
   min-width: 150px;
+  width: 100%;
+} */
+
+.registration-container {
+  margin-top: 20px;
   width: 100%;
 }
 
+.registration-form {
+  width: 50%;
+}
+
 .field-full-width {
-  width : 100%;
+  width: 100%;
 }
 
 .mat-form-field--no-underline .mat-input-underline {

@@ -1,20 +1,12 @@
-
-.image {
-    /* background-image:url('/src/assets/mainbackground.jpg'); */
-    background-size: cover;
+.content-container {
+  height: 80%;
 }
-
-mat-toolbar{
-    background:url('/src/assets/topbanner.jpg'); 
-    background-size:cover;
-    height: 170px;
-}
-
 
 .sidenav-content {
-    display: flex;
-    height: 100%;
-
-    align-items: left;
-    justify-content: left;
+  display: block;
+  height: 100%;
+  width: 70%;
+  margin-top: 20px;
+  align-items: left;
+  justify-content: left;
 }

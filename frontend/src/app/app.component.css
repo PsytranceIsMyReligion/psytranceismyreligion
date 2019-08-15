@@ -1,0 +1,6 @@
+.top-banner {
+  background-image: url("/assets/topbanner.jpg");
+  background-size: cover;
+  height: 250px;
+  /* opacity: 0; */
+}

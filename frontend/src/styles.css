@@ -1,54 +1,60 @@
 @font-face {
-    font-family: 'orbitron';
-    src: url('./assets/orbitron-medium-webfont.ttf') format('truetype'),
-         url('./assets/orbitron-medium-webfont.woff') format('woff');
+  font-family: "orbitron";
+  src: url("./assets/orbitron-medium-webfont.ttf") format("truetype"),
+    url("./assets/orbitron-medium-webfont.woff") format("woff");
 }
 @font-face {
-    font-family: 'Irresistor';
-    src: url('./assets/irresistor-webfont.woff2') format('woff2'),
-         url('./assets/irresistor-webfont.woff') format('woff'),
-         url('./assets/Irresistor.ttf') format('truetype');
+  font-family: "Irresistor";
+  src: url("./assets/irresistor-webfont.woff2") format("woff2"),
+    url("./assets/irresistor-webfont.woff") format("woff"),
+    url("./assets/Irresistor.ttf") format("truetype");
 
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'sofachromeregular';
-    src: url('./assets/sofachrome_rg-webfont.woff2') format('woff2'),
-         url('./assets/sofachrome_rg-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'goodtimes';
-    src: url('./assets/good_times_rg-webfont.woff2') format('woff2');
-    src: url('./assets/good_times_rg-webfont.woff') format('woff');
-
+  font-family: "sofachromeregular";
+  src: url("./assets/sofachrome_rg-webfont.woff2") format("woff2"),
+    url("./assets/sofachrome_rg-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'nasa';
-    src: url('./assets/nasalization-rg-webfont.woff2') format('woff2');
-    src: url('./assets/nasalization-rg-webfont.woff') format('woff');
-
+  font-family: "goodtimes";
+  src: url("./assets/good_times_rg-webfont.woff2") format("woff2");
+  src: url("./assets/good_times_rg-webfont.woff") format("woff");
 }
 
-html, body { height: 100%; }
+@font-face {
+  font-family: "nasa";
+  src: url("./assets/nasalization-rg-webfont.woff2") format("woff2");
+  src: url("./assets/nasalization-rg-webfont.woff") format("woff");
+}
+
+html,
 body {
-     margin: 0;
-     font-family: 'sofachromeregular', sans-serif;
-     background-image: url('./assets/mainbackground.jpg');
- }
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "sofachromeregular", sans-serif;
+  background-image: url("./assets/mainbackground.jpg");
+  opacity: 1;
+}
 
+[hidden] {
+  display: none !important;
+}
 
-[hidden] { display: none !important;}
+mat-card {
+  font-family: "sofachromeregular", sans-serif;
+  /* font-family: 'Oswald', sans-serif; */
+  /* font-family: 'Electrolize', sans-serif; */
+}
 
- mat-card {
-     font-family: 'sofachromeregular', sans-serif;
-/* font-family: 'Oswald', sans-serif; */
-/* font-family: 'Electrolize', sans-serif; */
+.container {
+  display: block;
+  height: 800px;
 }
