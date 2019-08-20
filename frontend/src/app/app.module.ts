@@ -25,6 +25,7 @@ import {
   MatRadioModule,
   MatExpansionModule
 } from "@angular/material";
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MemberService } from "./services/member.service";
 import { TokenService } from "./services/token.service";
@@ -33,9 +34,8 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
-import { WindowModule } from '@progress/kendo-angular-dialog';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-
+import { WindowModule } from "@progress/kendo-angular-dialog";
+import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { LandingComponent } from "./components/landing/landing.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { LandingGuard } from "./guards/landing.guard";
@@ -43,13 +43,14 @@ import { ROUTES } from "./routes/app.routes";
 import { RegisterComponent } from "./components/register/register.component";
 import { MapComponent } from "./components/map/map.component";
 import { AgmCoreModule } from "@agm/core";
-import { WatchComponent } from './components/watch/watch.component';
-import { LearnComponent } from './components/learn/learn.component';
-import { ListenComponent } from './components/listen/listen.component';
-import { DiscussComponent } from './components/discuss/discuss.component';
-import { RecruitComponent } from './components/recruit/recruit.component';
+import { WatchComponent } from "./components/watch/watch.component";
+import { LearnComponent } from "./components/learn/learn.component";
+import { ListenComponent } from "./components/listen/listen.component";
+import { DiscussComponent } from "./components/discuss/discuss.component";
+import { RecruitComponent } from "./components/recruit/recruit.component";
 import { MemberListResolve } from "./resolvers/member-list.resolve";
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from "./components/home/home.component";
+import { RegisterResolve } from "./resolvers/register.resolve";
 
 let config = new AuthServiceConfig([
   {
@@ -104,6 +105,7 @@ export function tokenGetter() {
     MatSnackBarModule,
     MatAutocompleteModule,
     MatSidenavModule,
+    MatDatepickerModule,
     MatListModule,
     SocialLoginModule,
     MatStepperModule,
@@ -111,8 +113,9 @@ export function tokenGetter() {
     MatRadioModule,
     MatExpansionModule,
     FlexLayoutModule,
-    WindowModule, 
+    WindowModule,
     ButtonsModule,
+    MatMomentDateModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -123,7 +126,7 @@ export function tokenGetter() {
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyC2a9dmYWLxP4sXevYRuL4EClEHjBofMQM"
     }),
-    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: "never" }),
+    ReactiveFormsModule,
     RouterModule.forRoot(ROUTES)
   ],
   providers: [
@@ -132,6 +135,7 @@ export function tokenGetter() {
     MemberService,
     TokenService,
     MemberListResolve,
+    RegisterResolve,
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig

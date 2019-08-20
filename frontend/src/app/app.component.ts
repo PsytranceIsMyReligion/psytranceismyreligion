@@ -9,29 +9,31 @@ import { TokenService } from "./services/token.service";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnDestroy, OnInit {
-  constructor(private router: Router, private socialAuthService: AuthService, 
-    private tokenService : TokenService) {}
+  constructor(
+    private router: Router,
+    private socialAuthService: AuthService,
+    private tokenService: TokenService
+  ) {}
 
   member: Member;
-  user : SocialUser;
+  user: SocialUser;
 
   ngOnInit() {
     this.socialAuthService.authState.subscribe(user => {
       this.user = user;
     });
-
-    this.member = JSON.parse(sessionStorage.getItem("member"));
     window.onbeforeunload = () => this.ngOnDestroy();
   }
 
   navigateToProfile() {
+    this.member = JSON.parse(sessionStorage.getItem("member"));
     this.router.navigate(["/nav/edit/" + this.member._id]);
   }
 
   ngOnDestroy() {
     console.log("logout");
     this.socialAuthService.signOut();
-    sessionStorage.removeItem('member');
+    sessionStorage.removeItem("member");
     this.tokenService.logout();
   }
 }

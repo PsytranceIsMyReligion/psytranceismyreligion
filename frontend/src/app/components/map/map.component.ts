@@ -8,6 +8,7 @@ import {
   SimpleChanges,
   SimpleChange
 } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "app-map",
@@ -16,6 +17,7 @@ import {
 })
 export class MapComponent implements OnInit {
   @Input() postcode: string;
+  @Input() countryCode;
 
   @ViewChild("gmap", { static: true }) gmapElement: any;
   map: google.maps.Map;
@@ -24,15 +26,15 @@ export class MapComponent implements OnInit {
 
   mapVisible: boolean = false;
 
-  constructor() {}
+  constructor(private snackBar: MatSnackBar) {}
 
   ngOnInit() {
-    this.initMap();
+    // this.initMap();
   }
 
   initMap() {
     let mapProp = {
-      zoom: 0,
+      zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControl: false,
       mapTypeControl: false,
@@ -42,20 +44,28 @@ export class MapComponent implements OnInit {
       fullscreenControl: false
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    this.map.setZoom(15);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const postcode: SimpleChange = changes.postcode;
-    if (postcode && postcode.currentValue !== "") {
-      this.geocode(postcode.currentValue);
+    console.log("ngChanges", changes);
+    const postcodeChange: SimpleChange = changes.postcode;
+    const countryCodeChange: SimpleChange = changes.countryCode;
+    if (postcodeChange && postcodeChange.currentValue !== "" && this.countryCode) {
+      this.geocode(postcodeChange.currentValue, this.countryCode.alpha2Code);
+    } else if (countryCodeChange && countryCodeChange.currentValue !== "") {
+      this.geocode(null, countryCodeChange.currentValue.alpha2Code);
     }
   }
 
-  geocode(postcode) {
+  geocode(postcode, countryCode) {
+    console.log("postcode", postcode, "countryCode", countryCode);
     var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address: postcode }, (results, status) => {
+    var payload =
+      postcode != null ? { address: postcode, region: countryCode } : { address: countryCode };
+    geocoder.geocode(payload, (results, status) => {
+      // console.log("geoCode status ", status);
       if (status == google.maps.GeocoderStatus.OK) {
+        this.initMap();
         this.latLng.emit({
           lat: results[0].geometry.location.lat(),
           lng: results[0].geometry.location.lng()
@@ -75,7 +85,12 @@ export class MapComponent implements OnInit {
           position: location,
           map: this.map
         });
+        this.mapVisible = true;
         this.gmapElement.nativeElement.hidden = false;
+      } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+        let snackBarRef = this.snackBar.open("GoogleMaps cannot find your address!", "OK", {
+          duration: 2000
+        });
       }
     });
   }

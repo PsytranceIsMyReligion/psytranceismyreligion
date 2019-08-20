@@ -49,11 +49,9 @@ export class LandingComponent implements OnInit {
       this.loggedIn = user != null;
       if (user) {
         this.memberService.getMemberBySocialId(user.id).subscribe(member => {
-          console.log("member", member);
           if (!member) this.router.navigate(["register", "social"]);
           else {
             this.loggedInMember = member;
-            console.log("member found", member);
             sessionStorage.setItem("member", JSON.stringify(member));
             this.tokenService.login(user.id).subscribe(token => {
               this.router.navigate(["nav/list"]);

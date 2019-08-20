@@ -11,6 +11,7 @@ import { DiscussComponent } from "../components/discuss/discuss.component";
 import { NavigationComponent } from "../components/navigation/navigation.component";
 import { RegisterComponent } from "../components/register/register.component";
 import { MemberListResolve } from "../resolvers/member-list.resolve";
+import { RegisterResolve } from "../resolvers/register.resolve";
 
 export const ROUTES: Routes = [
   {
@@ -28,7 +29,13 @@ export const ROUTES: Routes = [
       data: MemberListResolve
     }
   },
-  { path: "register/:mode", component: RegisterComponent },
+  { 
+    path: "register/:mode", 
+    component: RegisterComponent, 
+    resolve : {
+      data : RegisterResolve
+    } 
+  },
   {
     path: "nav",
     canActivate: [AuthGuard],
@@ -47,7 +54,14 @@ export const ROUTES: Routes = [
       { path: "listen", canActivate: [AuthGuard], component: ListenComponent },
       { path: "recruit", canActivate: [AuthGuard], component: RecruitComponent },
       { path: "discuss", canActivate: [AuthGuard], component: DiscussComponent },
-      { path: "edit/:id", canActivate: [AuthGuard], component: RegisterComponent }
+      { 
+        path: "edit/:id", 
+        canActivate: [AuthGuard],         
+        component: RegisterComponent, 
+        resolve :  {
+        data : RegisterResolve
+        } 
+      }
     ]
   },
   { path: "**", redirectTo: "landing", pathMatch: "full" }
