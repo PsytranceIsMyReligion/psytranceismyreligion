@@ -26,10 +26,6 @@ app.use(
   })
 );
 
-// mongoose.connect(
-//   "mongodb+srv://psytrance:myreligion@cluster0-bdyrv.mongodb.net/test?retryWrites=true&w=majority",
-//   { useNewUrlParser: true }
-// );
 mongoose.connect("mongodb://localhost:27017/test", { useNewUrlParser: true });
 
 const connection = mongoose.connection;
@@ -92,8 +88,10 @@ router.route("/members/add").post((req, res) => {
 
 router.route("/members/update/:id").post((req, res, next) => {
   Member.findById(req.params.id, (err, member) => {
-    if (!member) res.statusCode(400);
-    else {
+    if (!member) {
+      console.log("no member");
+      res.statusCode(400);
+    } else {
       member.fname = req.body.fname;
       member.lname = req.body.lname;
       member.gender = req.body.gender;
@@ -115,12 +113,14 @@ router.route("/members/update/:id").post((req, res, next) => {
       member.soundcloudurl = req.body.soundcloudurl;
       member.websiteurl = req.body.websiteurl;
       member.reason = req.body.reason;
+      console.log("updating ", member);
       member
         .save()
         .then(member => {
           res.status(200).json(member);
         })
         .catch(err => {
+          console.log(err);
           res.status(400).send("Update failed");
         });
     }

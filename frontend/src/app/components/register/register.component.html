@@ -11,23 +11,11 @@
         <form [formGroup]="basicInfoGroup">
           <ng-template matStepLabel>Basic Info</ng-template>
           <mat-form-field class="field-full-width">
-            <input
-              matInput
-              placeholder="First Name"
-              formControlName="fname"
-              #fnameControl
-              required
-            />
+            <input matInput placeholder="First Name" formControlName="fname" required />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input
-              matInput
-              placeholder="Last Name"
-              formControlName="lname"
-              #lnameControl
-              required
-            />
+            <input matInput placeholder="Last Name" formControlName="lname" required />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field floatLabel="always" class="mat-form-field--no-underline">
@@ -46,12 +34,11 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="Email" required formControlName="email" #emailControl />
+            <input matInput placeholder="Email" required formControlName="email" />
             <mat-error>{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <input
-              #birthyearControl
               matInput
               [matDatepicker]="picker"
               formControlName="birthyear"
@@ -74,9 +61,8 @@
               type="text"
               matInput
               placeholder="Where are you from?"
-              [formControl]="originCtrl"
+              formControlName="origin"
               [matAutocomplete]="auto"
-              #originControl
               required
             />
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -96,19 +82,20 @@
               type="text"
               placeholder="Postcode"
               formControlName="postcode"
-              #postcodeControl
               required
             />
             <mat-error>Required</mat-error>
           </mat-form-field>
-          <div [hidden]="!postcodeControl.value">
+          <div [hidden]="!basicInfoGroup.get('postcode').value">
             <app-map
-              [postcode]="postcodeControl.value"
-              [countryCode]="originCtrl.value"
+              [postcode]="basicInfoGroup.get('postcode').value"
+              [countryCode]="basicInfoGroup.get('origin').value"
               (latLng)="setLatLng($event)"
             ></app-map>
           </div>
-          <button style="float:right;" (click)="findInvalidControls()" mat-button matStepperNext>Next</button>
+          <button style="float:right;" (click)="findInvalidControls()" mat-button matStepperNext>
+            Next
+          </button>
         </form>
       </mat-step>
       <mat-step [stepControl]="detailGroup">
@@ -118,7 +105,6 @@
             <mat-select
               placeholder="What's your favorite music genre?"
               formControlName="musictype"
-              #musictypeControl
               required
             >
               <mat-option value="dnb">Drum & Bass</mat-option>
@@ -133,7 +119,6 @@
             <mat-select
               placeholder="What's your involvement in the scene?"
               formControlName="membertype"
-              #membertypeControl
               required
             >
               <mat-option value="punter">I'm a party goer</mat-option>
@@ -145,7 +130,6 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <input
-              #startyearControl
               matInput
               [matDatepicker]="picker2"
               formControlName="startyear"
@@ -168,7 +152,6 @@
               placeholder="How often do you attend parties?"
               formControlName="partyfrequency"
               required
-              #partyfrequencyControl
             >
               <mat-option value="one">Every week</mat-option>
               <mat-option value="two">Twice a month</mat-option>
@@ -185,7 +168,6 @@
               matInput
               placeholder="What's your favourite party?"
               formControlName="favouriteparty"
-              #favouritepartyControl
             />
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -193,7 +175,6 @@
             <mat-select
               placeholder="How often do you attend festivals?"
               formControlName="festivalfrequency"
-              #festivalfrequencyControl
               required
             >
               <mat-option value="1">Once a year</mat-option>
@@ -208,7 +189,6 @@
               matInput
               placeholder="What's your favourite festival?"
               formControlName="favouritefestival"
-              #favouritefestivalControl
             />
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -218,7 +198,6 @@
               matInput
               placeholder="Tell us about yourself"
               formControlName="bio"
-              #bioControl
             ></textarea>
           </mat-form-field>
           <button style="float:right;" mat-button matStepperNext>Next</button>
@@ -229,7 +208,7 @@
         <form [formGroup]="opinionGroup">
           <ng-template matStepLabel>Your opinions</ng-template>
           <mat-form-field class="field-full-width" required>
-            <mat-select placeholder="Status" formControlName="psystatus" #psystatusControl>
+            <mat-select placeholder="Status" formControlName="psystatus">
               <mat-option value="lifestyle">Is My Lifestyle</mat-option>
               <mat-option value="religion">Is My Religion</mat-option>
               <mat-option value="music">Is Just Music</mat-option>
@@ -241,7 +220,6 @@
               matInput
               placeholder="Reason"
               formControlName="reason"
-              #reasonControl
             ></textarea>
           </mat-form-field>
           <div>
@@ -250,26 +228,7 @@
               type="submit"
               mat-raised-button
               color="primary"
-              (click)="
-                registerMember(
-                  fnameControl.value,
-                  lnameControl.value,
-                  emailControl.value,
-                  birthyearControl.value,
-                  originControl.value,
-                  postcodeControl.value,
-                  psystatusControl.value,
-                  reasonControl.value,
-                  musictypeControl.value,
-                  membertypeControl.value,
-                  startyearControl.value,
-                  bioControl.value,
-                  partyfrequencyControl.value,
-                  favouritepartyControl.value,
-                  festivalfrequencyControl.value,
-                  favouritefestivalControl.value
-                )
-              "
+              (click)="registerMember()"
               [disabled]="
                 (basicInfoGroup.pristine && opinionGroup.pristine && detailGroup.pristine) ||
                 (basicInfoGroup.invalid || opinionGroup.invalid || detailGroup.invalid)

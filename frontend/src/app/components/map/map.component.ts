@@ -15,7 +15,7 @@ import { MatSnackBar } from "@angular/material";
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.css"]
 })
-export class MapComponent implements OnInit {
+export class MapComponent {
   @Input() postcode: string;
   @Input() countryCode;
 
@@ -27,10 +27,6 @@ export class MapComponent implements OnInit {
   mapVisible: boolean = false;
 
   constructor(private snackBar: MatSnackBar) {}
-
-  ngOnInit() {
-    // this.initMap();
-  }
 
   initMap() {
     let mapProp = {
@@ -47,13 +43,16 @@ export class MapComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("ngChanges", changes);
     const postcodeChange: SimpleChange = changes.postcode;
     const countryCodeChange: SimpleChange = changes.countryCode;
-    if (postcodeChange && postcodeChange.currentValue !== "" && this.countryCode) {
-      this.geocode(postcodeChange.currentValue, this.countryCode.alpha2Code);
+    let postCodeUpdate = postcodeChange.currentValue;
+    let countryCodeUpdate = Array.isArray(countryCodeChange.currentValue)
+      ? countryCodeChange.currentValue[0]
+      : countryCodeChange.currentValue;
+    if (postcodeChange && postcodeChange.currentValue !== "") {
+      this.geocode(postcodeChange.currentValue, countryCodeUpdate.alpha2Code);
     } else if (countryCodeChange && countryCodeChange.currentValue !== "") {
-      this.geocode(null, countryCodeChange.currentValue.alpha2Code);
+      this.geocode(null, countryCodeUpdate.alpha2Code);
     }
   }
 

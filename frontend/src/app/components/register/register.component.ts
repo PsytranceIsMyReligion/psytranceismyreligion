@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
   detailGroup: FormGroup;
   genderSelected: string;
   countries: any;
-  originCtrl: FormControl = new FormControl();
+  // originCtrl: FormControl = new FormControl();
   filteredCountries: Observable<any[]>;
   startyearChoices: Array<string>;
   yearStart: Date;
@@ -110,7 +110,7 @@ export class RegisterComponent implements OnInit {
       this.genderSelected = this.member.gender;
       this.basicInfoGroup.get("postcode").setValue(this.member.postcode);
       let ori = this.countries.filter(el => el.alpha2Code === this.member.origin);
-      this.originCtrl.setValue(ori);
+      this.basicInfoGroup.get("origin").setValue(ori);
       this.basicInfoGroup.get("birthyear").setValue(moment().set("year", this.member.birthyear));
       this.opinionGroup.get("psystatus").setValue(this.member.psystatus);
       this.opinionGroup.get("reason").setValue(this.member.reason);
@@ -129,15 +129,12 @@ export class RegisterComponent implements OnInit {
   }
 
   setOrigin(event) {
-    this.originCtrl.setValue(event);
-    this.originCtrl.markAsDirty();
     this.basicInfoGroup.get("postcode").setValue("");
-    //  console.log('invalid',this.findInvalidControls());
   }
 
   loadCountries() {
     console.log("loadCountres");
-    this.filteredCountries = this.originCtrl.valueChanges.pipe(
+    this.filteredCountries = this.basicInfoGroup.get("origin").valueChanges.pipe(
       startWith(""),
       map(value => (value ? this._filter(value) : this.countries.slice()))
     );
@@ -161,18 +158,17 @@ export class RegisterComponent implements OnInit {
     const invalid = [];
     const controls = this.basicInfoGroup.controls;
     for (const name in controls) {
-        if (controls[name].invalid) {
-            invalid.push(name);
-        }
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
     }
     console.log(invalid);
-}
+  }
 
-  displayFn(country) {    
+  displayFn(country) {
     if (Array.isArray(country))
       return typeof country[0] !== "string" ? country[0].name : country[0];
     else return typeof country !== "string" ? country.name : country;
-    
   }
 
   getErrorMessage() {
@@ -208,48 +204,31 @@ export class RegisterComponent implements OnInit {
     return this.basicInfoGroup.get("gender");
   }
 
-  registerMember(
-    fname,
-    lname,
-    email,
-    birthyear,
-    origin,
-    postcode,
-    psystatus,
-    reason,
-    musictype,
-    membertype,
-    startyear,
-    bio,
-    partyfrequency,
-    favouriteparty,
-    festivalfrequency,
-    favouritefestival
-  ) {
-    console.log("origin set ", origin);
+  registerMember() {
+    let origin = this.basicInfoGroup.get("origin").value;
+    console.log("origin set ", origin[0].alpha2Code);
     let updateMember: Member = {
-      fname: fname,
-      lname: lname,
+      fname: this.basicInfoGroup.get("fname").value,
+      lname: this.basicInfoGroup.get("lname").value,
       socialid: this.socialid,
       gender: this.genderSelected,
-      birthyear: birthyear,
-      origin: origin.alpha2Code,
-      postcode: postcode,
-      email: email,
+      birthyear: this.basicInfoGroup.get("birthyear").value.year(),
+      origin: origin[0].alpha2Code,
+      postcode: this.basicInfoGroup.get("postcode").value,
+      email: this.basicInfoGroup.get("email").value,
       lat: this.latitude,
       long: this.longitude,
-      psystatus: psystatus,
-      reason: reason,
-      membertype: membertype,
-      musictype: musictype,
-      startyear: startyear,
-      bio: bio,
-      partyfrequency: partyfrequency,
-      favouriteparty: favouriteparty,
-      festivalfrequency: festivalfrequency,
-      favouritefestival: favouritefestival
+      membertype: this.detailGroup.get("membertype").value,
+      musictype: this.detailGroup.get("musictype").value,
+      startyear: this.detailGroup.get("startyear").value.year(),
+      bio: this.detailGroup.get("bio").value,
+      partyfrequency: this.detailGroup.get("partyfrequency").value,
+      favouriteparty: this.detailGroup.get("favouriteparty").value,
+      festivalfrequency: this.detailGroup.get("festivalfrequency").value,
+      favouritefestival: this.detailGroup.get("favouritefestival").value,
+      psystatus: this.opinionGroup.get("psystatus").value,
+      reason: this.opinionGroup.get("reason").value
     };
-    debugger;
     if (this.member && this.member._id) {
       console.log("updating ", updateMember);
       this.memberService.updateMember(this.member._id, updateMember).subscribe(member => {
@@ -282,7 +261,7 @@ export class RegisterComponent implements OnInit {
       lname: ["", Validators.required],
       gender: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
-      // origin: ["", Validators.required],
+      origin: ["", Validators.required],
       birthyear: ["", Validators.required],
       postcode: ["", Validators.required]
     });
