@@ -1,58 +1,59 @@
-import { Injectable} from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'
-import { HttpClient } from '@angular/common/http';
-import { Member } from '../models/member.model';
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
+import { Member } from "../models/member.model";
+import { environment } from "../../environments/environment";
 
+const baseUri = environment.baseUri;
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class MemberService {
-
-  uri = 'http://localhost:4000';
-  countriesUri = 'https://restcountries.eu/rest/v2/all';
-  countries;
+  countriesUri = "https://restcountries.eu/rest/v2/all";
+  env : any;
 
   constructor(private http: HttpClient) {
+    this.env = environment;
   }
 
-
-
   getMembers() {
-    return this.http.get(`${this.uri}/members`);
+    return this.http.get(`${this.env.baseUri}/members`);
   }
 
   getMemberById(id) {
-    return this.http.get(`${this.uri}/members/${id}`)
+    return this.http.get(`${this.env.baseUri}/members/${id}`);
   }
 
   getMemberBySocialId(id) {
-    return this.http.get(`${this.uri}/members/bysocialid/${id}`)
+    return this.http.get(`${this.env.baseUri}/members/bysocialid/${id}`);
   }
 
   createMember(member: Member) {
-    return this.http.post(`${this.uri}/members/add`, member);
+    return this.http.post(`${this.env.baseUri}/members/add`, member);
   }
 
-  updateMember(id, member)  {
-    return this.http.post(`${this.uri}/members/update/${id}`, member);
+  updateMember(id, member) {
+    return this.http.post(`${this.env.baseUri}/members/update/${id}`, member);
   }
 
   deleteMember(id) {
-    return this.http.get(`${this.uri}/members/delete/${id}`);
+    return this.http.get(`${this.env.baseUri}/members/delete/${id}`);
   }
 
   landingPageStats() {
-    return this.http.get(`${this.uri}/members/landingpagestats`);
+    return this.http.get(`${this.env.baseUri}/members/landingpagestats`);
   }
 
   getAllCountries() {
     return this.http.get(this.countriesUri);
   }
 
-  getGoogleAvatar(member: Member) {
-    return this.http.get("http://picasaweb.google.com/data/entry/api/user/"
-    + member.email + "?alt=json");
+  getAllMusicGenres() {
+    return this.http.get(`${this.env.baseUri}/musicgenres`);
   }
 
+  createMusicGenre(genre) {
+    return this.http.get(`${this.env.baseUri}/musicgenres/add`, {params : genre});
+  }
 }

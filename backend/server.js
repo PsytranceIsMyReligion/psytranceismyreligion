@@ -5,28 +5,37 @@ import expressJwt from "express-jwt";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import Member from "./models/member";
+import MusicGenres from "./models/musicgenres";
 import config from "./config";
 
 const app = express();
 const router = express.Router();
 app.use(cors());
 app.options("*", cors());
-router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 app.use(
-  expressJwt({ secret: "todo-app-super-shared-secret" }).unless({
+  expressJwt({
+    secret: "todo-app-super-shared-secret"
+  }).unless({
     path: [
       "/api/auth",
       "/members",
+      "/musicgenres",
+      "/musicgenres/add",
       "/members/add",
-      /^\/members\/update\/.*/,
+      // /^\/members\/update\/.*/,
       "/members/landingpagestats",
       /^\/members\/bysocialid\/.*/
     ]
   })
 );
 
-mongoose.connect("mongodb://localhost:27017/test", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/test", {
+  useNewUrlParser: true
+});
 
 const connection = mongoose.connection;
 connection.once("open", () => {
@@ -36,9 +45,14 @@ connection.once("open", () => {
 router.route("/members/landingpagestats").get((req, res) => {
   Member.estimatedDocumentCount((err, count) => {
     if (err) res.json(err);
-    Member.estimatedDocumentCount({ psystatus: "religion" }, (err, converts) => {
+    Member.estimatedDocumentCount({
+      psystatus: "religion"
+    }, (err, converts) => {
       let percentage = (converts / count) * 100;
-      res.json({ count: count, conversionPercent: percentage });
+      res.json({
+        count: count,
+        conversionPercent: percentage
+      });
     });
   });
 });
@@ -50,12 +64,36 @@ router.route("/members").get((req, res) => {
   });
 });
 
+router.route("/musicgenres").get((req, res) => {
+  MusicGenres.find((err, genres) => {
+    if (err) res.statusCode(400);
+    else res.json(genres);
+  });
+});
+
+
+router.route("/musicgenres/add").post((req, res) => {
+  let genre = new MusicGenres(req.body);
+  genre
+    .save()
+    .then(genre => {
+      res.status(200).json(genre);
+    })
+    .catch(err => {
+      res.status(400).send("Failed to create a new genre");
+    });
+});
+
 router.route("/api/auth").post((req, res) => {
-  var token = jwt.sign({ id: req.body.socialid }, config.secret, {
+  var token = jwt.sign({
+    id: req.body.id
+  }, config.secret, {
     expiresIn: 86400 // expires in 24 hours
   });
   console.log("token sent");
-  res.status(200).send({ token: token });
+  res.status(200).send({
+    token: token
+  });
 });
 
 router.route("/members/:id").get((req, res) => {
@@ -66,7 +104,9 @@ router.route("/members/:id").get((req, res) => {
 });
 
 router.route("/members/bysocialid/:id").get((req, res) => {
-  Member.findOne({ socialid: req.params.id }, (err, member) => {
+  Member.findOne({
+    socialid: req.params.id
+  }, (err, member) => {
     if (err) res.status(400).json(err);
     else {
       res.json(member);
@@ -82,7 +122,7 @@ router.route("/members/add").post((req, res) => {
       res.status(200).json(member);
     })
     .catch(err => {
-      res.status(400).send("Failed to create a new record");
+      res.status(400).send("Failed to create a new member");
     });
 });
 
@@ -98,6 +138,7 @@ router.route("/members/update/:id").post((req, res, next) => {
       member.birthyear = req.body.birthyear;
       member.postcode = req.body.postcode;
       member.origin = req.body.origin;
+      member.location = req.body.location;
       member.psystatus = req.body.psystatus;
       member.lat = req.body.lat;
       member.long = req.body.long;
@@ -126,11 +167,17 @@ router.route("/members/update/:id").post((req, res, next) => {
     }
   });
   router.route("/members/delete/:id").get((req, res) => {
-    Member.findByIdAndRemove({ _id: req.params.id }, (err, member) => {
+    Member.findByIdAndRemove({
+      _id: req.params.id
+    }, (err, member) => {
       if (err) res.json(err);
       else res.json("Removed successfully");
     });
   });
+
+
+
+
 });
 
 app.use("/", router);

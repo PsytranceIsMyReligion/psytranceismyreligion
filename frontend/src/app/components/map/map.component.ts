@@ -45,14 +45,18 @@ export class MapComponent {
   ngOnChanges(changes: SimpleChanges) {
     const postcodeChange: SimpleChange = changes.postcode;
     const countryCodeChange: SimpleChange = changes.countryCode;
-    let postCodeUpdate = postcodeChange.currentValue;
-    let countryCodeUpdate = Array.isArray(countryCodeChange.currentValue)
-      ? countryCodeChange.currentValue[0]
-      : countryCodeChange.currentValue;
+    console.log(postcodeChange, countryCodeChange);
+    let countryCodeUpdate;
+    if (countryCodeChange) {
+      countryCodeUpdate = Array.isArray(countryCodeChange.currentValue)
+        ? countryCodeChange.currentValue[0].alpha2Code
+        : countryCodeChange.currentValue.alpha2Code;
+    } else 
+      countryCodeUpdate = Array.isArray(this.countryCode) ? this.countryCode[0].alpha2Code : this.countryCode.alpha2Code;
     if (postcodeChange && postcodeChange.currentValue !== "") {
-      this.geocode(postcodeChange.currentValue, countryCodeUpdate.alpha2Code);
+      this.geocode(postcodeChange.currentValue, countryCodeUpdate);
     } else if (countryCodeChange && countryCodeChange.currentValue !== "") {
-      this.geocode(null, countryCodeUpdate.alpha2Code);
+      this.geocode(null, countryCodeUpdate);
     }
   }
 

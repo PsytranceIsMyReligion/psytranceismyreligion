@@ -11,6 +11,13 @@ export class RegisterResolve implements Resolve<any> {
   constructor(private memberService: MemberService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-     return this.memberService.getAllCountries();        
+    return forkJoin([ this.memberService.getAllCountries(),
+        this.memberService.getAllMusicGenres()
+      ]).pipe(map(result => {
+        return {
+            countries : result[0],
+            musicGenres : result[1]
+        }
+      }));
   }
 }

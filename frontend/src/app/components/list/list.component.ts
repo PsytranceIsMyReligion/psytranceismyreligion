@@ -79,6 +79,12 @@ export class ListComponent implements OnInit {
 
   focusMember(member) {
     const location = new google.maps.LatLng(member.lat, member.long);
+    let marker = new google.maps.Marker({
+      position: location,
+      map: this.map
+    });
+    marker.setAnimation(google.maps.Animation.DROP);
+    marker.setIcon('http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png');
     this.map.panTo(location);
   }
 

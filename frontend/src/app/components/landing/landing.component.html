@@ -6,33 +6,18 @@
         There are {{ memberCount }} members of which {{ conversionPercent }}% say 'Psytrance is my
         Religion'<br
       /></span>
-    </div>
-    <div fxLayout="center"></div>
-    <div style="float: right;">
-      <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithFB()">
-        Sign in with Facebook
-      </button>
-      <br /><br />
-      <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithGoogle()">
-        Sign in with Google
-      </button>
-      <br /><br />
-      <button mat-raised-button color="primary" [hidden]="user" (click)="register()">
-        Register
+      <div [hidden]="mapOpened" #gmap style="width:80%; height:250px; opacity: 1"></div>
+      <button
+        kendoButton
+        *ngIf="!mapOpened"
+        (click)="openCloseMap(true)"
+        [icon]="'hyperlink-open'"
+        [primary]="true"
+        class="primary"
+      >
+        Click for Pop Out Map
       </button>
     </div>
-
-    <div [hidden]="mapOpened" #gmap style="width:80%; height:250px; opacity: 1"></div>
-    <button
-      kendoButton
-      *ngIf="!mapOpened"
-      (click)="openCloseMap(true)"
-      [icon]="'hyperlink-open'"
-      [primary]="true"
-      class="primary"
-    >
-      Click for Pop Out Map
-    </button>
 
     <kendo-window
       title="Expandable Member Map"
@@ -45,12 +30,20 @@
       [hidden]="!mapOpened"
       (close)="closeWindow()"
     >
-      <!-- <kendo-window-titlebar>
-        <button kendoWindowCloseAction></button>
-      </kendo-window-titlebar> -->
       <div #gmap2 style="width:100%; height:100%; opacity: 1"></div>
     </kendo-window>
-
+    <br />
+    <div fxLayoutAlign="center center" class="login-buttons">
+      <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithFB()">
+        Sign in / Register with Facebook
+      </button>
+      <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithGoogle()">
+        Sign in / Register with Google
+      </button>
+      <button mat-raised-button color="primary" [hidden]="user" (click)="register()">
+        Register
+      </button>
+    </div>
     <div class="backdrop">
       <p>
         <br />
@@ -63,10 +56,10 @@
           <a href="https://www.venganza.org/">Church of the Flying Spaghetti Monster</a> have both
           been officially recognised as religions in recent years. Let's do the same for psytrance!
           <br /><br />
-          <font size="16">What's the point? Let's hack reality!</font><br /><br />
+          <font size="16">What's the point? <br />Let's hack reality!</font><br /><br />
           If psytrance is officially recognised as religion, we can then lobby our governments to
-          legalise psychedelics, since surely we will be consuming them as part of a religous
-          experienc. They would be the sacrament in our rituals of rave. Surely this would make
+          legalise psychedelics, since surely we will be consuming them as part of a religious
+          experience. They would be the sacrament in our rituals of rave. Surely this would make
           their illegality an infringement on our inalienable right to freedom of religous
           expression! Get round that narrow minded hypocritical politicians!
           <br /><br />
@@ -82,11 +75,12 @@
           <font size="16"> WE ARE ONE! Literally!</font><br /><br />
           Each and every one of us holds the universe inside us, it's true! It hasn't been proved
           yet that the universe is holographic but the evidence is mounting that this is the case
-          and the consequences of the interconnectedness of everything are powerful and profound.
-          This fact can be used by each and every one of us to manefest the change we want in the
-          world because belief and intention create reality! You are able with the power of thought
-          to make your dreams come true! Check out the 'Your Free Upgrade' learning path and the
-          video library for a deeper look into this subject. <br /><br />
+          and the consequences of this interconnectedness of everything in the universe are powerful
+          and profound. This knowledge can be used by each and every one of us to manefest the
+          change we want in the world because belief and intention create reality! You are able with
+          the power of your intention and belief to make your dreams come true! Check out the 'Your
+          Free Upgrade' learning path and the video library for deeper looks into this subject.
+          <br /><br />
 
           <font size="16">But psytrance is music dude!</font><br /><br />
           When talking about psychedelic trance as a religion, I don't necessarily mean psytrance
@@ -102,16 +96,16 @@
           good friends.<br /><br />
 
           Of course psytrance doesn't have to be your religion to join and make use of the social
-          networking capabilities of the website. You can opt out if you wish. Once you've joined
-          you can discover psy heads living in your local area and say hello by sending them a
-          message. Maybe you'll make new friends!<br /><br />
+          networking capabilities of this website. Once you've joined you can discover psytrance
+          heads living in your local area and say hello by sending them a message. Maybe you'll make
+          new friends!<br /><br />
 
           You can also see the statistical breakdown of our membership and earn Karmic Kudos by
-          downloading flyers and handing them to other psy heads at parties. The more members you
-          refer, the more Karmic Kudos you generate! There's also a forum for discussing ideas and a
-          TV channel where you can share your favourite youtube clips with the rest of us. Below are
-          a few great YouTube clips introducing some of the concepts I discuss. Stay tuned to the
-          alpha frequency!
+          downloading flyers and handing them to other psytrance heads at parties. The more members
+          you refer, the more Karmic Kudos you generate! There's also a forum for discussing ideas
+          and a TV channel where you can share your favourite youtube clips with the rest of us.
+          <br /><br />
+          <font size="16">Stay tuned to the alpha frequency!</font>
         </span>
       </p>
     </div>

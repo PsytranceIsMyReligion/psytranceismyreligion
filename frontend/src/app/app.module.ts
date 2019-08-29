@@ -23,6 +23,7 @@ import {
   MatStepperModule,
   MatDatepickerModule,
   MatRadioModule,
+  MatChipsModule,
   MatExpansionModule
 } from "@angular/material";
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
@@ -42,7 +43,6 @@ import { LandingGuard } from "./guards/landing.guard";
 import { ROUTES } from "./routes/app.routes";
 import { RegisterComponent } from "./components/register/register.component";
 import { MapComponent } from "./components/map/map.component";
-import { AgmCoreModule } from "@agm/core";
 import { WatchComponent } from "./components/watch/watch.component";
 import { LearnComponent } from "./components/learn/learn.component";
 import { ListenComponent } from "./components/listen/listen.component";
@@ -51,6 +51,8 @@ import { RecruitComponent } from "./components/recruit/recruit.component";
 import { MemberListResolve } from "./resolvers/member-list.resolve";
 import { HomeComponent } from "./components/home/home.component";
 import { RegisterResolve } from "./resolvers/register.resolve";
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { FormsModule } from '@angular/forms';
 
 let config = new AuthServiceConfig([
   {
@@ -91,6 +93,7 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     HttpClientModule,
     MatToolbarModule,
     MatFormFieldModule,
@@ -103,6 +106,7 @@ export function tokenGetter() {
     MatTableModule,
     MatDividerModule,
     MatSnackBarModule,
+    MatChipsModule,
     MatAutocompleteModule,
     MatSidenavModule,
     MatDatepickerModule,
@@ -113,6 +117,7 @@ export function tokenGetter() {
     MatRadioModule,
     MatExpansionModule,
     FlexLayoutModule,
+    DropDownsModule,
     WindowModule,
     ButtonsModule,
     MatMomentDateModule,
@@ -122,9 +127,6 @@ export function tokenGetter() {
         whitelistedDomains: ["localhost:4000"],
         blacklistedRoutes: ["localhost:4000/api/auth"]
       }
-    }),
-    AgmCoreModule.forRoot({
-      apiKey: "AIzaSyC2a9dmYWLxP4sXevYRuL4EClEHjBofMQM"
     }),
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES)

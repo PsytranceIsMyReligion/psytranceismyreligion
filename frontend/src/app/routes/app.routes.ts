@@ -29,16 +29,15 @@ export const ROUTES: Routes = [
       data: MemberListResolve
     }
   },
-  { 
-    path: "register/:mode", 
-    component: RegisterComponent, 
-    resolve : {
-      data : RegisterResolve
-    } 
+  {
+    path: "register/:mode",
+    component: RegisterComponent,
+    resolve: {
+      data: RegisterResolve
+    }
   },
   {
     path: "nav",
-    canActivate: [AuthGuard],
     component: NavigationComponent,
     children: [
       {
@@ -54,13 +53,13 @@ export const ROUTES: Routes = [
       { path: "listen", canActivate: [AuthGuard], component: ListenComponent },
       { path: "recruit", canActivate: [AuthGuard], component: RecruitComponent },
       { path: "discuss", canActivate: [AuthGuard], component: DiscussComponent },
-      { 
-        path: "edit/:id", 
-        canActivate: [AuthGuard],         
-        component: RegisterComponent, 
-        resolve :  {
-        data : RegisterResolve
-        } 
+      {
+        path: "edit/:id",
+        canActivate: [AuthGuard],
+        component: RegisterComponent,
+        resolve: {
+          data: RegisterResolve
+        }
       }
     ]
   },

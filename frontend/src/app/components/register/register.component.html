@@ -11,89 +11,57 @@
         <form [formGroup]="basicInfoGroup">
           <ng-template matStepLabel>Basic Info</ng-template>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="First Name" formControlName="fname" required />
+            <input matInput placeholder="First Name" formControlName="fname" />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="Last Name" formControlName="lname" required />
+            <input matInput placeholder="Last Name" formControlName="lname" />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field floatLabel="always" class="mat-form-field--no-underline">
-            <mat-radio-group
-              required
-              name="genderControl"
-              formControlName="gender"
-              [(ngModel)]="genderSelected"
-            >
-              <mat-radio-button value="M" [checked]="gender === 'M'"
-                >Male&nbsp;&nbsp;</mat-radio-button
-              >
+            <mat-radio-group name="genderControl" formControlName="gender" [(ngModel)]="genderSelected">
+              <mat-radio-button value="M" [checked]="gender === 'M'">Male&nbsp;&nbsp;</mat-radio-button>
               <mat-radio-button value="F" [checked]="gender === 'F'">Female</mat-radio-button>
               <input matInput placeholder="Input" style="display: none" />
             </mat-radio-group>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="Email" required formControlName="email" />
+            <input matInput placeholder="Email" formControlName="email" />
             <mat-error>{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input
-              matInput
-              [matDatepicker]="picker"
-              formControlName="birthyear"
-              [min]="minDate"
-              [max]="maxDate"
-              placeholder="When were you born?"
-            />
+            <input matInput [matDatepicker]="picker" formControlName="birthyear" [min]="minDate" [max]="maxDate" placeholder="When were you born?" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker
-              startView="multi-year"
-              required
-              [startAt]="yearStart"
-              #picker
-              (yearSelected)="birthYearSelected($event, picker)"
-            ></mat-datepicker>
+            <mat-datepicker startView="multi-year" [startAt]="yearStart" #picker (yearSelected)="birthYearSelected($event, picker)"></mat-datepicker>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input
-              type="text"
-              matInput
-              placeholder="Where are you from?"
-              formControlName="origin"
-              [matAutocomplete]="auto"
-              required
-            />
+            <input type="text" matInput placeholder="Which country are you from?" formControlName="origin" [matAutocomplete]="auto" />
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-              <mat-option
-                (onSelectionChange)="setOrigin(option)"
-                *ngFor="let option of filteredCountries | async"
-                [value]="option"
-              >
+              <mat-option *ngFor="let option of filteredCountriesOrigin | async" [value]="option">
                 {{ option.name }}
               </mat-option>
             </mat-autocomplete>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input
-              matInput
-              type="text"
-              placeholder="Postcode"
-              formControlName="postcode"
-              required
-            />
+            <input type="text" matInput placeholder="Where do you live?" formControlName="location" [matAutocomplete]="auto" />
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option (onSelectionChange)="setLocation(option)" *ngFor="let option of filteredCountriesLocation | async" [value]="option">
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="field-full-width">
+            <input matInput type="text" placeholder="Postcode" formControlName="postcode" />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <div [hidden]="!basicInfoGroup.get('postcode').value">
-            <app-map
-              [postcode]="basicInfoGroup.get('postcode').value"
-              [countryCode]="basicInfoGroup.get('origin').value"
-              (latLng)="setLatLng($event)"
-            ></app-map>
+            <app-map [postcode]="basicInfoGroup.get('postcode').value" [countryCode]="basicInfoGroup.get('location').value" (latLng)="setLatLng($event)"></app-map>
           </div>
-          <button style="float:right;" (click)="findInvalidControls()" mat-button matStepperNext>
+          <button style="float:right;" mat-button matStepperNext>
             Next
           </button>
         </form>
@@ -102,25 +70,38 @@
         <form [formGroup]="detailGroup">
           <ng-template matStepLabel>About You</ng-template>
           <mat-form-field class="field-full-width">
-            <mat-select
-              placeholder="What's your favorite music genre?"
+              <input matInput style="display: none" />
+              <kendo-multiselect
+              #musicGenreList
               formControlName="musictype"
-              required
-            >
-              <mat-option value="dnb">Drum & Bass</mat-option>
-              <mat-option value="house">House</mat-option>
-              <mat-option value="techno">Techno</mat-option>
-              <mat-option value="psytrance">Psytrance</mat-option>
-              <mat-option value="other">Other</mat-option>
-            </mat-select>
+              [data]="data"
+              [filterable]="true"
+              [textField]="'name'"
+              [valueField]="'id'"
+              [value]="selectedMusicGenres"
+              placeholder="What are your favourite music genres?"
+              [allowCustom]="true"
+              [valueNormalizer]="valueNormalizer"
+              (valueChange)="onMusicGenreChange($event)"
+          >
+          </kendo-multiselect>
+            <!-- <mat-chip-list #chipList>
+              <mat-chip *ngFor="let genre of selectedMusicGenres;let indx=index;" [selectable]="true" [removable]="true" (removed)="removeGenre(genre, indx)">
+                {{genre.name}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <input placeholder="What are your favourite music genres?" #genreInput formControlName="musictype" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="addMusicGenre($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="musicGenreSelected($event)">
+              <mat-option *ngFor="let genre of filteredMusicGenres | async" [value]="genre">
+                {{genre.name}}
+              </mat-option>
+            </mat-autocomplete> -->
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <mat-select
-              placeholder="What's your involvement in the scene?"
-              formControlName="membertype"
-              required
-            >
+            <mat-select placeholder="What's your involvement in the scene?" formControlName="membertype">
               <mat-option value="punter">I'm a party goer</mat-option>
               <mat-option value="dj">I'm a DJ</mat-option>
               <mat-option value="producer">I'm a producer</mat-option>
@@ -129,30 +110,13 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input
-              matInput
-              [matDatepicker]="picker2"
-              formControlName="startyear"
-              [min]="minDate"
-              [max]="maxDate"
-              placeholder="When did you start partying?"
-            />
+            <input matInput [matDatepicker]="picker2" formControlName="startyear" [min]="minDate" [max]="maxDate" placeholder="When did you start partying?" />
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker
-              startView="multi-year"
-              required
-              [startAt]="yearStart"
-              #picker2
-              (yearSelected)="partyStartYearSelected($event, picker2)"
-            ></mat-datepicker>
+            <mat-datepicker startView="multi-year" [startAt]="yearStart" #picker2 (yearSelected)="partyStartYearSelected($event, picker2)"></mat-datepicker>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <mat-select
-              placeholder="How often do you attend parties?"
-              formControlName="partyfrequency"
-              required
-            >
+            <mat-select placeholder="How often do you attend parties?" formControlName="partyfrequency">
               <mat-option value="one">Every week</mat-option>
               <mat-option value="two">Twice a month</mat-option>
               <mat-option value="three">Once a month</mat-option>
@@ -164,19 +128,11 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input
-              matInput
-              placeholder="What's your favourite party?"
-              formControlName="favouriteparty"
-            />
+            <input matInput placeholder="What's your favourite party?" formControlName="favouriteparty" />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <mat-select
-              placeholder="How often do you attend festivals?"
-              formControlName="festivalfrequency"
-              required
-            >
+            <mat-select placeholder="How often do you attend festivals?" formControlName="festivalfrequency">
               <mat-option value="1">Once a year</mat-option>
               <mat-option value="2">Several times a year</mat-option>
               <mat-option value="3">Frequently</mat-option>
@@ -185,20 +141,11 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input
-              matInput
-              placeholder="What's your favourite festival?"
-              formControlName="favouritefestival"
-            />
+            <input matInput placeholder="What's your favourite festival?" formControlName="favouritefestival" />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <textarea
-              class="reasonField"
-              matInput
-              placeholder="Tell us about yourself"
-              formControlName="bio"
-            ></textarea>
+            <textarea class="reasonField" matInput placeholder="Tell us about yourself" formControlName="bio"></textarea>
           </mat-form-field>
           <button style="float:right;" mat-button matStepperNext>Next</button>
           <button style="float:right;" mat-button matStepperPrevious>Back</button>
@@ -207,33 +154,22 @@
       <mat-step [stepControl]="opinionGroup">
         <form [formGroup]="opinionGroup">
           <ng-template matStepLabel>Your opinions</ng-template>
-          <mat-form-field class="field-full-width" required>
+          <mat-form-field class="field-full-width">
             <mat-select placeholder="Status" formControlName="psystatus">
               <mat-option value="lifestyle">Is My Lifestyle</mat-option>
               <mat-option value="religion">Is My Religion</mat-option>
               <mat-option value="music">Is Just Music</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="field-full-width" required>
-            <textarea
-              class="reasonField"
-              matInput
-              placeholder="Reason"
-              formControlName="reason"
-            ></textarea>
+          <mat-form-field class="field-full-width">
+            <textarea class="reasonField" matInput placeholder="Reason" formControlName="reason"></textarea>
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button
-              type="submit"
-              mat-raised-button
-              color="primary"
-              (click)="registerMember()"
-              [disabled]="
+            <button type="submit" mat-raised-button color="primary" (click)="registerMember()" [disabled]="
                 (basicInfoGroup.pristine && opinionGroup.pristine && detailGroup.pristine) ||
                 (basicInfoGroup.invalid || opinionGroup.invalid || detailGroup.invalid)
-              "
-            >
+              ">
               Update
             </button>
           </div>
