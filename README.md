@@ -18,8 +18,11 @@ App runs on http://localhost:4200
 
 Note you will need Mongodb up and running too! Connection is via default port.
 
+cd /home/bitnami/projects/psytranceismyreligion/frontend
 sudo /opt/bitnami/ctlscript.sh stop apache
+sudo /opt/bitnami/ctlscript.sh stop mongodb
 sudo cp -avf dist/frontend/ /opt/bitnami/apache2/htdocs/
 npm run-script build --prod
 sudo cp -avf dist/frontend/ /opt/bitnami/apache2/htdocs/
 sudo /opt/bitnami/ctlscript.sh start apache
+sudo /opt/bitnami/ctlscript.sh start mongodb
