@@ -1,14 +1,27 @@
 ::ng-deep .top-banner {
-  height: 150px !important;
+    height: 150px !important;
+  }
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .opaque-card {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    line-height: 125%;
+    opacity: 0.6;
+  }
 }
 
-.opaque-card {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 50px;
-  margin-right: 50px;
-  line-height: 125%;
-  opacity: 0.6;
+@media only screen  and (min-width : 1224px) {
+  .opaque-card {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    line-height: 125%;
+    opacity: 0.6;
+  }
 }
 
 .flex-container {

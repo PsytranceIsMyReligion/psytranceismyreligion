@@ -30,35 +30,76 @@ table {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.7;
+  opacity: 0.7; 
   z-index: -1;
-  background-size: cover;
+  background-size: contain;
   background: url("/assets/background.jpg");
 }
 
-.header {
-  font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
-  font-size: 24pt;
-  /* line-height: 3em; */
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .opaque-card {
+    font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
+    font-weight: bold;
+    z-index: 1;
+    position: relative;
+    width : 290px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+
+  .header {
+    font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
+    font-size: 12pt;
+  }
+
+  .title {
+    font-size: 18pt;
+  }
+
+  .content {
+    font-size: 12pt;
+  }
+
+  mat-card-content {
+    font-size: 12pt;
+    line-height: 1.4em;
+  }
 }
 
-.opaque-card {
-  font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
-  /* line-height: 1.6em; */
-  font-weight: bold;
-  z-index: 1;
-  position: relative;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 150px;
-  margin-right: 150px;
-  /* opacity: 0.6; */
+@media only screen  and (min-width : 1224px) {
+  .opaque-card {
+    font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
+    font-weight: bold;
+    z-index: 1;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 150px;
+    margin-right: 150px;
+  }
+
+  .header {
+    font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
+    font-size: 24pt;
+  }
+
+  .title {
+    font-size: 16pt;
+  }
+
+  mat-card-content {
+    font-size: 12pt;
+    line-height: 1.4em;
+  }
+  
 }
 
-mat-card-content {
-  font-size: 16pt;
-  line-height: 1.6em;
-}
+
+
+
+
 .mat-column-right {
   text-align: center;
 }
