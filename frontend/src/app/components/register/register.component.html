@@ -20,8 +20,8 @@
           </mat-form-field>
           <mat-form-field floatLabel="always" class="mat-form-field--no-underline">
             <mat-radio-group name="genderControl" formControlName="gender" [(ngModel)]="genderSelected">
-              <mat-radio-button value="M" [checked]="gender == 'M'">Male&nbsp;&nbsp;</mat-radio-button>
-              <mat-radio-button value="F" [checked]="gender == 'F'">Female</mat-radio-button>
+              <mat-radio-button value="M" >Male&nbsp;&nbsp;</mat-radio-button>
+              <mat-radio-button value="F" >Female</mat-radio-button>
               <input matInput placeholder="Input" style="display: none" />
             </mat-radio-group>
             <mat-error>Required</mat-error>
