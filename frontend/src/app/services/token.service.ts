@@ -27,6 +27,7 @@ export class TokenService {
 
 
   logout() {
+    console.log("logging out")
     localStorage.removeItem('access_token');
   }
 

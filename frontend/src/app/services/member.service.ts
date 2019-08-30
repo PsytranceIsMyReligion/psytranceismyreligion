@@ -10,7 +10,10 @@ const baseUri = environment.baseUri;
   providedIn: "root"
 })
 export class MemberService {
+
+  //todo move to config
   countriesUri = "https://restcountries.eu/rest/v2/all";
+  
   env : any;
 
   constructor(private http: HttpClient) {
