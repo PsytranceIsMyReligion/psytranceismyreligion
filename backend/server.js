@@ -7,7 +7,11 @@ import mongoose from "mongoose";
 import Member from "./models/member";
 import MusicGenres from "./models/musicgenres";
 import Video from "./models/videos";
-import config from "./config";
+import secretConfig from "./secret-config";
+import { resolve } from "path";
+import { config } from "dotenv";
+
+config({ path: resolve(__dirname, ".env") });
 
 const app = express();
 const router = express.Router();
@@ -33,7 +37,10 @@ app.use(
   })
 );
 
-mongoose.connect("mongodb://psytrance:elena4me@cluster0-shard-00-00-0qnsy.mongodb.net:27017,cluster0-shard-00-01-0qnsy.mongodb.net:27017,cluster0-shard-00-02-0qnsy.mongodb.net:27017/pimr?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority", {
+let dbUrl = process.env.NODE_ENV === "production" ? process.env.DB_HOST_PROD : process.env.DB_HOST_DEV;
+console.log('Loading environment ' + process.env.NODE_ENV);
+console.log('connecting to ' + dbUrl);
+mongoose.connect(dbUrl, {
   useNewUrlParser: true
 });
 
@@ -96,7 +103,7 @@ router.route("/musicgenres/add").post((req, res) => {
 router.route("/api/auth").post((req, res) => {
   var token = jwt.sign({
     id: req.body.id
-  }, config.secret, {
+  }, secretConfig.secret, {
     expiresIn: 86400 // expires in 24 hours
   });
   console.log("token sent");
