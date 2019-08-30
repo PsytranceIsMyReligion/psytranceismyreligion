@@ -232,4 +232,4 @@ router.route("/members/update/:id").post((req, res, next) => {
 });
 
 app.use("/", router);
-app.listen(4000, () => console.log("express server running"));
+app.listen(4000, () => console.log("express server running on port 4000"));
