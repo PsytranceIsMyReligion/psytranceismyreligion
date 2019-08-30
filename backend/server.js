@@ -37,6 +37,7 @@ app.use(
   })
 );
 
+process.env.NODE_ENV == undefined ? process.env.NODE_ENV = "development" : null;
 let dbUrl = process.env.NODE_ENV === "production" ? process.env.DB_HOST_PROD : process.env.DB_HOST_DEV;
 console.log('Loading environment ' + process.env.NODE_ENV);
 console.log('connecting to ' + dbUrl);
@@ -232,4 +233,4 @@ router.route("/members/update/:id").post((req, res, next) => {
 });
 
 app.use("/", router);
-app.listen(4000, () => console.log("express server running on port 4000"));
+app.listen(process.env.PORT, () => console.log("express server running on port " + process.env.PORT));
