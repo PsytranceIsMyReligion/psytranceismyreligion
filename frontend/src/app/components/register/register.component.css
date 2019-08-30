@@ -1,5 +1,28 @@
-::ng-deep .top-banner {
-  height: 150px !important;
+
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+
+  ::ng-deep .top-banner {
+    height: 50px !important;
+  }
+
+  .registration-form {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen  and (min-width : 1224px) {
+
+  ::ng-deep .top-banner {
+    height: 150px !important;
+  }
+
+  .registration-form {
+    width: 50%;
+    margin-bottom: 20px;
+  }
 }
 
 .registration-container {
@@ -7,10 +30,7 @@
   width: 100%;
 }
 
-.registration-form {
-  width: 50%;
-  margin-bottom: 20px;
-}
+
 
 .field-full-width {
   width: 100%;

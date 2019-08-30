@@ -1,5 +1,42 @@
-.content-container {
-  height: 80%;
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .content-container {
+    height: 90%;
+  }
+
+  .side-nav {
+    width : 80px;
+  }
+
+  ::ng-deep .mat-side-list {
+    font-size: 12pt;
+  }
+
+  .sidenav-content {
+    display: block;
+    width: 90%;
+    margin-top: 35px;
+    align-items: left;
+    justify-content: left;
+    border-radius: 5px;
+  }
+  
+}
+
+@media only screen  and (min-width : 1224px) {
+  .content-container {
+    height: 80%;
+  }
+  
+  .sidenav-content {
+    display: block;
+    width: 70%;
+    margin-top: 20px;
+    align-items: left;
+    justify-content: left;
+    border-radius: 5px;
+  }
 }
 
 :host ::ng-deep .mat-card-header {
@@ -11,11 +48,4 @@
   }
 }
 
-.sidenav-content {
-  display: block;
-  width: 70%;
-  margin-top: 20px;
-  align-items: left;
-  justify-content: left;
-  border-radius: 5px;
-}
+

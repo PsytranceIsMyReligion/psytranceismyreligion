@@ -51,7 +51,7 @@ table {
 
   .header {
     font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
-    font-size: 12pt;
+    /* font-size: 12pt; */
   }
 
   .title {
@@ -59,11 +59,11 @@ table {
   }
 
   .content {
-    font-size: 12pt;
+    font-size: 18pt;
   }
 
   mat-card-content {
-    font-size: 12pt;
+    font-size: 16pt!important;
     line-height: 1.4em;
   }
 }
@@ -86,11 +86,11 @@ table {
   }
 
   .title {
-    font-size: 16pt;
+    font-size: 34pt;
   }
 
   mat-card-content {
-    font-size: 12pt;
+    font-size: 16pt;
     line-height: 1.4em;
   }
   
