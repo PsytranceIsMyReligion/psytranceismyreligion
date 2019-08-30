@@ -18,3 +18,8 @@ App runs on http://localhost:4200
 
 Note you will need Mongodb up and running too! Connection is via default port.
 
+sudo /opt/bitnami/ctlscript.sh stop apache
+sudo cp -avf dist/frontend/ /opt/bitnami/apache2/htdocs/
+npm run-script build --prod
+sudo cp -avf dist/frontend/ /opt/bitnami/apache2/htdocs/
+sudo /opt/bitnami/ctlscript.sh start apache
