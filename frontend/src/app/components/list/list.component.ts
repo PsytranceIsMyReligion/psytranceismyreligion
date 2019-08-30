@@ -24,6 +24,7 @@ export class ListComponent implements OnInit {
   members: Member[];
   memberCount: number;
   conversionPercent: number;
+  focusMarker : any;
 
   constructor(
     private memberService: MemberService,
@@ -52,7 +53,6 @@ export class ListComponent implements OnInit {
       fullscreenControl: false
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    const bounds = new google.maps.LatLngBounds();
     this.members.forEach(el => {
       if (el.lat && el.long) {
         const location = new google.maps.LatLng(el.lat, el.long);
@@ -85,6 +85,10 @@ export class ListComponent implements OnInit {
     });
     marker.setAnimation(google.maps.Animation.DROP);
     marker.setIcon('http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png');
+    if(this.focusMarker) {
+      this.focusMarker.setMap(null);
+    }
+    this.focusMarker = marker;
     this.map.panTo(location);
   }
 

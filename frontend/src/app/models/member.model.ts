@@ -25,3 +25,8 @@ export interface Member {
     psystatus ?: string;
     reason ?: string;
 }
+
+export interface Video {
+    title : string;
+    value : string;
+}

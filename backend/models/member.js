@@ -1,4 +1,5 @@
 import mongoose, { STATES } from "mongoose";
+import validator from "validator";
 
 const Schema = mongoose.Schema;
 
@@ -16,7 +17,13 @@ let MemberSchema = new Schema({
     type: String
   },
   email: {
-    type: String
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    validate: (value) => {
+      return validator.isEmail(value)
+    }
   },
   birthyear: {
     type: Number
@@ -40,7 +47,7 @@ let MemberSchema = new Schema({
     type: String
   },
   musictype: {
-    type: String
+    type: Array
   },
   startyear: {
     type: Number

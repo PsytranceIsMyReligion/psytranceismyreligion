@@ -51,8 +51,10 @@ import { RecruitComponent } from "./components/recruit/recruit.component";
 import { MemberListResolve } from "./resolvers/member-list.resolve";
 import { HomeComponent } from "./components/home/home.component";
 import { RegisterResolve } from "./resolvers/register.resolve";
+import { WatchResolve } from "./resolvers/watch.resolve";
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
+import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 
 let config = new AuthServiceConfig([
   {
@@ -88,7 +90,8 @@ export function tokenGetter() {
     ListenComponent,
     DiscussComponent,
     RecruitComponent,
-    HomeComponent
+    HomeComponent,
+    SanitizeHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -138,6 +141,7 @@ export function tokenGetter() {
     TokenService,
     MemberListResolve,
     RegisterResolve,
+    WatchResolve,
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig

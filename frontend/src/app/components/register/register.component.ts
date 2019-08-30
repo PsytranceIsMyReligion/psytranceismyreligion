@@ -67,9 +67,8 @@ export class RegisterComponent implements OnInit {
   selectedMusicGenres: any = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   env = environment;
-  data: Array<{ text: string, id: number }>;
-  // @ViewChild('genreInput', { static: false }) genreInput: ElementRef<HTMLInputElement>;
-  // @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+  data: Array<{ text: string, _id: number }>;
+
   @ViewChild("musicGenreList", { static: false }) musicGenreList;
   
 
@@ -105,13 +104,11 @@ export class RegisterComponent implements OnInit {
     const contains = value => s => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
     this.musicGenreList.filterChange.asObservable().pipe(
       switchMap(value => from([this.musicGenres]).pipe(
-          tap((value) => { console.log(value); this.musicGenreList.loading = true}),
-          // delay(1000),
+          tap((value) => { this.musicGenreList.loading = true}),
           map((data) => data.filter(contains(value)))
         ))
     )
     .subscribe(x => {
-        console.log('x',x)
         this.data = x;
         this.musicGenreList.loading = false;
     });
@@ -173,21 +170,9 @@ export class RegisterComponent implements OnInit {
       startWith(""),
       map(value => (value ? this.countryFilter(value) : this.countries.slice()))
     );
-
-
-
-    // this.filteredMusicGenres = this.detailGroup.get("musictype").valueChanges.pipe(
-    //   startWith(null),
-    //   map((genre: string | null) => genre ? this.musicGenreFilter(genre) : this.musicGenres.slice()));
   }
 
-  musicGenreFilter(value) {
-    if (value.name) {
-      return this.musicGenres.filter(genre => genre.name.toLowerCase().includes(value.name.toLowerCase()));
-    }
-    else if (value)
-      return this.musicGenres.filter(genre => genre.name.toLowerCase().includes(value.toLowerCase()));
-  }
+
 
   countryFilter(value): any[] {
     if (value) {
@@ -204,7 +189,7 @@ export class RegisterComponent implements OnInit {
   }
 
   displayFn(country) {
-    if (Array.isArray(country))
+    if (Array.isArray(country) && country.length > 0)
       return typeof country[0] !== "string" ? country[0].name : country[0];
     else return typeof country !== "string" ? country.name : country;
   }
@@ -319,11 +304,11 @@ export class RegisterComponent implements OnInit {
       musictype: ["", this.env.production ? Validators.required : null],
       membertype: ["", this.env.production ? Validators.required : null],
       startyear: ["", this.env.production ? Validators.required : null],
-      bio: [""],
+      bio: ["", this.env.production ? Validators.required : null],
       favouriteparty: [""],
-      partyfrequency: [""],
+      partyfrequency: ["", this.env.production ? Validators.required : null],
       favouritefestival: [""],
-      festivalfrequency: [""],
+      festivalfrequency: ["", this.env.production ? Validators.required : null],
       facebookurl: [""],
       soundcloudurl: [""],
       websiteurl: [""]
@@ -334,36 +319,39 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onMusicGenreChange(value) {
-    console.log('value', value);
-    this.selectedMusicGenres = value;
+  musicGenreFilter(value) {
+    if (value.name) {
+      return this.musicGenres.filter(genre => genre.name.toLowerCase().includes(value.name.toLowerCase()));
+    }
+    else if (value)
+      return this.musicGenres.filter(genre => genre.name.toLowerCase().includes(value.toLowerCase()));
   }
 
+ 
    public valueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
-    //search for matching item to avoid duplicates
+    let selectedData: Array<any> = this.detailGroup.get("musictype").value;
+    
+    if(selectedData && Array.isArray(selectedData) && selectedData.length > 0) {
+      console.log('selected', selectedData.length)
+      const matchingValue: any = selectedData.find((item: any) => {
+          return item.name.toLowerCase() === text.toLowerCase();
+      });
 
-    //search in values
-    const matchingValue: any = this.musicGenres.find((item: any) => {
-        return item.name.toLowerCase() === text.toLowerCase();
-    });
-
-    if (matchingValue) {
-        return matchingValue; //return the already selected matching value and the component will remove it
+      if (matchingValue) {
+          return null; 
+      }
     }
-
-    //search in data
     const matchingItem: any = this.data.find((item: any) => {
         return item.name.toLowerCase() === text.toLowerCase();
     });
-
     if (matchingItem) {
         return matchingItem;
     } else {
         return {
-            id: Math.random(), 
+            _id: Math.random(), 
             name: text
         };
     }
-}));
+  }));
 
 }

@@ -46,8 +46,8 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input type="text" matInput placeholder="Where do you live?" formControlName="location" [matAutocomplete]="auto" />
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <input type="text" matInput placeholder="Where do you live?" formControlName="location" [matAutocomplete]="auto2" />
+            <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
               <mat-option (onSelectionChange)="setLocation(option)" *ngFor="let option of filteredCountriesLocation | async" [value]="option">
                 {{ option.name }}
               </mat-option>
@@ -69,6 +69,7 @@
       <mat-step [stepControl]="detailGroup">
         <form [formGroup]="detailGroup">
           <ng-template matStepLabel>About You</ng-template>
+          <label *ngIf="detailGroup.get('musictype').value.length > 0">What are your favourite music genres?</label>
           <mat-form-field class="field-full-width">
               <input matInput style="display: none" />
               <kendo-multiselect
@@ -77,35 +78,22 @@
               [data]="data"
               [filterable]="true"
               [textField]="'name'"
-              [valueField]="'id'"
-              [value]="selectedMusicGenres"
+              [valueField]="'_id'"
               placeholder="What are your favourite music genres?"
               [allowCustom]="true"
-              [valueNormalizer]="valueNormalizer"
-              (valueChange)="onMusicGenreChange($event)"
+              [valueNormalizer]="valueNormalizer" 
           >
           </kendo-multiselect>
-            <!-- <mat-chip-list #chipList>
-              <mat-chip *ngFor="let genre of selectedMusicGenres;let indx=index;" [selectable]="true" [removable]="true" (removed)="removeGenre(genre, indx)">
-                {{genre.name}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-              <input placeholder="What are your favourite music genres?" #genreInput formControlName="musictype" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="addMusicGenre($event)">
-            </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="musicGenreSelected($event)">
-              <mat-option *ngFor="let genre of filteredMusicGenres | async" [value]="genre">
-                {{genre.name}}
-              </mat-option>
-            </mat-autocomplete> -->
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="What's your involvement in the scene?" formControlName="membertype">
-              <mat-option value="punter">I'm a party goer</mat-option>
+              <mat-option value="raver">I'm a Raver</mat-option>
               <mat-option value="dj">I'm a DJ</mat-option>
-              <mat-option value="producer">I'm a producer</mat-option>
-              <mat-option value="promoter">I'm a promoter</mat-option>
+              <mat-option value="musician">I'm a Musician</mat-option>
+              <mat-option value="decorator">I'm a Decor Artist</mat-option>
+              <mat-option value="promoter">I'm a Performer</mat-option>
+              <mat-option value="promoter">I'm an Event Promoter</mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -128,7 +116,7 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="What's your favourite party?" formControlName="favouriteparty" />
+            <input matInput placeholder="What are your favourite parties?" formControlName="favouriteparty" />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
@@ -141,11 +129,11 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="What's your favourite festival?" formControlName="favouritefestival" />
+            <input matInput placeholder="What are your favourite festivals?" formControlName="favouritefestival" />
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <textarea class="reasonField" matInput placeholder="Tell us about yourself" formControlName="bio"></textarea>
+            <textarea class="reasonField" matInput placeholder="Tell us something about yourself" formControlName="bio"></textarea>
           </mat-form-field>
           <button style="float:right;" mat-button matStepperNext>Next</button>
           <button style="float:right;" mat-button matStepperPrevious>Back</button>
@@ -155,14 +143,15 @@
         <form [formGroup]="opinionGroup">
           <ng-template matStepLabel>Your opinions</ng-template>
           <mat-form-field class="field-full-width">
-            <mat-select placeholder="Status" formControlName="psystatus">
-              <mat-option value="lifestyle">Is My Lifestyle</mat-option>
+            <mat-select placeholder="What is Psytrance to you?" formControlName="psystatus">
+              <mat-option value="lifestyle">Is My lifestyle</mat-option>
               <mat-option value="religion">Is My Religion</mat-option>
               <mat-option value="music">Is Just Music</mat-option>
+              <mat-option value="passion">Is My Passion</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <textarea class="reasonField" matInput placeholder="Reason" formControlName="reason"></textarea>
+            <textarea class="reasonField" matInput placeholder="Please describe why you feel this way" formControlName="reason"></textarea>
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Back</button>
@@ -178,7 +167,3 @@
     </mat-horizontal-stepper>
   </mat-card>
 </div>
-
-<!-- 
-
- -->

@@ -44,7 +44,6 @@ export class LandingComponent implements OnInit {
     this.generateMemberMap();
 
     this.socialAuthService.authState.subscribe(user => {
-      console.log("signed in user", user);
       this.user = user;
       this.loggedIn = user != null;
       if (user) {
@@ -75,14 +74,13 @@ export class LandingComponent implements OnInit {
       zoom: 1,
       center: { lat: 22.28, lng: 114.158 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      zoomControl: true,
+      zoomControl: false,
       mapTypeControl: false,
       scaleControl: false,
       streetViewControl: false,
       rotateControl: false,
       fullscreenControl: false
     };
-    const bounds = new google.maps.LatLngBounds();
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
     this.map2 = new google.maps.Map(this.gmap2Element.nativeElement, mapProp);
     this.members.forEach((el: Member) => {
@@ -113,22 +111,13 @@ export class LandingComponent implements OnInit {
         marker2.addListener("mouseout", () => {
           infowindow.close();
         });
-        // bounds.extend(location);
       }
     });
-    // this.map.fitBounds(bounds);
 
     this.memberService.landingPageStats().subscribe(data => {
       this.memberCount = data["count"];
       this.conversionPercent = Math.round(data["conversionPercent"]);
     });
-    // let center = new google.maps.LatLng(this.members[0].lat, this.members[0].long);
-    // console.log("loggedInMember", this.loggedInMember);
-    // let loggedInMemberLocation = new google.maps.LatLng(
-    //   this.loggedInMember.lat,
-    //   this.loggedInMember.long
-    // );
-    // this.map.setCenter(center);
   }
 
   signInWithGoogle(): void {

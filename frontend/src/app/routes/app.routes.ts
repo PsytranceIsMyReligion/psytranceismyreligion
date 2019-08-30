@@ -12,7 +12,7 @@ import { NavigationComponent } from "../components/navigation/navigation.compone
 import { RegisterComponent } from "../components/register/register.component";
 import { MemberListResolve } from "../resolvers/member-list.resolve";
 import { RegisterResolve } from "../resolvers/register.resolve";
-
+import { WatchResolve } from "../resolvers/watch.resolve";
 export const ROUTES: Routes = [
   {
     path: "landing",
@@ -48,7 +48,14 @@ export const ROUTES: Routes = [
           data: MemberListResolve
         }
       },
-      { path: "watch", canActivate: [AuthGuard], component: WatchComponent },
+      { 
+        path: "watch", 
+        canActivate: [AuthGuard], 
+        component: WatchComponent,
+        resolve: {
+          data: WatchResolve
+        } 
+      },
       { path: "learn", canActivate: [AuthGuard], component: LearnComponent },
       { path: "listen", canActivate: [AuthGuard], component: ListenComponent },
       { path: "recruit", canActivate: [AuthGuard], component: RecruitComponent },

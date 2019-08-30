@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import Member from "./models/member";
 import MusicGenres from "./models/musicgenres";
+import Video from "./models/videos";
 import config from "./config";
 
 const app = express();
@@ -18,7 +19,7 @@ router.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(
   expressJwt({
-    secret: "todo-app-super-shared-secret"
+    secret: "psytranceismyreligion-super-secret"
   }).unless({
     path: [
       "/api/auth",
@@ -26,14 +27,13 @@ app.use(
       "/musicgenres",
       "/musicgenres/add",
       "/members/add",
-      // /^\/members\/update\/.*/,
       "/members/landingpagestats",
       /^\/members\/bysocialid\/.*/
     ]
   })
 );
 
-mongoose.connect("mongodb://psytrance:elena4me@cluster0-shard-00-00-0qnsy.mongodb.net:27017,cluster0-shard-00-01-0qnsy.mongodb.net:27017,cluster0-shard-00-02-0qnsy.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority", {
+mongoose.connect("mongodb://psytrance:elena4me@cluster0-shard-00-00-0qnsy.mongodb.net:27017,cluster0-shard-00-01-0qnsy.mongodb.net:27017,cluster0-shard-00-02-0qnsy.mongodb.net:27017/pimr?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority", {
   useNewUrlParser: true
 });
 
@@ -62,6 +62,14 @@ router.route("/members").get((req, res) => {
   Member.find((err, members) => {
     if (err) res.statusCode(400);
     else res.json(members);
+  });
+});
+
+
+router.route("/videos").get((req, res) => {
+  Video.find((err, videos) => {
+    if (err) res.statusCode(400);
+    else res.json(videos);
   });
 });
 
@@ -176,6 +184,41 @@ router.route("/members/update/:id").post((req, res, next) => {
     });
   });
 
+  
+
+  router.route("/videos/add").post((req, res) => {
+    let video = new Video(req.body);
+    video
+      .save()
+      .then(video => {
+        res.status(200).json(video);
+      })
+      .catch(err => {
+        res.status(400).send("Failed to create a new video");
+      });
+  });
+
+  router.route("/videos/update/:id").post((req, res, next) => {
+    Member.findById(req.params.id, (err, video) => {
+      if (!video) {
+        console.log("no video");
+        res.statusCode(400);
+      } else {
+        video.title = req.body.title;
+        video.value = req.body.value;
+      }
+    })
+  });
+
+
+  router.route("/videos/delete/:id").get((req, res) => {
+    Video.findByIdAndRemove({
+      _id: req.params.id
+    }, (err, video) => {
+      if (err) res.json(err);
+      else res.json("Removed successfully");
+    });
+  });
 
 
 

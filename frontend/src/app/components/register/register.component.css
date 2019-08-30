@@ -1,3 +1,6 @@
+::ng-deep .top-banner {
+  height: 150px !important;
+}
 
 .registration-container {
   margin-top: 20px;

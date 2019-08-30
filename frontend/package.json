@@ -43,6 +43,7 @@
     "core-js": "^3.2.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
+    "ngx-youtube-player": "^7.1.1",
     "rxjs": "^6.5.2",
     "zone.js": "^0.10.1"
   },

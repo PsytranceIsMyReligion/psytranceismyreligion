@@ -1,0 +1,4 @@
+: #                                                                       #
+[   32.035233] bitnami[1174]: #        Setting Bitnami application password to 'IzGeICmo5fKH'         #
+[   32.073433] bitnami[1174]: #        (the default application username is 'root')                   #
+[   32.107260] bitnami[1174]: #                                                                 
