@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { Video } from "../models/member.model";
 import { environment } from "../../environments/environment";
 
-const baseUri = environment.baseUri;
+const baseUri = "http://" + environment.baseUri;
 @Injectable({
   providedIn: "root"
 })
@@ -18,20 +18,20 @@ export class VideoService {
   }
  
   getAllVideoLinks() {
-    return this.http.get(`${this.env.baseUri}/videos`);
+    return this.http.get(`${baseUri}/videos`);
   }
   
   
   createVideoLink(video: Video) {
-    return this.http.post(`${this.env.baseUri}/videos/add`, video);
+    return this.http.post(`${baseUri}/videos/add`, video);
   }
 
   
   updateVideo(id : string, video : Video) {
-    return this.http.post(`${this.env.baseUri}/videos/update/${id}`, video);
+    return this.http.post(`${baseUri}/videos/update/${id}`, video);
   }
 
   deleteVideoLink(id : string) {
-    return this.http.get(`${this.env.baseUri}/videos/delete/${id}`);
+    return this.http.get(`${baseUri}/videos/delete/${id}`);
   }
 }

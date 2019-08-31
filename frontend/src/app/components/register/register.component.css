@@ -15,9 +15,6 @@
 
 @media only screen  and (min-width : 1224px) {
 
-  ::ng-deep .top-banner {
-    height: 150px !important;
-  }
 
   .registration-form {
     width: 50%;

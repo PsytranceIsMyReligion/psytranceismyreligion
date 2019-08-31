@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
@@ -55,6 +56,7 @@ import { WatchResolve } from "./resolvers/watch.resolve";
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
+const env = environment;
 
 let config = new AuthServiceConfig([
   {
@@ -74,6 +76,7 @@ export function provideConfig() {
 }
 
 export function tokenGetter() {
+  console.log('getting token')
   return localStorage.getItem("access_token");
 }
 
@@ -127,8 +130,8 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ["localhost:3000"],
-        blacklistedRoutes: ["localhost:3000/api/auth"]
+        whitelistedDomains: [env.baseUri],
+        blacklistedRoutes: [env.baseUri + "/api/auth"]
       }
     }),
     ReactiveFormsModule,

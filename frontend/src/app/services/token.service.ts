@@ -5,17 +5,17 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
 
+const baseUri = "http://" + environment.baseUri;
+
 @Injectable()
 export class TokenService {
 
-  env : any;
 
   constructor(private http: HttpClient,  private jwtHelper: JwtHelperService) {
-    this.env = environment;
    }
 
   login(id: string): Observable<boolean> {
-    return this.http.post<{token: string}>(`${this.env.baseUri}/api/auth`, {id: id})
+    return this.http.post<{token: string}>(`${baseUri}/api/auth`, {id: id})
       .pipe(
         map(result => {
           localStorage.setItem('access_token', result.token);

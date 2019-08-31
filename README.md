@@ -32,5 +32,6 @@ sudo /opt/bitnami/ctlscript.sh start apache
 cd ../backend
 NODE_ENV=production node start.js
 
-
+sudo /opt/bitnami/ctlscript.sh stop
+sudo /opt/bitnami/ctlscript.sh start
 sudo /opt/bitnami/ctlscript.sh restart

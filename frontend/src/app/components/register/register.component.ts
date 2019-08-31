@@ -131,7 +131,7 @@ export class RegisterComponent implements OnInit {
   loadRegistrationForm() {
     this.member = JSON.parse(sessionStorage.getItem("member"));
     if (this.member) {
-      console.log("found member", this.member);
+      console.log("loading member details to form", this.member);
       this.socialid = this.member.socialid;
       this.basicInfoGroup.get("fname").setValue(this.member.fname);
       this.basicInfoGroup.get("lname").setValue(this.member.lname);
