@@ -133,6 +133,7 @@ export class RegisterComponent implements OnInit {
     if (this.member) {
       console.log("loading member details to", this.member);
       this.socialid = this.member.socialid;
+      this.basicInfoGroup.get("uname").setValue(this.member.fname);
       this.basicInfoGroup.get("fname").setValue(this.member.fname);
       this.basicInfoGroup.get("lname").setValue(this.member.lname);
       this.basicInfoGroup.get("email").setValue(this.member.email);

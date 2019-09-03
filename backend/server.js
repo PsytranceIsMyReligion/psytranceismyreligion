@@ -75,9 +75,9 @@ router.route("/members").get((req, res) => {
 
 
 router.route("/videos").get((req, res) => {
-  Video.find({}).sort({ 'order' : 'asc'}).exec((err, res)=> {
+  Video.find({}).sort({ 'order' : 'asc'}).exec((err, docs)=> {
     if (err) res.statusCode(400);
-    else res.json(videos);  
+    else res.json(docs);  
   });
 });
 
@@ -134,7 +134,9 @@ router.route("/members/bysocialid/:id").get((req, res) => {
 router.route("/members/add").post((req, res) => {
   let member = new Member(req.body);
   console.log(member)
-  member
+  member.createdDate = new Date();
+  member.updatedDate = new Date();
+  member  
     .save()
     .then(member => {
       res.status(200).json(member);
