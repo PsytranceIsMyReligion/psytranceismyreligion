@@ -36,6 +36,8 @@
 /frontend/testem.log
 /frontend/typings
 
+/secrets
+
 # System Files
 .DS_Store
 Thumbs.db

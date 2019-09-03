@@ -7,6 +7,9 @@ let MemberSchema = new Schema({
   socialid: {
     type: Number
   },
+  username: {
+    type: String
+  },
   fname: {
     type: String
   },
@@ -81,6 +84,12 @@ let MemberSchema = new Schema({
   },
   psystatus: {
     type: String
+  },
+  createdDate: {
+    type: Date
+  },
+  updatedDate: {
+    type: Date
   }
 });
 

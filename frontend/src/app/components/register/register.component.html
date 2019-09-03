@@ -11,6 +11,10 @@
         <form [formGroup]="basicInfoGroup">
           <ng-template matStepLabel>Basic Info</ng-template>
           <mat-form-field class="field-full-width">
+            <input matInput placeholder="Username" formControlName="uname" />
+            <mat-error>Required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="field-full-width">
             <input matInput placeholder="First Name" formControlName="fname" />
             <mat-error>Required</mat-error>
           </mat-form-field>
