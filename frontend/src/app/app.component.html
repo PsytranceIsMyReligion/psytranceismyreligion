@@ -1,14 +1,14 @@
 <mat-toolbar class="top-banner">
   <mat-toolbar-row [hidden]="!user">
     <span style="flex: 1 1 auto;"></span>
-    <button
-      mat-raised-button
-      class="profile-btn"
-      (click)="navigateToProfile()"
-      color="primary"
-    >
-      <mat-icon>settings</mat-icon>
-    </button>
+    <div class="button-container">
+      <button mat-raised-button class="profile-btn" title="Profile" (click)="navigateToProfile()" color="primary">
+        <mat-icon>settings</mat-icon>
+      </button>
+      <button mat-raised-button class="profile-btn" title="Logout" (click)="logout()" color="primary">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>

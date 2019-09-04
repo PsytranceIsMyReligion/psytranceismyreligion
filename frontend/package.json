@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve --configuration=local",
     "build": "ng build",
-    "build-dev" : "node --max_old_space_size=1052 node_modules/@angular/cli/bin/ng build",
-    "build-prod" : "node --max_old_space_size=1052 node_modules/@angular/cli/bin/ng build --prod",
+    "build-dev": "node --max_old_space_size=1052 node_modules/@angular/cli/bin/ng build",
+    "build-prod": "node --max_old_space_size=1052 node_modules/@angular/cli/bin/ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -46,6 +46,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "ngx-youtube-player": "^7.1.1",
+    "octicons": "^8.5.0",
     "rxjs": "^6.5.2",
     "zone.js": "^0.10.1"
   },

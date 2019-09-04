@@ -15,7 +15,7 @@ import { RegisterResolve } from "../resolvers/register.resolve";
 import { WatchResolve } from "../resolvers/watch.resolve";
 export const ROUTES: Routes = [
   {
-    path: "landing",
+    path: "",
     component: LandingComponent,
     canActivate: [LandingGuard],
     resolve: {
@@ -70,5 +70,5 @@ export const ROUTES: Routes = [
       }
     ]
   },
-  { path: "**", redirectTo: "landing", pathMatch: "full" }
+  { path: "**", redirectTo: "", pathMatch: "full" }
 ];
