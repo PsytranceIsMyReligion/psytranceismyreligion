@@ -131,8 +131,9 @@ export class RegisterComponent implements OnInit {
   loadRegistrationForm() {
     this.member = JSON.parse(sessionStorage.getItem("member"));
     if (this.member) {
-      console.log("loading member details to form", this.member);
+      console.log("loading member details to", this.member);
       this.socialid = this.member.socialid;
+      this.basicInfoGroup.get("uname").setValue(this.member.fname);
       this.basicInfoGroup.get("fname").setValue(this.member.fname);
       this.basicInfoGroup.get("lname").setValue(this.member.lname);
       this.basicInfoGroup.get("email").setValue(this.member.email);
@@ -229,6 +230,7 @@ export class RegisterComponent implements OnInit {
 
   registerMember() {
     let updateMember: Member = {
+      uname: this.basicInfoGroup.get("uname").value,
       fname: this.basicInfoGroup.get("fname").value,
       lname: this.basicInfoGroup.get("lname").value,
       socialid: this.socialid,
@@ -291,6 +293,7 @@ export class RegisterComponent implements OnInit {
   createForm() {
     console.log('isprod', this.env.production);
     this.basicInfoGroup = this.fb.group({
+      uname:  ["", this.env.production ? Validators.required : null],
       fname: ["", this.env.production ? Validators.required : null],
       lname: ["", this.env.production ? Validators.required : null],
       gender: ["", this.env.production ? Validators.required : null],

@@ -67,24 +67,24 @@ router.route("/members/landingpagestats").get((req, res) => {
 });
 
 router.route("/members").get((req, res) => {
-  Member.find((err, members) => {
+  Member.find({}).sort({ 'fname' : 'asc'}).exec((err, docs)=> {
     if (err) res.statusCode(400);
-    else res.json(members);
+    else res.json(docs);
   });
 });
 
 
 router.route("/videos").get((req, res) => {
-  Video.find((err, videos) => {
+  Video.find({}).sort({ 'order' : 'asc'}).exec((err, docs)=> {
     if (err) res.statusCode(400);
-    else res.json(videos);
+    else res.json(docs);  
   });
 });
 
 router.route("/musicgenres").get((req, res) => {
-  MusicGenres.find((err, genres) => {
+  MusicGenres.find({}).sort({ 'name' : 'asc'}).exec((err, docs)=> {
     if (err) res.statusCode(400);
-    else res.json(genres);
+    else res.json(docs);
   });
 });
 
@@ -133,13 +133,17 @@ router.route("/members/bysocialid/:id").get((req, res) => {
 
 router.route("/members/add").post((req, res) => {
   let member = new Member(req.body);
-  member
+  console.log(member)
+  member.createdDate = new Date();
+  member.updatedDate = new Date();
+  member  
     .save()
     .then(member => {
       res.status(200).json(member);
     })
     .catch(err => {
-      res.status(400).send("Failed to create a new member");
+      console.log(err);
+      res.status(400).send(err);
     });
 });
 

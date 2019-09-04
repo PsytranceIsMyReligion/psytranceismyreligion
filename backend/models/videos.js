@@ -11,7 +11,9 @@ let VideoSchema = new Schema({
   },
   value : {
       type : String
+  },
+  order : {
+    type: Number
   }
-});
-
+})
 export default mongoose.model("Video", VideoSchema);

@@ -1,6 +1,7 @@
 export interface Member {
     _id ?: number;
     socialid ?: string;
+    uname?: string;
     fname?: string;
     lname?: string;
     gender ?: string;

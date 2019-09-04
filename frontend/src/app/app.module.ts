@@ -2,7 +2,7 @@ import { environment } from './../environments/environment';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS  } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ListComponent } from "./components/list/list.component";
@@ -56,6 +56,7 @@ import { WatchResolve } from "./resolvers/watch.resolve";
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 const env = environment;
 
 let config = new AuthServiceConfig([
@@ -65,10 +66,10 @@ let config = new AuthServiceConfig([
       "793868332939-fabl9ni7mpbvg900l7rrkf1tesaunal2.apps.googleusercontent.com"
     )
   },
-  // {
-  //   id: FacebookLoginProvider.PROVIDER_ID,
-  //   provider: new FacebookLoginProvider("315354469236603")
-  // }
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider("315354469236603")
+  }
 ]);
 
 export function provideConfig() {
@@ -76,7 +77,6 @@ export function provideConfig() {
 }
 
 export function tokenGetter() {
-  console.log('getting token')
   return localStorage.getItem("access_token");
 }
 
@@ -137,6 +137,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES)
   ],
+
   providers: [
     AuthGuard,
     LandingGuard,
@@ -145,6 +146,11 @@ export function tokenGetter() {
     MemberListResolve,
     RegisterResolve,
     WatchResolve,
+    { 
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor, 
+      multi: true 
+    },
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
