@@ -2,7 +2,7 @@
   <div #gmap class="flex-map"></div>
   <div class="flex-members" fxLayout="column" fxLayoutAlign="start">
     <span class="summary"
-      ><br />We have {{ memberCount }} members <br />{{ conversionPercent }}% have converted</span
+      ><br />We have {{ memberCount }} members <br />{{ conversionPercent }}% have converted to psytrance</span
     >
     <mat-accordion>
       <mat-expansion-panel *ngFor="let member of members" (click)="focusMember(member)">
@@ -13,6 +13,8 @@
         Into Psytrance since {{ member.startyear }}<br />
         From {{ member.origin }}<br />
         Living in {{ member.location }}<br />
+        Favourite parties {{ member.favouriteparties }}<br />
+        Favourite festivals {{ member.favouritefestivals }}<br />
         Says Psytrance is my {{ member.psystatus }}<br />
         Because {{ member.reason }}<br />
         About Me : {{ member.bio }}<br />
