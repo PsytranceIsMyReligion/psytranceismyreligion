@@ -11,27 +11,27 @@ const baseUri = "http://" + environment.baseUri;
 })
 export class VideoService {
 
-  env : any;
+  env: any;
 
   constructor(private http: HttpClient) {
     this.env = environment;
   }
- 
+
   getAllVideoLinks() {
     return this.http.get(`${baseUri}/videos`);
   }
-  
-  
+
+
   createVideoLink(video: Video) {
     return this.http.post(`${baseUri}/videos/add`, video);
   }
 
-  
-  updateVideo(id : string, video : Video) {
+
+  updateVideo(id: string, video: Video) {
     return this.http.post(`${baseUri}/videos/update/${id}`, video);
   }
 
-  deleteVideoLink(id : string) {
+  deleteVideoLink(id: string) {
     return this.http.get(`${baseUri}/videos/delete/${id}`);
   }
 }

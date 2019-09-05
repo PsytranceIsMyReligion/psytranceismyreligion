@@ -8,10 +8,16 @@ import Member from "./models/member";
 import MusicGenres from "./models/musicgenres";
 import Video from "./models/videos";
 import secretConfig from "./secret-config";
-import { resolve } from "path";
-import { config } from "dotenv";
+import {
+  resolve
+} from "path";
+import {
+  config
+} from "dotenv";
 
-config({ path: resolve(__dirname, ".env") });
+config({
+  path: resolve(__dirname, ".env")
+});
 
 const app = express();
 const router = express.Router();
@@ -67,7 +73,9 @@ router.route("/members/landingpagestats").get((req, res) => {
 });
 
 router.route("/members").get((req, res) => {
-  Member.find({}).sort({ 'fname' : 'asc'}).exec((err, docs)=> {
+  Member.find({}).sort({
+    'fname': 'asc'
+  }).exec((err, docs) => {
     if (err) res.statusCode(400);
     else res.json(docs);
   });
@@ -75,14 +83,54 @@ router.route("/members").get((req, res) => {
 
 
 router.route("/videos").get((req, res) => {
-  Video.find({}).sort({ 'order' : 'asc'}).exec((err, docs)=> {
+  Video.find({}).sort({
+    'order': 'asc'
+  }).exec((err, docs) => {
     if (err) res.statusCode(400);
-    else res.json(docs);  
+    else res.json(docs);
   });
 });
 
+router.route("/videos/add").post((req, res) => {
+  let video = new Video(req.body);
+  video
+    .save()
+    .then(video => {
+      res.status(200).json(video);
+    })
+    .catch(err => {
+      res.status(400).send("Failed to create a new video");
+    });
+});
+
+
+router.route("/videos/update/:id").post((req, res, next) => {
+  Member.findById(req.params.id, (err, video) => {
+    if (!video) {
+      console.log("no video");
+      res.statusCode(400);
+    } else {
+      video.title = req.body.title;
+      video.value = req.body.value;
+    }
+  })
+});
+
+
+router.route("/videos/delete/:id").get((req, res) => {
+  Video.findByIdAndDelete({
+    _id: req.params.id
+  }, (err, video) => {
+    if (err) res.json(err);
+    else res.json("Removed successfully");
+  });
+});
+
+
 router.route("/musicgenres").get((req, res) => {
-  MusicGenres.find({}).sort({ 'name' : 'asc'}).exec((err, docs)=> {
+  MusicGenres.find({}).sort({
+    'name': 'asc'
+  }).exec((err, docs) => {
     if (err) res.statusCode(400);
     else res.json(docs);
   });
@@ -107,7 +155,6 @@ router.route("/api/auth").post((req, res) => {
   }, secretConfig.secret, {
     expiresIn: 86400 // expires in 24 hours
   });
-  console.log("token sent");
   res.status(200).send({
     token: token
   });
@@ -136,7 +183,7 @@ router.route("/members/add").post((req, res) => {
   console.log(member)
   member.createdDate = new Date();
   member.updatedDate = new Date();
-  member  
+  member
     .save()
     .then(member => {
       res.status(200).json(member);
@@ -188,7 +235,7 @@ router.route("/members/update/:id").post((req, res, next) => {
     }
   });
   router.route("/members/delete/:id").get((req, res) => {
-    Member.findByIdAndRemove({
+    Member.findByIdAndDelete({
       _id: req.params.id
     }, (err, member) => {
       if (err) res.json(err);
@@ -196,41 +243,9 @@ router.route("/members/update/:id").post((req, res, next) => {
     });
   });
 
-  
-
-  router.route("/videos/add").post((req, res) => {
-    let video = new Video(req.body);
-    video
-      .save()
-      .then(video => {
-        res.status(200).json(video);
-      })
-      .catch(err => {
-        res.status(400).send("Failed to create a new video");
-      });
-  });
-
-  router.route("/videos/update/:id").post((req, res, next) => {
-    Member.findById(req.params.id, (err, video) => {
-      if (!video) {
-        console.log("no video");
-        res.statusCode(400);
-      } else {
-        video.title = req.body.title;
-        video.value = req.body.value;
-      }
-    })
-  });
 
 
-  router.route("/videos/delete/:id").get((req, res) => {
-    Video.findByIdAndRemove({
-      _id: req.params.id
-    }, (err, video) => {
-      if (err) res.json(err);
-      else res.json("Removed successfully");
-    });
-  });
+
 
 
 

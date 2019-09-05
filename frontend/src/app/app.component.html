@@ -1,7 +1,7 @@
 <mat-toolbar class="top-banner">
-  <mat-toolbar-row >
+  <mat-toolbar-row>
     <span style="flex: 1 1 auto;"></span>
-    <div class="button-container">
+    <div class="button-container" [hidden]="!user">
       <button mat-raised-button class="profile-btn" title="Profile" (click)="navigateToProfile()" color="primary">
         <mat-icon>settings</mat-icon>
       </button>

@@ -84,12 +84,12 @@ let MemberSchema = new Schema({
   },
   psystatus: {
     type: String
-  },
-  createdDate: {
-    type: Date
-  },
-  updatedDate: {
-    type: Date
+  }
+}, 
+{
+  timestamps: {
+    createdAt: true,
+    updatedAt: false
   }
 });
 

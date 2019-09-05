@@ -29,5 +29,6 @@ export interface Member {
 
 export interface Video {
     title : string;
-    value : string;
+    description : string;
+    value : string;    
 }

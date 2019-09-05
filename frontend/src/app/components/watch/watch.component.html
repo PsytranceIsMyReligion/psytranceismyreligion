@@ -1,14 +1,12 @@
-<!-- <div class="container"> -->
   <div fxLayout="row" fxLayoutAlign="end">
-    <button mat-raised-button class="add-button" color="primary"><mat-icon>video_library</mat-icon>&nbsp;&nbsp;Add Video</button>
+    <button mat-raised-button class="add-button" (click)="openUploadDialog()" color="primary"><mat-icon>video_library</mat-icon>&nbsp;&nbsp;Add Video</button>
   </div>
   <div fxLayout="column" class="container" fxLayoutAlign="start">
    
 
     <mat-card *ngFor="let video of videos">
-      <h1>{{ video.title }}</h1>
+      <h1>{{ video.title }} <button mat-raised-button (click)="deleteVideo(video._id)" >Delete</button></h1>
       <h3>{{ video.description }}</h3>
       <div [innerHTML]="video.value | sanitizeHtml"></div>
     </mat-card>
   </div>
-<!-- </div> -->

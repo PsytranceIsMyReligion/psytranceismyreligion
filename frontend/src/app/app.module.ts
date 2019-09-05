@@ -2,7 +2,7 @@ import { environment } from './../environments/environment';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { HttpClientModule, HTTP_INTERCEPTORS  } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ListComponent } from "./components/list/list.component";
@@ -57,6 +57,8 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { MatDialogModule } from '@angular/material';
+import { VideoUploadComponent } from './components/watch/upload/video-upload.component';
 const env = environment;
 
 let config = new AuthServiceConfig([
@@ -81,6 +83,9 @@ export function tokenGetter() {
 }
 
 @NgModule({
+  entryComponents: [
+    VideoUploadComponent
+  ],
   declarations: [
     AppComponent,
     ListComponent,
@@ -94,7 +99,8 @@ export function tokenGetter() {
     DiscussComponent,
     RecruitComponent,
     HomeComponent,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    VideoUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +108,7 @@ export function tokenGetter() {
     FormsModule,
     HttpClientModule,
     MatToolbarModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
@@ -135,7 +142,7 @@ export function tokenGetter() {
       }
     }),
     ReactiveFormsModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES, { onSameUrlNavigation: 'reload' })
   ],
 
   providers: [
@@ -146,10 +153,10 @@ export function tokenGetter() {
     MemberListResolve,
     RegisterResolve,
     WatchResolve,
-    { 
+    {
       provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor, 
-      multi: true 
+      useClass: ErrorInterceptor,
+      multi: true
     },
     {
       provide: AuthServiceConfig,
@@ -158,4 +165,4 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

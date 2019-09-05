@@ -1,0 +1,21 @@
+<h3 mat-dialog-title>Upload Video</h3>
+<div mat-dialog-content>
+  <form [formGroup]="videoGroup">
+    <mat-form-field class="field-full-width">
+      <input matInput placeholder="Video Title" cdkFocusInitial formControlName="title" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="field-full-width">
+      <input matInput placeholder="Video Description" formControlName="description" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="field-full-width">
+      <input matInput placeholder="Embedded Video Code" formControlName="value" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data.video" [disabled]="!videoGroup.valid" (click)="saveVideo()">Save</button>
+  <button mat-button (click)="cancel()">Cancel</button>
+</div>

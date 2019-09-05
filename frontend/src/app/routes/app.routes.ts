@@ -48,13 +48,14 @@ export const ROUTES: Routes = [
           data: MemberListResolve
         }
       },
-      { 
-        path: "watch", 
-        canActivate: [AuthGuard], 
+      {
+        path: "watch",
+        runGuardsAndResolvers: "always",
+        canActivate: [AuthGuard],
         component: WatchComponent,
         resolve: {
           data: WatchResolve
-        } 
+        }
       },
       { path: "learn", canActivate: [AuthGuard], component: LearnComponent },
       { path: "listen", canActivate: [AuthGuard], component: ListenComponent },
