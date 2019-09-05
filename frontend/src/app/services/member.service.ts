@@ -14,8 +14,24 @@ export class MemberService {
 
   //todo move to config
   countriesUri = "https://restcountries.eu/rest/v2/all";
-  
+  member : Member;
+
   constructor(private http: HttpClient) {
+  }
+
+  saveMemberToLocalStorage(_member : Member) {
+    sessionStorage.setItem("member", JSON.stringify(_member));
+    this.member = _member;
+  }
+
+  getUser()  : Member {
+    if(this.member)
+      return this.member;
+  }
+
+  getUserId() : number {
+    if(this.member)
+      return this.member._id;
   }
 
   getMembers() {

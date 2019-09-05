@@ -30,5 +30,6 @@ export interface Member {
 export interface Video {
     title : string;
     description : string;
-    value : string;    
+    value : string;   
+    createdBy : number; 
 }

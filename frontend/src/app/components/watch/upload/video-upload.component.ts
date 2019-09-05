@@ -1,3 +1,4 @@
+import { MemberService } from './../../../services/member.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Video } from '../../../models/member.model';
@@ -13,7 +14,7 @@ export class VideoUploadComponent implements OnInit {
   videoGroup: FormGroup;
 
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<VideoUploadComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Video) { }
+    @Inject(MAT_DIALOG_DATA) public data: Video, private memberService : MemberService) { }
 
   ngOnInit() {
     this.videoGroup = this.fb.group({
@@ -27,7 +28,8 @@ export class VideoUploadComponent implements OnInit {
         let video : Video = {
           title : this.videoGroup.get('title').value,
           description : this.videoGroup.get('description').value,
-          value : this.videoGroup.get('value').value
+          value : this.videoGroup.get('value').value,
+          createdBy : this.memberService.getUserId()
         }
         this.dialogRef.close(video);
       }
