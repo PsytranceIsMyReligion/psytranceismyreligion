@@ -21,12 +21,12 @@ let MemberSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    validate: (value) => {
-      return validator.isEmail(value)
-    }
+    // required: true,
+    // unique: true,
+    // lowercase: true,
+    // validate: (value) => {
+    //   return validator.isEmail(value)
+    // }
   },
   birthyear: {
     type: Number
@@ -70,13 +70,13 @@ let MemberSchema = new Schema({
   festivalfrequency: {
     type: String
   },
-  facebookurl: {
+  facebookUrl: {
     type: String
   },
-  soundcloudurl: {
+  soundcloudUrl: {
     type: String
   },
-  websiteurl: {
+  websiteUrl: {
     type: String
   },
   reason: {

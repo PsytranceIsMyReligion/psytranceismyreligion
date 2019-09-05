@@ -20,9 +20,9 @@ export interface Member {
     partyfrequency ?: number;
     favouritefestival ?: string;
     festivalfrequency ?: number;
-    facebookurl ?: string;
-    soundcloudurl ?: string;
-    websiteurl ?: string;
+    facebookUrl ?: string;
+    soundcloudUrl ?: string;
+    websiteUrl ?: string;
     psystatus ?: string;
     reason ?: string;
 }
