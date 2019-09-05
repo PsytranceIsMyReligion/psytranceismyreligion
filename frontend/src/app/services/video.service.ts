@@ -23,6 +23,7 @@ export class VideoService {
 
 
   createVideoLink(video: Video) {
+    console.log('saving', video);
     return this.http.post(`${baseUri}/videos/add`, video);
   }
 

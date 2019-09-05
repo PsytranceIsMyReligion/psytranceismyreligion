@@ -29,7 +29,7 @@ export class VideoUploadComponent implements OnInit {
           title : this.videoGroup.get('title').value,
           description : this.videoGroup.get('description').value,
           value : this.videoGroup.get('value').value,
-          createdBy : this.memberService.getUserId()
+          createdBy : this.memberService.getUser()
         }
         this.dialogRef.close(video);
       }

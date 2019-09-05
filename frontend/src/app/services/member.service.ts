@@ -26,7 +26,7 @@ export class MemberService {
 
   getUser()  : Member {
     if(this.member)
-      return this.member;
+      return this.member; 
   }
 
   getUserId() : number {

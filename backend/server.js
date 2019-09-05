@@ -76,23 +76,25 @@ router.route("/members").get((req, res) => {
   Member.find({}).sort({
     'fname': 'asc'
   }).exec((err, docs) => {
-    if (err) res.statusCode(400);
+   
+    if (err) res.status(400).send("Failed to get members");
     else res.json(docs);
   });
 });
 
 
 router.route("/videos").get((req, res) => {
-  Video.find({}).sort({
+  Video.find({}).populate('createdBy').sort({
     'order': 'asc'
   }).exec((err, docs) => {
-    if (err) res.statusCode(400);
+    if (err) res.status(400).send("Failed to get videos");
     else res.json(docs);
   });
 });
 
 router.route("/videos/add").post((req, res) => {
   let video = new Video(req.body);
+  console.log('saving', video)
   video
     .save()
     .then(video => {
@@ -101,19 +103,6 @@ router.route("/videos/add").post((req, res) => {
     .catch(err => {
       res.status(400).send("Failed to create a new video");
     });
-});
-
-
-router.route("/videos/update/:id").post((req, res, next) => {
-  Member.findById(req.params.id, (err, video) => {
-    if (!video) {
-      console.log("no video");
-      res.statusCode(400);
-    } else {
-      video.title = req.body.title;
-      video.value = req.body.value;
-    }
-  })
 });
 
 

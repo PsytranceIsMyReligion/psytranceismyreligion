@@ -5,8 +5,8 @@
    
 
     <mat-card *ngFor="let video of videos">
-      <h1>{{ video.title }} <button mat-raised-button (click)="deleteVideo(video._id)" >Delete</button></h1>
-      <h3>{{ video.description }}</h3>
+      <h1>{{ video.title }} <button *ngIf="video.createdBy && video.createdBy._id == user._Id" mat-raised-button (click)="deleteVideo(video._id)" >Delete</button></h1>
+      <h3>{{ video.description }}</h3><span>Uploaded by {{ video.createdBy ? video.createdBy.uname : 'Admin' }} {{ video.createdAt |  date : 'short' }}</span>
       <div [innerHTML]="video.value | sanitizeHtml"></div>
     </mat-card>
-  </div>
+  </div>    
