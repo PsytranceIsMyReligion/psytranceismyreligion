@@ -30,7 +30,7 @@ sudo cp -avf dist/frontend/ /opt/bitnami/apache2/htdocs/
 sudo /opt/bitnami/ctlscript.sh start mongodb
 sudo /opt/bitnami/ctlscript.sh start apache
 cd ../backend
-NODE_ENV=production node start.js
+forever start.js
 
 sudo /opt/bitnami/ctlscript.sh stop
 sudo /opt/bitnami/ctlscript.sh start
