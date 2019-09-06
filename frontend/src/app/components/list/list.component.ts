@@ -25,6 +25,7 @@ export class ListComponent implements OnInit {
   memberCount: number;
   conversionPercent: number;
   focusMarker : any;
+  selectedMember: Member;
 
   constructor(
     private memberService: MemberService,
@@ -78,6 +79,7 @@ export class ListComponent implements OnInit {
   }
 
   focusMember(member) {
+    this.selectedMember = member;
     const location = new google.maps.LatLng(member.lat, member.long);
     let marker = new google.maps.Marker({
       position: location,

@@ -1,14 +1,10 @@
-
-
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .content-container {
     height: 90%;
   }
-
   .side-nav {
-    width : 80px;
+    width: 80px;
   }
-
   .sidenav-content {
     display: block;
     width: 90%;
@@ -17,38 +13,33 @@
     justify-content: left;
     border-radius: 5px;
   }
-  
 }
 
-@media only screen  and (min-width : 1224px) {
+@media only screen and (min-width: 1224px) {
   .content-container {
     height: 80%;
   }
-  
   .sidenav-content {
     display: block;
     width: 70%;
-
     margin-top: 20px;
     align-items: left;
     justify-content: left;
     border-radius: 5px;
   }
-
- 
-:host  ::ng-deep .mat-drawer-container {
-    opacity: 0.7px;
+  ::ng-deep .mat-drawer {
+    background-image: linear-gradient(red, yellow);
   }
+}
 
+::ng-deep .mat-drawer-container {
+  opacity: 0.7px !important;
 }
 
 :host ::ng-deep .mat-card-header {
   height: 30px;
-
   h3 {
     position: relative;
     top: -10px;
   }
 }
-
-

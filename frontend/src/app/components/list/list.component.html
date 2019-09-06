@@ -1,26 +1,33 @@
-<div class="flex-container container">
-  <div #gmap class="flex-map"></div>
-  <div class="flex-members" fxLayout="column" fxLayoutAlign="start">
-    <span class="summary"
-      ><br />We have {{ memberCount }} members <br />{{ conversionPercent }}% have converted to psytrance</span
-    >
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let member of members" (click)="focusMember(member)">
-        <mat-expansion-panel-header>
-          <mat-panel-title> {{ member.uname }} aka {{ member.fname }} {{ member.lname }} </mat-panel-title>
-        </mat-expansion-panel-header>
-        {{ member.gender }}  Born{{ member.birthyear }}<br />
-        Into Psytrance since {{ member.startyear }}<br />
-        From {{ member.origin }}<br />
-        Living in {{ member.location }}<br />
-        Favourite parties {{ member.favouriteparties }}<br />
-        Favourite festivals {{ member.favouritefestivals }}<br />
-        Says Psytrance is my {{ member.psystatus }}<br />
-        Because {{ member.reason }}<br />
-        About Me : {{ member.bio }}<br />
-        Facebook : {{ member.facebookUrl}}<br />
-      </mat-expansion-panel>
-    </mat-accordion>
+<div fxLayout="row" class="outer-container">
+  <div class="flex-container container">
+    <div #gmap class="flex-map"></div>
+
+
+    <div class="member-container">
+      <mat-card>
+        <!-- <mat-card *ngIf="selectedMember"> -->
+        <mat-card-header> {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }} </mat-card-header>
+        <mat-card-content>
+          {{ selectedMember.gender }} Born{{ selectedMember.birthyear }}
+          <br /> Into Psytrance since {{ selectedMember.startyear }}
+          <br /> From {{ selectedMember.origin }}
+          <br /> Living in {{ selectedMember.location }}
+          <br /> Favourite parties {{ selectedMember.favouriteparties }}
+          <br /> Favourite festivals {{ selectedMember.favouritefestivals }}
+          <br /> Says Psytrance is my {{ selectedMember.psystatus }}
+          <br /> Because {{ selectedMember.reason }}
+          <br /> About Me : {{ selectedMember.bio }}
+          <br /> Facebook : {{ selectedMember.facebookUrl}}
+          <br />
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
-  <div></div>
+  <div class="flex-members" fxLayout="column" fxLayoutAlign="start">
+    <span class="summary">We have {{ memberCount }} members
+      <br />{{ conversionPercent }}% have converted to psytrance</span>
+    <ul *ngFor="let member of members">
+      <li (click)="focusMember(member)"> {{ member.uname }} {{ member.uname ? 'aka' : '' }} {{ member.fname }} {{ member.lname }} </li>
+    </ul>
+  </div>
 </div>

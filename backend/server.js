@@ -76,7 +76,7 @@ router.route("/members").get((req, res) => {
   Member.find({}).sort({
     'fname': 'asc'
   }).exec((err, docs) => {
-   
+
     if (err) res.status(400).send("Failed to get members");
     else res.json(docs);
   });
@@ -186,9 +186,8 @@ router.route("/members/add").post((req, res) => {
 router.route("/members/update/:id").post((req, res, next) => {
   console.log(JSON.stringify(req.body))
   let thisMember = Member.findById(req.params.id).populate(JSON.stringify(req.body)).exec();
-  console.log("updating ", thisMember);
   Member
-    .create(thisMember)
+    .updateOne(thisMember)
     .then(member => {
       res.status(200).json(member);
     })
@@ -197,44 +196,15 @@ router.route("/members/update/:id").post((req, res, next) => {
       res.status(400).send("Update failed");
     });
 });
-  //  (err, member) => {
-  //   if (!member) {
-  //     console.log("no member");
-  //     res.statusCode(400);
-  //   } else {
 
-      // member.fname = req.body.fname;
-      // member.lname = req.body.lname;
-      // member.gender = req.body.gender;
-      // member.birthyear = req.body.birthyear;
-      // member.postcode = req.body.postcode;
-      // member.origin = req.body.origin;
-      // member.location = req.body.location;
-      // member.psystatus = req.body.psystatus;
-      // member.lat = req.body.lat;
-      // member.long = req.body.long;
-      // member.membertype = req.body.membertype;
-      // member.musictype = req.body.musictype;
-      // member.startyear = req.body.startyear;
-      // member.bio = req.body.bio;
-      // member.favouriteparty = req.body.favouriteparty;
-      // member.partyfrequency = req.body.partyfrequency;
-      // member.favouritefestival = req.body.favouritefestival;
-      // member.festivalfrequency = req.body.festivalfrequency;
-      // member.facebookurl = req.body.facebookUrl;
-      // member.soundcloudurl = req.body.soundcloudUrl;
-      // member.websiteUrl = req.body.websiteUrl;
-      // member.reason = req.body.reason;
-
-  // });
-  router.route("/members/delete/:id").get((req, res) => {
-    Member.findByIdAndDelete({
-      _id: req.params.id
-    }, (err, member) => {
-      if (err) res.json(err);
-      else res.json("Removed successfully");
-    });
+router.route("/members/delete/:id").get((req, res) => {
+  Member.findByIdAndDelete({
+    _id: req.params.id
+  }, (err, member) => {
+    if (err) res.json(err);
+    else res.json("Removed successfully");
   });
+});
 
 app.use("/", router);
 app.listen(process.env.PORT, () => console.log("express server running on port " + process.env.PORT));

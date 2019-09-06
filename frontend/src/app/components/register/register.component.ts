@@ -257,9 +257,10 @@ export class RegisterComponent implements OnInit {
       reason: this.opinionGroup.get("reason").value,
     };
     if (this.member && this.member._id) {
+      updateMember._id = this.member._id;
       console.log("updating ", updateMember);
       this.memberService.updateMember(this.member._id, updateMember).subscribe(member => {
-        sessionStorage.setItem("member", JSON.stringify(member));
+        this.memberService.saveMemberToLocalStorage(updateMember);
         let snackBarRef = this.snackBar.open("Successfully updated", "OK", {
           duration: 2000
         });
@@ -294,7 +295,6 @@ export class RegisterComponent implements OnInit {
   }
 
   createForm() {
-    console.log('isprod', this.env.production);
     this.basicInfoGroup = this.fb.group({
       uname:  ["", this.env.production ? Validators.required : null],
       fname: ["", this.env.production ? Validators.required : null],
@@ -338,7 +338,6 @@ export class RegisterComponent implements OnInit {
     let selectedData: Array<any> = this.detailGroup.get("musictype").value;
     
     if(selectedData && Array.isArray(selectedData) && selectedData.length > 0) {
-      console.log('selected', selectedData.length)
       const matchingValue: any = selectedData.find((item: any) => {
           return item.name.toLowerCase() === text.toLowerCase();
       });

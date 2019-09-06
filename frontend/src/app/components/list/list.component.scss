@@ -1,16 +1,14 @@
-
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .opaque-card {
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 20px;
     line-height: 125%;
-    opacity: 0.6;
-    // background-image: url('/assets/mainbackground.jpg')
+    opacity: 0.7;
   }
 }
 
-@media only screen  and (min-width : 1224px) {
+@media only screen and (min-width: 1224px) {
   .opaque-card {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -21,46 +19,49 @@
   }
 }
 
+.outer-container {
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
 .flex-container {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
+  width: 80%; // flex-direction: column;
+  // display: flex; // flex-wrap: wrap;
+  // justify-content: space-around;
   overflow-y: hidden;
   background-image: url('/assets/mainbackground.jpg');
   background-size: contain;
-
-
 }
 
 .flex-map {
-  flex: 5;
-  width: 120em;
+  width: 890px;
   height: 21em;
   margin: 1em;
-  align-self: flex-start;
-  order: 1;
 }
 
 .flex-members {
-  display: flex;
   margin-top: 20px;
   margin-right: 20px;
-  opacity: 0.6;
+  opacity: 0.7;
+  width: 100px;
   margin-left: 20px;
   height: 95%;
-  flex: 2;
-  order: 2;
   overflow-y: hidden;
+}
 
-  mat-accordion {
-    border-radius: 3px;
-  }
+.member-container {
+  // align-self: flex-end; 
+  // flex: 5;
+  // align-self: flex-start; // order: 3;
 }
 
 .summary {
+  font-weight: bold;
   background-color: lightgray;
   text-align: center;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .mat-column-right {
@@ -69,5 +70,5 @@
 }
 
 mat-card {
-  width: 1000px;
+  width: 600px;
 }
