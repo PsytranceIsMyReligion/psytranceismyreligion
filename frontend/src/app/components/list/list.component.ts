@@ -45,12 +45,12 @@ export class ListComponent implements OnInit {
       zoom: 1,
       center: { lat: 22.28, lng: 114.158 },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      zoomControl: false,
+      zoomControl: true,
       mapTypeControl: false,
       scaleControl: false,
-      streetViewControl: false,
+      streetViewControl: true,
       rotateControl: false,
-      fullscreenControl: false
+      fullscreenControl: true
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
     this.members.forEach(el => {

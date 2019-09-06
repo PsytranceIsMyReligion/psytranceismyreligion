@@ -2,17 +2,23 @@
   <div #gmap class="flex-map"></div>
   <div class="flex-members" fxLayout="column" fxLayoutAlign="start">
     <span class="summary"
-      ><br />We have {{ memberCount }} members <br />{{ conversionPercent }}% have converted</span
+      ><br />We have {{ memberCount }} members <br />{{ conversionPercent }}% have converted to psytrance</span
     >
     <mat-accordion>
       <mat-expansion-panel *ngFor="let member of members" (click)="focusMember(member)">
         <mat-expansion-panel-header>
-          <mat-panel-title> {{ member.fname }} {{ member.lname }} </mat-panel-title>
+          <mat-panel-title> {{ member.uname }} aka {{ member.fname }} {{ member.lname }} </mat-panel-title>
         </mat-expansion-panel-header>
-
-        Psytrance is my {{ member.psystatus }}<br />
+        {{ member.gender }}  Born{{ member.birthyear }}<br />
+        Into Psytrance since {{ member.startyear }}<br />
+        From {{ member.origin }}<br />
+        Living in {{ member.location }}<br />
+        Favourite parties {{ member.favouriteparties }}<br />
+        Favourite festivals {{ member.favouritefestivals }}<br />
+        Says Psytrance is my {{ member.psystatus }}<br />
         Because {{ member.reason }}<br />
-        About Me : {{ member.bio }}
+        About Me : {{ member.bio }}<br />
+        Facebook : {{ member.facebookUrl}}<br />
       </mat-expansion-panel>
     </mat-accordion>
   </div>

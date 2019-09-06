@@ -152,9 +152,9 @@ export class RegisterComponent implements OnInit {
       this.detailGroup.get("partyfrequency").setValue(this.member.partyfrequency);
       this.detailGroup.get("festivalfrequency").setValue(this.member.festivalfrequency);
       this.detailGroup.get("favouritefestival").setValue(this.member.favouritefestival);
-      this.detailGroup.get("facebookurl").setValue(this.member.facebookurl);
-      this.detailGroup.get("soundcloudurl").setValue(this.member.soundcloudurl);
-      this.detailGroup.get("websiteurl").setValue(this.member.websiteurl);
+      this.detailGroup.get("facebookUrl").setValue(this.member.facebookUrl);
+      this.detailGroup.get("soundcloudUrl").setValue(this.member.soundcloudUrl);
+      this.detailGroup.get("websiteUrl").setValue(this.member.websiteUrl);
     }
   }
 
@@ -250,8 +250,11 @@ export class RegisterComponent implements OnInit {
       favouriteparty: this.detailGroup.get("favouriteparty").value,
       festivalfrequency: this.detailGroup.get("festivalfrequency").value,
       favouritefestival: this.detailGroup.get("favouritefestival").value,
+      websiteUrl: this.detailGroup.get("websiteUrl").value,
+      facebookUrl: this.detailGroup.get("facebookUrl").value,
+      soundcloudUrl: this.detailGroup.get("soundcloudUrl").value,
       psystatus: this.opinionGroup.get("psystatus").value,
-      reason: this.opinionGroup.get("reason").value
+      reason: this.opinionGroup.get("reason").value,
     };
     if (this.member && this.member._id) {
       console.log("updating ", updateMember);
@@ -312,9 +315,9 @@ export class RegisterComponent implements OnInit {
       partyfrequency: ["", this.env.production ? Validators.required : null],
       favouritefestival: [""],
       festivalfrequency: ["", this.env.production ? Validators.required : null],
-      facebookurl: [""],
-      soundcloudurl: [""],
-      websiteurl: [""]
+      facebookUrl: [""],
+      soundcloudUrl: [""],
+      websiteUrl: [""]
     });
     this.opinionGroup = this.fb.group({
       psystatus: ["", Validators.required],

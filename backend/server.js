@@ -76,23 +76,25 @@ router.route("/members").get((req, res) => {
   Member.find({}).sort({
     'fname': 'asc'
   }).exec((err, docs) => {
-    if (err) res.statusCode(400);
+   
+    if (err) res.status(400).send("Failed to get members");
     else res.json(docs);
   });
 });
 
 
 router.route("/videos").get((req, res) => {
-  Video.find({}).sort({
+  Video.find({}).populate('createdBy').sort({
     'order': 'asc'
   }).exec((err, docs) => {
-    if (err) res.statusCode(400);
+    if (err) res.status(400).send("Failed to get videos");
     else res.json(docs);
   });
 });
 
 router.route("/videos/add").post((req, res) => {
   let video = new Video(req.body);
+  console.log('saving', video)
   video
     .save()
     .then(video => {
@@ -101,19 +103,6 @@ router.route("/videos/add").post((req, res) => {
     .catch(err => {
       res.status(400).send("Failed to create a new video");
     });
-});
-
-
-router.route("/videos/update/:id").post((req, res, next) => {
-  Member.findById(req.params.id, (err, video) => {
-    if (!video) {
-      console.log("no video");
-      res.statusCode(400);
-    } else {
-      video.title = req.body.title;
-      video.value = req.body.value;
-    }
-  })
 });
 
 
@@ -195,45 +184,49 @@ router.route("/members/add").post((req, res) => {
 });
 
 router.route("/members/update/:id").post((req, res, next) => {
-  Member.findById(req.params.id, (err, member) => {
-    if (!member) {
-      console.log("no member");
-      res.statusCode(400);
-    } else {
-      member.fname = req.body.fname;
-      member.lname = req.body.lname;
-      member.gender = req.body.gender;
-      member.birthyear = req.body.birthyear;
-      member.postcode = req.body.postcode;
-      member.origin = req.body.origin;
-      member.location = req.body.location;
-      member.psystatus = req.body.psystatus;
-      member.lat = req.body.lat;
-      member.long = req.body.long;
-      member.membertype = req.body.membertype;
-      member.musictype = req.body.musictype;
-      member.startyear = req.body.startyear;
-      member.bio = req.body.bio;
-      member.favouriteparty = req.body.favouriteparty;
-      member.partyfrequency = req.body.partyfrequency;
-      member.favouritefestival = req.body.favouritefestival;
-      member.festivalfrequency = req.body.festivalfrequency;
-      member.facebookurl = req.body.facebookurl;
-      member.soundcloudurl = req.body.soundcloudurl;
-      member.websiteurl = req.body.websiteurl;
-      member.reason = req.body.reason;
-      console.log("updating ", member);
-      member
-        .save()
-        .then(member => {
-          res.status(200).json(member);
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(400).send("Update failed");
-        });
-    }
-  });
+  console.log(JSON.stringify(req.body))
+  let thisMember = Member.findById(req.params.id).populate(JSON.stringify(req.body)).exec();
+  console.log("updating ", thisMember);
+  Member
+    .create(thisMember)
+    .then(member => {
+      res.status(200).json(member);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).send("Update failed");
+    });
+});
+  //  (err, member) => {
+  //   if (!member) {
+  //     console.log("no member");
+  //     res.statusCode(400);
+  //   } else {
+
+      // member.fname = req.body.fname;
+      // member.lname = req.body.lname;
+      // member.gender = req.body.gender;
+      // member.birthyear = req.body.birthyear;
+      // member.postcode = req.body.postcode;
+      // member.origin = req.body.origin;
+      // member.location = req.body.location;
+      // member.psystatus = req.body.psystatus;
+      // member.lat = req.body.lat;
+      // member.long = req.body.long;
+      // member.membertype = req.body.membertype;
+      // member.musictype = req.body.musictype;
+      // member.startyear = req.body.startyear;
+      // member.bio = req.body.bio;
+      // member.favouriteparty = req.body.favouriteparty;
+      // member.partyfrequency = req.body.partyfrequency;
+      // member.favouritefestival = req.body.favouritefestival;
+      // member.festivalfrequency = req.body.festivalfrequency;
+      // member.facebookurl = req.body.facebookUrl;
+      // member.soundcloudurl = req.body.soundcloudUrl;
+      // member.websiteUrl = req.body.websiteUrl;
+      // member.reason = req.body.reason;
+
+  // });
   router.route("/members/delete/:id").get((req, res) => {
     Member.findByIdAndDelete({
       _id: req.params.id
@@ -242,14 +235,6 @@ router.route("/members/update/:id").post((req, res, next) => {
       else res.json("Removed successfully");
     });
   });
-
-
-
-
-
-
-
-});
 
 app.use("/", router);
 app.listen(process.env.PORT, () => console.log("express server running on port " + process.env.PORT));

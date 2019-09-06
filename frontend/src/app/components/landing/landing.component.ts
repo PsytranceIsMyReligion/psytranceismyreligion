@@ -51,7 +51,7 @@ export class LandingComponent implements OnInit {
           if (!member) this.router.navigate(["register", "social"]);
           else {
             this.loggedInMember = member;
-            sessionStorage.setItem("member", JSON.stringify(member));
+            this.memberService.saveMemberToLocalStorage(member);
             this.tokenService.login(user.id).subscribe(token => {
               this.router.navigate(["nav/list"]);
             });

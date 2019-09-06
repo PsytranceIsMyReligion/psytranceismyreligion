@@ -1,0 +1,7 @@
+{
+    "uid": "PsytranceIsMyReligon",
+    "append": true,
+    "watch": false,
+    "script": "start.js",
+    "sourceDir": "/home/bitnami/projects/psytranceismyreligion/backend"
+}

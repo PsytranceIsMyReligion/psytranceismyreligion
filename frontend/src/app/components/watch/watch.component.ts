@@ -1,4 +1,5 @@
-import { Video } from './../../models/member.model';
+import { MemberService } from './../../services/member.service';
+import { Video, Member } from './../../models/member.model';
 import { ActivatedRoute, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -15,8 +16,11 @@ import { mergeMap } from 'rxjs/operators';
 export class WatchComponent implements OnInit {
 
   videos: Array<Video> = [];
+  user : Member;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, public dialog: MatDialog, private videoService: VideoService, private matSnackBar: MatSnackBar) {
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, 
+    public dialog: MatDialog, private videoService: VideoService, private memberService : MemberService, private matSnackBar: MatSnackBar) {
+      this.user = this.memberService.getUser();
   }
 
   ngOnInit() {
