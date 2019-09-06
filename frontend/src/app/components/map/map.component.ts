@@ -48,9 +48,13 @@ export class MapComponent {
     console.log(postcodeChange, countryCodeChange);
     let countryCodeUpdate;
     if (countryCodeChange) {
-      countryCodeUpdate = Array.isArray(countryCodeChange.currentValue)
-        ? countryCodeChange.currentValue[0].alpha2Code
-        : countryCodeChange.currentValue.alpha2Code;
+        if(Array.isArray(countryCodeChange.currentValue)){
+          if(countryCodeChange.currentValue.length > 0)
+          countryCodeUpdate = countryCodeChange.currentValue[0].alpha2Code
+        } else {
+          if(countryCodeChange.currentValue)
+            countryCodeUpdate = countryCodeChange.currentValue
+        }
     } else 
       countryCodeUpdate = Array.isArray(this.countryCode) ? this.countryCode[0].alpha2Code : this.countryCode.alpha2Code;
     if (postcodeChange && postcodeChange.currentValue !== "") {

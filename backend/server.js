@@ -188,7 +188,7 @@ router.route("/members/update/:id").post((req, res, next) => {
   let thisMember = Member.findById(req.params.id).populate(JSON.stringify(req.body)).exec();
   console.log("updating ", thisMember);
   Member
-    .create(thisMember)
+    .update(thisMember)
     .then(member => {
       res.status(200).json(member);
     })
