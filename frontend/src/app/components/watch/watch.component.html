@@ -1,12 +1,16 @@
+  <div class="outer-container">
   <div fxLayout="row" fxLayoutAlign="end">
-    <button mat-raised-button class="add-button" (click)="openUploadDialog()" color="primary"><mat-icon>video_library</mat-icon>&nbsp;&nbsp;Add Video</button>
+    <button mat-raised-button class="add-button" (click)="openUploadDialog()" color="primary"><i class="material-icons">video_library</i>&nbsp;&nbsp;Add Video</button>
   </div>
-  <div fxLayout="column" class="container" fxLayoutAlign="start">
-   
-
+  <div fxLayout="row wrap" class="panel-container" fxLayoutAlign="start start"  >
     <mat-card *ngFor="let video of videos">
-      <h1>{{ video.title }} <button *ngIf="video.createdBy && video.createdBy._id == user._Id" mat-raised-button (click)="deleteVideo(video._id)" >Delete</button></h1>
-      <h3>{{ video.description }}</h3><span>Uploaded by {{ video.createdBy ? video.createdBy.uname : 'Admin' }} {{ video.createdAt |  date : 'short' }}</span>
+      <mat-card-title class="panel-info">{{ video.title }} 
+        <button *ngIf="video.createdBy && video.createdBy._id == user._Id" mat-raised-button (click)="deleteVideo(video._id)" >Delete</button>    
+      </mat-card-title>
+      <mat-card-content>
+      <div class="description">{{ video.description }} Uploaded by {{ video.createdBy ? video.createdBy.uname : 'Admin' }} {{ video.createdAt |  date : 'short' }}</div>
       <div [innerHTML]="video.value | sanitizeHtml"></div>
+    </mat-card-content>
     </mat-card>
   </div>    
+</div> 

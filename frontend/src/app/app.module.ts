@@ -58,7 +58,13 @@ import { FormsModule } from '@angular/forms';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { MatDialogModule } from '@angular/material';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { VideoUploadComponent } from './components/watch/upload/video-upload.component';
+import { ToastrModule } from 'ngx-toastr';
+import { DeviceDetectorModule } from 'ngx-device-detector';
+import { MemberDetailsComponent } from './components/list/member-details/member-details.component';
+import { MemberSelectorComponent } from './components/list/member-selector/member-selector.component';
+
 const env = environment;
 
 let config = new AuthServiceConfig([
@@ -100,11 +106,20 @@ export function tokenGetter() {
     RecruitComponent,
     HomeComponent,
     SanitizeHtmlPipe,
-    VideoUploadComponent
+    VideoUploadComponent,
+    MemberDetailsComponent,
+    MemberSelectorComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(
+      {   
+        timeOut: 10000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true
+      }
+    ),
     FormsModule,
     HttpClientModule,
     MatToolbarModule,
@@ -132,8 +147,10 @@ export function tokenGetter() {
     FlexLayoutModule,
     DropDownsModule,
     WindowModule,
+    AngularFontAwesomeModule,
     ButtonsModule,
     MatMomentDateModule,
+    DeviceDetectorModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

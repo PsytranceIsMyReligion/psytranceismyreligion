@@ -11,6 +11,10 @@
     width: 80%;
     margin-bottom: 20px;
   }
+
+  .registration-container { 
+    background-size: repeat;
+  }
 }
 
 @media only screen  and (min-width : 1224px) {
@@ -19,12 +23,15 @@
   .registration-form {
     width: 50%;
     margin-bottom: 20px;
+    opacity: 0.8;
   }
 }
 
-.registration-container {
-  margin-top: 20px;
+.registration-container { 
   width: 100%;
+  height: 100%;
+  background-image: url("/assets/mainbackground.jpg");
+
 }
 
 
@@ -38,5 +45,5 @@
 }
 
 .reasonField {
-  height: 100px;
+  height: 200px;
 }

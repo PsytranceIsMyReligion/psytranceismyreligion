@@ -9,6 +9,7 @@ import { ViewChild } from "@angular/core";
 import { AuthService, SocialUser } from "angularx-social-login";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-landing",
@@ -33,7 +34,8 @@ export class LandingComponent implements OnInit {
     private socialAuthService: AuthService,
     private router: Router,
     private tokenService: TokenService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.members = this.route.snapshot.data["data"]["members"];
     this.memberCount = this.route.snapshot.data["data"]["stats"]["count"];
@@ -47,9 +49,10 @@ export class LandingComponent implements OnInit {
       this.user = user;
       this.loggedIn = user != null;
       if (user) {
-        this.memberService.getMemberBySocialId(user.id).subscribe(member => {
+        this.memberService.getMemberBySocialId(user.id).subscribe((member : Member) => {
           if (!member) this.router.navigate(["register", "social"]);
           else {
+            this.toastr.success('Welcome back ' + member.fname);
             this.loggedInMember = member;
             this.memberService.saveMemberToLocalStorage(member);
             this.tokenService.login(user.id).subscribe(token => {

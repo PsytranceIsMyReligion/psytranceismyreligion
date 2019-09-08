@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { Member } from "../models/member.model";
@@ -14,26 +14,39 @@ export class MemberService {
 
   //todo move to config
   countriesUri = "https://restcountries.eu/rest/v2/all";
-  member : Member;
-
+  user : Member;
+  user$ : BehaviorSubject<Member>;
+  selectedMember$  : BehaviorSubject<Member>;
   constructor(private http: HttpClient) {
   }
 
   saveMemberToLocalStorage(_member : Member) {
     sessionStorage.setItem("member", JSON.stringify(_member));
-    this.member = _member;
+    this.user$ = new BehaviorSubject(_member);
+    this.selectedMember$ = new BehaviorSubject(_member);
+    this.user = _member;
   }
 
   getUser()  : Member {
-    if(this.member)
-      return this.member; 
+    if(this.user)
+      return this.user; 
+  }
+
+  getUser$(): BehaviorSubject<Member> {
+    return this.user$;
   }
 
   getUserId() : number {
-    if(this.member)
-      return this.member._id;
+    if(this.user)
+      return this.user._id;
   }
 
+  setSelectedMember$(member) {
+    this.selectedMember$.next(member);
+  }
+  getSelectedMember$() {
+    return this.selectedMember$;
+  }
   getMembers() {
     return this.http.get(`${baseUri}/members`);
   }

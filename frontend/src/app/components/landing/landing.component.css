@@ -2,9 +2,7 @@ table {
   width: 95%;
 }
 
-.login-buttons > * {
-  margin: 10px 20px;
-}
+
 
 .primary {
   background-color: #3f51b5;
@@ -38,37 +36,55 @@ table {
 
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+
+
+
   .opaque-card {
     font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
     font-weight: bold;
     z-index: 1;
-    position: relative;
-    width : 290px;
+    /* position: relative; */
+    /* width : 290px; */
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 20px;
+    margin-right: 20px;
+
+    
   }
 
+  .map {
+    width:90%; height:300px; opacity: 1
+  }
   .header {
     font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
     /* font-size: 12pt; */
   }
 
   .title {
-    font-size: 18pt;
+    font-size: 14pt;
   }
 
-  .content {
-    font-size: 18pt;
+
+ .login-buttons > * {
+    margin: 10px 20px;
+    line-height: 20px;
+    padding: 5px;
+    white-space: pre-wrap !important;
   }
 
   mat-card-content {
-    font-size: 16pt!important;
-    line-height: 1.4em;
+    font-size: 14pt!important;
+    line-height: 1.1em;
   }
 }
 
 @media only screen  and (min-width : 1224px) {
+
+  .login-buttons > * {
+    margin: 10px 20px;
+  }
+
   .opaque-card {
     font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
     font-weight: bold;
@@ -84,7 +100,9 @@ table {
     font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
     font-size: 24pt;
   }
-
+  .map {
+    width:40%; height:400px; opacity: 1
+  }
   .title {
     font-size: 34pt;
   }

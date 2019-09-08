@@ -1,1 +1,12 @@
+.container {
+    background-image: url("/assets/mainbackground.jpg");
+    height: 100%;
+    /* opacity: 0.8; */
+    padding-left: 20px;
+    padding-right: 20px;
+}
 
+.title {
+    font-size: 16pt;
+    font-weight: bold;
+}

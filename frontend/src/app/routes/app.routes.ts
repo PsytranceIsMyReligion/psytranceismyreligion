@@ -16,6 +16,7 @@ import { WatchResolve } from "../resolvers/watch.resolve";
 export const ROUTES: Routes = [
   {
     path: "",
+    runGuardsAndResolvers: "always",
     component: LandingComponent,
     canActivate: [LandingGuard],
     resolve: {
@@ -46,11 +47,11 @@ export const ROUTES: Routes = [
         component: ListComponent,
         resolve: {
           data: MemberListResolve
-        }
+        },
+        runGuardsAndResolvers: "always",
       },
       {
         path: "watch",
-        runGuardsAndResolvers: "always",
         canActivate: [AuthGuard],
         component: WatchComponent,
         resolve: {

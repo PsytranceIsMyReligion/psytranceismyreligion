@@ -1,11 +1,65 @@
-.container {
-    margin : 10px 10px;
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+
+
+    .description {
+        font-size: 12pt;
+        font-weight: bold;
+        padding:  5px;
+    }
+
+    .panel-info {
+        height : 2.5em;
+        padding: 5px;
+
+    }
+
+    // .panel-info::before {
+    //     opacity: 0.7;
+    //     z-index: -2;
+    // }
+    
+    > * {
+        font-family : "nasa";
+        font-weight: bold;
+    }
+
+    mat-card {
+        padding: 16px;
+        width: 90%;
+        border-radius: 4px;
+        opacity: 0.6;
+        margin-bottom: 15px;
+    }
 
 
 }
 
-mat-card {
-    margin: 5px 5px; 
+.panel-container {
+    margin : 10px 10px;
+    // opacity: 0.8;
+    background-image: url("/assets/mainbackground.jpg");
+
+
+}
+
+.outer-container {
+    background-image: url("/assets/mainbackground.jpg");
+}
+
+.panel {
+    // margin: 10px 10px; 
+    // width: 50%;
+    // height: 60%;
+
+}    
+
+
+.panel-info {
+    background-image: linear-gradient(red, yellow);
+    > * {
+        font-weight: bold;
+        font-family: "nasa";
+    }
 }
 
 .add-button {

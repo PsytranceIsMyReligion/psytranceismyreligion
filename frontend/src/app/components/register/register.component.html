@@ -23,10 +23,11 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field floatLabel="always" class="mat-form-field--no-underline">
+            <mat-label>Gender</mat-label>
             <mat-radio-group name="genderControl" formControlName="gender" [(ngModel)]="genderSelected">
               <mat-radio-button value="M" >Male&nbsp;&nbsp;</mat-radio-button>
               <mat-radio-button value="F" >Female</mat-radio-button>
-              <input matInput placeholder="Input" style="display: none" />
+              <input matInput placeholder="" style="display: none" />
             </mat-radio-group>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -141,7 +142,7 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <input matInput placeholder="Your Facebook URL" formControlName="facebookUrl" />
-          </mat-form-field>
+          </mat-form-field> 
           <mat-form-field class="field-full-width">
             <input matInput placeholder="Your Soundcloud URL" formControlName="soundcloudUrl" />
           </mat-form-field>

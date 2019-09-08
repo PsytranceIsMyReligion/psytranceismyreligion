@@ -1,0 +1,9 @@
+<!-- <div class="member-container"  > -->
+<div class="flex-members" *ngIf="headerInfo$ | async as headerInfo" fxLayout="{{isMobile ? 'row' : 'column'}}" fxLayoutAlign="start">
+        <div class="summary">We have {{ headerInfo.count  }} members
+          <br />{{ headerInfo.conversionPercent }}% have converted to psytrance</div>
+        <ul *ngFor="let member of members$  | async ">
+          <li class="hvr-float" (click)="focusMember(member)"> {{member.uname ? member.uname : '' }} {{ member.uname ? 'aka' : '' }} {{ member.fname }} {{ member.lname }} </li>
+        </ul>
+      </div>
+<!-- </div> -->

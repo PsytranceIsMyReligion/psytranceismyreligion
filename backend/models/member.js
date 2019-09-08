@@ -28,6 +28,9 @@ let MemberSchema = new Schema({
     //   return validator.isEmail(value)
     // }
   },
+  avatarUrl: {
+    type: String
+  },
   birthyear: {
     type: Number
   },

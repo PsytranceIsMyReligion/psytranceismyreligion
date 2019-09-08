@@ -25,6 +25,7 @@ export interface Member {
     websiteUrl ?: string;
     psystatus ?: string;
     reason ?: string;
+    avatarUrl ?: string;
 }
 
 export interface Video {

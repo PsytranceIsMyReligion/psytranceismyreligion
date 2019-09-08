@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { Member } from "./models/member.model";
 import { AuthService, SocialUser } from "angularx-social-login";
 import { TokenService } from "./services/token.service";
 import { MatSnackBar } from "@angular/material";
+import { ToastContainerDirective, ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-root",
@@ -11,12 +12,17 @@ import { MatSnackBar } from "@angular/material";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnDestroy, OnInit {
+
+  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
+
   constructor(
     private router: Router,
     private socialAuthService: AuthService,
     private tokenService: TokenService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastrService: ToastrService
   ) { }
+
 
   member: Member;
   user: SocialUser;
