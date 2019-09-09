@@ -312,7 +312,7 @@ export class RegisterComponent implements OnInit {
       favouriteparty: [""],
       partyfrequency: ["", this.env.production ? Validators.required : null],
       favouritefestival: [""],
-      festivalfrequency: ["", this.env.production ? Validators.required : null],
+      festivalfrequency: ["", this.env.production ? Validators.required : null],  
       facebookUrl: [""],
       soundcloudUrl: [""],
       websiteUrl: [""]
