@@ -8,7 +8,9 @@ export interface Member {
     email?: string;
     birthyear ?: number;
     origin ?: string;
+    originDisplay ?: string;
     location ?:string;
+    locationDisplay ? : string;
     postcode ?: string;
     lat ?: number;
     long ?: number;

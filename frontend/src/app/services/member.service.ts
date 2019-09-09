@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Observable, BehaviorSubject } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { Observable, BehaviorSubject, pipe } from "rxjs";
+import { map, tap, switchMap } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { Member } from "../models/member.model";
 import { environment } from "../../environments/environment";
-
+import countries from "../../assets/static-data/countries.json";
 const baseUri = "http://" + environment.baseUri;
 
 @Injectable({
@@ -12,17 +12,18 @@ const baseUri = "http://" + environment.baseUri;
 })
 export class MemberService {
 
-  //todo move to config
-  countriesUri = "https://restcountries.eu/rest/v2/all";
   user : Member;
   user$ : BehaviorSubject<Member>;
   selectedMember$  : BehaviorSubject<Member>;
-  countries$  : BehaviorSubject<{}> = new BehaviorSubject({});
+  countries = [];
 
   constructor(private http: HttpClient) {
+    this.countries = countries;
   }
 
   saveMemberToLocalStorage(_member : Member) {
+    _member.originDisplay = this.getCountryName(_member.origin);
+    _member.locationDisplay = this.getCountryName(_member.location);
     sessionStorage.setItem("member", JSON.stringify(_member));
     this.user$ = new BehaviorSubject(_member);
     this.selectedMember$ = new BehaviorSubject(_member);
@@ -43,12 +44,9 @@ export class MemberService {
       return this.user._id;
   }
 
-  // getCountryName(code) {
-  //   if(!this.countries) {
-  //     this.getAllCountries().subscribe()
-  //   }
-  //   return this.countries.filter(country => country['alpha2Code'] == code)[0];
-  // }
+  getCountryName(code) {
+    return this.countries.filter(country => country['alpha3Code'] == code)[0]['name'];
+  }
 
   setSelectedMember$(member) {
     this.selectedMember$.next(member);
@@ -57,7 +55,12 @@ export class MemberService {
     return this.selectedMember$;
   }
   getMembers() {
-    return this.http.get(`${baseUri}/members`);
+    return this.http.get(`${baseUri}/members`).pipe(map((members:Array<Member>) => {
+     return members.map(member => {
+        member.originDisplay = this.getCountryName(member.origin);
+        member.locationDisplay = this.getCountryName(member.location);
+        return member;
+      })}));
   }
 
   getMemberById(id) {
@@ -85,9 +88,7 @@ export class MemberService {
   }
 
   getAllCountries() { 
-    return this.http.get(this.countriesUri).pipe(tap((countries) => {      
-      this.countries$.next(countries);
-    }));
+    return countries;
   }
 
   getAllMusicGenres() {

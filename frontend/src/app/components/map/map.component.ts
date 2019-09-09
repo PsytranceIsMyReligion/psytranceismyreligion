@@ -51,13 +51,13 @@ export class MapComponent {
     if (countryCodeChange) {
         if(Array.isArray(countryCodeChange.currentValue)){
           if(countryCodeChange.currentValue.length > 0)
-          countryCodeUpdate = countryCodeChange.currentValue[0].alpha2Code
+          countryCodeUpdate = countryCodeChange.currentValue[0].alpha3Code
         } else {
           if(countryCodeChange.currentValue)
             countryCodeUpdate = countryCodeChange.currentValue
         }
     } else 
-      countryCodeUpdate = Array.isArray(this.countryCode) ? this.countryCode[0].alpha2Code : this.countryCode.alpha2Code;
+      countryCodeUpdate = Array.isArray(this.countryCode) ? this.countryCode[0].alpha3Code : this.countryCode.alpha3Code;
     if (postcodeChange && postcodeChange.currentValue !== "") {
       this.geocode(postcodeChange.currentValue, countryCodeUpdate);
     } else if (countryCodeChange && countryCodeChange.currentValue !== "") {

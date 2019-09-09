@@ -10,7 +10,7 @@ import { delay, switchMap, map, tap, startWith } from 'rxjs/operators';
 import { AuthService, SocialUser } from "angularx-social-login";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
-import * as moment from "moment";
+import moment from 'moment';
 import { Moment } from "moment";
 import { TokenService } from "../../services/token.service";
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -24,7 +24,7 @@ export const MY_FORMATS = {
     dateInput: "YYYY",
     monthYearLabel: "YYYY",
     dateA11yLabel: "LL",
-    monthYearA11yLabel: "YYYY"
+    monthYearA11yLabel: "YYYY"  
   }
 };
 
@@ -79,9 +79,9 @@ export class RegisterComponent implements OnInit {
     private tokenService: TokenService
   ) {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
-    this.countries = this.activatedRoute.snapshot.data["data"]["countries"];
     this.musicGenres = this.activatedRoute.snapshot.data["data"]["musicGenres"];
     this.data = this.musicGenres.slice();
+    this.countries = this.memberService.getAllCountries();
   }
 
   ngOnInit() {
@@ -136,8 +136,8 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("email").setValue(this.member.email);
       this.genderSelected = this.member.gender;
       this.basicInfoGroup.get("postcode").setValue(this.member.postcode);
-      this.basicInfoGroup.get("origin").setValue(this.countries.filter(el => el.alpha2Code === this.member.origin));
-      this.basicInfoGroup.get("location").setValue(this.countries.filter(el => el.alpha2Code === this.member.location));
+      this.basicInfoGroup.get("origin").setValue(this.countries.filter(el => el.alpha3Code === this.member.origin));
+      this.basicInfoGroup.get("location").setValue(this.countries.filter(el => el.alpha3Code === this.member.location));
       this.basicInfoGroup.get("birthyear").setValue(moment().set("year", this.member.birthyear));
       this.opinionGroup.get("psystatus").setValue(this.member.psystatus);
       this.opinionGroup.get("reason").setValue(this.member.reason);
@@ -175,9 +175,9 @@ export class RegisterComponent implements OnInit {
 
   countryFilter(value): any[] {
     if (value) {
-      if (value.alpha2Code) {
+      if (value.alpha3Code) {
         return this.countries.filter(option =>
-          option.alpha2Code.toLowerCase().includes(value.alpha2Code.toLowerCase())
+          option.alpha3Code.toLowerCase().includes(value.alpha3Code.toLowerCase())
         );
       } else {
         return this.countries.filter(option =>
@@ -234,8 +234,8 @@ export class RegisterComponent implements OnInit {
       socialid: this.socialid,
       gender: this.genderSelected,
       birthyear: this.basicInfoGroup.get("birthyear").value.year(),
-      origin: this.getAlpha2Code("origin"),
-      location: this.getAlpha2Code("location"),
+      origin: this.getalpha3Code("origin"),
+      location: this.getalpha3Code("location"),
       postcode: this.basicInfoGroup.get("postcode").value,
       email: this.basicInfoGroup.get("email").value,
       lat: this.latitude,
@@ -283,12 +283,12 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  getAlpha2Code(field: string) {
+  getalpha3Code(field: string) {
     let location = this.basicInfoGroup.get(field).value;
     let locationCode;
     if (Array.isArray(location)) {
-      locationCode = location[0].alpha2Code;
-    } else locationCode = location.alpha2Code;
+      locationCode = location[0].alpha3Code;
+    } else locationCode = location.alpha3Code;
     return locationCode;
   }
 

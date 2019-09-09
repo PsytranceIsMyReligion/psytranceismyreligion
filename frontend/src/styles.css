@@ -103,6 +103,10 @@ body {
       margin-left: 20px;
       margin-right: 20px;
     }
+
+    .mat-card-header-text{
+      margin : 0px!important;
+    }
       
 }
 

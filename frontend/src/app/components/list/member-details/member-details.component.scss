@@ -10,6 +10,12 @@
             margin-bottom: 20px;
             font-size: 10pt;
             font-weight: bold;
+            .mat-card-header-text {
+              margin-left: 0;
+            }
+            mat-icon {
+              zoom: 2.5;
+            }
           }
           
 
@@ -33,19 +39,46 @@
 
 @media only screen and (min-width: 1224px) {
 
+      // .title-container {
+      //   margin: 10px;
+      // }
+      .mat-card-avatar {
+        padding: 10px;
+      }
+      .mat-card-header-text {
+        opacity: 0.9;
+      }
       mat-card {
-        margin: 80px;
+        margin: 20px 80px;
         width: 40em;
         opacity: 0.7;
-
+ 
         mat-card-header {
-          height: 50px;
-
-        > .mat-card-header-text {
-            margin-left: 7px;
-            font-size: 16pt;
-            font-weight: bold;
+          height: 70px;
+          font-size: 12pt;
+          font-weight: bold;
+          margin: 0px!important;
+          padding: 5px;
+          background-image: linear-gradient(red, yellow);
+          mat-icon {
+            zoom: 2.5;
+            padding-right: 10px;
+          }
+          > * {
+            margin: 0px!important;
           }
         }
+
+        mat-card-content {
+          margin-top: 10px;
+        }
+        > * {
+          // margin-left: 0px!important;
+          font-size: 12pt;
+          font-family: "nasa";
+        }
+
       }
+
+
 }

@@ -2,7 +2,7 @@ import { MemberService } from './../../../services/member.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Member } from 'src/app/models/member.model';
-import * as moment from 'moment';
+import moment from 'moment';
 @Component({
   selector: 'app-member-details',
   templateUrl: './member-details.component.html',
@@ -17,15 +17,6 @@ export class MemberDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedMember$.subscribe(member =>
-       {  
-      this.memberService.getAllCountries().subscribe((list : Array<any>) => {
-        console.log(list);
-        console.log(list.filter(el =>  el.alpha2Code == member.origin))
-        member.origin = list.filter(el =>  el.alpha2Code == member.origin)['name'];
-          });
-          // this.selectedMember$.next(member);
-      })
   }
 
   calculateAge(birthday) {  
