@@ -9,6 +9,7 @@ import {
   SimpleChange
 } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
+import { Member } from "src/app/models/member.model";
 
 @Component({
   selector: "app-map",
@@ -100,5 +101,18 @@ export class MapComponent {
         });
       }
     });
+  }
+  
+  generateInfoWindow(el: Member, marker : google.maps.Marker) {
+    var infowindow = new google.maps.InfoWindow({
+      content: el.fname + " " + el.lname + " thinks psytrance is " + el.psystatus
+    });
+    marker.addListener("mouseover", () => {
+      infowindow.open(this.map, marker);
+    });
+    marker.addListener("mouseout", () => {
+      infowindow.close();
+    });
+  
   }
 }

@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { MemberService } from './../../../services/member.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -28,11 +29,18 @@ export class VideoUploadComponent implements OnInit {
         let video : Video = {
           title : this.videoGroup.get('title').value,
           description : this.videoGroup.get('description').value,
-          value : this.videoGroup.get('value').value,
-          createdBy : this.memberService.getUser()
+          value : this.getYoutubeId(this.videoGroup.get('value').value),
+          createdBy : this.memberService.getUser(),
         }
         this.dialogRef.close(video);
-      }
+        console.log('vid', video)
+  }
+
+  getYoutubeId(value) {
+    // https://youtu.be/LuVumAsy2oM
+    value = value.trim();
+    return value.substring(value.lastIndexOf("/") + 1, value.length);
+  }
 
   cancel() {
         this.dialogRef.close();

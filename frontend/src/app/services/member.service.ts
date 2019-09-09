@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { Member } from "../models/member.model";
 import { environment } from "../../environments/environment";
@@ -17,6 +17,8 @@ export class MemberService {
   user : Member;
   user$ : BehaviorSubject<Member>;
   selectedMember$  : BehaviorSubject<Member>;
+  countries$  : BehaviorSubject<{}> = new BehaviorSubject({});
+
   constructor(private http: HttpClient) {
   }
 
@@ -40,6 +42,13 @@ export class MemberService {
     if(this.user)
       return this.user._id;
   }
+
+  // getCountryName(code) {
+  //   if(!this.countries) {
+  //     this.getAllCountries().subscribe()
+  //   }
+  //   return this.countries.filter(country => country['alpha2Code'] == code)[0];
+  // }
 
   setSelectedMember$(member) {
     this.selectedMember$.next(member);
@@ -75,8 +84,10 @@ export class MemberService {
     return this.http.get(`${baseUri}/members/landingpagestats`);
   }
 
-  getAllCountries() {
-    return this.http.get(this.countriesUri);
+  getAllCountries() { 
+    return this.http.get(this.countriesUri).pipe(tap((countries) => {      
+      this.countries$.next(countries);
+    }));
   }
 
   getAllMusicGenres() {

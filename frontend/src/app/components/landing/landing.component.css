@@ -21,37 +21,19 @@ table {
   border-color: #3f51b5 !important;
 }
 
-.opaque-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.7; 
-  z-index: -1;
-  background-size: contain;
-  background: url("/assets/background.jpg");
-}
-
-
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 
 
 
-  .opaque-card {
+  /* .opaque-card {
     font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
     font-weight: bold;
     z-index: 1;
-    /* position: relative; */
-    /* width : 290px; */
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 20px;
     margin-right: 20px;
-
-    
-  }
+  } */
 
   .map {
     width:90%; height:300px; opacity: 1
@@ -86,14 +68,10 @@ table {
   }
 
   .opaque-card {
-    font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
-    font-weight: bold;
-    z-index: 1;
-    position: relative;
     margin-top: 20px;
     margin-bottom: 20px;
-    margin-left: 150px;
-    margin-right: 150px;
+    margin-left: 250px;
+    margin-right: 250px;
   }
 
   .header {
@@ -114,10 +92,3 @@ table {
   
 }
 
-
-
-
-
-.mat-column-right {
-  text-align: center;
-}

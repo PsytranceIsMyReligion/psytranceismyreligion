@@ -85,7 +85,7 @@ router.route("/members").get((req, res) => {
 
 router.route("/videos").get((req, res) => {
   Video.find({}).populate('createdBy').sort({
-    'order': 'asc'
+    'createdAt': 'desc'
   }).exec((err, docs) => {
     if (err) res.status(400).send("Failed to get videos");
     else res.json(docs);
@@ -98,18 +98,13 @@ router.route("/videos/add").post((req, res) => {
   video
     .save()
     .then(video => {
-      video.findOneAndUpdate({ _id: video._id }, { $inc: { order: 1 } }, {new: true },function(err, response) {
-        if (err) {
-        callback(err);
-       } else {
-        callback(response);
-       }
       res.status(200).json(video);
-    })})
+    })
     .catch(err => {
       res.status(400).send("Failed to create a new video");
     });
-});
+  })
+   
 
 
 router.route("/videos/delete/:id").get((req, res) => {

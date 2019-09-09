@@ -94,11 +94,11 @@ export class LandingComponent implements OnInit {
           map: this.map,
           title: "Got you!"
         });
-        let marker2 = new google.maps.Marker({
-          position: location,
-          map: this.map2,
-          title: "Got you!"
-        });
+        // let marker2 = new google.maps.Marker({
+        //   position: location,
+        //   map: this.map2,
+        //   title: "Got you!"
+        // });
         var infowindow = new google.maps.InfoWindow({
           content: el.fname + " " + el.lname + " thinks psytrance is " + el.psystatus
         });
@@ -108,12 +108,12 @@ export class LandingComponent implements OnInit {
         marker.addListener("mouseout", () => {
           infowindow.close();
         });
-        marker2.addListener("mouseover", () => {
-          infowindow.open(this.map, marker);
-        });
-        marker2.addListener("mouseout", () => {
-          infowindow.close();
-        });
+        // marker2.addListener("mouseover", () => {
+        //   infowindow.open(this.map, marker);
+        // });
+        // marker2.addListener("mouseout", () => {
+        //   infowindow.close();
+        // });
       }
     });
 

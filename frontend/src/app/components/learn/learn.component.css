@@ -1,12 +1,17 @@
-.container {
-    background-image: url("/assets/mainbackground.jpg");
-    height: 100%;
-    /* opacity: 0.8; */
-    padding-left: 20px;
-    padding-right: 20px;
-}
+
 
 .title {
-    font-size: 16pt;
+    font-size: 36pt;
+    font-weight: bold;
+}
+
+.link {
+    color: red;
+    margin: 10px;
+}
+
+.opaque-card {
+    height: 45em;
+    font-size: 26pt;
     font-weight: bold;
 }

@@ -64,6 +64,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { MemberDetailsComponent } from './components/list/member-details/member-details.component';
 import { MemberSelectorComponent } from './components/list/member-selector/member-selector.component';
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 
 const env = environment;
 
@@ -151,6 +152,7 @@ export function tokenGetter() {
     ButtonsModule,
     MatMomentDateModule,
     DeviceDetectorModule.forRoot(),
+    NgxYoutubePlayerModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

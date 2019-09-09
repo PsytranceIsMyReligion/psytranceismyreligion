@@ -9,11 +9,8 @@ let VideoSchema = new Schema({
   description: {
     type: String
   },
-  value: {
+  value : {
     type: String
-  },
-  order: {
-    type: Number
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

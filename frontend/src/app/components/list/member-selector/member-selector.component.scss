@@ -1,28 +1,48 @@
-.flex-members {
-  opacity: 0.7;
-  width: 400px; 
-  overflow-y: hidden;
-  background-image: linear-gradient(red, yellow);
-  ul {
-    cursor: pointer;
-    background-color: orange;
+@media only screen and (min-width: 1224px) {
 
-
-   li {
-    height: 40px;
-    width: 100%;
-    text-align: center;
-    padding-top: 10px;  
-       width: 100%;
-        }
-    li:hover {
-      background-color: red;
-    }
+  
+  .member-container {
+    margin-left: 20px;
+    opacity: 0.7;
   }
 
+    .flex-members {
+        opacity: 0.7;
+        width: 100%; 
+        border-radius : 5px;
+        overflow-y: hidden;
+          margin-left: 20px;
+        ul {
+          cursor: pointer;
+          background-color: orange;
+      
+      
+         li {
+          height: 40px;
+          width: 100%;
+          text-align: center;
+          padding-top: 10px;  
+             width: 100%;
+              }
+          li:hover {
+            background-color: red;
+          }
+        }
+    }
+    .member-container {
+      margin-left: 20px;
+      opacity: 0.7;
+    }
+      
+
+    .summary {
+      background-image: linear-gradient(red, yellow);
+      font-weight: bold;
+      text-align: center;
+      border-radius: 5px;
+    }
+
 }
-
-
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .flex-members {
@@ -62,44 +82,6 @@
 }
 
   
-
-}
-
-@media only screen and (min-width: 1224px) {
-
-
-  .member-container {
-    margin-left: 20px;
-    opacity: 0.7;
-  }
-
-    .flex-members {
-        opacity: 0.7;
-        width: 400px; 
-        overflow-y: hidden;
-        background-image: linear-gradient(red, yellow);
-        ul {
-          cursor: pointer;
-          background-color: orange;
-      
-      
-         li {
-          height: 40px;
-          width: 100%;
-          text-align: center;
-          padding-top: 10px;  
-             width: 100%;
-              }
-          li:hover {
-            background-color: red;
-          }
-        }
-    }
-    .member-container {
-      margin-left: 20px;
-      opacity: 0.7;
-    }
-      
 
 }
 

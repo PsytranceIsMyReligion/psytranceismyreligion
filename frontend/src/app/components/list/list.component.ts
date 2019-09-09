@@ -23,12 +23,8 @@ export class ListComponent implements OnInit {
   ];
   @ViewChild("gmap", { static: true }) gmapElement: any;
   map: google.maps.Map;
-  // members: Member[];
-  memberCount: number;
-  conversionPercent: number;
   focusMarker : any; 
   selectedMember$: BehaviorSubject<Member>;
-  selectedMember: Member;
   isMobile: boolean = false;
   members$: BehaviorSubject<Array<Member>>;
   headerInfo$: BehaviorSubject<any> = new BehaviorSubject({});
@@ -44,20 +40,16 @@ export class ListComponent implements OnInit {
       count :  this.route.snapshot.data["data"]["stats"]["count"],
       conversionPercent :  this.route.snapshot.data["data"]["stats"]["conversionPercent"]
     });
-    // this.memberCount = this.route.snapshot.data["data"]["stats"]["count"];
-    // this.conversionPercent = this.route.snapshot.data["data"]["stats"]["conversionPercent"];
     this.isMobile = this.deviceDetectorService.isMobile();
   }
 
   ngOnInit() {
     this.generateMemberMap();
     this.selectedMember$.subscribe((member) => this.updateFocusedMember(member));
-    // this.selectedMember$.next(this.memberService.getUser());    
   }
 
   updateFocusedMember(member: Member) {
     console.log('focusing',member)
-    this.selectedMember = member;
     const location = new google.maps.LatLng(member.lat, member.long);
     let marker = new google.maps.Marker({
       position: location,
@@ -88,31 +80,33 @@ export class ListComponent implements OnInit {
     this.members$.subscribe(members => 
       {
          members.forEach(el => {
-      if (el.lat && el.long) {
-        const location = new google.maps.LatLng(el.lat, el.long);
-        const marker = new google.maps.Marker({
-          position: location,
-          map: this.map
-        });
-        var infowindow = new google.maps.InfoWindow({
-          content: el.fname + " " + el.lname + " says " + el.psystatus
-        });
-        marker.addListener("mouseover", () => {
-          infowindow.open(this.map, marker);
-        });
-        marker.addListener("mouseout", () => {
-          infowindow.close();
-        });
+        if (el.lat && el.long) {
+          const location = new google.maps.LatLng(el.lat, el.long);
+          const marker = new google.maps.Marker({
+            position: location,
+            map: this.map
+          });
+          var infowindow = new google.maps.InfoWindow({
+            content: el.fname + " " + el.lname + " says " + el.psystatus
+          });
+          marker.addListener("mouseover", () => {
+            infowindow.open(this.map, marker);
+          });
+          marker.addListener("mouseout", () => {
+            infowindow.close();
+          });
       }
     });
 
-    let member: Member = JSON.parse(sessionStorage.getItem("member"));
-    let memberLocation = new google.maps.LatLng(member.lat, member.long);
-    this.map.setCenter(memberLocation);
+
   })
 }
 
-
+  centreMapOnUser() {
+    let member: Member = JSON.parse(sessionStorage.getItem("member"));
+    let memberLocation = new google.maps.LatLng(member.lat, member.long);
+    this.map.setCenter(memberLocation);
+  }
 
   editMember(id) {
     this.router.navigate([`/nav/edit/${id}`]);

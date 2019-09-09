@@ -1,5 +1,5 @@
 <!-- <div class="member-container"  > -->
-<div class="flex-members" *ngIf="headerInfo$ | async as headerInfo" fxLayout="{{isMobile ? 'row' : 'column'}}" fxLayoutAlign="start">
+<div class="flex-members" fxLayout="row" fxAlignItems="center" *ngIf="headerInfo$ | async as headerInfo" fxLayout="{{isMobile ? 'row' : 'column'}}" fxLayoutAlign="start">
         <div class="summary">We have {{ headerInfo.count  }} members
           <br />{{ headerInfo.conversionPercent }}% have converted to psytrance</div>
         <ul *ngFor="let member of members$  | async ">

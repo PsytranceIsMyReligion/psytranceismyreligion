@@ -1,14 +1,14 @@
 <mat-card *ngIf="selectedMember$ | async as selectedMember">
         <mat-card-header>
           <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
-           {{ selectedMember.uname && selectedMember.uname.length > 0 ? selectedMember.uname + ' aka' : ''}}  {{ selectedMember.fname }} {{ selectedMember.lname }} </mat-card-header>
+         {{  selectedMember.uname }}  {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }}  {{ calculateAge(selectedMember.birthyear) }} 
+         From {{ selectedMember.origin }} Living in {{ selectedMember.location }} </mat-card-header>
+           <!-- {{ selectedMember.uname && selectedMember.uname.length > 0 ? selectedMember.uname + ' aka' : ''}}  {{ selectedMember.fname }} {{ selectedMember.lname }} </mat-card-header> -->
         <mat-card-content>
-          {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} 
-                 Born {{ selectedMember.birthyear }}
+          <!-- {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} 
+                  {{ calculateAge(selectedMember.birthyear) }}  From {{ selectedMember.origin }} Living in {{ selectedMember.location }} -->
           <br /> Into Psytrance since {{ selectedMember.startyear }}
-          <br /> From {{ selectedMember.origin }}
-          <br /> Living in {{ selectedMember.location }}
-          <br/>  Into it since {{ selectedMember.startyear }}
+          <!-- <br /> Living in {{ selectedMember.location }} -->
           <br /> Favourite parties {{ selectedMember.favouriteparties }}
           <br /> Favourite festivals {{ selectedMember.favouritefestivals }}
           <br /> Says Psytrance is my {{ selectedMember.psystatus }}

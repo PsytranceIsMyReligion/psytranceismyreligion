@@ -1,11 +1,11 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  .opaque-card {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
-    line-height: 125%;
-    opacity: 0.7;
-  }
+  // .opaque-card {
+  //   margin-top: 20px;
+  //   margin-bottom: 20px;
+  //   margin-left: 20px;
+  //   line-height: 125%;
+  //   opacity: 0.7;
+  // }
   .flex-container {
     // height: 565px;
     height: 95%;
@@ -22,14 +22,14 @@
 }
 
 @media only screen and (min-width: 1224px) {
-  .opaque-card {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 50px;
-    margin-right: 50px;
-    line-height: 125%;
-    opacity: 0.6;
-  }
+  // .opaque-card {
+  //   margin-top: 20px;
+  //   margin-bottom: 20px;
+  //   margin-left: 50px;
+  //   margin-right: 50px;
+  //   line-height: 125%;
+  //   opacity: 0.6;
+  // }
 
   .flex-map {
   width: 42em;
@@ -43,9 +43,6 @@
 
 .outer-container {
   background-image: linear-gradient(red, yellow);
-  // width: 100%;
-  // flex-direction: row;
-  // justify-content: flex-start;
 }
 
 .flex-container {
@@ -53,41 +50,3 @@
   background-image: url('/assets/mainbackground.jpg');
   background-size: contain;
 }
-
-
-
-.summary {
-  background-image: linear-gradient(red, yellow);
-  font-weight: bold;
-  text-align: center;
-  margin-left: 40px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
-
-.mat-column-right {
-  text-align: center;
-  font-weight: bold;
-}
-
-
-// .fa {
-//   padding: 20px;
-//   font-size: 30px;
-//   width: 50px;
-//   text-align: center;
-//   text-decoration: none;
-// }
-
-// /* Add a hover effect if you want */
-// .fa:hover {
-//   opacity: 0.7;
-// }
-
-// /* Set a specific color for each brand */
-
-// /* Facebook */
-// .fa-facebook {
-//   background: #3B5998;
-//   color: white;
-// }

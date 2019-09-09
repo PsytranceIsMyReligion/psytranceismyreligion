@@ -1,3 +1,22 @@
+.panel-container {
+    margin : 10px 10px;
+    background-image: url("/assets/mainbackground.jpg");
+}
+
+.outer-container {
+    background-image: url("/assets/mainbackground.jpg");
+}
+
+.panel-info {
+    background-image: linear-gradient(red, yellow);
+    font-family: "nasa";
+    font-weight: bold;
+}
+
+.add-button {
+    margin: 5px 5px;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 
 
@@ -13,55 +32,44 @@
 
     }
 
-    // .panel-info::before {
-    //     opacity: 0.7;
-    //     z-index: -2;
+    // > * {
+    //     font-family : "nasa";
+    //     font-weight: bold;
     // }
-    
-    > * {
-        font-family : "nasa";
-        font-weight: bold;
-    }
 
     mat-card {
         padding: 16px;
         width: 90%;
         border-radius: 4px;
-        opacity: 0.6;
         margin-bottom: 15px;
     }
 
 
 }
 
-.panel-container {
-    margin : 10px 10px;
-    // opacity: 0.8;
-    background-image: url("/assets/mainbackground.jpg");
 
+@media only screen  and (min-width : 1224px) {
+    mat-card {
+        margin: 10px;
+        width: 43%;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        flex: 1 1 auto;
+    }
 
-}
-
-.outer-container {
-    background-image: url("/assets/mainbackground.jpg");
-}
-
-.panel {
-    // margin: 10px 10px; 
-    // width: 50%;
-    // height: 60%;
-
-}    
-
-
-.panel-info {
-    background-image: linear-gradient(red, yellow);
-    > * {
+    
+    .panel-info {
+        height : 2.5em;
+        padding: 5px;
+        border-radius: 4px;
         font-weight: bold;
-        font-family: "nasa";
+    }
+
+    .description {
+        font-size: 14pt;
+        font-weight: bold;
+        padding:  10px;
     }
 }
 
-.add-button {
-    margin: 5px 5px;
-}
+

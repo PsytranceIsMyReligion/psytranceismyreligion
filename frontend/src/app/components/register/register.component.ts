@@ -1,20 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Member } from "../../models/member.model";
-import { Router, ActivatedRoute, ParamMap } from "@angular/router";
-import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MemberService } from "../../services/member.service";
 import { MatSnackBar } from "@angular/material";
 import { MatDatepicker } from "@angular/material/datepicker";
-import { Observable, BehaviorSubject, from } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { delay, switchMap, map, tap, startWith } from 'rxjs/operators';
 import { AuthService, SocialUser } from "angularx-social-login";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
-import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
 import * as moment from "moment";
 import { Moment } from "moment";
-import { Route } from "@angular/compiler/src/core";
 import { TokenService } from "../../services/token.service";
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { environment } from '../../../environments/environment';
@@ -259,7 +256,6 @@ export class RegisterComponent implements OnInit {
       avatarUrl: this.avatarUrl
     };
     if (this.member && this.member._id) {
-      updateMember._id = this.member._id;
       console.log("updating ", updateMember);
       this.memberService.updateMember(this.member._id, updateMember).subscribe(member => {
         this.memberService.saveMemberToLocalStorage(updateMember);
