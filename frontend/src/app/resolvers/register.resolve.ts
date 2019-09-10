@@ -12,11 +12,13 @@ export class RegisterResolve implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot) {
     return forkJoin([ this.memberService.getAllCountries(),
-        this.memberService.getAllMusicGenres()
+        this.memberService.getAllMusicGenres(),
+        this.memberService.getMembers(),
       ]).pipe(map(result => {
         return {
             countries : result[0],
-            musicGenres : result[1]
+            musicGenres : result[1],
+            members : result[2]
         }
       }));
   }

@@ -36,6 +36,14 @@
             <mat-error>{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
+              <input matInput placeholder="Were you referred to the site? Please add the referer's username" formControlName="referer" [matAutocomplete]="auto3" />
+              <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayRefererFn">
+                <mat-option (onSelectionChange)="setReferer(option)" *ngFor="let option of filteredReferers | async" [value]="option">
+                  {{ option.uname }} - {{ option.fname}} {{ option.lname}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          <mat-form-field class="field-full-width">
             <input matInput [matDatepicker]="picker" formControlName="birthyear" [min]="minDate" [max]="maxDate" placeholder="When were you born?" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker startView="multi-year" [startAt]="yearStart" #picker (yearSelected)="birthYearSelected($event, picker)"></mat-datepicker>
@@ -96,7 +104,7 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="How often do you attend parties?" formControlName="partyfrequency">
-                <mat-option *ngFor="let option of dropdownData.partyfrequency" [value]="option.id">{{option.value}}</mat-option>
+              <mat-option *ngFor="let option of dropdownData.partyfrequency" [value]="option.id">{{option.value}}</mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -106,7 +114,7 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="How often do you attend festivals?" formControlName="festivalfrequency">
-                <mat-option *ngFor="let option of dropdownData.festivalfrequency" [value]="option.id">{{option.value}}</mat-option>
+              <mat-option *ngFor="let option of dropdownData.festivalfrequency" [value]="option.id">{{option.value}}</mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -118,13 +126,16 @@
             <textarea class="reasonField" matInput placeholder="Tell us something about yourself" formControlName="bio"></textarea>
           </mat-form-field>
           <mat-form-field class="field-full-width">
+            <span matPrefix>http://www.facebook.com/</span>
             <input matInput placeholder="Your Facebook URL" formControlName="facebookUrl" />
           </mat-form-field>
           <mat-form-field class="field-full-width">
+            <span matPrefix>https://www.soundcloud.com/</span>
             <input matInput placeholder="Your Soundcloud URL" formControlName="soundcloudUrl" />
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="Your Soundcloud URL" formControlName="websiteUrl" />
+            <input matInput placeholder="Your website URL" formControlName="websiteUrl" />
+            <mat-error>Incorrect format</mat-error>
           </mat-form-field>
           <button style="float:right;" mat-button matStepperNext>Next</button>
           <button style="float:right;" mat-button matStepperPrevious>Back</button>
@@ -135,7 +146,7 @@
           <ng-template matStepLabel>Your opinions</ng-template>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="What is Psytrance to you?" formControlName="psystatus">
-                <mat-option *ngFor="let option of dropdownData.psystatus" [value]="option.id">{{option.value}}</mat-option>
+              <mat-option *ngFor="let option of dropdownData.psystatus" [value]="option.id">{{option.value}}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="field-full-width">

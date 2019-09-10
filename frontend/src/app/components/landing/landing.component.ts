@@ -38,7 +38,6 @@ export class LandingComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.members = this.route.snapshot.data["data"]["members"];
-    console.log('members', this.members)
     this.memberCount = this.route.snapshot.data["data"]["stats"]["count"];
     this.conversionPercent = this.route.snapshot.data["data"]["stats"]["conversionPercent"];
   }

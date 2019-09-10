@@ -29,6 +29,8 @@ export const MY_FORMATS = {
   }
 };
 
+const urlRegex = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+
 @Component({
   selector: "app-register",
   templateUrl: "./register.component.html",
@@ -51,6 +53,7 @@ export class RegisterComponent implements OnInit {
   countries: any;
   filteredCountriesOrigin: Observable<any[]>;
   filteredCountriesLocation: Observable<any[]>;
+  filteredReferers: Observable<any[]>;
   filteredMusicGenres: Observable<string[]>;
   startyearChoices: Array<string>;
   yearStart: Date;
@@ -61,13 +64,14 @@ export class RegisterComponent implements OnInit {
   user: SocialUser;
   socialid: string;
   member: Member = {};
+  members: Array<Member> = [];
   musicGenres: any;
   selectedMusicGenres: any = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   env = environment;
   data: Array<{ text: string, _id: number }>;
   dropdownData;
-
+  
   @ViewChild("musicGenreList", { static: false }) musicGenreList;
   
 
@@ -82,6 +86,7 @@ export class RegisterComponent implements OnInit {
   ) {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
     this.musicGenres = this.activatedRoute.snapshot.data["data"]["musicGenres"];
+    this.members = this.activatedRoute.snapshot.data["data"]["members"];
     this.data = this.musicGenres.slice();
     this.dropdownData = dropdowns;
     this.countries = this.memberService.getAllCountries();
@@ -130,7 +135,7 @@ export class RegisterComponent implements OnInit {
   }
 
   loadRegistrationForm() {
-    this.member = JSON.parse(sessionStorage.getItem("member"));
+    this.member = this.memberService.getUser();
     if (this.member) {
       console.log("loading member details to", this.member);
       this.socialid = this.member.socialid;
@@ -138,6 +143,8 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("fname").setValue(this.member.fname);
       this.basicInfoGroup.get("lname").setValue(this.member.lname);
       this.basicInfoGroup.get("email").setValue(this.member.email);
+      if(this.member.referer)
+        this.basicInfoGroup.get("referer").setValue(this.member.referer);
       this.genderSelected = this.member.gender;
       this.basicInfoGroup.get("postcode").setValue(this.member.postcode);
       this.basicInfoGroup.get("origin").setValue(this.countries.filter(el => el.alpha3Code === this.member.origin));
@@ -153,15 +160,19 @@ export class RegisterComponent implements OnInit {
       this.detailGroup.get("partyfrequency").setValue(this.member.partyfrequency);
       this.detailGroup.get("festivalfrequency").setValue(this.member.festivalfrequency);
       this.detailGroup.get("favouritefestival").setValue(this.member.favouritefestival);
-      this.detailGroup.get("facebookUrl").setValue(this.member.facebookUrl);
-      this.detailGroup.get("soundcloudUrl").setValue(this.member.soundcloudUrl);
-      this.detailGroup.get("websiteUrl").setValue(this.member.websiteUrl);
+      this.detailGroup.get("facebookUrl").setValue(this.member.facebookUrl.substring(this.member.facebookUrl.lastIndexOf('/') + 1, this.member.facebookUrl.length));
+      this.detailGroup.get("soundcloudUrl").setValue(this.member.soundcloudUrl.substring(this.member.soundcloudUrl.lastIndexOf('/') + 1, this.member.soundcloudUrl.length));
+      this.detailGroup.get("websiteUrl").setValue(this.member.websiteUrl.substring(this.member.websiteUrl.lastIndexOf('/') + 1, this.member.websiteUrl.length));
     }
-    console.log(this.member.avatarUrl);
   }
 
   setLocation(event) {
     this.basicInfoGroup.get("postcode").setValue("");
+  }
+  setReferer(event) {
+    console.log(event);
+    this.basicInfoGroup.get("referer").setValue(event);
+
   }
 
   initializeFilters() {
@@ -173,8 +184,16 @@ export class RegisterComponent implements OnInit {
       startWith(""),
       map(value => (value ? this.countryFilter(value) : this.countries.slice()))
     );
+    this.filteredReferers = this.basicInfoGroup.get("referer").valueChanges.pipe(
+      startWith(""),
+      map(value => (value ? this.refererFilter(value) : this.members.slice()))
+    );
   }
 
+  refererFilter(value): any[] {
+      return this.members.filter(member =>
+        member._id == value._id);
+  }
 
 
   countryFilter(value): any[] {
@@ -189,6 +208,9 @@ export class RegisterComponent implements OnInit {
         );
       }
     }
+  }
+  displayRefererFn(member) {
+    return member.uname;
   }
 
   displayFn(country) {
@@ -235,6 +257,7 @@ export class RegisterComponent implements OnInit {
       uname: this.basicInfoGroup.get("uname").value,
       fname: this.basicInfoGroup.get("fname").value,
       lname: this.basicInfoGroup.get("lname").value,
+      referer: this.basicInfoGroup.get("referer").value,
       socialid: this.socialid,
       gender: this.genderSelected,
       birthyear: this.basicInfoGroup.get("birthyear").value.year(),
@@ -252,9 +275,9 @@ export class RegisterComponent implements OnInit {
       favouriteparty: this.detailGroup.get("favouriteparty").value,
       festivalfrequency: this.detailGroup.get("festivalfrequency").value,
       favouritefestival: this.detailGroup.get("favouritefestival").value,
-      websiteUrl: this.detailGroup.get("websiteUrl").value,
-      facebookUrl: this.detailGroup.get("facebookUrl").value,
-      soundcloudUrl: this.detailGroup.get("soundcloudUrl").value,
+      websiteUrl: "http://" + this.detailGroup.get("websiteUrl").value,
+      facebookUrl: "http://www.facebook.com/" + this.detailGroup.get("facebookUrl").value,
+      soundcloudUrl: "https://www.soundcloud.com/" + this.detailGroup.get("soundcloudUrl").value,
       psystatus: this.opinionGroup.get("psystatus").value,
       reason: this.opinionGroup.get("reason").value,
       avatarUrl: this.avatarUrl
@@ -303,6 +326,7 @@ export class RegisterComponent implements OnInit {
       lname: ["", this.env.production ? Validators.required : null],
       gender: ["", this.env.production ? Validators.required : null],
       email: ["", this.env.production ? [Validators.required, Validators.email] : null],
+      referer: [""],
       origin: ["", this.env.production ? Validators.required : null],
       location: ["", this.env.production ? Validators.required : null],
       birthyear: ["", this.env.production ? Validators.required : null],
@@ -319,7 +343,7 @@ export class RegisterComponent implements OnInit {
       festivalfrequency: ["", this.env.production ? Validators.required : null],  
       facebookUrl: [""],
       soundcloudUrl: [""],
-      websiteUrl: [""]
+      websiteUrl: ["", Validators.pattern(urlRegex)]
     });
     this.opinionGroup = this.fb.group({
       psystatus: ["", Validators.required],

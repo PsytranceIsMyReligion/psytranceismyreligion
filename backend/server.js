@@ -73,11 +73,14 @@ router.route("/members/landingpagestats").get((req, res) => {
 });
 
 router.route("/members").get((req, res) => {
-  Member.find({}).sort({
-    'fname': 'asc'
+  Member.find({}).populate('referer').sort({
+    'createdAt': 'desc'
   }).exec((err, docs) => {
-
-    if (err) res.status(400).send("Failed to get members");
+    console.log(docs)
+    if (err) {
+      console.log('Failed to get members', err)
+      res.statusCode(400);
+    } 
     else res.json(docs);
   });
 });
@@ -163,20 +166,18 @@ router.route("/api/auth").post((req, res) => {
 });
 
 router.route("/members/:id").get((req, res) => {
-  Member.findById(req.params.id, (err, member) => {
-    if (err) console.log(err);
-    else res.json(member);
+  Member.findById(req.params.id).populate('referer').exec((err, docs) => {
+    if (err) res.status(400).send("Failed to get member");
+    else res.json(docs);
   });
 });
 
 router.route("/members/bysocialid/:id").get((req, res) => {
   Member.findOne({
     socialid: req.params.id
-  }, (err, member) => {
-    if (err) res.status(400).json(err);
-    else {
-      res.json(member);
-    }
+  }).populate('referer').exec((err, docs) => {
+    if (err) res.status(400).send("Failed to get bysocialid");
+    else res.json(docs);
   });
 });
 

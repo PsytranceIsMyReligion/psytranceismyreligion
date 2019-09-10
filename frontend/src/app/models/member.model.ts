@@ -4,6 +4,7 @@ export interface Member {
     uname?: string;
     fname?: string;
     lname?: string;
+    referer? : Member;
     gender ?: string;
     email?: string;
     birthyear ?: number;

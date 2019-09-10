@@ -28,6 +28,10 @@ let MemberSchema = new Schema({
     //   return validator.isEmail(value)
     // }
   },
+  referer : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Member'
+  },
   avatarUrl: {
     type: String
   },
