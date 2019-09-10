@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import Artist from "./artists";
+import MusicGenre from "./musicgenres";
+
 
 const Schema = mongoose.Schema;
 
 let MemberSchema = new Schema({
+
   socialid: {
     type: Number
   },
@@ -30,7 +34,8 @@ let MemberSchema = new Schema({
   },
   referer : {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Member'
+    ref: 'Member',
+    default: undefined
   },
   avatarUrl: {
     type: String
@@ -57,7 +62,8 @@ let MemberSchema = new Schema({
     type: String
   },
   musictype: {
-    type: Array
+    type: [MusicGenre.schema],
+    default: undefined
   },
   startyear: {
     type: Number
@@ -85,6 +91,10 @@ let MemberSchema = new Schema({
   },
   websiteUrl: {
     type: String
+  },
+  favouriteartists : {
+    type: [Artist.schema],
+    default: undefined
   },
   reason: {
     type: String

@@ -18,12 +18,17 @@
     justify-content: left;
     border-radius: 5px;
   }
+
+    
+  .mat-drawer-content {
+    background-image: url("/assets/mainbackground.jpg");
+  }
 }
 
 @media only screen and (min-width: 1224px) {
-  // .content-container {
-  //   height: 100%;
-  // }
+  .content-container {
+    margin-top: 100px;
+  }
   .sidenav-content {
     display: block;
     width: 70%;

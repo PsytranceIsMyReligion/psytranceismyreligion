@@ -55,6 +55,7 @@ export class RegisterComponent implements OnInit {
   filteredCountriesLocation: Observable<any[]>;
   filteredReferers: Observable<any[]>;
   filteredMusicGenres: Observable<string[]>;
+  filteredArtists: Observable<string[]>;
   startyearChoices: Array<string>;
   yearStart: Date;
   minDate: Date;
@@ -66,14 +67,18 @@ export class RegisterComponent implements OnInit {
   member: Member = {};
   members: Array<Member> = [];
   musicGenres: any;
+  artists: any;
   selectedMusicGenres: any = [];
+  selectedArtists: any = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   env = environment;
-  data: Array<{ text: string, _id: number }>;
+  musicTypeData: Array<{ text: string, _id: number }>;
+  artistData: Array<{ text: string, _id: number }>;
   dropdownData;
   
   @ViewChild("musicGenreList", { static: false }) musicGenreList;
-  
+  @ViewChild("artistList", { static: false }) artistList;
+
 
   constructor(
     private router: Router,
@@ -85,9 +90,11 @@ export class RegisterComponent implements OnInit {
     private tokenService: TokenService
   ) {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
-    this.musicGenres = this.activatedRoute.snapshot.data["data"]["musicGenres"];
+    this.musicGenres = this.activatedRoute.snapshot.data["data"]["static"][0];
+    this.artists = this.activatedRoute.snapshot.data["data"]["static"][1];
     this.members = this.activatedRoute.snapshot.data["data"]["members"];
-    this.data = this.musicGenres.slice();
+    this.musicTypeData = this.musicGenres.slice();
+    this.artistData = this.artists.slice();
     this.dropdownData = dropdowns;
     this.countries = this.memberService.getAllCountries();
   }
@@ -103,7 +110,6 @@ export class RegisterComponent implements OnInit {
     this.minDate = moment()
       .add(-90, "year")
       .toDate();
-      console.log(this.dropdownData)
   }
 
   ngAfterViewInit() {
@@ -115,8 +121,18 @@ export class RegisterComponent implements OnInit {
         ))
     )
     .subscribe(x => {
-        this.data = x;
+        this.musicTypeData = x;
         this.musicGenreList.loading = false;
+    });
+    this.artistList.filterChange.asObservable().pipe(
+      switchMap(value => from([this.artists]).pipe(
+          tap((value) => { this.artistList.loading = true}),
+          map((data) => data.filter(contains(value)))
+        ))
+    )
+    .subscribe(x => {
+        this.artistData = x;
+        this.artistList.loading = false;
     });
   }
 
@@ -150,6 +166,7 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("origin").setValue(this.countries.filter(el => el.alpha3Code === this.member.origin));
       this.basicInfoGroup.get("location").setValue(this.countries.filter(el => el.alpha3Code === this.member.location));
       this.basicInfoGroup.get("birthyear").setValue(moment().set("year", this.member.birthyear));
+      this.opinionGroup.get("favouriteartists").setValue(this.member.favouriteartists);
       this.opinionGroup.get("psystatus").setValue(this.member.psystatus);
       this.opinionGroup.get("reason").setValue(this.member.reason);
       this.detailGroup.get("membertype").setValue(this.member.membertype);
@@ -169,10 +186,9 @@ export class RegisterComponent implements OnInit {
   setLocation(event) {
     this.basicInfoGroup.get("postcode").setValue("");
   }
-  setReferer(event) {
-    console.log(event);
-    this.basicInfoGroup.get("referer").setValue(event);
 
+  setReferer(event) {
+    // this.basicInfoGroup.get("referer").setValue(event);
   }
 
   initializeFilters() {
@@ -279,10 +295,12 @@ export class RegisterComponent implements OnInit {
       facebookUrl: "http://www.facebook.com/" + this.detailGroup.get("facebookUrl").value,
       soundcloudUrl: "https://www.soundcloud.com/" + this.detailGroup.get("soundcloudUrl").value,
       psystatus: this.opinionGroup.get("psystatus").value,
+      favouriteartists: this.opinionGroup.get("favouriteartists").value,
       reason: this.opinionGroup.get("reason").value,
       avatarUrl: this.avatarUrl
     };
-    if (this.member && this.member._id) {
+    console.log('memcheck',this.member)
+    if (this.memberService.getUser()) {
       console.log("updating ", updateMember);
       this.memberService.updateMember(this.member._id, updateMember).subscribe(member => {
         this.memberService.saveMemberToLocalStorage(updateMember);
@@ -296,8 +314,8 @@ export class RegisterComponent implements OnInit {
     } else {
       console.log("creating ", updateMember);
       this.memberService.createMember(updateMember).subscribe((member: Member) => {
-        sessionStorage.setItem("member", JSON.stringify(member));
-        let snackBarRef = this.snackBar.open("Successfully updated", "OK", {
+        this.memberService.saveMemberToLocalStorage(member);
+        let snackBarRef = this.snackBar.open("Successfully created", "OK", {
           duration: 2000
         });
         snackBarRef.afterDismissed().subscribe(() => {
@@ -346,9 +364,18 @@ export class RegisterComponent implements OnInit {
       websiteUrl: ["", Validators.pattern(urlRegex)]
     });
     this.opinionGroup = this.fb.group({
+      favouriteartists : [""],
       psystatus: ["", Validators.required],
       reason: ["", Validators.required]
     });
+  }
+
+  artistFilter(value) {
+    if (value.name) {
+      return this.artists.filter(artist => artist.name.toLowerCase().includes(value.name.toLowerCase()));
+    }
+    else if (value)
+      return this.artists.filter(artist => artist.name.toLowerCase().includes(value.toLowerCase()));
   }
 
   musicGenreFilter(value) {
@@ -360,29 +387,35 @@ export class RegisterComponent implements OnInit {
   }
 
  
-   public valueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
-    let selectedData: Array<any> = this.detailGroup.get("musictype").value;
-    
-    if(selectedData && Array.isArray(selectedData) && selectedData.length > 0) {
-      const matchingValue: any = selectedData.find((item: any) => {
+   public artistValueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
+      this.getValueForNormalizer(this.detailGroup.get("musictype").value, text, this.artistData)
+   }));
+
+    public musictypeValueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
+      return this.getValueForNormalizer(this.detailGroup.get("musictype").value, text, this.musicTypeData)
+    }));
+
+    getValueForNormalizer(selectedData: Array<any>, text: string, data: Array<any>) {
+      if(selectedData && Array.isArray(selectedData) && selectedData.length > 0) {
+        const matchingValue: any = selectedData.find((item: any) => {
+            return item.name.toLowerCase() === text.toLowerCase();
+        });
+  
+        if (matchingValue) {
+            return null; 
+        }
+      }
+      const matchingItem: any = data.find((item: any) => {
           return item.name.toLowerCase() === text.toLowerCase();
       });
-
-      if (matchingValue) {
-          return null; 
+      if (matchingItem) {
+          return matchingItem;
+      } else {
+          return {
+              _id: Math.random(), 
+              name: text
+          };
       }
     }
-    const matchingItem: any = this.data.find((item: any) => {
-        return item.name.toLowerCase() === text.toLowerCase();
-    });
-    if (matchingItem) {
-        return matchingItem;
-    } else {
-        return {
-            _id: Math.random(), 
-            name: text
-        };
-    }
-  }));
 
 }

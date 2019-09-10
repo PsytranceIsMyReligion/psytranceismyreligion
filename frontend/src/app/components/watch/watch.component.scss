@@ -36,12 +36,6 @@
         padding: 5px;
 
     }
-
-    // > * {
-    //     font-family : "nasa";
-    //     font-weight: bold;
-    // }
-
     mat-card {
         padding: 16px;
         width: 90%;
@@ -60,10 +54,11 @@
         border-radius: 4px;
         margin-bottom: 15px;
         flex: 1 1 auto;
-
     }
 
-    
+    .video-button {
+        margin: 0 8px;
+    }
     .panel-info {
         height : 2.8em;
         padding: 5px;

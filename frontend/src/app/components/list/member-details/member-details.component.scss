@@ -7,11 +7,12 @@
 
         mat-card-header {   
             height: 70px;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             font-size: 10pt;
             font-weight: bold;
             .mat-card-header-text {
               margin-left: 0;
+              text-align: bottom;
             }
             mat-icon {
               zoom: 2.5;

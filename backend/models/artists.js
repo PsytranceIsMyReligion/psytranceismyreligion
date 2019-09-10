@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-let MusicGenreSchema = new Schema({
+let ArtistsSchema = new Schema({
   name: {
     type: String
   },
 });
 
-export default mongoose.model("MusicGenre", MusicGenreSchema);
+export default mongoose.model("Artist", ArtistsSchema); 

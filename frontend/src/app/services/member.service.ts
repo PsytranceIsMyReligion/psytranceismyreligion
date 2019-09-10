@@ -44,6 +44,11 @@ export class MemberService {
       return this.user._id;
   }
 
+
+  // getRegistrationFormStaticData() {
+
+  // }
+
   getCountryName(code) {
     return this.countries.filter(country => country['alpha3Code'] == code)[0]['name'];
   }
@@ -91,11 +96,13 @@ export class MemberService {
     return countries;
   }
 
-  getAllMusicGenres() {
-    return this.http.get(`${baseUri}/musicgenres`);
+  getStaticData() {
+    return this.http.get(`${baseUri}/staticdata`);
   }
 
   createMusicGenre(genre) {
-    return this.http.get(`${baseUri}/musicgenres/add`, {params : genre});
+    return this.http.get(`${baseUri}/musicgenre/add`, {params : genre});
   }
+
+  
 }

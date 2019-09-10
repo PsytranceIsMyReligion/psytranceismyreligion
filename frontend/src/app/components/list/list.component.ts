@@ -49,7 +49,6 @@ export class ListComponent implements OnInit {
   }
 
   updateFocusedMember(member: Member) {
-    console.log('focusing',member)
     const location = new google.maps.LatLng(member.lat, member.long);
     let marker = new google.maps.Marker({
       position: location,

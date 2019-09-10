@@ -1,3 +1,7 @@
+
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
 @font-face {
   font-family: "orbitron";
   src: url("./assets/orbitron-medium-webfont.ttf") format("truetype"),

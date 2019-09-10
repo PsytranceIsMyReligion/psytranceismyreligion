@@ -126,14 +126,14 @@ export class LandingComponent implements OnInit {
   signInWithGoogle(): void {
     console.log("google sign in");
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(memberData => {
-      console.log("memberData", memberData);
+      // console.log("memberData", memberData);
     });
   }
 
   signInWithFB(): void {
     console.log("facebook sign in");
     this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then(memberData => {
-      console.log("memberData", memberData);
+      // console.log("memberData", memberData);
     });
   }
 

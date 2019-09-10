@@ -1,4 +1,4 @@
-<div fxLayoutAlign="center" class="registration-container">
+<div fxLayoutAlign="center" class="registration-container opaque-card">
   <mat-card class="registration-form">
     <mat-card-header>
       <img [hidden]="newMode" mat-card-avatar src="{{ avatarUrl }}" />
@@ -82,11 +82,11 @@
       <mat-step [stepControl]="detailGroup">
         <form [formGroup]="detailGroup">
           <ng-template matStepLabel>About You</ng-template>
-          <label *ngIf="detailGroup.get('musictype').value.length > 0">What are your favourite music genres?</label>
+          <label *ngIf="detailGroup.get('musictype').value && detailGroup.get('musictype').value.length > 0">What are your favourite music genres?</label>
           <mat-form-field class="field-full-width">
             <input matInput style="display: none" />
-            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="data" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="true"
-              [valueNormalizer]="valueNormalizer">
+            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="musicTypeData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="true"
+              [valueNormalizer]="musictypeValueNormalizer">
             </kendo-multiselect>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -144,6 +144,13 @@
       <mat-step [stepControl]="opinionGroup">
         <form [formGroup]="opinionGroup">
           <ng-template matStepLabel>Your opinions</ng-template>
+          <label *ngIf="opinionGroup.get('favouriteartists').value && opinionGroup.get('favouriteartists').value.length > 0">What are your artists?</label>
+          <mat-form-field class="field-full-width">
+              <input matInput style="display: none" />
+            <kendo-multiselect #artistList formControlName="favouriteartists" [data]="artistData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="true"
+              [valueNormalizer]="artistValueNormalizer">
+            </kendo-multiselect>
+          </mat-form-field>            
           <mat-form-field class="field-full-width">
             <mat-select placeholder="What is Psytrance to you?" formControlName="psystatus">
               <mat-option *ngFor="let option of dropdownData.psystatus" [value]="option.id">{{option.value}}</mat-option>
