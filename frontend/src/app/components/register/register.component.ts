@@ -11,6 +11,7 @@ import { AuthService, SocialUser } from "angularx-social-login";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import moment from 'moment';
+import dropdowns from '../../../assets/static-data/dropdowns.json';
 import { Moment } from "moment";
 import { TokenService } from "../../services/token.service";
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -65,6 +66,7 @@ export class RegisterComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   env = environment;
   data: Array<{ text: string, _id: number }>;
+  dropdownData;
 
   @ViewChild("musicGenreList", { static: false }) musicGenreList;
   
@@ -81,6 +83,7 @@ export class RegisterComponent implements OnInit {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
     this.musicGenres = this.activatedRoute.snapshot.data["data"]["musicGenres"];
     this.data = this.musicGenres.slice();
+    this.dropdownData = dropdowns;
     this.countries = this.memberService.getAllCountries();
   }
 
@@ -95,6 +98,7 @@ export class RegisterComponent implements OnInit {
     this.minDate = moment()
       .add(-90, "year")
       .toDate();
+      console.log(this.dropdownData)
   }
 
   ngAfterViewInit() {

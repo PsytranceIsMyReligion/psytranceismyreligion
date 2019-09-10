@@ -16,20 +16,19 @@ import { mergeMap } from 'rxjs/operators';
 export class WatchComponent implements OnInit {
 
   videos: Array<Video> = [];
-  user : Member;
+  user: Member;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, 
-    public dialog: MatDialog, private videoService: VideoService, private memberService : MemberService, private matSnackBar: MatSnackBar) {
-      this.user = this.memberService.getUser();
+  constructor(private activatedRoute: ActivatedRoute, private router: Router,
+    public dialog: MatDialog, private videoService: VideoService, private memberService: MemberService, private matSnackBar: MatSnackBar) {
+    this.user = this.memberService.getUser();
   }
 
   ngOnInit() {
-    console.log(this.activatedRoute.data);
     this.activatedRoute.data.subscribe(data => {
       this.videos = data['data'];
     })
   }
-  
+
   deleteVideo(id) {
     this.videoService.deleteVideoLink(id).subscribe((res) => {
       this.matSnackBar.open("Video Link deleted!", "OK");
@@ -37,19 +36,33 @@ export class WatchComponent implements OnInit {
     })
   }
 
-  openUploadDialog(): void {
+
+
+  openUploadDialog(updateVideo): void {
+    let data = { title: '', description: '', value: '' };
+    console.log('open', updateVideo);
+    if (updateVideo) {
+      data = { title: updateVideo.title, description: updateVideo.description, value: updateVideo.value }
+    }
     const dialogRef = this.dialog.open(VideoUploadComponent, {
       width: '300px',
       height: '400px',
-      data: { title: '', description: '', value: '' }
+      data: data
     });
 
-    dialogRef.afterClosed().subscribe((video : Video)=> {
+    dialogRef.afterClosed().subscribe((video: Video) => {
       console.log('The dialog was closed', video);
-      this.videoService.createVideoLink(video).subscribe(res => {
-        this.matSnackBar.open("Video Link saved!", "OK");
-        this.router.navigate(["/nav/watch"]);
-      });
+      if (!updateVideo) {
+        this.videoService.createVideoLink(video).subscribe(res => {
+          this.matSnackBar.open("Video Link saved!", "OK");
+          this.router.navigate(["/nav/watch"]);
+        });
+      } else {
+        this.videoService.updateVideoLink(updateVideo._id, video).subscribe(res => {
+          this.matSnackBar.open("Video Link updated!", "OK");
+          this.router.navigate(["/nav/watch"]);
+        });
+      }
     });
   }
 

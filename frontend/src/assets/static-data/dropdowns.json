@@ -1,0 +1,82 @@
+{
+  "membertypes": [{
+      "id": "raver",
+      "value": "a Raver"
+    },
+    {
+      "id": "dj",
+      "value": "a DJ"
+    },
+    {
+      "id": "musician",
+      "value": "a Musician"
+    },
+    {
+      "id": "decorator",
+      "value": "a Decor Artist"
+    },
+    {
+      "id": "promotor",
+      "value": "an Event Promoter"
+    },
+    {
+      "id": "performer",
+      "value": "a Performer"
+    }
+  ],
+  "partyfrequency": [{
+      "id": "onceAMonth",
+      "value": "Once A Month"
+    },
+    {
+      "id": "twiceAMonth",
+      "value": "Twice A Month"
+    },
+    {
+      "id": "regularly",
+      "value": "Regularly"
+    },
+    {
+      "id": "occassionally",
+      "value": "Occassionally"
+    },
+    {
+      "id": "never",
+      "value": "Never"
+    }
+  ],
+  "festivalfrequency": [{
+      "id": "once",
+      "value": "Once A Year"
+    },
+    {
+      "id": "several",
+      "value": "Several Times A Year"
+    },
+    {
+      "id": "frequently",
+      "value": "Frequently"
+    },
+    {
+      "id": "never",
+      "value": "Never"
+    }
+  ],
+  "psystatus": [{
+      "id": "lifestyle",
+      "value": "Is My Lifestyle"
+    },
+    {
+      "id": "religion",
+      "value": "Is My Religion"
+    },
+    {
+      "id": "music",
+      "value": "Is Just Music"
+    },
+    {
+      "id": "passon",
+      "value": "Is My Passion"
+    }
+  ]
+}

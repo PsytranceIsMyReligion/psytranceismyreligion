@@ -17,6 +17,11 @@
     margin: 5px 5px;
 }
 
+.delete-button {
+    float: right;
+}
+
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 
 
@@ -60,7 +65,7 @@
 
     
     .panel-info {
-        height : 2.7em;
+        height : 2.8em;
         padding: 5px;
         border-radius: 4px;
         font-weight: bold;

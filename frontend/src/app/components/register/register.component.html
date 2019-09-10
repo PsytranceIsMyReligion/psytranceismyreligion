@@ -25,8 +25,8 @@
           <mat-form-field floatLabel="always" class="mat-form-field--no-underline">
             <mat-label>Gender</mat-label>
             <mat-radio-group name="genderControl" formControlName="gender" [(ngModel)]="genderSelected">
-              <mat-radio-button value="M" >Male&nbsp;&nbsp;</mat-radio-button>
-              <mat-radio-button value="F" >Female</mat-radio-button>
+              <mat-radio-button value="M">Male&nbsp;&nbsp;</mat-radio-button>
+              <mat-radio-button value="F">Female</mat-radio-button>
               <input matInput placeholder="" style="display: none" />
             </mat-radio-group>
             <mat-error>Required</mat-error>
@@ -76,29 +76,15 @@
           <ng-template matStepLabel>About You</ng-template>
           <label *ngIf="detailGroup.get('musictype').value.length > 0">What are your favourite music genres?</label>
           <mat-form-field class="field-full-width">
-              <input matInput style="display: none" />
-              <kendo-multiselect
-              #musicGenreList
-              formControlName="musictype"
-              [data]="data"
-              [filterable]="true"
-              [textField]="'name'"
-              [valueField]="'_id'"
-              placeholder="What are your favourite music genres?"
-              [allowCustom]="true"
-              [valueNormalizer]="valueNormalizer" 
-          >
-          </kendo-multiselect>
+            <input matInput style="display: none" />
+            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="data" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="true"
+              [valueNormalizer]="valueNormalizer">
+            </kendo-multiselect>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="What's your involvement in the scene?" formControlName="membertype">
-              <mat-option value="raver">I'm a Raver</mat-option>
-              <mat-option value="dj">I'm a DJ</mat-option>
-              <mat-option value="musician">I'm a Musician</mat-option>
-              <mat-option value="decorator">I'm a Decor Artist</mat-option>
-              <mat-option value="promoter">I'm a Performer</mat-option>
-              <mat-option value="promoter">I'm an Event Promoter</mat-option>
+              <mat-option *ngFor="let option of dropdownData.membertypes" [value]="option.id">I am {{option.value}}</mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -110,13 +96,7 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="How often do you attend parties?" formControlName="partyfrequency">
-              <mat-option value="one">Every week</mat-option>
-              <mat-option value="two">Twice a month</mat-option>
-              <mat-option value="three">Once a month</mat-option>
-              <mat-option value="four">Regularly</mat-option>
-              <mat-option value="five">Occassionally</mat-option>
-              <mat-option value="six">Rarely</mat-option>
-              <mat-option value="seven">Never</mat-option>
+                <mat-option *ngFor="let option of dropdownData.partyfrequency" [value]="option.id">{{option.value}}</mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -126,10 +106,7 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="How often do you attend festivals?" formControlName="festivalfrequency">
-              <mat-option value="1">Once a year</mat-option>
-              <mat-option value="2">Several times a year</mat-option>
-              <mat-option value="3">Frequently</mat-option>
-              <mat-option value="4">Never</mat-option>
+                <mat-option *ngFor="let option of dropdownData.festivalfrequency" [value]="option.id">{{option.value}}</mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -142,7 +119,7 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <input matInput placeholder="Your Facebook URL" formControlName="facebookUrl" />
-          </mat-form-field> 
+          </mat-form-field>
           <mat-form-field class="field-full-width">
             <input matInput placeholder="Your Soundcloud URL" formControlName="soundcloudUrl" />
           </mat-form-field>
@@ -158,10 +135,7 @@
           <ng-template matStepLabel>Your opinions</ng-template>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="What is Psytrance to you?" formControlName="psystatus">
-              <mat-option value="lifestyle">Is My lifestyle</mat-option>
-              <mat-option value="religion">Is My Religion</mat-option>
-              <mat-option value="music">Is Just Music</mat-option>
-              <mat-option value="passion">Is My Passion</mat-option>
+                <mat-option *ngFor="let option of dropdownData.psystatus" [value]="option.id">{{option.value}}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="field-full-width">

@@ -7,7 +7,7 @@ let MemberSchema = new Schema({
   socialid: {
     type: Number
   },
-  username: {
+  uname: {
     type: String
   },
   fname: {

@@ -19,9 +19,9 @@ export class VideoUploadComponent implements OnInit {
 
   ngOnInit() {
     this.videoGroup = this.fb.group({
-      title: ["", Validators.required],
-      description: ["", Validators.required],
-      value: ["", Validators.required],
+      title: [this.data ? this.data.title : "", Validators.required],
+      description: [this.data ? this.data.description : "", Validators.required],
+      value: [this.data ? this.data.value : "", Validators.required],
     });
   }
 
@@ -37,7 +37,6 @@ export class VideoUploadComponent implements OnInit {
   }
 
   getYoutubeId(value) {
-    // https://youtu.be/LuVumAsy2oM
     value = value.trim();
     return value.substring(value.lastIndexOf("/") + 1, value.length);
   }

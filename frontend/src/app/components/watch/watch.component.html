@@ -1,20 +1,19 @@
-  <div class="outer-container">
+<div class="outer-container">
   <div fxLayout="row" fxLayoutAlign="end">
-    <button mat-raised-button class="add-button" (click)="openUploadDialog()" color="primary"><i class="material-icons">video_library</i>&nbsp;&nbsp;Add Video</button>
+    <button mat-raised-button class="add-button" (click)="openUploadDialog()" color="primary">
+      <i class="material-icons">video_library</i>&nbsp;&nbsp;Add Video</button>
   </div>
-  <div fxLayout="row wrap" class="panel-container" fxLayoutAlign="start start"  >
+  <div fxLayout="row wrap" class="panel-container" fxLayoutAlign="start start">
     <mat-card *ngFor="let video of videos" class="opaque-card">
-      <mat-card-title class="panel-info ">{{ video.title }} 
-        <button *ngIf="video.createdBy && video.createdBy._id == user._Id" mat-raised-button (click)="deleteVideo(video._id)" >Delete</button>    
+      <mat-card-title class="panel-info ">{{ video.title }}
+        <button *ngIf="video.createdBy._id == user._id" class="delete-button" mat-raised-button color="primary" (click)="openUploadDialog(video)">Update</button>
+        <button *ngIf="video.createdBy._id == user._id" class="delete-button" mat-raised-button color="primary" (click)="deleteVideo(video._id)">Delete</button>
       </mat-card-title>
       <mat-card-content>
-      <div class="description">{{ video.description }} <br/>Uploaded by {{ video.createdBy ? video.createdBy.uname : 'Admin' }} {{ video.createdAt |  date : 'short' }}</div>
-      <!-- <div [innerHTML]="video.value | sanitizeHtml"></div> -->
-      <youtube-player
-      [videoId]="video.value"
-      (change)="onStateChange($event)"
-    ></youtube-player>
-    </mat-card-content>
+        <div class="description">{{ video.description }}
+          <br/>Uploaded by {{ video.createdBy.uname }} {{ video.createdAt | date : 'short' }}</div>
+        <youtube-player [videoId]="video.value" (change)="onStateChange($event)"></youtube-player>
+      </mat-card-content>
     </mat-card>
-  </div>    
-</div> 
+  </div>
+</div>

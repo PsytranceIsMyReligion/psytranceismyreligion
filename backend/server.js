@@ -101,11 +101,23 @@ router.route("/videos/add").post((req, res) => {
       res.status(200).json(video);
     })
     .catch(err => {
+      console.log('error', err);
       res.status(400).send("Failed to create a new video");
     });
-  })
-   
+})
 
+router.route("/videos/update/:id").post((req, res, next) => {
+  console.log('updating ', req.body);
+  Video
+    .updateOne(req.body)
+    .then(video => {
+      res.status(200).json(video);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).send("Update video failed");
+    });
+});
 
 router.route("/videos/delete/:id").get((req, res) => {
   Video.findByIdAndDelete({
@@ -184,6 +196,7 @@ router.route("/members/add").post((req, res) => {
 });
 
 router.route("/members/update/:id").post((req, res, next) => {
+  console.log('updating ', req.body);
   Member
     .updateOne(req.body)
     .then(member => {

@@ -54,6 +54,7 @@ export const ROUTES: Routes = [
         path: "watch",
         canActivate: [AuthGuard],
         component: WatchComponent,
+        runGuardsAndResolvers: "always",
         resolve: {
           data: WatchResolve
         }

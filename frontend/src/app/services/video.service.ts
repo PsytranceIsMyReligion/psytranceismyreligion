@@ -28,7 +28,7 @@ export class VideoService {
   }
 
 
-  updateVideo(id: string, video: Video) {
+  updateVideoLink(id: string, video: Video) {
     return this.http.post(`${baseUri}/videos/update/${id}`, video);
   }
 
