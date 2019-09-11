@@ -9,7 +9,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   templateUrl: './member-selector.component.html',
   styleUrls: ['./member-selector.component.scss']
 })
-export class MemberSelectorComponent implements OnInit {
+export class MemberSelectorComponent {
 
   selectedMember$: BehaviorSubject<Member>;
   @Input("members$") members$: BehaviorSubject<Array<Member>>;
@@ -20,11 +20,6 @@ export class MemberSelectorComponent implements OnInit {
     this.selectedMember$ = this.memberService.getUser$();
     this.isMobile = this.deviceDetectorService.isMobile();
     
-  }
-
-  ngOnInit() {
-    console.log("members", this.members$)
-    console.log("hear", this.headerInfo$)
   }
 
   focusMember(member) {

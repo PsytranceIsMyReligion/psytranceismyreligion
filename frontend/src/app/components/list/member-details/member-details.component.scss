@@ -1,17 +1,18 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     mat-card {
         margin: 10px!important;
-        width: 13em!important;
+        width: 14em!important;
 
         opacity: 0.7;
 
         mat-card-header {   
             height: 70px;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             font-size: 10pt;
             font-weight: bold;
             .mat-card-header-text {
               margin-left: 0;
+              text-align: bottom;
             }
             mat-icon {
               zoom: 2.5;

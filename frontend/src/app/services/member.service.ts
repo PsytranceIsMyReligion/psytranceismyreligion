@@ -12,16 +12,16 @@ const baseUri = "http://" + environment.baseUri;
 })
 export class MemberService {
 
-  user : Member;
-  user$ : BehaviorSubject<Member>;
-  selectedMember$  : BehaviorSubject<Member>;
+  user: Member;
+  user$: BehaviorSubject<Member>;
+  selectedMember$: BehaviorSubject<Member>;
   countries = [];
 
   constructor(private http: HttpClient) {
     this.countries = countries;
   }
 
-  saveMemberToLocalStorage(_member : Member) {
+  saveMemberToLocalStorage(_member: Member) {
     _member.originDisplay = this.getCountryName(_member.origin);
     _member.locationDisplay = this.getCountryName(_member.location);
     sessionStorage.setItem("member", JSON.stringify(_member));
@@ -30,19 +30,24 @@ export class MemberService {
     this.user = _member;
   }
 
-  getUser()  : Member {
-    if(this.user)
-      return this.user; 
+  getUser(): Member {
+    if (this.user)
+      return this.user;
   }
 
   getUser$(): BehaviorSubject<Member> {
     return this.user$;
   }
 
-  getUserId() : number {
-    if(this.user)
+  getUserId(): number {
+    if (this.user)
       return this.user._id;
   }
+
+
+  // getRegistrationFormStaticData() {
+
+  // }
 
   getCountryName(code) {
     return this.countries.filter(country => country['alpha3Code'] == code)[0]['name'];
@@ -55,12 +60,13 @@ export class MemberService {
     return this.selectedMember$;
   }
   getMembers() {
-    return this.http.get(`${baseUri}/members`).pipe(map((members:Array<Member>) => {
-     return members.map(member => {
+    return this.http.get(`${baseUri}/members`).pipe(map((members: Array<Member>) => {
+      return members.map(member => {
         member.originDisplay = this.getCountryName(member.origin);
         member.locationDisplay = this.getCountryName(member.location);
         return member;
-      })}));
+      })
+    }));
   }
 
   getMemberById(id) {
@@ -87,15 +93,17 @@ export class MemberService {
     return this.http.get(`${baseUri}/members/landingpagestats`);
   }
 
-  getAllCountries() { 
+  getAllCountries() {
     return countries;
   }
 
-  getAllMusicGenres() {
-    return this.http.get(`${baseUri}/musicgenres`);
+  getStaticData() {
+    return this.http.get(`${baseUri}/staticdata`);
   }
 
   createMusicGenre(genre) {
-    return this.http.get(`${baseUri}/musicgenres/add`, {params : genre});
+    return this.http.get(`${baseUri}/musicgenre/add`, { params: genre });
   }
+
+
 }

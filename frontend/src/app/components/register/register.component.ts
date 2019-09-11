@@ -25,7 +25,7 @@ export const MY_FORMATS = {
     dateInput: "YYYY",
     monthYearLabel: "YYYY",
     dateA11yLabel: "LL",
-    monthYearA11yLabel: "YYYY"  
+    monthYearA11yLabel: "YYYY"
   }
 };
 
@@ -55,6 +55,7 @@ export class RegisterComponent implements OnInit {
   filteredCountriesLocation: Observable<any[]>;
   filteredReferers: Observable<any[]>;
   filteredMusicGenres: Observable<string[]>;
+  filteredArtists: Observable<string[]>;
   startyearChoices: Array<string>;
   yearStart: Date;
   minDate: Date;
@@ -66,14 +67,18 @@ export class RegisterComponent implements OnInit {
   member: Member = {};
   members: Array<Member> = [];
   musicGenres: any;
+  artists: any;
   selectedMusicGenres: any = [];
+  selectedArtists: any = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   env = environment;
-  data: Array<{ text: string, _id: number }>;
+  musicTypeData: Array<{ text: string, _id: number }>;
+  artistData: Array<{ text: string, _id: number }>;
   dropdownData;
-  
+
   @ViewChild("musicGenreList", { static: false }) musicGenreList;
-  
+  @ViewChild("artistList", { static: false }) artistList;
+
 
   constructor(
     private router: Router,
@@ -85,9 +90,11 @@ export class RegisterComponent implements OnInit {
     private tokenService: TokenService
   ) {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
-    this.musicGenres = this.activatedRoute.snapshot.data["data"]["musicGenres"];
+    this.musicGenres = this.activatedRoute.snapshot.data["data"]["static"][0];
+    this.artists = this.activatedRoute.snapshot.data["data"]["static"][1];
     this.members = this.activatedRoute.snapshot.data["data"]["members"];
-    this.data = this.musicGenres.slice();
+    this.musicTypeData = this.musicGenres.slice();
+    this.artistData = this.artists.slice();
     this.dropdownData = dropdowns;
     this.countries = this.memberService.getAllCountries();
   }
@@ -103,21 +110,30 @@ export class RegisterComponent implements OnInit {
     this.minDate = moment()
       .add(-90, "year")
       .toDate();
-      console.log(this.dropdownData)
   }
 
   ngAfterViewInit() {
     const contains = value => s => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
     this.musicGenreList.filterChange.asObservable().pipe(
       switchMap(value => from([this.musicGenres]).pipe(
-          tap((value) => { this.musicGenreList.loading = true}),
-          map((data) => data.filter(contains(value)))
-        ))
+        tap((value) => { this.musicGenreList.loading = true }),
+        map((data) => data.filter(contains(value)))
+      ))
     )
-    .subscribe(x => {
-        this.data = x;
+      .subscribe(x => {
+        this.musicTypeData = x;
         this.musicGenreList.loading = false;
-    });
+      });
+    this.artistList.filterChange.asObservable().pipe(
+      switchMap(value => from([this.artists]).pipe(
+        tap((value) => { this.artistList.loading = true }),
+        map((data) => data.filter(contains(value)))
+      ))
+    )
+      .subscribe(x => {
+        this.artistData = x;
+        this.artistList.loading = false;
+      });
   }
 
   loadSocialUser() {
@@ -143,7 +159,7 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("fname").setValue(this.member.fname);
       this.basicInfoGroup.get("lname").setValue(this.member.lname);
       this.basicInfoGroup.get("email").setValue(this.member.email);
-      if(this.member.referer)
+      if (this.member.referer)
         this.basicInfoGroup.get("referer").setValue(this.member.referer);
       this.genderSelected = this.member.gender;
       this.basicInfoGroup.get("postcode").setValue(this.member.postcode);
@@ -151,6 +167,7 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("location").setValue(this.countries.filter(el => el.alpha3Code === this.member.location));
       this.basicInfoGroup.get("birthyear").setValue(moment().set("year", this.member.birthyear));
       this.detailGroup.get("membertype").setValue(this.member.membertype);
+      console.log('music',this.member.musictype)
       this.detailGroup.get("musictype").setValue(this.member.musictype);
       this.detailGroup.get("startyear").setValue(moment().set("year", this.member.startyear));
       this.detailGroup.get("bio").setValue(this.member.bio);
@@ -163,6 +180,8 @@ export class RegisterComponent implements OnInit {
       this.opinionGroup.get("partyfrequency").setValue(this.member.partyfrequency);
       this.opinionGroup.get("festivalfrequency").setValue(this.member.festivalfrequency);
       this.opinionGroup.get("favouritefestival").setValue(this.member.favouritefestival);
+      this.opinionGroup.get("favouriteartists").setValue(this.member.favouriteartists);
+
 
     }
   }
@@ -170,10 +189,9 @@ export class RegisterComponent implements OnInit {
   setLocation(event) {
     this.basicInfoGroup.get("postcode").setValue("");
   }
-  setReferer(event) {
-    console.log(event);
-    this.basicInfoGroup.get("referer").setValue(event);
 
+  setReferer(event) {
+    // this.basicInfoGroup.get("referer").setValue(event);
   }
 
   initializeFilters() {
@@ -192,8 +210,8 @@ export class RegisterComponent implements OnInit {
   }
 
   refererFilter(value): any[] {
-      return this.members.filter(member =>
-        member._id == value._id);
+    return this.members.filter(member =>
+      member._id == value._id);
   }
 
 
@@ -255,6 +273,7 @@ export class RegisterComponent implements OnInit {
 
   registerMember() {
     let updateMember: Member = {
+      _id : this.member._id,
       uname: this.basicInfoGroup.get("uname").value,
       fname: this.basicInfoGroup.get("fname").value,
       lname: this.basicInfoGroup.get("lname").value,
@@ -276,6 +295,7 @@ export class RegisterComponent implements OnInit {
       facebookUrl: "http://www.facebook.com/" + this.detailGroup.get("facebookUrl").value,
       soundcloudUrl: "https://www.soundcloud.com/" + this.detailGroup.get("soundcloudUrl").value,
       psystatus: this.opinionGroup.get("psystatus").value,
+      favouriteartists: this.opinionGroup.get("favouriteartists").value,
       reason: this.opinionGroup.get("reason").value,
       partyfrequency: this.opinionGroup.get("partyfrequency").value,
       favouriteparty: this.opinionGroup.get("favouriteparty").value,
@@ -283,9 +303,11 @@ export class RegisterComponent implements OnInit {
       favouritefestival: this.opinionGroup.get("favouritefestival").value,
       avatarUrl: this.avatarUrl
     };
-    if (this.member && this.member._id) {
+    console.log('memcheck', this.member, this.memberService.getUserId())
+    if (this.memberService.getUser() && this.memberService.getUserId()) {
       console.log("updating ", updateMember);
-      this.memberService.updateMember(this.member._id, updateMember).subscribe(member => {
+      this.memberService.updateMember(this.memberService.getUserId(), updateMember).subscribe(result => {
+        console.log('returned member', updateMember)
         this.memberService.saveMemberToLocalStorage(updateMember);
         let snackBarRef = this.snackBar.open("Successfully updated", "OK", {
           duration: 2000
@@ -297,8 +319,8 @@ export class RegisterComponent implements OnInit {
     } else {
       console.log("creating ", updateMember);
       this.memberService.createMember(updateMember).subscribe((member: Member) => {
-        sessionStorage.setItem("member", JSON.stringify(member));
-        let snackBarRef = this.snackBar.open("Successfully updated", "OK", {
+        this.memberService.saveMemberToLocalStorage(member);
+        let snackBarRef = this.snackBar.open("Successfully created", "OK", {
           duration: 2000
         });
         snackBarRef.afterDismissed().subscribe(() => {
@@ -322,7 +344,7 @@ export class RegisterComponent implements OnInit {
 
   createForm() {
     this.basicInfoGroup = this.fb.group({
-      uname:  ["", this.env.production ? Validators.required : null],
+      uname: ["", this.env.production ? Validators.required : null],
       fname: ["", this.env.production ? Validators.required : null],
       lname: ["", this.env.production ? Validators.required : null],
       gender: ["", this.env.production ? Validators.required : null],
@@ -339,17 +361,26 @@ export class RegisterComponent implements OnInit {
       startyear: ["", this.env.production ? Validators.required : null],
       bio: ["", this.env.production ? Validators.required : null],
       soundcloudUrl: [""],
-      websiteUrl: ["", Validators.pattern(urlRegex)]
+      facebookUrl: [""],
+      websiteUrl: ["", Validators.pattern(urlRegex)],
     });
     this.opinionGroup = this.fb.group({
       favouriteparty: [""],
+      favouriteartists: [""],
       partyfrequency: ["", this.env.production ? Validators.required : null],
       favouritefestival: [""],
-      festivalfrequency: ["", this.env.production ? Validators.required : null],  
-      facebookUrl: [""],
+      festivalfrequency: ["", this.env.production ? Validators.required : null],
       psystatus: ["", Validators.required],
       reason: ["", Validators.required]
     });
+  }
+
+  artistFilter(value) {
+    if (value.name) {
+      return this.artists.filter(artist => artist.name.toLowerCase().includes(value.name.toLowerCase()));
+    }
+    else if (value)
+      return this.artists.filter(artist => artist.name.toLowerCase().includes(value.toLowerCase()));
   }
 
   musicGenreFilter(value) {
@@ -360,30 +391,36 @@ export class RegisterComponent implements OnInit {
       return this.musicGenres.filter(genre => genre.name.toLowerCase().includes(value.toLowerCase()));
   }
 
- 
-   public valueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
-    let selectedData: Array<any> = this.detailGroup.get("musictype").value;
-    
-    if(selectedData && Array.isArray(selectedData) && selectedData.length > 0) {
+
+  public artistValueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
+    this.getValueForNormalizer(this.detailGroup.get("musictype").value, text, this.artistData)
+  }));
+
+  public musictypeValueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
+    return this.getValueForNormalizer(this.detailGroup.get("musictype").value, text, this.musicTypeData)
+  }));
+
+  getValueForNormalizer(selectedData: Array<any>, text: string, data: Array<any>) {
+    if (selectedData && Array.isArray(selectedData) && selectedData.length > 0) {
       const matchingValue: any = selectedData.find((item: any) => {
-          return item.name.toLowerCase() === text.toLowerCase();
+        return item.name.toLowerCase() === text.toLowerCase();
       });
 
       if (matchingValue) {
-          return null; 
+        return null;
       }
     }
-    const matchingItem: any = this.data.find((item: any) => {
-        return item.name.toLowerCase() === text.toLowerCase();
+    const matchingItem: any = data.find((item: any) => {
+      return item.name.toLowerCase() === text.toLowerCase();
     });
     if (matchingItem) {
-        return matchingItem;
+      return matchingItem;
     } else {
-        return {
-            _id: Math.random(), 
-            name: text
-        };
+      return {
+        _id: Math.random(),
+        name: text
+      };
     }
-  }));
+  }
 
 }

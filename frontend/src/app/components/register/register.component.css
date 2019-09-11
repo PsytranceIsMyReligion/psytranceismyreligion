@@ -1,40 +1,33 @@
-
-
-
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   ::ng-deep .top-banner {
     height: 50px !important;
   }
-
+  .registration-container {
+    margin-left: 0px;
+    height: 100%;
+  }
   .registration-form {
     width: 80%;
-    margin-bottom: 20px;
-  }
-
-  .registration-container { 
-    background-size: repeat;
-  }
-}
-
-@media only screen  and (min-width : 1224px) {
-
-
-  .registration-form {
-    width: 50%;
+    height: 200%;
     margin-bottom: 20px;
     opacity: 0.8;
   }
 }
 
-.registration-container { 
-  width: 100%;
-  height: 100%;
-  background-image: url("/assets/mainbackground.jpg");
+@media only screen and (min-width: 1224px) {
+  .mat-panel-header-text {
+    margin-left: 10px;
+  }
+  .registration-form {
+    width: 95%;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
 
+  .registration-container {
+    width: 98%;
+  }
 }
-
-
 
 .field-full-width {
   width: 100%;

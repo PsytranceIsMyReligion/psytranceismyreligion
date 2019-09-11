@@ -3,8 +3,8 @@
     <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
     <mat-icon zoom="3" *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
     {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }} {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} {{ calculateAge(selectedMember.birthyear) }}
-    <br /> From {{ selectedMember.originDisplay }}
-    <br/>Living in {{ selectedMember.locationDisplay }}
+    <br /> From {{ selectedMember.origin }}
+    <br/>Living in {{ selectedMember.location }}
   </mat-card-header>
   <mat-card-content>
     Into Psytrance since {{ selectedMember.startyear }}

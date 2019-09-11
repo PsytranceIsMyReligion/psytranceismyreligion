@@ -28,7 +28,7 @@ let MemberSchema = new Schema({
     //   return validator.isEmail(value)
     // }
   },
-  referer : {
+  referer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Member'
   },
@@ -56,9 +56,14 @@ let MemberSchema = new Schema({
   membertype: {
     type: String
   },
-  musictype: {
-    type: Array
-  },
+  musictype: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'MusicGenre'
+  }],
+  favouriteartists: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Artist'
+  }],
   startyear: {
     type: Number
   },
@@ -92,8 +97,7 @@ let MemberSchema = new Schema({
   psystatus: {
     type: String
   }
-}, 
-{
+}, {
   timestamps: {
     createdAt: true,
     updatedAt: false

@@ -12,25 +12,42 @@
   }
   .sidenav-content {
     display: block;
-    width: 90%;
+    width: 98%;
     margin-top: 35px;
     align-items: left;
     justify-content: left;
     border-radius: 5px;
   }
+
+  ::ng-deep .mat-drawer-inner-container {
+    margin-left: -7px;
+  }
+
+    
+  .mat-drawer-content {
+    background-image: url("/assets/mainbackground.jpg");
+    background-size: contain;
+  }
 }
 
 @media only screen and (min-width: 1224px) {
-  // .content-container {
-  //   height: 100%;
-  // }
+  .content-container {
+    height: 88%;
+    margin-top: 100px;
+  }
   .sidenav-content {
     display: block;
+    font-weight: bold;
     width: 70%;
     margin-top: 20px;
     align-items: left;
     justify-content: left;
     border-radius: 5px;
+  }
+
+  .mat-drawer-content {
+    background-image: url("/assets/mainbackground.jpg");
+    background-size: contain;
   }
 
 }

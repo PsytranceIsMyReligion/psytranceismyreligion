@@ -10,8 +10,11 @@
     margin: 10px;
 }
 
+
+
 .opaque-card {
     height: 45em;
     font-size: 26pt;
     font-weight: bold;
+    height: 90%;
 }

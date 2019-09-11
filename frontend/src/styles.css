@@ -1,22 +1,19 @@
+/* @import '@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 @font-face {
   font-family: "orbitron";
-  src: url("./assets/orbitron-medium-webfont.ttf") format("truetype"),
-    url("./assets/orbitron-medium-webfont.woff") format("woff");
+  src: url("./assets/orbitron-medium-webfont.ttf") format("truetype"), url("./assets/orbitron-medium-webfont.woff") format("woff");
 }
+
 @font-face {
   font-family: "Irresistor";
-  src: url("./assets/irresistor-webfont.woff2") format("woff2"),
-    url("./assets/irresistor-webfont.woff") format("woff"),
-    url("./assets/Irresistor.ttf") format("truetype");
-
+  src: url("./assets/irresistor-webfont.woff2") format("woff2"), url("./assets/irresistor-webfont.woff") format("woff"), url("./assets/Irresistor.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "sofachromeregular";
-  src: url("./assets/sofachrome_rg-webfont.woff2") format("woff2"),
-    url("./assets/sofachrome_rg-webfont.woff") format("woff");
+  src: url("./assets/sofachrome_rg-webfont.woff2") format("woff2"), url("./assets/sofachrome_rg-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -39,27 +36,25 @@ body {
   font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-body {
-  margin: 0;
-  background-image: url("./assets/mainbackground.jpg");
-  background-size: contain;
-  opacity: 1;
-}
-
-.opaque-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.7; 
-  z-index: -1;
-  background-size: contain;
-  background: url("/assets/background.jpg");
-}
-
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  body {
+    margin: 0;
+    background-image: url("./assets/mainbackground.jpg");
+    background-size: contain;
+    opacity: 1;
+  }
+  .opaque-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    z-index: -1;
+    background-size: contain;
+    background: url("/assets/background.jpg");
+  }
   .opaque-card {
     font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
     font-weight: bold;
@@ -69,18 +64,17 @@ body {
     margin-left: 20px;
     margin-right: 20px;
   }
-    
 }
 
-@media only screen  and (min-width : 1224px) {
+@media only screen and (min-width: 1224px) {
   body {
     margin: 0;
     background-image: url("./assets/mainbackground.jpg");
     background-size: contain;
     background-position: -140px 0px;
     opacity: 1;
+    overflow: hidden;
   }
-
   .opaque-card::before {
     content: "";
     position: absolute;
@@ -88,26 +82,28 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.7; 
+    opacity: 0.7;
     z-index: -1;
     background-size: contain;
     background: url("/assets/background.jpg");
   }
-  
-    .opaque-card {
-      font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
-      font-weight: bold;
-      z-index: 1;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      margin-left: 20px;
-      margin-right: 20px;
-    }
+  .opaque-card {
+    font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
+    /* font-weight: bold; */
+    z-index: 1;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .mat-card-header-text {
+    margin: 0px !important;
+  }
+}
 
-    .mat-card-header-text{
-      margin : 0px!important;
-    }
-      
+mat-card,
+.mat-raised-button {
+  font-family: "nasa" !important;
 }
 
 [hidden] {
@@ -118,7 +114,3 @@ body {
   display: block;
   height: 800px;
 }
-
-
-
-

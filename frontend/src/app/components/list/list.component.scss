@@ -9,44 +9,38 @@
   .flex-container {
     // height: 565px;
     height: 95%;
+    width: 100%;
   }
-
-.flex-map {
-  width: 15em;
-  height: 16em;
-  margin-left: 10px;
-}
-
-
-
+  .flex-map {
+    width: 16em;
+    height: 16em;
+    margin-left: 10px;
+  }
 }
 
 @media only screen and (min-width: 1224px) {
-  // .opaque-card {
-  //   margin-top: 20px;
+  .opaque-card {
+    margin-left: 0px;
+  } //   margin-top: 20px;
   //   margin-bottom: 20px;
   //   margin-left: 50px;
   //   margin-right: 50px;
   //   line-height: 125%;
   //   opacity: 0.6;
   // }
-
   .flex-map {
-  width: 42em;
-  height: 20em;
-  margin-left: 5em;
-}
-
-
-
+    width: 42em;
+    height: 20em;
+    margin-left: 5em;
+  }
 }
 
 .outer-container {
-  background-image: linear-gradient(red, yellow);
+  // background-image: linear-gradient(red, yellow);
 }
 
 .flex-container {
-  overflow-y: hidden;
-  background-image: url('/assets/mainbackground.jpg');
-  background-size: contain;
+  // overflow-y: hidden;
+  // background-image: url('/assets/mainbackground.jpg');
+  // background-size: contain;
 }

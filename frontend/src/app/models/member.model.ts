@@ -23,6 +23,7 @@ export interface Member {
     partyfrequency ?: number;
     favouritefestival ?: string;
     festivalfrequency ?: number;
+    favouriteartists ?: string;
     facebookUrl ?: string;
     soundcloudUrl ?: string;
     websiteUrl ?: string;

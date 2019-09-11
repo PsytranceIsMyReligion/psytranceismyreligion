@@ -5,8 +5,9 @@ import expressJwt from "express-jwt";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import Member from "./models/member";
-import MusicGenres from "./models/musicgenres";
+import MusicGenre from "./models/musicgenres";
 import Video from "./models/videos";
+import Artist from "./models/artists";
 import secretConfig from "./secret-config";
 import {
   resolve
@@ -34,9 +35,8 @@ app.use(
     path: [
       "/api/auth",
       "/members",
-      "/musicgenres",
-      "/musicgenres/add",
       "/members/add",
+      "/staticdata",
       "/members/landingpagestats",
       /^\/members\/bysocialid\/.*/
     ]
@@ -73,15 +73,60 @@ router.route("/members/landingpagestats").get((req, res) => {
 });
 
 router.route("/members").get((req, res) => {
-  Member.find({}).populate('referer').sort({
+  Member.find({}).populate('referer').populate('musictype').populate('favouriteartists').sort({
     'createdAt': 'desc'
   }).exec((err, docs) => {
-    console.log(docs)
     if (err) {
       console.log('Failed to get members', err)
       res.statusCode(400);
-    } 
+    } else res.json(docs);
+  });
+});
+
+
+router.route("/members/:id").get((req, res) => {
+  Member.findById(req.params.id).populate('referer').populate('musictype').populate('favouriteartists').exec((err, docs) => {
+    if (err) res.status(400).send("Failed to get member");
     else res.json(docs);
+  });
+});
+
+router.route("/members/bysocialid/:id").get((req, res) => {
+  Member.findOne({
+    socialid: req.params.id
+  }).populate('referer').populate('musictype').populate('favouriteartists').exec((err, docs) => {
+    if (err) res.status(400).send("Failed to get bysocialid");
+    else res.json(docs);
+  });
+});
+
+router.route("/members/add").post((req, res) => {
+  let member = new Member(req.body);
+  member
+    .save()
+    .then(member => {
+      res.status(200).json(member);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).send(err);
+    });
+});
+
+
+router.route("/staticdata").get((rq, res) => {
+  Promise.all([
+    MusicGenre.find({}).sort({
+      'name': 'asc'
+    }),
+    Artist.find({}).sort({
+      'name': 'asc'
+    })
+  ]).then(docs => {
+    res.json(docs);
+  }).catch((err) => {
+    if (err) res.status(400).send("Failed to get videos");
+    console.log('Error: ', err);
   });
 });
 
@@ -97,7 +142,6 @@ router.route("/videos").get((req, res) => {
 
 router.route("/videos/add").post((req, res) => {
   let video = new Video(req.body);
-  console.log('saving', video)
   video
     .save()
     .then(video => {
@@ -132,8 +176,8 @@ router.route("/videos/delete/:id").get((req, res) => {
 });
 
 
-router.route("/musicgenres").get((req, res) => {
-  MusicGenres.find({}).sort({
+router.route("/musicgenre").get((req, res) => {
+  MusicGenre.find({}).sort({
     'name': 'asc'
   }).exec((err, docs) => {
     if (err) res.statusCode(400);
@@ -142,12 +186,24 @@ router.route("/musicgenres").get((req, res) => {
 });
 
 
-router.route("/musicgenres/add").post((req, res) => {
-  let genre = new MusicGenres(req.body);
+router.route("/musicgenre/add").post((req, res) => {
+  let genre = new MusicGenre(req.body);
   genre
     .save()
     .then(genre => {
       res.status(200).json(genre);
+    })
+    .catch(err => {
+      res.status(400).send("Failed to create a new genre");
+    });
+});
+
+router.route("/artist/add").post((req, res) => {
+  let artist = new Artist(req.body);
+  artist
+    .save()
+    .then(artist => {
+      res.status(200).json(artist);
     })
     .catch(err => {
       res.status(400).send("Failed to create a new genre");
@@ -165,41 +221,15 @@ router.route("/api/auth").post((req, res) => {
   });
 });
 
-router.route("/members/:id").get((req, res) => {
-  Member.findById(req.params.id).populate('referer').exec((err, docs) => {
-    if (err) res.status(400).send("Failed to get member");
-    else res.json(docs);
-  });
-});
-
-router.route("/members/bysocialid/:id").get((req, res) => {
-  Member.findOne({
-    socialid: req.params.id
-  }).populate('referer').exec((err, docs) => {
-    if (err) res.status(400).send("Failed to get bysocialid");
-    else res.json(docs);
-  });
-});
-
-router.route("/members/add").post((req, res) => {
-  let member = new Member(req.body);
-  member.createdDate = new Date();
-  member.updatedDate = new Date();
-  member
-    .save()
-    .then(member => {
-      res.status(200).json(member);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(400).send(err);
-    });
-});
-
 router.route("/members/update/:id").post((req, res, next) => {
-  console.log('updating ', req.body);
-  Member
-    .updateOne(req.body)
+  let member = new Member(req.body);
+  // console.log('oid', mongoose.Types.ObjectId.isValid(member.referer));
+  console.log('updating', member)
+  if (mongoose.Types.ObjectId.isValid(member.referer)) {
+    member.referer = mongoose.Types.ObjectId();
+  }
+  member
+    .updateOne(member)
     .then(member => {
       res.status(200).json(member);
     })
