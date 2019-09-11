@@ -150,19 +150,20 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("origin").setValue(this.countries.filter(el => el.alpha3Code === this.member.origin));
       this.basicInfoGroup.get("location").setValue(this.countries.filter(el => el.alpha3Code === this.member.location));
       this.basicInfoGroup.get("birthyear").setValue(moment().set("year", this.member.birthyear));
-      this.opinionGroup.get("psystatus").setValue(this.member.psystatus);
-      this.opinionGroup.get("reason").setValue(this.member.reason);
       this.detailGroup.get("membertype").setValue(this.member.membertype);
       this.detailGroup.get("musictype").setValue(this.member.musictype);
       this.detailGroup.get("startyear").setValue(moment().set("year", this.member.startyear));
       this.detailGroup.get("bio").setValue(this.member.bio);
-      this.detailGroup.get("favouriteparty").setValue(this.member.favouriteparty);
-      this.detailGroup.get("partyfrequency").setValue(this.member.partyfrequency);
-      this.detailGroup.get("festivalfrequency").setValue(this.member.festivalfrequency);
-      this.detailGroup.get("favouritefestival").setValue(this.member.favouritefestival);
       this.detailGroup.get("facebookUrl").setValue(this.member.facebookUrl.substring(this.member.facebookUrl.lastIndexOf('/') + 1, this.member.facebookUrl.length));
       this.detailGroup.get("soundcloudUrl").setValue(this.member.soundcloudUrl.substring(this.member.soundcloudUrl.lastIndexOf('/') + 1, this.member.soundcloudUrl.length));
       this.detailGroup.get("websiteUrl").setValue(this.member.websiteUrl.substring(this.member.websiteUrl.lastIndexOf('/') + 1, this.member.websiteUrl.length));
+      this.opinionGroup.get("psystatus").setValue(this.member.psystatus);
+      this.opinionGroup.get("reason").setValue(this.member.reason);
+      this.opinionGroup.get("favouriteparty").setValue(this.member.favouriteparty);
+      this.opinionGroup.get("partyfrequency").setValue(this.member.partyfrequency);
+      this.opinionGroup.get("festivalfrequency").setValue(this.member.festivalfrequency);
+      this.opinionGroup.get("favouritefestival").setValue(this.member.favouritefestival);
+
     }
   }
 
@@ -271,15 +272,15 @@ export class RegisterComponent implements OnInit {
       musictype: this.detailGroup.get("musictype").value,
       startyear: this.detailGroup.get("startyear").value.year(),
       bio: this.detailGroup.get("bio").value,
-      partyfrequency: this.detailGroup.get("partyfrequency").value,
-      favouriteparty: this.detailGroup.get("favouriteparty").value,
-      festivalfrequency: this.detailGroup.get("festivalfrequency").value,
-      favouritefestival: this.detailGroup.get("favouritefestival").value,
       websiteUrl: "http://" + this.detailGroup.get("websiteUrl").value,
       facebookUrl: "http://www.facebook.com/" + this.detailGroup.get("facebookUrl").value,
       soundcloudUrl: "https://www.soundcloud.com/" + this.detailGroup.get("soundcloudUrl").value,
       psystatus: this.opinionGroup.get("psystatus").value,
       reason: this.opinionGroup.get("reason").value,
+      partyfrequency: this.opinionGroup.get("partyfrequency").value,
+      favouriteparty: this.opinionGroup.get("favouriteparty").value,
+      festivalfrequency: this.opinionGroup.get("festivalfrequency").value,
+      favouritefestival: this.opinionGroup.get("favouritefestival").value,
       avatarUrl: this.avatarUrl
     };
     if (this.member && this.member._id) {
@@ -337,15 +338,15 @@ export class RegisterComponent implements OnInit {
       membertype: ["", this.env.production ? Validators.required : null],
       startyear: ["", this.env.production ? Validators.required : null],
       bio: ["", this.env.production ? Validators.required : null],
+      soundcloudUrl: [""],
+      websiteUrl: ["", Validators.pattern(urlRegex)]
+    });
+    this.opinionGroup = this.fb.group({
       favouriteparty: [""],
       partyfrequency: ["", this.env.production ? Validators.required : null],
       favouritefestival: [""],
       festivalfrequency: ["", this.env.production ? Validators.required : null],  
       facebookUrl: [""],
-      soundcloudUrl: [""],
-      websiteUrl: ["", Validators.pattern(urlRegex)]
-    });
-    this.opinionGroup = this.fb.group({
       psystatus: ["", Validators.required],
       reason: ["", Validators.required]
     });
