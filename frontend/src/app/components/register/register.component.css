@@ -7,9 +7,14 @@
     height: 50px !important;
   }
 
+  .registration-container { 
+    margin-left: 0px;
+
+  }
+
   .registration-form {
     width: 80%;
-    height: 100%;
+    height: 200%;
     margin-bottom: 20px;
     opacity: 0.8;
   }

@@ -9,10 +9,11 @@
   .flex-container {
     // height: 565px;
     height: 95%;
+    width: 100%;
   }
 
 .flex-map {
-  width: 15em;
+  width: 16em;
   height: 16em;
   margin-left: 10px;
 }
@@ -22,7 +23,9 @@
 }
 
 @media only screen and (min-width: 1224px) {
-  // .opaque-card {
+  .opaque-card {
+    margin-left: 0px;
+  }
   //   margin-top: 20px;
   //   margin-bottom: 20px;
   //   margin-left: 50px;
@@ -36,8 +39,6 @@
   height: 20em;
   margin-left: 5em;
 }
-
-
 
 }
 

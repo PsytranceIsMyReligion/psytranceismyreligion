@@ -12,11 +12,15 @@
   }
   .sidenav-content {
     display: block;
-    width: 90%;
+    width: 98%;
     margin-top: 35px;
     align-items: left;
     justify-content: left;
     border-radius: 5px;
+  }
+
+  ::ng-deep .mat-drawer-inner-container {
+    margin-left: -7px;
   }
 
     
