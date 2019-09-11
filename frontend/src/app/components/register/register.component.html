@@ -36,7 +36,7 @@
             <mat-error>{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="Were you referred to the site? Please add the referer's username" formControlName="referer" [matAutocomplete]="auto3" />
+            <input matInput placeholder="Were you referred to the site? Please add the referer's username. They'll earn Karmic Kudos for it!" formControlName="referer" [matAutocomplete]="auto3" />
             <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayRefererFn">
               <mat-option (onSelectionChange)="setReferer(option)" *ngFor="let option of filteredReferers | async" [value]="option">
                 {{ option.uname }} - {{ option.fname}} {{ option.lname}}
@@ -85,7 +85,7 @@
           <label *ngIf="detailGroup.get('musictype').value && detailGroup.get('musictype').value.length > 0">What are your favourite music genres?</label>
           <mat-form-field class="field-full-width">
             <input matInput style="display: none" />
-            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="musicTypeData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="true"
+            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="musicTypeData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="false"
               [valueNormalizer]="musictypeValueNormalizer">
             </kendo-multiselect>
             <mat-error>Required</mat-error>
@@ -127,7 +127,7 @@
           <label *ngIf="opinionGroup.get('favouriteartists').value && opinionGroup.get('favouriteartists').value.length > 0">What are your favourite artists?</label>
           <mat-form-field class="field-full-width">
             <input matInput style="display: none" />
-            <kendo-multiselect #artistList formControlName="favouriteartists" [data]="artistData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="true"
+            <kendo-multiselect #artistList formControlName="favouriteartists" [data]="artistData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="false"
               [valueNormalizer]="artistValueNormalizer">
             </kendo-multiselect>
           </mat-form-field>

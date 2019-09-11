@@ -1,6 +1,6 @@
 <div class="outer-container">
   <div fxLayout="row" fxLayoutAlign="end">
-    <button mat-raised-button class="add-button" (click)="openUploadDialog()" color="warn">
+    <button mat-raised-button class="add-button hvr-pulse" (click)="openUploadDialog()" color="warn">
       <i class="material-icons">video_library</i>&nbsp;&nbsp;Add Video</button>
   </div>
   <div fxLayout="row wrap" class="panel-container" fxLayoutAlign="start start">
@@ -11,8 +11,8 @@
         <div class="description">{{ video.description }}
           <br/>Uploaded by {{ video.createdBy.uname }} {{ video.createdAt | date : 'short' }}</div>
         <youtube-player [videoId]="video.value" (change)="onStateChange($event)"></youtube-player>
-        <button *ngIf="video.createdBy._id == user._id" class="video-button" mat-raised-button color="warn" (click)="openUploadDialog(video)">Update</button>
-        <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button color="warn" (click)="deleteVideo(video._id)">Delete</button>
+        <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button color="accent" (click)="openUploadDialog(video)">Update</button>
+        <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button color="accent" (click)="deleteVideo(video._id)">Delete</button>
       </mat-card-content>
     </mat-card>
   </div>

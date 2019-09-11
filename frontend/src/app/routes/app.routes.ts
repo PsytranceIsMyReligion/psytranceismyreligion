@@ -3,10 +3,10 @@ import { AuthGuard } from "../guards/auth.guard";
 import { LandingGuard } from "../guards/landing.guard";
 import { LandingComponent } from "../components/landing/landing.component";
 import { ListComponent } from "../components/list/list.component";
+import { StatsComponent } from "../components/stats/stats.component";
 import { WatchComponent } from "../components/watch/watch.component";
 import { LearnComponent } from "../components/learn/learn.component";
 import { RecruitComponent } from "../components/recruit/recruit.component";
-import { ListenComponent } from "../components/listen/listen.component";
 import { DiscussComponent } from "../components/discuss/discuss.component";
 import { NavigationComponent } from "../components/navigation/navigation.component";
 import { RegisterComponent } from "../components/register/register.component";
@@ -60,7 +60,7 @@ export const ROUTES: Routes = [
         }
       },
       { path: "learn", canActivate: [AuthGuard], component: LearnComponent },
-      { path: "listen", canActivate: [AuthGuard], component: ListenComponent },
+      { path: "stats", canActivate: [AuthGuard], component: StatsComponent },
       { path: "recruit", canActivate: [AuthGuard], component: RecruitComponent },
       { path: "discuss", canActivate: [AuthGuard], component: DiscussComponent },
       {

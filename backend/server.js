@@ -4,14 +4,10 @@ import jwt from "jsonwebtoken";
 import expressJwt from "express-jwt";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import Member from "./models/member";
-import MusicGenre from "./models/musicgenres";
-import Video from "./models/videos";
-import Artist from "./models/artists";
 import secretConfig from "./secret-config";
 import memberRoutes from "./routes/member.routes";
 import videoRoutes from "./routes/video.routes";
-
+import staticDataRoutes from "./routes/staticdata.routes";
 import {
   resolve
 } from "path";
@@ -39,7 +35,7 @@ app.use(
       "/api/auth",
       "/members",
       "/members/add",
-      "/staticdata",
+      "/static",
       "/members/landingpagestats",
       /^\/members\/bysocialid\/.*/
     ]
@@ -62,47 +58,8 @@ connection.once("open", () => {
 
 app.use('/members', memberRoutes);
 app.use('/videos', videoRoutes);
+app.use('/static', staticDataRoutes);
 
-
-router.route("/staticdata").get((rq, res) => {
-  Promise.all([
-    MusicGenre.find({}).sort({
-      'name': 'asc'
-    }),
-    Artist.find({}).sort({
-      'name': 'asc'
-    })
-  ]).then(docs => {
-    res.json(docs);
-  }).catch((err) => {
-    if (err) res.status(400).send("Failed to get videos");
-    console.log('Error: ', err);
-  });
-});
-
-router.route("/musicgenre/add").post((req, res) => {
-  let genre = new MusicGenre(req.body);
-  genre
-    .save()
-    .then(genre => {
-      res.status(200).json(genre);
-    })
-    .catch(err => {
-      res.status(400).send("Failed to create a new genre");
-    });
-});
-
-router.route("/artist/add").post((req, res) => {
-  let artist = new Artist(req.body);
-  artist
-    .save()
-    .then(artist => {
-      res.status(200).json(artist);
-    })
-    .catch(err => {
-      res.status(400).send("Failed to create a new genre");
-    });
-});
 
 router.route("/api/auth").post((req, res) => {
   var token = jwt.sign({

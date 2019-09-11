@@ -46,7 +46,6 @@ import { RegisterComponent } from "./components/register/register.component";
 import { MapComponent } from "./components/map/map.component";
 import { WatchComponent } from "./components/watch/watch.component";
 import { LearnComponent } from "./components/learn/learn.component";
-import { ListenComponent } from "./components/listen/listen.component";
 import { DiscussComponent } from "./components/discuss/discuss.component";
 import { RecruitComponent } from "./components/recruit/recruit.component";
 import { MemberListResolve } from "./resolvers/member-list.resolve";
@@ -65,6 +64,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { MemberDetailsComponent } from './components/list/member-details/member-details.component';
 import { MemberSelectorComponent } from './components/list/member-selector/member-selector.component';
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
+import { StatsComponent } from './components/stats/stats.component';
 
 const env = environment;
 
@@ -102,14 +102,14 @@ export function tokenGetter() {
     MapComponent,
     WatchComponent,
     LearnComponent,
-    ListenComponent,
     DiscussComponent,
     RecruitComponent,
     HomeComponent,
     SanitizeHtmlPipe,
     VideoUploadComponent,
     MemberDetailsComponent,
-    MemberSelectorComponent
+    MemberSelectorComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,

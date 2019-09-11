@@ -98,12 +98,14 @@ export class MemberService {
   }
 
   getStaticData() {
-    return this.http.get(`${baseUri}/staticdata`);
+    return this.http.get(`${baseUri}/static`);
   }
 
-  createMusicGenre(genre) {
-    return this.http.get(`${baseUri}/musicgenre/add`, { params: genre });
+  // createMusicGenre(genre) {
+  //   return this.http.get(`${baseUri}/staticdata/add`, { params: genre });
+  // }
+
+  addStaticData(value) {
+    return this.http.post(`${baseUri}/static/add`, { params : value })
   }
-
-
 }

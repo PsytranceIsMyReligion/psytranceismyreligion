@@ -27,8 +27,8 @@ router.route("/").get((req, res) => {
         'createdAt': 'desc'
     }).exec((err, docs) => {
         if (err) {
-            console.log('Failed to get members', err)
-            res.statusCode(400);
+            console.error(err);
+            res.status(400).send("Failed to get members", err);
         } else res.json(docs);
     });
 });

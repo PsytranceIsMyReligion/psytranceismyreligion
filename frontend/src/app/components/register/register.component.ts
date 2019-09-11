@@ -68,7 +68,6 @@ export class RegisterComponent implements OnInit {
   members: Array<Member> = [];
   musicGenres: any;
   artists: any;
-  selectedMusicGenres: any = [];
   selectedArtists: any = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   env = environment;
@@ -91,6 +90,7 @@ export class RegisterComponent implements OnInit {
   ) {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
     this.musicGenres = this.activatedRoute.snapshot.data["data"]["static"][0];
+    console.log(this.musicGenres);
     this.artists = this.activatedRoute.snapshot.data["data"]["static"][1];
     this.members = this.activatedRoute.snapshot.data["data"]["members"];
     this.musicTypeData = this.musicGenres.slice();
@@ -172,7 +172,7 @@ export class RegisterComponent implements OnInit {
       this.detailGroup.get("bio").setValue(this.member.bio);
       this.detailGroup.get("facebookUrl").setValue(this.member.facebookUrl.substring(this.member.facebookUrl.lastIndexOf('/') + 1, this.member.facebookUrl.length));
       this.detailGroup.get("soundcloudUrl").setValue(this.member.soundcloudUrl.substring(this.member.soundcloudUrl.lastIndexOf('/') + 1, this.member.soundcloudUrl.length));
-      this.detailGroup.get("websiteUrl").setValue(this.member.websiteUrl.substring(this.member.websiteUrl.lastIndexOf('/') + 1, this.member.websiteUrl.length));
+      this.detailGroup.get("websiteUrl").setValue(this.member.websiteUrl.substring(this.member.websiteUrl.indexOf('/') + 2, this.member.websiteUrl.length));
       this.opinionGroup.get("psystatus").setValue(this.member.psystatus);
       this.opinionGroup.get("reason").setValue(this.member.reason);
       this.opinionGroup.get("favouriteparty").setValue(this.member.favouriteparty);
@@ -271,6 +271,7 @@ export class RegisterComponent implements OnInit {
   }
 
   registerMember() {
+    // this.createNewStaticDataTypes();
     let updateMember: Member = {
       _id: this.member._id,
       uname: this.basicInfoGroup.get("uname").value,
@@ -287,6 +288,7 @@ export class RegisterComponent implements OnInit {
       lat: this.latitude,
       long: this.longitude,
       membertype: this.detailGroup.get("membertype").value,
+
       musictype: this.detailGroup.get("musictype").value,
       startyear: this.detailGroup.get("startyear").value.year(),
       bio: this.detailGroup.get("bio").value,
@@ -331,6 +333,22 @@ export class RegisterComponent implements OnInit {
       });
     }
   }
+
+  // createNewStaticDataTypes() {
+
+  //   let music =  this.detailGroup.get("musictype").value;
+  //   music.array.forEach(element => {
+
+  //   });
+
+  //   return this.addNewStaticData({ name: text, type: type }).subscribe((value : any) => {
+  //     console.log(value);
+  //     if (type == 'musictype') {
+  //       this.musicTypeData.push({'text' : value.name, '_id' : value.id });
+  //     }
+  //     return value;
+  //   })
+  // }
 
   getalpha3Code(field: string) {
     let location = this.basicInfoGroup.get(field).value;
@@ -397,6 +415,11 @@ export class RegisterComponent implements OnInit {
 
   public musictypeValueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
     return this.getValueForNormalizer(this.detailGroup.get("musictype").value, text, this.musicTypeData)
+    // .subscribe((res) => {
+    //   this.musicGenres.push(value);
+    //   return value;
+    // })
+    // console.log('val', value)
   }));
 
   getValueForNormalizer(selectedData: Array<any>, text: string, data: Array<any>) {
@@ -416,10 +439,13 @@ export class RegisterComponent implements OnInit {
       return matchingItem;
     } else {
       return {
-        _id: "new",
+        _id: Math.random(),
         name: text
-      };
+      }
     }
   }
 
+  addNewStaticData(value) {
+    return this.memberService.addStaticData(value);
+  }
 }
