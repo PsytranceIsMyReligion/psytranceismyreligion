@@ -16,8 +16,12 @@
       <br /> Favourite festivals: {{ selectedMember.favouritefestival }}</span>
     <br/>
     <span>Favourite Music Genres:
-      <span *ngFor="let type of selectedMember.musictype">{{ type.name }}, </span>
+      <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">, </span> </span>
     </span>
+    <br/>
+    <span>Favourite Artists:
+        <span *ngFor="let type of selectedMember.favouriteartists; let last = last;">{{ type.name }}<span *ngIf="!last">, </span> </span>
+      </span>
     <br /> Says Psytrance is my {{ selectedMember.psystatus }}.
     <br /> Because: {{ selectedMember.reason }}
     <br /> About Me : {{ selectedMember.bio }}

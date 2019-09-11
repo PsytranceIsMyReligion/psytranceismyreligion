@@ -167,7 +167,6 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("location").setValue(this.countries.filter(el => el.alpha3Code === this.member.location));
       this.basicInfoGroup.get("birthyear").setValue(moment().set("year", this.member.birthyear));
       this.detailGroup.get("membertype").setValue(this.member.membertype);
-      console.log('music',this.member.musictype)
       this.detailGroup.get("musictype").setValue(this.member.musictype);
       this.detailGroup.get("startyear").setValue(moment().set("year", this.member.startyear));
       this.detailGroup.get("bio").setValue(this.member.bio);
@@ -273,7 +272,7 @@ export class RegisterComponent implements OnInit {
 
   registerMember() {
     let updateMember: Member = {
-      _id : this.member._id,
+      _id: this.member._id,
       uname: this.basicInfoGroup.get("uname").value,
       fname: this.basicInfoGroup.get("fname").value,
       lname: this.basicInfoGroup.get("lname").value,
@@ -393,7 +392,7 @@ export class RegisterComponent implements OnInit {
 
 
   public artistValueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
-    this.getValueForNormalizer(this.detailGroup.get("musictype").value, text, this.artistData)
+    return this.getValueForNormalizer(this.opinionGroup.get("favouriteartists").value, text, this.artistData)
   }));
 
   public musictypeValueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
@@ -417,7 +416,7 @@ export class RegisterComponent implements OnInit {
       return matchingItem;
     } else {
       return {
-        _id: Math.random(),
+        _id: "new",
         name: text
       };
     }
