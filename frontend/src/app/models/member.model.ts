@@ -33,8 +33,9 @@ export interface Member {
 }
 
 export interface Video {
-    title : string;
-    description : string;
-    value : string;
-    createdBy : Member; 
+    title: string;
+    description: string;
+    value: string;
+    createdBy: Member;
+    _id ?: string;
 }
