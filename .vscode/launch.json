@@ -19,8 +19,9 @@
             "type": "node",
             "request": "attach",
             "port": 9229,
+            "processId": "${command:PickProcess}",
             "restart": true,
-            "protocol": "inspector"
+            // "protocol": "inspector"
         },
         // {
         //     "type": "node",

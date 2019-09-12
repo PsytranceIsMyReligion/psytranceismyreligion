@@ -61,6 +61,4 @@ router.route("/artist/add").post((req, res) => {
             res.status(400).send("Failed to create a new genre");
         });
 });
-
-
-module.exports = router;
+export default router;

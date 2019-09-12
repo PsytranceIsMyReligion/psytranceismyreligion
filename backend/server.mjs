@@ -8,19 +8,27 @@ import secretConfig from "./secret-config";
 import memberRoutes from "./routes/member.routes";
 import videoRoutes from "./routes/video.routes";
 import staticDataRoutes from "./routes/staticdata.routes";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
 import {
   resolve
 } from "path";
-import {
-  config
-} from "dotenv";
+import dotenv from 'dotenv';
 
-config({
-  path: resolve(__dirname, ".env")
-});
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+dotenv.config(
+  ({
+    path: resolve(__dirname, ".env")
+  }));
+
 
 const app = express();
 const router = express.Router();
+
+
+
 app.use(cors());
 app.options("*", cors());
 router.use(bodyParser.urlencoded({

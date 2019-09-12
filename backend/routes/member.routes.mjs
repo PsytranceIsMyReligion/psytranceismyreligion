@@ -116,4 +116,4 @@ router.route("/delete/:id").get((req, res) => {
     });
 });
 
-module.exports = router;
+export default router;
