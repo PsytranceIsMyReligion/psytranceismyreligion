@@ -1,7 +1,6 @@
 :host ::ng-deep .mat-list-item {
-  font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;  
+  font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
 }
-
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .content-container {
@@ -18,12 +17,9 @@
     justify-content: left;
     border-radius: 5px;
   }
-
   ::ng-deep .mat-drawer-inner-container {
     margin-left: -7px;
   }
-
-    
   .mat-drawer-content {
     background-image: url("/assets/mainbackground.jpg");
     background-size: contain;
@@ -44,12 +40,14 @@
     justify-content: left;
     border-radius: 5px;
   }
-
   .mat-drawer-content {
     background-image: url("/assets/mainbackground.jpg");
     background-size: contain;
   }
-
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
 }
 
 ::ng-deep .mat-drawer {
