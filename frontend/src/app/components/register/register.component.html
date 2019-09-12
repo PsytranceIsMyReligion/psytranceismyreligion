@@ -124,13 +124,13 @@
       <mat-step [stepControl]="opinionGroup">
         <form [formGroup]="opinionGroup">
           <ng-template matStepLabel>Your opinions</ng-template>
+          <button mat-raised-button class="hvr-pulse artist-btn"  color="primary" (click)="openNewArtistDialog()">Add Artist</button>
           <label *ngIf="opinionGroup.get('favouriteartists').value && opinionGroup.get('favouriteartists').value.length > 0">What are your favourite artists?</label>
           <mat-form-field class="field-full-width">
             <input matInput style="display: none" />
             <kendo-multiselect #artistList formControlName="favouriteartists" [data]="artistData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="false"
               [valueNormalizer]="artistValueNormalizer">
             </kendo-multiselect>
-            <button mat-raised-btn class="primary" (click)="openNewArtistDialog()" icon="plus">New Artist</button>
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="How often do you attend parties?" formControlName="partyfrequency">

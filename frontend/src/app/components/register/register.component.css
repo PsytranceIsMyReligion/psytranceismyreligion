@@ -14,12 +14,16 @@
   }
 }
 
+.artist-btn {
+  float: right;
+}
+
 @media only screen and (min-width: 1224px) {
 
   .mat-card-avatar {
     margin-right: 10px;
   }
-  
+
   .mat-panel-header-text {
     margin-left: 10px;
   }

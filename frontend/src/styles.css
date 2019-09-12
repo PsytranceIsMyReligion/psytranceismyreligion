@@ -58,7 +58,7 @@ body {
   }
 
   .opaque-card {
-    font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
+    font-family: "nasa","Electrolize", "orbitron","aero", "sofachromeregular", sans-serif;
     font-weight: bold;
     z-index: 1;
     margin-top: 20px;
@@ -110,6 +110,8 @@ mat-card,
 .mat-raised-button {
   font-family: "nasa" !important;
 }
+
+
 
 [hidden] {
   display: none !important;

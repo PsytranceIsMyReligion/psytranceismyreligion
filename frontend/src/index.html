@@ -1,67 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <!-- <link href="node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css" rel="stylesheet"> -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@progress/kendo-theme-default@latest/dist/all.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Electrolize|Oswald|Roboto:300,400,500"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" integrity="sha256-c+C87jupO1otD1I5uyxV68WmSLCqtIoNlcHLXtzLCT0=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script
-      async
-      defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7SEiwjypdabD49KuIU4oTycQT-hgMuBs"
-      type="text/javascript"
-    ></script>
-    <script
-      type="text/javascript"
-      src="//connect.facebook.net/en_US/all.js#xfbml=1&appId=315354469236603"
-      id="facebook-jssdk"
-    ></script>
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/icons/android-icon-192x192.png">
-    <!-- <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!-- <link href="node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://unpkg.com/@progress/kendo-theme-default@latest/dist/all.css" />
+  <link href="https://fonts.googleapis.com/css?family=Electrolize|Oswald|Roboto:300,400,500" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css"
+    integrity="sha256-c+C87jupO1otD1I5uyxV68WmSLCqtIoNlcHLXtzLCT0=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7SEiwjypdabD49KuIU4oTycQT-hgMuBs"
+    type="text/javascript"></script>
+  <script type="text/javascript" src="//connect.facebook.net/en_US/all.js#xfbml=1&appId=315354469236603"
+    id="facebook-jssdk"></script>
+  <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-icon-192x192.png">
+  <!-- <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="/assets/icons/manifest.json"> -->
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/assets/icons/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <meta property="fb:app_id" content="315354469236603" />
-    <meta property="og:title" content="Crowdsourced Enlightenment - Join now for access to your free upgrade!" />
-    <meta property="og:description" content="Tune in to more than just a social network" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="http://www.psytranceismyreligion.com/thumb.jpg" />
-    <meta property="og:url" content="http://www.psytranceismyreligion.com" />
-    <meta charset="utf-8" />
-    <meta
-      name="google-signin-client_id"
-      content="793868332939-fabl9ni7mpbvg900l7rrkf1tesaunal2.apps.googleusercontent.com"
-    />
-    <title>Psytrance Is My Religion</title>
-    <base href="/" />
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/assets/icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="fb:app_id" content="315354469236603" />
+  <meta property="og:title" content="Crowdsourced Enlightenment - Join now for access to your free upgrade!" />
+  <meta property="og:description" content="Tune in to more than just a social network" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://www.psytranceismyreligion.com/thumb.jpg" />
+  <meta property="og:url" content="http://www.psytranceismyreligion.com" />
+  <meta charset="utf-8" />
+  <meta name="google-signin-client_id"
+    content="793868332939-fabl9ni7mpbvg900l7rrkf1tesaunal2.apps.googleusercontent.com" />
+  <title>Psytrance Is My Religion</title>
+  <base href="/" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  </head>
-  <body mat-app-background >
-    <app-root ></app-root>
-  </body>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+
+<body mat-app-background>
+  <app-root></app-root>
+</body>
+
 </html>
-x`
