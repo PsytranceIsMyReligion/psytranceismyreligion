@@ -1,5 +1,7 @@
 <mat-toolbar class="top-banner">
   <mat-toolbar-row>
+      <!-- <div class="pulsate-css pulse"><p>Hello</p></div> -->
+      <!-- <a href="#" class="tv-pulse-btn pulse"><i class="material-icons">add</i></a> -->
     <span style="flex: 1 1 auto;"></span>
     <div class="button-container" [hidden]="!user">
       <button mat-raised-button class="menu-btn" title="Profile" (click)="navigateToProfile()" color="primary">
@@ -11,4 +13,4 @@
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<router-outlet ></router-outlet>

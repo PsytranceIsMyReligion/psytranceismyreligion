@@ -1,3 +1,4 @@
+import { Artist } from './../../models/member.model';
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Member } from "../../models/member.model";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -16,6 +17,8 @@ import { Moment } from "moment";
 import { TokenService } from "../../services/token.service";
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { environment } from '../../../environments/environment';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ArtistDialogComponent } from "./artist-dialog/artist-dialog.component";
 
 export const MY_FORMATS = {
   parse: {
@@ -71,8 +74,8 @@ export class RegisterComponent implements OnInit {
   selectedArtists: any = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   env = environment;
-  musicTypeData: Array<{ text: string, _id: number }>;
-  artistData: Array<{ text: string, _id: number }>;
+  musicTypeData: Array<any>;
+  artistData: Array<any>;
   dropdownData;
 
   @ViewChild("musicGenreList", { static: false }) musicGenreList;
@@ -86,7 +89,9 @@ export class RegisterComponent implements OnInit {
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private socialAuthService: AuthService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    public dialog: MatDialog
+    // public dialogRef: MatDialogRef<ArtistDialogComponent>
   ) {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
     this.musicGenres = this.activatedRoute.snapshot.data["data"]["static"][0];
@@ -445,7 +450,26 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  addNewStaticData(value) {
-    return this.memberService.addStaticData(value);
+  // addNewStaticData(value) {
+  //   return this.memberService.addStaticData(value);
+  // }
+  openNewArtistDialog() {
+    const dialogRef = this.dialog.open(ArtistDialogComponent, {
+      width: '300px',
+      height: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((updateArtist: Artist) => {
+      console.log('The dialog was closed', updateArtist);
+      if(!updateArtist) return;
+        this.memberService.addStaticData({type : 'artist','value': updateArtist}).subscribe(res => {
+          console.log(res)
+          this.artists.push(res);
+          this.artistData.push(res);
+          this.selectedArtists.push(res);
+          // this.matSnackBar.open("Video Link created!", "OK");
+          // this.router.navigate(["/nav/watch"]);
+        });
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { environment } from './../environments/environment';
+import { environment } from "./../environments/environment";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
@@ -35,7 +35,10 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { JwtModule } from "@auth0/angular-jwt";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
-import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from "angularx-social-login";
 import { WindowModule } from "@progress/kendo-angular-dialog";
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { LandingComponent } from "./components/landing/landing.component";
@@ -49,26 +52,26 @@ import { LearnComponent } from "./components/learn/learn.component";
 import { DiscussComponent } from "./components/discuss/discuss.component";
 import { RecruitComponent } from "./components/recruit/recruit.component";
 import { MemberListResolve } from "./resolvers/member-list.resolve";
-import { HomeComponent } from "./components/home/home.component";
 import { RegisterResolve } from "./resolvers/register.resolve";
 import { WatchResolve } from "./resolvers/watch.resolve";
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { FormsModule } from '@angular/forms';
-import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { MatDialogModule } from '@angular/material';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { VideoUploadComponent } from './components/watch/upload/video-upload.component';
-import { ToastrModule } from 'ngx-toastr';
-import { DeviceDetectorModule } from 'ngx-device-detector';
-import { MemberDetailsComponent } from './components/list/member-details/member-details.component';
-import { MemberSelectorComponent } from './components/list/member-selector/member-selector.component';
-import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
-import { StatsComponent } from './components/stats/stats.component';
+import { DropDownsModule } from "@progress/kendo-angular-dropdowns";
+import { FormsModule } from "@angular/forms";
+import { SanitizeHtmlPipe } from "./pipes/sanitize-html.pipe";
+import { ErrorInterceptor } from "./interceptors/error.interceptor";
+import { MatDialogModule } from "@angular/material";
+import { AngularFontAwesomeModule } from "angular-font-awesome";
+import { VideoUploadComponent } from "./components/watch/upload/video-upload.component";
+import { ToastrModule } from "ngx-toastr";
+import { DeviceDetectorModule } from "ngx-device-detector";
+import { MemberDetailsComponent } from "./components/list/member-details/member-details.component";
+import { MemberSelectorComponent } from "./components/list/member-selector/member-selector.component";
+import { NgxYoutubePlayerModule } from "ngx-youtube-player";
+import { StatsComponent } from "./components/stats/stats.component";
+import { ArtistDialogComponent } from './components/register/artist-dialog/artist-dialog.component';
 
 const env = environment;
 
-let config = new AuthServiceConfig([
+const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
     provider: new GoogleLoginProvider(
@@ -90,9 +93,7 @@ export function tokenGetter() {
 }
 
 @NgModule({
-  entryComponents: [
-    VideoUploadComponent
-  ],
+  entryComponents: [VideoUploadComponent, ArtistDialogComponent],
   declarations: [
     AppComponent,
     ListComponent,
@@ -104,23 +105,21 @@ export function tokenGetter() {
     LearnComponent,
     DiscussComponent,
     RecruitComponent,
-    HomeComponent,
     SanitizeHtmlPipe,
     VideoUploadComponent,
     MemberDetailsComponent,
     MemberSelectorComponent,
-    StatsComponent
+    StatsComponent,
+    ArtistDialogComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(
-      {   
-        timeOut: 10000,
-        positionClass: 'toast-top-right',
-        preventDuplicates: true
-      }
-    ),
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: "toast-top-right",
+      preventDuplicates: true
+    }),
     FormsModule,
     HttpClientModule,
     MatToolbarModule,
@@ -161,7 +160,7 @@ export function tokenGetter() {
       }
     }),
     ReactiveFormsModule,
-    RouterModule.forRoot(ROUTES, { onSameUrlNavigation: 'reload' })
+    RouterModule.forRoot(ROUTES, { onSameUrlNavigation: "reload" })
   ],
 
   providers: [
@@ -184,4 +183,4 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -20,9 +20,11 @@ export interface Member {
     startyear ?: number;
     bio ?: string;
     favouriteparty ?: string;
-    partyfrequency ?: number;
+    partyfrequency ?: string;
     favouritefestival ?: string;
-    festivalfrequency ?: number;
+    partyfrequencyDisplay ?: string;
+    festivalfrequencyDisplay ?: string;
+    festivalfrequency ?: string;
     favouriteartists ?: string;
     facebookUrl ?: string;
     soundcloudUrl ?: string;
@@ -30,6 +32,7 @@ export interface Member {
     psystatus ?: string;
     reason ?: string;
     avatarUrl ?: string;
+    karmicKudos ?: number;
 }
 
 export interface Video {
@@ -38,4 +41,12 @@ export interface Video {
     value: string;
     createdBy: Member;
     _id ?: string;
+}
+
+export interface Artist {
+  name: string;
+  origin: string;
+  facebookUrl: string;
+  createdBy: Member;
+  _id ?: string;
 }

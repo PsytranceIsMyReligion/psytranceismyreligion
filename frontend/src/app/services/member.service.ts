@@ -5,34 +5,38 @@ import { HttpClient } from "@angular/common/http";
 import { Member } from "../models/member.model";
 import { environment } from "../../environments/environment";
 import countries from "../../assets/static-data/countries.json";
+import dropdowns from "../../assets/static-data/dropdowns.json";
+
 const baseUri = "http://" + environment.baseUri;
 
 @Injectable({
   providedIn: "root"
 })
 export class MemberService {
-
   user: Member;
   user$: BehaviorSubject<Member>;
   selectedMember$: BehaviorSubject<Member>;
-  countries = [];
+  countries = countries;
+  dropdowns = dropdowns;
 
-  constructor(private http: HttpClient) {
-    this.countries = countries;
-  }
+  constructor(private http: HttpClient) {}
 
   saveMemberToLocalStorage(_member: Member) {
     _member.originDisplay = this.getCountryName(_member.origin);
     _member.locationDisplay = this.getCountryName(_member.location);
-    sessionStorage.setItem("member", JSON.stringify(_member));
+    sessionStorage.setItem(
+      "member",
+      JSON.stringify(this.enrichMember(_member))
+    );
     this.user$ = new BehaviorSubject(_member);
     this.selectedMember$ = new BehaviorSubject(_member);
     this.user = _member;
   }
 
   getUser(): Member {
-    if (this.user)
+    if (this.user) {
       return this.user;
+    }
   }
 
   getUser$(): BehaviorSubject<Member> {
@@ -40,17 +44,19 @@ export class MemberService {
   }
 
   getUserId(): number {
-    if (this.user)
+    if (this.user) {
       return this.user._id;
+    }
   }
-
 
   // getRegistrationFormStaticData() {
 
   // }
 
   getCountryName(code) {
-    return this.countries.filter(country => country['alpha3Code'] == code)[0]['name'];
+    return this.countries.filter(country => country["alpha3Code"] == code)[0][
+      "name"
+    ];
   }
 
   setSelectedMember$(member) {
@@ -60,13 +66,28 @@ export class MemberService {
     return this.selectedMember$;
   }
   getMembers() {
-    return this.http.get(`${baseUri}/members`).pipe(map((members: Array<Member>) => {
-      return members.map(member => {
-        member.originDisplay = this.getCountryName(member.origin);
-        member.locationDisplay = this.getCountryName(member.location);
-        return member;
+    return this.http.get(`${baseUri}/members`).pipe(
+      map((members: Array<Member>) => {
+        return members.map(member => {
+          return this.enrichMember(member);
+        });
       })
-    }));
+    );
+  }
+
+  private enrichMember(member: Member) {
+    member.originDisplay = this.getCountryName(member.origin);
+    member.locationDisplay = this.getCountryName(member.location);
+    member.festivalfrequencyDisplay = this.getDropdownDisplay(
+      "festivalfrequency",
+      member.festivalfrequency
+    );
+    member.partyfrequencyDisplay = this.getDropdownDisplay(
+      "partyfrequency",
+      member.partyfrequency
+    );
+    console.log(member)
+    return member;
   }
 
   getMemberById(id) {
@@ -97,6 +118,11 @@ export class MemberService {
     return countries;
   }
 
+  getDropdownDisplay(dataset, value) {
+    console.log(dropdowns[dataset].filter(el => el.id === value)[0])
+    return dropdowns[dataset].filter(el => el.id === value)[0]["value"];
+  }
+
   getStaticData() {
     return this.http.get(`${baseUri}/static`);
   }
@@ -106,6 +132,6 @@ export class MemberService {
   // }
 
   addStaticData(value) {
-    return this.http.post(`${baseUri}/static/add`, { params : value })
+    return this.http.post(`${baseUri}/static/add`, { params: value });
   }
 }

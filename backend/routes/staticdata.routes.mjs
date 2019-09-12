@@ -24,7 +24,7 @@ router.route("/").get((rq, res) => {
 router.route("/add").post((req, res) => {
     console.log('adding', req.body.params)
     if (req.body.params.type == 'musictype') {
-        let genre = new MusicGenre(req.body.params);
+        let genre = new MusicGenre(req.body.params.value);
         genre
             .save()
             .then(genre => {
@@ -32,19 +32,19 @@ router.route("/add").post((req, res) => {
                 res.status(200).json(genre);
             })
             .catch(err => {
-                console.err(err);
-                res.status(400).send("Failed to create a new genre");
+                console.error(err);
+                res.status(400).send("Failed to create a new genre", err);
             });
-    } else if (req.body.type == 'artist') {
-        let artist = new Artist({
-            name: req.body.value
-        });
+    } else if (req.body.params.type == 'artist') {
+        let artist = new Artist(req.body.params.value);
         artist.save()
             .then(artist => {
+                console.log('artist', artist)
                 res.status(200).json(artist);
             })
             .catch(err => {
-                res.status(400).send("Failed to create a new genre");
+                console.error(err);
+                res.status(400).send("Failed to create a new artist", err);
             });
     }
 

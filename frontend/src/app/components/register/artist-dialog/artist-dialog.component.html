@@ -1,0 +1,21 @@
+<h3 mat-dialog-title>Add Artist</h3>
+<div mat-dialog-content>
+  <form [formGroup]="artistGroup">
+    <mat-form-field class="field-full-width">
+      <input matInput placeholder="Artist Name" cdkFocusInitial formControlName="name" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="field-full-width">
+      <input matInput placeholder="Origin" formControlName="origin" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="field-full-width">
+      <input matInput placeholder="Facebook URL" formControlName="facebookUrl" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [disabled]="!artistGroup.valid" (click)="saveArtist()">Save</button>
+  <button mat-button (click)="cancel()">Cancel</button>
+</div>

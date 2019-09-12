@@ -96,6 +96,10 @@ let MemberSchema = new Schema({
   },
   psystatus: {
     type: String
+  },
+  karmicKudos: {
+    type: Number,
+    default: 10 
   }
 }, {
   timestamps: {

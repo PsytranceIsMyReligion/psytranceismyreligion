@@ -8,8 +8,9 @@
   </mat-card-header>
   <mat-card-content>
     Into Psytrance since {{ selectedMember.startyear }}
-    <br/> Goes to parties {{ selectedMember.partyfrequency }}
-    <br/> Goes to festivals {{ selectedMember.festivalfrequency }}
+    <br/> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
+    <br/> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
+    <br/> Karmic Kudos Generated: {{ selectedMember.karmicKudos }}
     <span *ngIf="selectedMember.favouriteparty">
       <br /> Favourite parties: {{ selectedMember.favouriteparty }}</span>
     <span *ngIf="selectedMember.favouritefestival">

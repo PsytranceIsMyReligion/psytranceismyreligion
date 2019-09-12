@@ -2,6 +2,6 @@
     "uid": "PsytranceIsMyReligon",
     "append": true,
     "watch": false,
-    "script": "start.js",
-    "sourceDir": "/home/bitnami/projects/psytranceismyreligion/backend"
+    "command": "node --experimental-modules",
+    "script": "server.mjs"
 }

@@ -82,6 +82,10 @@ table {
   .map {
     width:40%; height:400px; opacity: 1
   }
+
+  /* .map-btn {
+
+  } */
   .title {
     font-size: 34pt;
   }
@@ -90,6 +94,6 @@ table {
     font-size: 16pt;
     line-height: 1.4em;
   }
-  
+
 }
 

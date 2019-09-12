@@ -11,6 +11,13 @@
 }
 
 @media only screen and (min-width: 1224px) {
+
+  .pulse {
+    margin-left: 50%;
+  }
+
+
+
   .top-banner {
     background-image: url("/assets/topbanner.jpg");
     background-size: auto;
@@ -21,7 +28,6 @@
     width: 100%; /* Full width */
     z-index:1000;
   }
-
 
   .button-container {
     margin-top: 214px;

@@ -52,9 +52,10 @@ export class WatchComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((updateVideo: Video) => {
       console.log('The dialog was closed', updateVideo);
-      if (!updateVideo) {
+      if(!updateVideo) return;
+      if (!updateVideo._id) {
         this.videoService.createVideoLink(updateVideo).subscribe(res => {
-          this.matSnackBar.open("Video Link saved!", "OK");
+          this.matSnackBar.open("Video Link created!", "OK");
           this.router.navigate(["/nav/watch"]);
         });
       } else {
