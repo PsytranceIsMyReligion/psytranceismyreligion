@@ -3,8 +3,6 @@ const router = express.Router();
 import mongoose from "mongoose";
 
 import Member from "../models/member";
-import MusicGenre from "../models/musicgenres";
-import Artist from "../models/artists";
 import _ from "lodash";
 
 router.route("/landingpagestats").get((req, res) => {
