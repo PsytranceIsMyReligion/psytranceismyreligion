@@ -2,12 +2,16 @@
   ::ng-deep .top-banner {
     height: 50px !important;
   }
+  .opaque-card {
+    margin-top: 0px;
+  }
   .registration-container {
     margin-left: 0px;
     height: 100%;
   }
   .registration-form {
-    width: 80%;
+    width: 94%;
+    margin-left: 23px;
     height: 200%;
     margin-bottom: 20px;
     opacity: 0.8;

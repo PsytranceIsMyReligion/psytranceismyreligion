@@ -1,11 +1,11 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     mat-card {
         margin: 10px!important;
-        width: 14em!important;
+        width: 15em!important;
 
         opacity: 0.7;
 
-        mat-card-header {   
+        mat-card-header {
             height: 70px;
             margin-bottom: 40px;
             font-size: 10pt;
@@ -18,24 +18,15 @@
               zoom: 2.5;
             }
           }
-          
+
 
         > * {
             font-size: 10pt;
-            font-family: "nasa";
         }
-       
+
       }
 
-      // .summary {
-      //   background-image: linear-gradient(red, yellow);
-      //   font-weight: bold;
-      //   text-align: center;
-      //   margin: 10px;
-      //   padding: 10px;
-      //   border-radius: 5px;
-      // }
-      
+
 }
 
 @media only screen and (min-width: 1224px) {
@@ -53,7 +44,7 @@
         margin: 20px 80px;
         width: 40em;
         opacity: 0.7;
- 
+
         mat-card-header {
           height: 70px;
           font-size: 12pt;
@@ -74,9 +65,7 @@
           margin-top: 10px;
         }
         > * {
-          // margin-left: 0px!important;
           font-size: 12pt;
-          font-family: "nasa";
         }
 
       }

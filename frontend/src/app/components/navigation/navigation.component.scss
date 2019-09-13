@@ -1,10 +1,7 @@
-:host ::ng-deep .mat-list-item {
-  font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
-}
-
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .content-container {
     height: 90%;
+    margin-left : 10px;
   }
   .side-nav {
     width: 80px;

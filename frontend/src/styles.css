@@ -18,12 +18,6 @@
   font-style: normal;
 }
 
-/* @font-face {
-  font-family: "goodtimes";
-  src: url("./assets/good_times_rg-webfont.woff2") format("woff2");
-  src: url("./assets/good_times_rg-webfont.woff") format("woff");
-} */
-
 @font-face {
   font-family: "nasa";
   src: url("./assets/nasalization-rg-webfont.woff2") format("woff2");
@@ -58,7 +52,7 @@ body {
   }
 
   .opaque-card {
-    font-family: "nasa","Electrolize", "orbitron","aero", "sofachromeregular", sans-serif;
+    /* font-family: "nasa","Electrolize", "orbitron","aero", "sofachromeregular", sans-serif; */
     font-weight: bold;
     z-index: 1;
     margin-top: 20px;
@@ -104,11 +98,6 @@ body {
   .mat-card-header-text {
     margin: 0px !important;
   }
-}
-
-mat-card,
-.mat-raised-button {
-  font-family: "nasa" !important;
 }
 
 

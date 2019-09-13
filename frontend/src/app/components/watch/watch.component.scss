@@ -1,15 +1,12 @@
-.panel-container {
-    margin : 10px 10px;
-    background-image: url("/assets/mainbackground.jpg");
-}
+
 
 .outer-container {
     background-image: url("/assets/mainbackground.jpg");
+    margin-left: -10px;
 }
 
 .panel-info {
     background-image: linear-gradient(red, yellow);
-    font-family: "nasa";
     font-weight: bold;
 }
 
@@ -33,9 +30,13 @@
     }
 
     .panel-info {
-        height : 2.5em;
+        height : 6.5em;
         padding: 5px;
 
+    }
+
+    .outer-container {
+      margin-left: -10px;
     }
     mat-card {
         padding: 16px;
@@ -55,6 +56,10 @@
         border-radius: 4px;
         margin-bottom: 15px;
         flex: 1 1 auto;
+    }
+
+    .panel-container {
+      margin : 10px 10px;
     }
 
     .video-button {
