@@ -55,8 +55,6 @@ table {
   }
 
   .text-container {
-    /* background-color: white; */
-    background-blend-mode: lighten;
     opacity: 0.9 !important;
   }
 }
@@ -72,9 +70,14 @@ table {
   .opaque-card {
     margin-top: 130px;
     margin-bottom: 20px;
-    margin-left: 250px;
-    margin-right: 250px;
+    width: 60em;
     font-weight: bold;
+    text-align: center;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
   }
 
   .header {
@@ -83,15 +86,14 @@ table {
 
   .map {
     width: 40%;
-    height: 400px;
+    height: 300px;
     opacity: 1
   }
 
-  /* .map-btn {
-
-  } */
   .title {
     font-size: 34pt;
+    line-height: 50px;
+    text-align: center;
   }
 
   mat-card-content {

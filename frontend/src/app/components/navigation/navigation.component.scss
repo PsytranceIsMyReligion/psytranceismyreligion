@@ -24,6 +24,8 @@
   }
 }
 
+
+
 @media only screen and (min-width: 1224px) {
   .content-container {
     height: 95%;
@@ -41,7 +43,9 @@
   .mat-drawer-content {
     background-image: url("/assets/mainbackground.jpg");
     background-size: contain;
-  }
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
   ::-webkit-scrollbar {
     width: 0px;
     background: transparent;

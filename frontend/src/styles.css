@@ -8,6 +8,20 @@ html,
 body {
   height: 100%;
   font-family: "nasa", sans-serif !important;
+
+}
+
+a:link { color: black; }
+
+a​:active { color: black; }
+
+a​:visited { color: black; }
+
+a​:hover { color: black; }
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
@@ -50,7 +64,8 @@ body {
     background-size: contain;
     background-position: -140px 0px;
     opacity: 1;
-    overflow: hidden;
+    overflow-y: scroll;
+
   }
 
   .opaque-card::before {
@@ -94,10 +109,6 @@ mat-card mat-horizontal-stepper,
   display: none !important;
 }
 
-.container {
-  display: block;
-  height: 800px;
-}
 
 @-webkit-keyframes pulse {
   0% {
