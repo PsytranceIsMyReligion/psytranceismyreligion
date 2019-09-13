@@ -52,6 +52,7 @@ export const ROUTES: Routes = [
       },
       {
         path: "profile/:mode",
+        canActivate: [AuthGuard],
         component: RegisterComponent,
         resolve: {
           data: RegisterResolve

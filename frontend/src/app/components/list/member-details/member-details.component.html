@@ -1,45 +1,42 @@
 <mat-card *ngIf="selectedMember$ | async as selectedMember">
-  <mat-card-header *ngIf="!isMobile">
+  <mat-card-header>
     <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
     <mat-icon zoom="3" *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
     {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }}
-    {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} {{ calculateAge(selectedMember.birthyear) }}
-    <br /> From {{ selectedMember.origin }} &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Into Psytrance since
-    {{ selectedMember.startyear }}
-    <br />Living in {{ selectedMember.location }} &nbsp; &nbsp; &nbsp; &nbsp; Joined
-    {{ selectedMember.createdAt | date : 'short'}}
-  </mat-card-header>
-  <mat-card-header *ngIf="isMobile">
-    <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
-    <mat-icon zoom="3" *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
-    {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }}
-    <br/> {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} {{ calculateAge(selectedMember.birthyear) }} From {{ selectedMember.origin }}
-    Living in {{ selectedMember.location }} 
-    <br/>Psytrancing since
-    {{ selectedMember.startyear }} Joined {{ selectedMember.createdAt | date : 'shortDate'}}
   </mat-card-header>
   <mat-card-content>
+     <br/> {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} {{ calculateAge(selectedMember.birthyear) }} From {{ selectedMember.origin }}
+      <br/>Living in {{ selectedMember.location }}
+      <br/>Into Psytrance since {{ selectedMember.startyear }}
+      <br/> Joined {{ selectedMember.createdAt | date : 'shortDate'}}
+      <br/>
     <span *ngIf="selectedMember.favouriteparty">
       Favourite parties: {{ selectedMember.favouriteparty }}</span> <br />
     <span *ngIf="selectedMember.favouritefestival">
       Favourite festivals: {{ selectedMember.favouritefestival }}</span> <br />
+      <br/>
     <span>Favourite Music Genres:
       <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">, </span>
       </span>
     </span>
     <br />
+    <br/>
     <span>Favourite Artists:
       <span *ngFor="let type of selectedMember.favouriteartists; let last = last;">{{ type.name }}<span *ngIf="!last">,
         </span> </span>
     </span>
+    <br/>
     <br /> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
     <br /> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
+    <br/>
     <br /> Karmic Kudos Generated: {{ selectedMember.karmicKudos }}
+    <br/>
     <br /> Says Psytrance is my {{ selectedMember.psystatus }}
-    <br />
-    <br /> Because: {{ selectedMember.reason }}
+    <br /> Because:
+    <br/>  {{ selectedMember.reason }}
     <br>
     <br /> About Me : {{ selectedMember.bio }}
+    <br>
     <span *ngIf="selectedMember.facebookUrl">
       <br /> Facebook :
       <a class="fa fa-facebook" target="_blank" href="{{ selectedMember.facebookUrl}}"></a>

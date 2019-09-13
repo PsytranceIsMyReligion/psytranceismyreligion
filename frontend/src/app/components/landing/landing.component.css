@@ -16,38 +16,33 @@ table {
   border-color: #428bca;
 }
 
-:host /deep/ .k-window-titlebar {
+:host ::ng-deep .k-window-titlebar {
   background-color: #3f51b5 !important;
   border-color: #3f51b5 !important;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 
-
-
-  /* .opaque-card {
-    font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
-    font-weight: bold;
-    z-index: 1;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-  } */
+  :host ::ng-deep .opaque-card {
+    opacity: 0.9;
+  }
 
   .map {
-    width:90%; height:300px; opacity: 1
-  }
-  .header {
-    font-size: 12pt;
+    width: 90%;
+    height: 300px;
+    opacity: 1
   }
 
   .title {
     font-size: 14pt;
+    text-align: center;
   }
 
+  .content {
+    text-align: center;
+  }
 
- .login-buttons > * {
+  .login-buttons>* {
     margin: 10px 20px;
     line-height: 20px;
     padding: 5px;
@@ -55,14 +50,22 @@ table {
   }
 
   mat-card-content {
-    font-size: 14pt!important;
+    font-size: 14pt !important;
     line-height: 1.1em;
+  }
+
+  .text-container {
+    /* background-color: white; */
+    background-blend-mode: lighten;
+    opacity: 0.9 !important;
   }
 }
 
-@media only screen  and (min-width : 1224px) {
 
-  .login-buttons > * {
+
+@media only screen and (min-width : 1224px) {
+
+  .login-buttons>* {
     margin: 10px 20px;
   }
 
@@ -77,8 +80,11 @@ table {
   .header {
     font-size: 24pt;
   }
+
   .map {
-    width:40%; height:400px; opacity: 1
+    width: 40%;
+    height: 400px;
+    opacity: 1
   }
 
   /* .map-btn {
@@ -94,4 +100,3 @@ table {
   }
 
 }
-

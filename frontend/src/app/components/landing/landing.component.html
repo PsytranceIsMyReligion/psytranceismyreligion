@@ -1,11 +1,12 @@
 <mat-card class="opaque-card">
   <mat-card-content>
     <div fxLayoutAlign="center center" fxLayout="column">
-      <span class="header title">The Member Map</span>
+      <span class="title">Hello Multi Dimensional Holographic Universe!</span>
       <span class="content"><br/>
         There are {{ memberCount }} members of which {{ conversionPercent }}% say 'Psytrance is my
         Religion'<br
       /><br/></span>
+      <span class="sub-title">The Member Map</span>
       <div [hidden]="mapOpened" #gmap class="map"></div>
       <button
         kendoButton
@@ -20,6 +21,7 @@
     </div>
 
     <kendo-window
+      class="expandable-map"
       title="Expandable Member Map"
       [top]="100"
       [left]="100"
@@ -41,10 +43,10 @@
         Sign in / Register with Google
       </button>
     </div>
-    <div class="backdrop" >
+
+    <div class="text-container">
       <p>
         <span class="header">
-          <span class="title">Hello Multi Dimensional Holographic Universe!</span><br /><br />
           Welcome to religion based on the psychedelic trance state of mind and belief in the
           holographic universe mediated by the experiental proof of psychedelic visionary states.<br /><br />
           When enough of us come together and say 'Psytrance is my Religion', we will have created a

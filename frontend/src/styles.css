@@ -16,6 +16,7 @@ body {
     background-image: url("./assets/mainbackground.jpg");
     background-size: contain;
     opacity: 1;
+    font-weight: bold;
   }
 
   .opaque-card::before {

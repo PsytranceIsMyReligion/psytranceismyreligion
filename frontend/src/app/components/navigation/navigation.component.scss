@@ -1,10 +1,10 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .content-container {
     height: 90%;
-    margin-left : 10px;
+    margin-left : 5px;
   }
   .side-nav {
-    width: 80px;
+    width: 95px;
   }
   .sidenav-content {
     display: block;
@@ -19,6 +19,8 @@
   .mat-drawer-content {
     background-image: url("/assets/mainbackground.jpg");
     background-size: contain;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 
