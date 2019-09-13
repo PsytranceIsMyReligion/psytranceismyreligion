@@ -1,5 +1,5 @@
 <mat-card *ngIf="selectedMember$ | async as selectedMember">
-  <mat-card-header>
+  <mat-card-header *ngIf="!isMobile">
     <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
     <mat-icon zoom="3" *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
     {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }}
@@ -8,6 +8,15 @@
     {{ selectedMember.startyear }}
     <br />Living in {{ selectedMember.location }} &nbsp; &nbsp; &nbsp; &nbsp; Joined
     {{ selectedMember.createdAt | date : 'short'}}
+  </mat-card-header>
+  <mat-card-header *ngIf="isMobile">
+    <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
+    <mat-icon zoom="3" *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
+    {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }}
+    <br/> {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} {{ calculateAge(selectedMember.birthyear) }} From {{ selectedMember.origin }}
+    Living in {{ selectedMember.location }} 
+    <br/>Psytrancing since
+    {{ selectedMember.startyear }} Joined {{ selectedMember.createdAt | date : 'shortDate'}}
   </mat-card-header>
   <mat-card-content>
     <span *ngIf="selectedMember.favouriteparty">

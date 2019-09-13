@@ -1,29 +1,3 @@
-/* @import '@angular/material/prebuilt-themes/deeppurple-amber.css'; */
-@font-face {
-  font-family: "orbitron";
-  src: url("./assets/orbitron-medium-webfont.ttf") format("truetype"), url("./assets/orbitron-medium-webfont.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Irresistor";
-  src: url("./assets/irresistor-webfont.woff2") format("woff2"), url("./assets/irresistor-webfont.woff") format("woff"), url("./assets/Irresistor.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "sofachromeregular";
-  src: url("./assets/sofachrome_rg-webfont.woff2") format("woff2"), url("./assets/sofachrome_rg-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* @font-face {
-  font-family: "goodtimes";
-  src: url("./assets/good_times_rg-webfont.woff2") format("woff2");
-  src: url("./assets/good_times_rg-webfont.woff") format("woff");
-} */
-
 @font-face {
   font-family: "nasa";
   src: url("./assets/nasalization-rg-webfont.woff2") format("woff2");
@@ -33,7 +7,7 @@
 html,
 body {
   height: 100%;
-  font-family: "nasa", "aero", "sofachromeregular", sans-serif !important;
+  font-family: "nasa", sans-serif !important;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
@@ -58,7 +32,7 @@ body {
   }
 
   .opaque-card {
-    font-family: "nasa","Electrolize", "orbitron","aero", "sofachromeregular", sans-serif;
+    font-family: "nasa", sans-serif;
     font-weight: bold;
     z-index: 1;
     margin-top: 20px;
@@ -92,8 +66,7 @@ body {
   }
 
   .opaque-card {
-    font-family: "Electrolize", "orbitron", "Electrolize", "aero", "sofachromeregular", sans-serif;
-    /* font-weight: bold; */
+    font-family: "nasa", sans-serif;
     z-index: 1;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -106,11 +79,14 @@ body {
   }
 }
 
-mat-card,
-.mat-raised-button {
+mat-card mat-horizontal-stepper,
+.mat-raised-button,
+.mat-card-header,
+.mat-form-field,
+.mat-card-content,
+.mat-radio-button {
   font-family: "nasa" !important;
 }
-
 
 
 [hidden] {

@@ -3,8 +3,13 @@
     height: 50px !important;
   }
   .registration-container {
+    font-size: 10pt;
     margin-left: 0px;
     height: 100%;
+  }
+
+  .label {
+    font-weight : normal;
   }
 
   .opaque-card {

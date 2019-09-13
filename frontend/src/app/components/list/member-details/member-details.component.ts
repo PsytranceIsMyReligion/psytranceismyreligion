@@ -3,6 +3,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Member } from 'src/app/models/member.model';
 import moment from 'moment';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 @Component({
   selector: 'app-member-details',
   templateUrl: './member-details.component.html',
@@ -11,9 +13,11 @@ import moment from 'moment';
 export class MemberDetailsComponent implements OnInit {
 
    selectedMember$: BehaviorSubject<Member>;
+   isMobile: boolean = false;
 
-  constructor(private memberService : MemberService) { 
+  constructor(private memberService : MemberService, private deviceDetectorService :DeviceDetectorService) { 
     this.selectedMember$ = this.memberService.getUser$();
+    this.isMobile = this.deviceDetectorService.isMobile();
   }
 
   ngOnInit() {

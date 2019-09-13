@@ -10,7 +10,7 @@
       <mat-card-content>
         <div class="description">{{ video.description }}
           <br/>Uploaded by {{ video.createdBy.uname }} {{ video.createdAt | date : 'short' }}</div>
-        <youtube-player [videoId]="video.value"></youtube-player>
+        <youtube-player [height]="height" [width]="width" [videoId]="video.value"></youtube-player>
         <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button color="accent" (click)="openUploadDialog(video)">Update</button>
         <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button color="accent" (click)="deleteVideo(video._id)">Delete</button>
       </mat-card-content>

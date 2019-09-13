@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VideoUploadComponent } from './upload/video-upload.component';
 import { VideoService } from '../../services/video.service';
 import { ToastrService } from 'ngx-toastr';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 
 
@@ -18,10 +19,17 @@ export class WatchComponent implements OnInit {
 
   videos: Array<Video> = [];
   user: Member;
+  height: number = 400;
+  width: number = 550;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router,
     public dialog: MatDialog, private videoService: VideoService,
-    private memberService: MemberService, private toastrService: ToastrService) {
+    private memberService: MemberService, private toastrService: ToastrService,
+    private deviceDetectorService :DeviceDetectorService ) {
+    if(this.deviceDetectorService.isMobile()) {
+      this.height = 200;
+      this.width = 250;
+    }  
     this.user = this.memberService.getUser();
   }
 
