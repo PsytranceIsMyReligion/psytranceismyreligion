@@ -75,7 +75,7 @@ export class LandingComponent implements OnInit {
   generateMemberMap() {
     let mapProp = {
       zoom: 1,
-      center: { lat: 22.28, lng: 114.158 },
+      center: { lat: this.members[0].lat, lng: this.members[0].long },
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControl: false,
       mapTypeControl: false,
@@ -92,12 +92,12 @@ export class LandingComponent implements OnInit {
         let marker = new google.maps.Marker({
           position: location,
           map: this.map,
-          title: "Got you!"
+          title: el.uname + " " + el.fname + " " + el.lname
         });
         let marker2 = new google.maps.Marker({
           position: location,
           map: this.map2,
-          title: "Got you!"
+          title: el.uname + el.fname + " " + el.lname
         });
         var infowindow = new google.maps.InfoWindow({
           content: el.fname + " " + el.lname + " thinks psytrance is " + el.psystatus
@@ -124,14 +124,12 @@ export class LandingComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
-    console.log("google sign in");
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(memberData => {
       // console.log("memberData", memberData);
     });
   }
 
   signInWithFB(): void {
-    console.log("facebook sign in");
     this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then(memberData => {
       // console.log("memberData", memberData);
     });

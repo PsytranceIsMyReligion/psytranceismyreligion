@@ -10,32 +10,33 @@
       <br/>Into Psytrance since {{ selectedMember.startyear }}
       <br/> Joined {{ selectedMember.createdAt | date : 'shortDate'}}
       <br/>
-    <span *ngIf="selectedMember.favouriteparty">
-      Favourite parties: {{ selectedMember.favouriteparty }}</span> <br />
-    <span *ngIf="selectedMember.favouritefestival">
-      Favourite festivals: {{ selectedMember.favouritefestival }}</span> <br />
+      <br /> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
+      <br /> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
       <br/>
-    <span>Favourite Music Genres:
-      <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">, </span>
+    <span *ngIf="selectedMember.favouriteparty">
+      Favourite parties: {{ selectedMember.favouriteparty }} <br /></span>
+    <span *ngIf="selectedMember.favouritefestival">
+      Favourite festivals: {{ selectedMember.favouritefestival }}<br /> </span>
+      <br  *ngIf="selectedMember.favouritefestival" />
+    <span  *ngIf="selectedMember.musictype.length > 0">Favourite Music Genres:
+      <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">,</span>
       </span>
+       <br  *ngIf="selectedMember.musictype.length > 0" />
     </span>
-    <br />
-    <br/>
-    <span>Favourite Artists:
+    <br *ngIf="selectedMember.musictype.length > 0"  />
+    <span  *ngIf="selectedMember.favouriteartists.length > 0" >Favourite Artists:
       <span *ngFor="let type of selectedMember.favouriteartists; let last = last;">{{ type.name }}<span *ngIf="!last">,
-        </span> </span>
+        </span></span>
+         <br/>
     </span>
-    <br/>
-    <br /> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
-    <br /> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
-    <br/>
     <br /> Karmic Kudos Generated: {{ selectedMember.karmicKudos }}
     <br/>
     <br /> Says Psytrance is my {{ selectedMember.psystatus }}
-    <br /> Because:
+    <br />
     <br/>  {{ selectedMember.reason }}
     <br>
-    <br /> About Me : {{ selectedMember.bio }}
+    <br /> About Me :
+    <br/> {{ selectedMember.bio }}
     <br>
     <span *ngIf="selectedMember.facebookUrl">
       <br /> Facebook :
