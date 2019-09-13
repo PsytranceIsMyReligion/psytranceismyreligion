@@ -1,7 +1,3 @@
-.panel-container {
-    margin : 10px 10px;
-    background-image: url("/assets/mainbackground.jpg");
-}
 
 .outer-container {
     background-image: url("/assets/mainbackground.jpg");
@@ -72,6 +68,10 @@
         font-weight: bold;
         padding:  10px;
     }
+    .panel-container {
+        margin : 10px 10px;
+    }
+    
 }
 
 

@@ -6,8 +6,14 @@
     margin-left: 0px;
     height: 100%;
   }
+
+  .opaque-card {
+    margin-top: 10px;
+  }
+
   .registration-form {
-    width: 80%;
+    width: 90%;
+    margin-left: 20px;
     height: 200%;
     margin-bottom: 20px;
     opacity: 0.8;

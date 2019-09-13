@@ -17,7 +17,6 @@ import {
   MatCardModule,
   MatTableModule,
   MatDividerModule,
-  MatSnackBarModule,
   MatAutocompleteModule,
   MatSidenavModule,
   MatListModule,
@@ -35,10 +34,7 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { JwtModule } from "@auth0/angular-jwt";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider
-} from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
 import { WindowModule } from "@progress/kendo-angular-dialog";
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { LandingComponent } from "./components/landing/landing.component";
@@ -67,7 +63,7 @@ import { MemberDetailsComponent } from "./components/list/member-details/member-
 import { MemberSelectorComponent } from "./components/list/member-selector/member-selector.component";
 import { NgxYoutubePlayerModule } from "ngx-youtube-player";
 import { StatsComponent } from "./components/stats/stats.component";
-import { ArtistDialogComponent } from './components/register/artist-dialog/artist-dialog.component';
+import { ArtistDialogComponent } from "./components/register/artist-dialog/artist-dialog.component";
 
 const env = environment;
 
@@ -116,7 +112,7 @@ export function tokenGetter() {
     BrowserModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 10000,
+      timeOut: 5000,
       positionClass: "toast-top-right",
       preventDuplicates: true
     }),
@@ -133,7 +129,6 @@ export function tokenGetter() {
     MatCardModule,
     MatTableModule,
     MatDividerModule,
-    MatSnackBarModule,
     MatChipsModule,
     MatAutocompleteModule,
     MatSidenavModule,
