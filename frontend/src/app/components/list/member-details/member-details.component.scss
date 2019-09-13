@@ -6,7 +6,7 @@
         opacity: 0.7;
 
         mat-card-header {
-            height: 70px;
+            height: 90px;
             margin-bottom: 40px;
             font-size: 10pt;
             font-weight: bold;
@@ -25,15 +25,11 @@
         }
 
       }
-
-
 }
 
 @media only screen and (min-width: 1224px) {
 
-      // .title-container {
-      //   margin: 10px;
-      // }
+
       .mat-card-avatar {
         padding: 10px;
       }

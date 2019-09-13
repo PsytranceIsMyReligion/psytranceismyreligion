@@ -6,12 +6,22 @@
     margin-top: 0px;
   }
   .registration-container {
+    font-size: 10pt;
     margin-left: 0px;
     height: 100%;
   }
+
+  .label {
+    font-weight : normal;
+  }
+
+  .opaque-card {
+    margin-top: 10px;
+  }
+
   .registration-form {
-    width: 94%;
-    margin-left: 23px;
+    width: 90%;
+    margin-left: 20px;
     height: 200%;
     margin-bottom: 20px;
     opacity: 0.8;

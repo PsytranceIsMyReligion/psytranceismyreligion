@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ViewChild,
   Input,
   Output,
@@ -8,8 +7,8 @@ import {
   SimpleChanges,
   SimpleChange
 } from "@angular/core";
-import { MatSnackBar } from "@angular/material";
 import { Member } from "src/app/models/member.model";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-map",
@@ -27,7 +26,7 @@ export class MapComponent {
 
   mapVisible: boolean = false;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private toastrService: ToastrService) {}
 
   initMap() {
     let mapProp = {
@@ -49,15 +48,16 @@ export class MapComponent {
     console.log(postcodeChange, countryCodeChange);
     let countryCodeUpdate;
     if (countryCodeChange) {
-        if(Array.isArray(countryCodeChange.currentValue)){
-          if(countryCodeChange.currentValue.length > 0)
-          countryCodeUpdate = countryCodeChange.currentValue[0].alpha3Code
-        } else {
-          if(countryCodeChange.currentValue)
-            countryCodeUpdate = countryCodeChange.currentValue
-        }
-    } else 
-      countryCodeUpdate = Array.isArray(this.countryCode) ? this.countryCode[0].alpha3Code : this.countryCode.alpha3Code;
+      if (Array.isArray(countryCodeChange.currentValue)) {
+        if (countryCodeChange.currentValue.length > 0)
+          countryCodeUpdate = countryCodeChange.currentValue[0].alpha3Code;
+      } else {
+        if (countryCodeChange.currentValue) countryCodeUpdate = countryCodeChange.currentValue;
+      }
+    } else
+      countryCodeUpdate = Array.isArray(this.countryCode)
+        ? this.countryCode[0].alpha3Code
+        : this.countryCode.alpha3Code;
     if (postcodeChange && postcodeChange.currentValue !== "") {
       this.geocode(postcodeChange.currentValue, countryCodeUpdate);
     } else if (countryCodeChange && countryCodeChange.currentValue !== "") {
@@ -66,12 +66,9 @@ export class MapComponent {
   }
 
   geocode(postcode, countryCode) {
-    console.log("postcode", postcode, "countryCode", countryCode);
-    var geocoder = new google.maps.Geocoder();
-    var payload =
-      postcode != null ? { address: postcode, region: countryCode } : { address: countryCode };
+    let geocoder = new google.maps.Geocoder();
+    let payload = postcode != null ? { address: postcode, region: countryCode } : { address: countryCode };
     geocoder.geocode(payload, (results, status) => {
-      // console.log("geoCode status ", status);
       if (status == google.maps.GeocoderStatus.OK) {
         this.initMap();
         this.latLng.emit({
@@ -96,14 +93,12 @@ export class MapComponent {
         this.mapVisible = true;
         this.gmapElement.nativeElement.hidden = false;
       } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-        let snackBarRef = this.snackBar.open("GoogleMaps cannot find your address!", "OK", {
-          duration: 2000
-        });
+        this.toastrService.error("GoogleMaps cannot find your address!", "Error", {timeOut: 2000});
       }
     });
   }
-  
-  generateInfoWindow(el: Member, marker : google.maps.Marker) {
+
+  generateInfoWindow(el: Member, marker: google.maps.Marker) {
     var infowindow = new google.maps.InfoWindow({
       content: el.fname + " " + el.lname + " thinks psytrance is " + el.psystatus
     });
@@ -113,6 +108,5 @@ export class MapComponent {
     marker.addListener("mouseout", () => {
       infowindow.close();
     });
-  
   }
 }

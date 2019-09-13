@@ -4,6 +4,7 @@
     width: 100%;
   }
   .flex-map {
+    margin-top: 10px;
     width: 17em;
     height: 16em;
     margin-left: 10px;
@@ -11,11 +12,8 @@
 }
 
 @media only screen and (min-width: 1224px) {
-  .opaque-card {
-    margin-left: 0px;
-  }
-  
   .flex-map {
+    margin-top: 10px;
     width: 42em;
     height: 20em;
     margin-left: 5em;

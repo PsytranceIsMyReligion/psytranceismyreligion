@@ -48,7 +48,14 @@ export const ROUTES: Routes = [
         resolve: {
           data: MemberListResolve
         },
-        runGuardsAndResolvers: "always",
+        runGuardsAndResolvers: "always"
+      },
+      {
+        path: "profile/:mode",
+        component: RegisterComponent,
+        resolve: {
+          data: RegisterResolve
+        }
       },
       {
         path: "watch",

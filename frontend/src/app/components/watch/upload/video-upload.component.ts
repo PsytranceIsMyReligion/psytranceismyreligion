@@ -30,10 +30,11 @@ export class VideoUploadComponent implements OnInit {
           title : this.videoGroup.get('title').value,
           description : this.videoGroup.get('description').value,
           value : this.getYoutubeId(this.videoGroup.get('value').value),
-          createdBy : this.memberService.getUser(),
+          createdBy : this.memberService.getUser(),          
         }
+        if(this.data && this.data._id)
+          video._id = this.data._id
         this.dialogRef.close(video);
-        console.log('vid', video)
   }
 
   getYoutubeId(value) {

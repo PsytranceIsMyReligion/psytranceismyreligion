@@ -3,11 +3,13 @@
     <mat-sidenav #drawer mode="side" class="side-nav" opened role="navigation">
       <mat-nav-list>
         <a class="hvr-wobble-vertical" mat-list-item routerLink="landing">Home</a>
+        <a class="hvr-wobble-vertical" mat-list-item routerLink="profile/false">Proflie</a>
         <a class="hvr-wobble-vertical" mat-list-item routerLink="learn">Learn</a>
         <a class="hvr-wobble-vertical" mat-list-item routerLink="watch">Watch</a>
         <a class="hvr-wobble-vertical" mat-list-item routerLink="stats">Statistics</a>
         <a class="hvr-wobble-vertical" mat-list-item routerLink="discuss">Discuss</a>
         <a class="hvr-wobble-vertical" mat-list-item routerLink="recruit">Recruit</a>
+        <a class="hvr-wobble-vertical" mat-list-item (click)="logout()">Logout</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

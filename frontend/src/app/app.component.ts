@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { Member } from "./models/member.model";
 import { AuthService, SocialUser } from "angularx-social-login";
 import { TokenService } from "./services/token.service";
-import { MatSnackBar } from "@angular/material";
 import { ToastContainerDirective, ToastrService } from "ngx-toastr";
 
 @Component({
@@ -18,9 +17,7 @@ export class AppComponent implements OnDestroy, OnInit {
   constructor(
     private router: Router,
     private socialAuthService: AuthService,
-    private tokenService: TokenService,
-    private snackBar: MatSnackBar,
-    private toastrService: ToastrService
+    private tokenService: TokenService
   ) { }
 
 
@@ -34,28 +31,11 @@ export class AppComponent implements OnDestroy, OnInit {
     window.onbeforeunload = () => this.ngOnDestroy();
   }
 
-  navigateToProfile() {
-    this.member = JSON.parse(sessionStorage.getItem("member"));
-    this.router.navigate(["/nav/edit/" + this.member._id]);
-  }
-
   ngOnDestroy() {
-    console.log("logout");
     this.socialAuthService.signOut();
     sessionStorage.removeItem("member");
     this.tokenService.logout();
   }
 
-  logout() {
-    this.socialAuthService.signOut();
-    sessionStorage.removeItem("member");
-    this.tokenService.logout();
-    let snackBarRef = this.snackBar.open("Logged Out", "OK", {
-      duration: 2000
-    });
-    snackBarRef.afterDismissed().subscribe(() => {
-      this.router.navigate([""]);
-    });
 
-  }
 }

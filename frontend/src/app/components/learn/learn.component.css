@@ -1,18 +1,43 @@
 
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    .opaque-card {
+        font-size : 14pt!important;
+    }
+    .title {
+        font-size: 18pt;
+        font-weight: bold;
+    }
+    
+}
 
-.title {
-    font-size: 36pt;
-    font-weight: bold;
+
+@media only screen and (min-width: 1224px) {
+    .title {
+        font-size: 36pt;
+        font-weight: bold;
+    }
+    
+}
+
+.panel {
+    background-color: white;
+    opacity: 0.6;
+    border-radius: 4px;
 }
 
 .link {
+    zoom: 2;
+    margin: 5px;
+}
+
+.doc {
     color: red;
-    margin: 10px;
 }
 
 
 
 .opaque-card {
+    text-align: center;
     height: 45em;
     font-size: 26pt;
     font-weight: bold;

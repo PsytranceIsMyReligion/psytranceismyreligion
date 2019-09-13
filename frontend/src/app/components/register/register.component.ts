@@ -1,13 +1,12 @@
 import { Artist } from './../../models/member.model';
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Member } from "../../models/member.model";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MemberService } from "../../services/member.service";
-import { MatSnackBar } from "@angular/material";
 import { MatDatepicker } from "@angular/material/datepicker";
 import { Observable, from } from 'rxjs';
-import { delay, switchMap, map, tap, startWith } from 'rxjs/operators';
+import { switchMap, map, tap, startWith } from 'rxjs/operators';
 import { AuthService, SocialUser } from "angularx-social-login";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
@@ -17,8 +16,9 @@ import { Moment } from "moment";
 import { TokenService } from "../../services/token.service";
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { environment } from '../../../environments/environment';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ArtistDialogComponent } from "./artist-dialog/artist-dialog.component";
+import { ToastrService } from 'ngx-toastr';
 
 export const MY_FORMATS = {
   parse: {
@@ -86,12 +86,11 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private memberService: MemberService,
-    private snackBar: MatSnackBar,
+    private toastrService: ToastrService,
     private fb: FormBuilder,
     private socialAuthService: AuthService,
     private tokenService: TokenService,
     public dialog: MatDialog
-    // public dialogRef: MatDialogRef<ArtistDialogComponent>
   ) {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
     this.musicGenres = this.activatedRoute.snapshot.data["data"]["static"][0];
@@ -315,10 +314,7 @@ export class RegisterComponent implements OnInit {
       this.memberService.updateMember(this.memberService.getUserId(), updateMember).subscribe(result => {
         console.log('returned member', updateMember)
         this.memberService.saveMemberToLocalStorage(updateMember);
-        let snackBarRef = this.snackBar.open("Successfully updated", "OK", {
-          duration: 2000
-        });
-        snackBarRef.afterDismissed().subscribe(() => {
+        this.toastrService.success("Successfully updated", "OK", { timeOut : 2000}).onHidden.subscribe(res => {
           this.router.navigate(["/list"]);
         });
       });
@@ -326,14 +322,8 @@ export class RegisterComponent implements OnInit {
       console.log("creating ", updateMember);
       this.memberService.createMember(updateMember).subscribe((member: Member) => {
         this.memberService.saveMemberToLocalStorage(member);
-        let snackBarRef = this.snackBar.open("Successfully created", "OK", {
-          duration: 2000
-        });
-        snackBarRef.afterDismissed().subscribe(() => {
-          this.tokenService.login(member._id.toString()).subscribe(res => {
-            console.log("res", res);
-            this.router.navigate(["/nav/list"]);
-          });
+        this.toastrService.success("Successfully created", "OK", { timeOut : 2000}).onHidden.subscribe(res => {
+          this.router.navigate(["/list"]);
         });
       });
     }
@@ -460,15 +450,12 @@ export class RegisterComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((updateArtist: Artist) => {
-      console.log('The dialog was closed', updateArtist);
       if(!updateArtist) return;
         this.memberService.addStaticData({type : 'artist','value': updateArtist}).subscribe(res => {
-          console.log(res)
           this.artists.push(res);
           this.artistData.push(res);
           this.selectedArtists.push(res);
-          // this.matSnackBar.open("Video Link created!", "OK");
-          // this.router.navigate(["/nav/watch"]);
+          this.toastrService.success("Artist added! You may now select them", "Success", { timeOut: 2000});
         });
     });
   }

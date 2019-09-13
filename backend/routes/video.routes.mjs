@@ -26,8 +26,8 @@ router.route("/add").post((req, res) => {
 })
 
 router.route("/update/:id").post((req, res, next) => {
-  console.log('updating ', req.body);
-  Video
+  let video = new Video(req.body);
+  video
     .updateOne(req.body)
     .then(video => {
       res.status(200).json(video);
