@@ -92,7 +92,7 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="What's your involvement in the scene?" formControlName="membertype">
-              <mat-option *ngFor="let option of dropdownData.membertypes" [value]="option.id">I am {{option.value}}</mat-option>
+              <mat-option *ngFor="let option of dropdownData.membertype" [value]="option.id">I am {{option.value}}</mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>

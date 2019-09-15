@@ -1,0 +1,18 @@
+<h3 mat-dialog-title>Share Story</h3>
+<div mat-dialog-content class="opaque-card">
+  <form [formGroup]="postGroup">
+    <mat-form-field class="field-full-width">
+      <input matInput placeholder="Story Title" cdkFocusInitial formControlName="title" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="field-full-width">
+      <input matInput [hidden]="true" />
+      <quill-editor placeholder="Content" class="content" formControlName="content"> </quill-editor>
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button class="hrv-pulse" color="accent" [disabled]="!postGroup.valid" (click)="saveWallPost()">Save</button>
+  <button  mat-raised-button class="hrv-pulse" color="accent" (click)="cancel()">Cancel</button>
+</div>

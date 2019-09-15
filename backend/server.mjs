@@ -8,16 +8,25 @@ import secretConfig from "./secret-config";
 import memberRoutes from "./routes/member.routes";
 import videoRoutes from "./routes/video.routes";
 import staticDataRoutes from "./routes/staticdata.routes";
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import wallPostRoutes from "./routes/wallpost.routes";
+import socketIO from "socket.io";
+import nodeCache from "node-cache";
+import {
+  dirname
+} from 'path';
+import {
+  fileURLToPath
+} from 'url';
 
 import {
   resolve
 } from "path";
 import dotenv from 'dotenv';
+import NodeCache from "node-cache";
 
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(
+  import.meta.url));
 dotenv.config(
   ({
     path: resolve(__dirname, ".env")
@@ -26,9 +35,11 @@ dotenv.config(
 
 const app = express();
 const router = express.Router();
-
-
-
+const messageCache = new NodeCache({
+  stdTTL: 100,
+  checkperiod: 120
+});
+messageCache.set("messages", []);
 app.use(cors());
 app.options("*", cors());
 router.use(bodyParser.urlencoded({
@@ -43,6 +54,7 @@ app.use(
       "/api/auth",
       "/members",
       "/members/add",
+      "/wallposts",
       "/static",
       "/members/landingpagestats",
       /^\/members\/bysocialid\/.*/
@@ -64,10 +76,12 @@ connection.once("open", () => {
   console.log("Mongo db connected");
 });
 
+
+
 app.use('/members', memberRoutes);
 app.use('/videos', videoRoutes);
 app.use('/static', staticDataRoutes);
-
+app.use('/wallposts', wallPostRoutes);
 
 router.route("/api/auth").post((req, res) => {
   var token = jwt.sign({
@@ -75,10 +89,33 @@ router.route("/api/auth").post((req, res) => {
   }, secretConfig.secret, {
     expiresIn: 86400 // expires in 24 hours
   });
+  io.emit('system-message', req.body.uname + ' has logged on!');
   res.status(200).send({
     token: token
   });
 });
 
 app.use("/", router);
-app.listen(process.env.PORT, () => console.log("express server running on port " + process.env.PORT));
+const server = app.listen(process.env.PORT, () => console.log("express server running on port " + process.env.PORT));
+const io = socketIO(server);
+io.on('connection', (socket) => {
+  console.log('socket.io connected');
+  io.on('system-message', (message) => {
+    console.log('system-message', message);
+    io.emit('system-message', message);
+  });
+
+
+  socket.on('chat-init', (null, () => {
+    let values = messageCache.get("messages");
+    if (values)
+      values.map(el => socket.emit('chat-init', el));
+  }).bind(messageCache));
+
+
+  socket.on('chat-message', (null, (message) => {
+    let values = messageCache.get("messages");
+    messageCache.set("messages", [message, ...values]);
+    socket.broadcast.emit('chat-message', message);
+  }).bind(messageCache));
+});

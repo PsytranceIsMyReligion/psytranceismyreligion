@@ -1,5 +1,5 @@
 export interface Member {
-    _id ?: number;
+    _id ?: string;
     socialid ?: string;
     uname?: string;
     fname?: string;
@@ -16,6 +16,7 @@ export interface Member {
     lat ?: number;
     long ?: number;
     membertype ?: string;
+    membertypeDisplay ?: string;
     musictype ?: string;
     startyear ?: number;
     bio ?: string;
@@ -49,4 +50,11 @@ export interface Artist {
   facebookUrl: string;
   createdBy: Member;
   _id ?: string;
+}
+
+export interface WallPost {
+  title : string;
+  content : string;
+  createdBy : Member;
+  _id?: string;
 }

@@ -7,12 +7,13 @@ import { StatsComponent } from "../components/stats/stats.component";
 import { WatchComponent } from "../components/watch/watch.component";
 import { LearnComponent } from "../components/learn/learn.component";
 import { RecruitComponent } from "../components/recruit/recruit.component";
-import { DiscussComponent } from "../components/discuss/discuss.component";
 import { NavigationComponent } from "../components/navigation/navigation.component";
 import { RegisterComponent } from "../components/register/register.component";
 import { MemberListResolve } from "../resolvers/member-list.resolve";
 import { RegisterResolve } from "../resolvers/register.resolve";
 import { WatchResolve } from "../resolvers/watch.resolve";
+import { ChatComponent } from "../components/chat/chat.component";
+import { EventsComponent } from "../components/events/events.component";
 export const ROUTES: Routes = [
   {
     path: "",
@@ -67,10 +68,22 @@ export const ROUTES: Routes = [
           data: WatchResolve
         }
       },
+      { path: "events", canActivate: [AuthGuard], component: EventsComponent },
       { path: "learn", canActivate: [AuthGuard], component: LearnComponent },
-      { path: "stats", canActivate: [AuthGuard], component: StatsComponent },
-      { path: "recruit", canActivate: [AuthGuard], component: RecruitComponent },
-      { path: "discuss", canActivate: [AuthGuard], component: DiscussComponent },
+      { path: "chat", canActivate: [AuthGuard], component: ChatComponent },
+      {
+        path: "stats",
+        canActivate: [AuthGuard],
+        component: StatsComponent,
+        resolve: {
+          data: RegisterResolve
+        }
+      },
+      {
+        path: "recruit",
+        canActivate: [AuthGuard],
+        component: RecruitComponent
+      },
       {
         path: "edit/:id",
         canActivate: [AuthGuard],

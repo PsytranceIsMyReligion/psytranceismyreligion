@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ListComponent } from "./components/list/list.component";
+import { QuillModule } from "ngx-quill";
 import {
   MatToolbarModule,
   MatFormFieldModule,
@@ -34,7 +35,10 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { JwtModule } from "@auth0/angular-jwt";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
-import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from "angularx-social-login";
 import { WindowModule } from "@progress/kendo-angular-dialog";
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { LandingComponent } from "./components/landing/landing.component";
@@ -45,7 +49,6 @@ import { RegisterComponent } from "./components/register/register.component";
 import { MapComponent } from "./components/map/map.component";
 import { WatchComponent } from "./components/watch/watch.component";
 import { LearnComponent } from "./components/learn/learn.component";
-import { DiscussComponent } from "./components/discuss/discuss.component";
 import { RecruitComponent } from "./components/recruit/recruit.component";
 import { MemberListResolve } from "./resolvers/member-list.resolve";
 import { RegisterResolve } from "./resolvers/register.resolve";
@@ -64,8 +67,19 @@ import { MemberSelectorComponent } from "./components/list/member-selector/membe
 import { NgxYoutubePlayerModule } from "ngx-youtube-player";
 import { StatsComponent } from "./components/stats/stats.component";
 import { ArtistDialogComponent } from "./components/register/artist-dialog/artist-dialog.component";
+import { ChartModule } from "@progress/kendo-angular-charts";
+import { ChatComponent } from "./components/chat/chat.component";
+import { ChatModule } from "@progress/kendo-angular-conversational-ui";
+import { WallComponent } from "./components/wall/wall.component";
+import { PostDialogComponent } from "./components/wall/post-dialog/post-dialog.component";
+import { EventsComponent } from "./components/events/events.component";
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+
+
 
 const env = environment;
+const socketConfig: SocketIoConfig = { url: env.baseUri, options: {} };
 
 const config = new AuthServiceConfig([
   {
@@ -89,7 +103,11 @@ export function tokenGetter() {
 }
 
 @NgModule({
-  entryComponents: [VideoUploadComponent, ArtistDialogComponent],
+  entryComponents: [
+    VideoUploadComponent,
+    ArtistDialogComponent,
+    PostDialogComponent
+  ],
   declarations: [
     AppComponent,
     ListComponent,
@@ -99,24 +117,46 @@ export function tokenGetter() {
     MapComponent,
     WatchComponent,
     LearnComponent,
-    DiscussComponent,
     RecruitComponent,
     SanitizeHtmlPipe,
     VideoUploadComponent,
     MemberDetailsComponent,
     MemberSelectorComponent,
     StatsComponent,
-    ArtistDialogComponent
+    ArtistDialogComponent,
+    ChatComponent,
+    WallComponent,
+    PostDialogComponent,
+    EventsComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    SocketIoModule.forRoot(socketConfig),
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          ["bold", "italic", "underline", "strike"], // toggled buttons
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+          [{ direction: "rtl" }], // text direction
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+          [{ font: [] }],
+          [{ align: [] }],
+          ["clean"], // remove formatting button
+          ["link", "image", "video"] // link and image, video
+        ]
+      }
+    }),
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: "toast-top-right",
       preventDuplicates: true
     }),
+    ChartModule,
     FormsModule,
+    ChatModule,
     HttpClientModule,
     MatToolbarModule,
     MatDialogModule,

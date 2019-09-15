@@ -1,3 +1,8 @@
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
+
+
 @font-face {
   font-family: "nasa";
   src: url("./assets/nasalization-rg-webfont.woff2") format("woff2");
@@ -11,18 +16,27 @@ body {
 
 }
 
-a:link { color: black; }
+a:link {
+  color: black;
+}
 
-a​:active { color: black; }
+a​:active {
+  color: black;
+}
 
-a​:visited { color: black; }
+a​:visited {
+  color: black;
+}
 
-a​:hover { color: black; }
+a​:hover {
+  color: black;
+}
 
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent;
 }
+
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   body {

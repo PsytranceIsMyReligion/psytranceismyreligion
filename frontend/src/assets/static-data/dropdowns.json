@@ -1,5 +1,5 @@
 {
-  "membertypes": [{
+  "membertype": [{
       "id": "raver",
       "value": "a Raver"
     },

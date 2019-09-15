@@ -3,52 +3,53 @@
     <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
     <mat-icon zoom="3" *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
     {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }}
+    <span class="links">
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <a *ngIf="selectedMember.facebookUrl" title="Member Facebook" class="fa fa-facebook" target="_blank"
+        href="{{ selectedMember.facebookUrl}}"></a>&nbsp;&nbsp;
+      <a *ngIf="selectedMember.soundcloudUrl" title="Member Soundcloud" class="fa fa-soundcloud" target="_blank"
+        href="{{ selectedMember.soundcloudUrl}}"></a>&nbsp;&nbsp;
+      <span *ngIf="selectedMember.websiteUrl">
+        <a class="fa fa-link" target="_blank" title="Member Website" href="{{ selectedMember.websiteUrl}}"></a>
+      </span>
+    </span>
   </mat-card-header>
   <mat-card-content>
-     <br/> {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} {{ calculateAge(selectedMember.birthyear) }} From {{ selectedMember.origin }}
-      <br/>Living in {{ selectedMember.location }}
-      <br/>Into Psytrance since {{ selectedMember.startyear }}
-      <br/> Joined {{ selectedMember.createdAt | date : 'shortDate'}}
-      <br/>
-      <br /> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
-      <br /> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
-      <br/>
+    {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} {{ calculateAge(selectedMember.birthyear) }}
+    <br /> From {{ selectedMember.origin }}
+    <br />Living in {{ selectedMember.location }}
+    <br /> Member Type : {{ selectedMember.membertypeDisplay }}
+    <br />Into Psytrance since {{ selectedMember.startyear }}
+    <br /> Joined {{ selectedMember.createdAt | date : 'shortDate' : localeId }}
+    <br />
+    <br /> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
+    <br /> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
+    <br />
     <span *ngIf="selectedMember.favouriteparty">
       Favourite parties: {{ selectedMember.favouriteparty }} <br /></span>
     <span *ngIf="selectedMember.favouritefestival">
       Favourite festivals: {{ selectedMember.favouritefestival }}<br /> </span>
-      <br  *ngIf="selectedMember.favouritefestival" />
-    <span  *ngIf="selectedMember.musictype.length > 0">Favourite Music Genres:
-      <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">,</span>
+    <br *ngIf="selectedMember.favouritefestival" />
+    <span *ngIf="selectedMember.musictype.length > 0">Favourite Music Genres:
+      <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">, </span>
       </span>
-       <br  *ngIf="selectedMember.musictype.length > 0" />
+      <br *ngIf="selectedMember.musictype.length > 0" />
     </span>
-    <br *ngIf="selectedMember.musictype.length > 0"  />
-    <span  *ngIf="selectedMember.favouriteartists.length > 0" >Favourite Artists:
+    <br *ngIf="selectedMember.musictype.length > 0" />
+    <span *ngIf="selectedMember.favouriteartists.length > 0">Favourite Artists:
       <span *ngFor="let type of selectedMember.favouriteartists; let last = last;">{{ type.name }}<span *ngIf="!last">,
         </span></span>
-         <br/>
+      <br />
     </span>
     <br /> Karmic Kudos Generated: {{ selectedMember.karmicKudos }}
-    <br/>
+    <br />
     <br /> Says Psytrance is my {{ selectedMember.psystatus }}
     <br />
-    <br/>  {{ selectedMember.reason }}
+    <br /> {{ selectedMember.reason }}
     <br>
     <br /> About Me :
-    <br/> {{ selectedMember.bio }}
+    <br /> {{ selectedMember.bio }}
     <br>
-    <span *ngIf="selectedMember.facebookUrl">
-      <br /> Facebook :
-      <a class="fa fa-facebook" target="_blank" href="{{ selectedMember.facebookUrl}}"></a>
-    </span>
-    <span *ngIf="selectedMember.soundcloudUrl">
-      <br /> Soundcloud :
-      <a class="fa fa-soundcloud" target="_blank" href="{{ selectedMember.soundcloudUrl}}"></a>
-    </span>
-    <span *ngIf="selectedMember.websiteUrl">
-      <br /> Website :
-      <a class="fa fa-link" target="_blank" href="{{ selectedMember.websiteUrl}}"></a>
-    </span>
+
   </mat-card-content>
 </mat-card>

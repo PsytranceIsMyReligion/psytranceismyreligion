@@ -1,20 +1,26 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  .flex-container {
-    height: 95%;
+  .list-container {
+    height: 100%;
     width: 100%;
   }
-  .flex-map {
-    width: 16em;
+
+  .list-map {
+    min-width: 10em;
+    width: 17em;
     height: 16em;
-    margin-left: 10px;
   }
 }
 
 @media only screen and (min-width: 1224px) {
-  .flex-map {
+  .list-container {
+    height: 95%;
+    width: 55%;
+  }
+
+  .list-map {
     margin-top: 10px;
     width: 42em;
     height: 20em;
-    margin-left: 5em;
+    margin-left: 1em;
   }
 }

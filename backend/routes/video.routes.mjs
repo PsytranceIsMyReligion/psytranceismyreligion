@@ -1,7 +1,8 @@
 import express from "express";
 const router = express.Router();
 import Video from "../models/videos";
-import mongoose from "mongoose";
+import WallPost from "../models/wallpost";
+
 
 router.route("/").get((req, res) => {
   Video.find({}).populate('createdBy').sort({
@@ -16,8 +17,9 @@ router.route("/add").post((req, res) => {
   let video = new Video(req.body);
   video
     .save()
-    .then(video => {
-      res.status(200).json(video);
+    .then(updated => {
+      addWallPost(req.body);
+      res.status(200).json(updated);
     })
     .catch(err => {
       console.log('error', err);
@@ -27,9 +29,18 @@ router.route("/add").post((req, res) => {
 
 router.route("/update/:id").post((req, res, next) => {
   let video = new Video(req.body);
-  video
-    .updateOne(req.body)
-    .then(video => {
+  Video
+    .findOneAndUpdate({
+      _id: req.params.id
+    }, {
+      $set: {
+        title: req.body.title,
+        description: req.body.description,
+        value: req.body.value,
+      }
+    }, {
+      new: true
+    }, (err, post) => {
       res.status(200).json(video);
     })
     .catch(err => {
@@ -46,5 +57,22 @@ router.route("/delete/:id").get((req, res) => {
     else res.json("Removed successfully");
   });
 });
+
+function addWallPost(video) {
+  let payload = {
+    title: video.title,
+    content: video.createdBy.uname + ' uploaded a link ' + video.description + ' ' + '<a target="_blank" href="http://www.youtube.com/watch?v=' + video.value + '">Link</a><br/><br/>',
+    createdBy: video.createdBy
+  }
+  console.log('creating ', payload);
+  let post = new WallPost(payload);
+  post.save().then(saved => {
+      console.log('saved log', saved);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).send("Update post failed");
+    });
+}
 
 export default router;

@@ -1,8 +1,10 @@
 <div fxLayout="row" class="outer-container">
-  <div class="flex-container container">
-    <div #gmap class="flex-map"></div>
-      <app-member-selector  *ngIf="isMobile" [headerInfo$]="headerInfo$" [members$]="members$"></app-member-selector>
-      <app-member-details ></app-member-details>
+  <div class="list-container">
+    <app-wall *ngIf="isMobile" [wall$]="wall$"></app-wall>
+    <div #gmap class="list-map"></div>
+    <app-member-selector *ngIf="isMobile" [headerInfo$]="headerInfo$" [members$]="members$"></app-member-selector>
+    <app-member-details></app-member-details>
   </div>
-  <app-member-selector *ngIf="!isMobile"  [headerInfo$]="headerInfo$" [members$]="members$"></app-member-selector>
+  <app-member-selector *ngIf="!isMobile" [headerInfo$]="headerInfo$" [members$]="members$"></app-member-selector>
+  <app-wall *ngIf="!isMobile" [wall$]="wall$"></app-wall>
 </div>

@@ -6,42 +6,42 @@
     height: 100%;
     width: 95%;
     font-weight: bold;
-
+    margin-top: 10px;
     background-image: linear-gradient(red, yellow);
   }
 
-    .flex-members {
-        width: 95%;
-        border-radius : 5px;
-        overflow-y: hidden;
-          margin-top: 10px;
-          margin-left: 10px;
-          margin-right: 70px;
-        ul {
-          cursor: pointer;
-          background-color: orange;
+  .flex-members {
+    width: 95%;
+    // border-radius : 5px;
+    overflow-y: hidden;
+    margin-left: 10px;
+    margin-right: 70px;
+
+    ul {
+      cursor: pointer;
+      background-color: orange;
 
 
-         li {
-          height: 40px;
-          width: 100%;
-          text-align: center;
-          padding-top: 10px;
-             width: 100%;
-              }
-          li:hover {
-            background-color: red;
-          }
-        }
+      li {
+        height: 40px;
+        width: 100%;
+        text-align: center;
+        padding-top: 10px;
+        width: 100%;
+      }
+
+      li:hover {
+        background-color: red;
+      }
     }
+  }
 
-    .summary {
-      margin-top: 15px;
-      background-image: linear-gradient(red, yellow);
-      font-weight: bold;
-      text-align: center;
-      border-radius: 5px;
-    }
+  .summary {
+    background-image: linear-gradient(red, yellow);
+    font-weight: bold;
+    text-align: center;
+    height: 50px;
+  }
 
 }
 
@@ -49,43 +49,43 @@
   .flex-members {
     width: 17em;
     padding: 10px;
-    margin-top: 1em;
-    margin-left: 10px;
+    margin-top: 0;
+    margin-left: 0;
     font-size: 12pt;
     overflow-y: hidden;
     background-image: linear-gradient(red, yellow);
 
-    > * {
+    >* {
       font-size: 12pt;
     }
+
     ul {
       cursor: pointer;
       background-color: orange;
 
 
-     li {
-      height: 30px;
-      width: 100%;
-      text-align: center;
-      padding-top: 10px;
-         width: 100%;
-          }
+      li {
+        height: 30px;
+        width: 100%;
+        text-align: center;
+        padding-top: 10px;
+        width: 100%;
+      }
+
       li:hover {
         background-color: red;
       }
     }
+
     .member-container {
       margin-left: 10px;
       opacity: 0.7;
-      width:100px;
+      width: 100px;
       height: 100%;
     }
 
-}
+  }
 
 
 
 }
-
-
-

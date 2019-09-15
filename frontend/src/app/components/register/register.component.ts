@@ -69,6 +69,7 @@ export class RegisterComponent implements OnInit {
   socialid: string;
   member: Member = {};
   members: Array<Member> = [];
+  referers : Array<Member> = [];
   musicGenres: any;
   artists: any;
   selectedArtists: any = [];
@@ -97,6 +98,10 @@ export class RegisterComponent implements OnInit {
     console.log(this.musicGenres);
     this.artists = this.activatedRoute.snapshot.data["data"]["static"][1];
     this.members = this.activatedRoute.snapshot.data["data"]["members"];
+    if(!this.newMode) {
+      this.referers = this.members.filter(el => el._id != this.memberService.getUser()._id)
+    }
+    else this.referers = this.members;
     this.musicTypeData = this.musicGenres.slice();
     this.artistData = this.artists.slice();
     this.dropdownData = dropdowns;
@@ -208,12 +213,12 @@ export class RegisterComponent implements OnInit {
     );
     this.filteredReferers = this.basicInfoGroup.get("referer").valueChanges.pipe(
       startWith(""),
-      map(value => (value ? this.refererFilter(value) : this.members.slice()))
+      map(value => (value ? this.refererFilter(value) : this.referers.slice()))
     );
   }
 
   refererFilter(value): any[] {
-    return this.members.filter(member =>
+    return this.referers.filter(member =>
       member._id == value._id);
   }
 
@@ -296,9 +301,9 @@ export class RegisterComponent implements OnInit {
       musictype: this.detailGroup.get("musictype").value,
       startyear: this.detailGroup.get("startyear").value.year(),
       bio: this.detailGroup.get("bio").value,
-      websiteUrl: "http://" + this.detailGroup.get("websiteUrl").value,
-      facebookUrl: "http://www.facebook.com/" + this.detailGroup.get("facebookUrl").value,
-      soundcloudUrl: "https://www.soundcloud.com/" + this.detailGroup.get("soundcloudUrl").value,
+      websiteUrl: this.detailGroup.get("websiteUrl").value ? "http://" + this.detailGroup.get("websiteUrl").value : "",
+      facebookUrl: this.detailGroup.get("facebookUrl").value ? "http://www.facebook.com/" + this.detailGroup.get("facebookUrl").value : "",
+      soundcloudUrl: this.detailGroup.get("soundcloudUrl").value ? "http://www.soundcloud.com/" + this.detailGroup.get("soundcloudUrl").value : "",
       psystatus: this.opinionGroup.get("psystatus").value,
       favouriteartists: this.opinionGroup.get("favouriteartists").value,
       reason: this.opinionGroup.get("reason").value,
@@ -328,22 +333,6 @@ export class RegisterComponent implements OnInit {
       });
     }
   }
-
-  // createNewStaticDataTypes() {
-
-  //   let music =  this.detailGroup.get("musictype").value;
-  //   music.array.forEach(element => {
-
-  //   });
-
-  //   return this.addNewStaticData({ name: text, type: type }).subscribe((value : any) => {
-  //     console.log(value);
-  //     if (type == 'musictype') {
-  //       this.musicTypeData.push({'text' : value.name, '_id' : value.id });
-  //     }
-  //     return value;
-  //   })
-  // }
 
   getalpha3Code(field: string) {
     let location = this.basicInfoGroup.get(field).value;
@@ -410,10 +399,6 @@ export class RegisterComponent implements OnInit {
 
   public musictypeValueNormalizer = (text$: Observable<string>) => text$.pipe(map((text: string) => {
     return this.getValueForNormalizer(this.detailGroup.get("musictype").value, text, this.musicTypeData)
-    // .subscribe((res) => {
-    //   this.musicGenres.push(value);
-    //   return value;
-    // })
     // console.log('val', value)
   }));
 

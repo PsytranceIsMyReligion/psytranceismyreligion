@@ -1,3 +1,4 @@
+import { WallPost } from './../../models/member.model';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Member } from "../../models/member.model";
@@ -23,19 +24,21 @@ export class ListComponent implements OnInit {
   ];
   @ViewChild("gmap", { static: true }) gmapElement: any;
   map: google.maps.Map;
-  focusMarker : any; 
+  focusMarker : any;
   selectedMember$: BehaviorSubject<Member>;
   isMobile: boolean = false;
   members$: BehaviorSubject<Array<Member>>;
+  wall$: BehaviorSubject<Array<WallPost>>;
   headerInfo$: BehaviorSubject<any> = new BehaviorSubject({});
   constructor(
     private memberService: MemberService,
     private router: Router,
     private route: ActivatedRoute,
-    private deviceDetectorService :DeviceDetectorService 
+    private deviceDetectorService :DeviceDetectorService
   ) {
-    this.members$ = new BehaviorSubject(this.route.snapshot.data["data"]["members"]); 
-    this.selectedMember$ = this.memberService.getUser$();
+    this.members$ = new BehaviorSubject(this.route.snapshot.data["data"]["members"]);
+    this.wall$ = new BehaviorSubject(this.route.snapshot.data["data"]["wallposts"]);
+    this.selectedMember$ = this.memberService.getSelectedMember$();
     this.headerInfo$.next({
       count :  this.route.snapshot.data["data"]["stats"]["count"],
       conversionPercent :  this.route.snapshot.data["data"]["stats"]["conversionPercent"]
@@ -45,10 +48,17 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.generateMemberMap();
+    this.route.params.subscribe( params => {
+      if(params.id) {
+        console.log('param',params.id)
+        this.selectedMember$.next(this.memberService.getMemberById(params.id))
+      }
+    });
     this.selectedMember$.subscribe((member) => this.updateFocusedMember(member));
   }
 
   updateFocusedMember(member: Member) {
+    console.log('focusing on ', member.uname)
     const location = new google.maps.LatLng(member.lat, member.long);
     let marker = new google.maps.Marker({
       position: location,
@@ -76,7 +86,7 @@ export class ListComponent implements OnInit {
       fullscreenControl: true
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    this.members$.subscribe(members => 
+    this.members$.subscribe(members =>
       {
          members.forEach(el => {
         if (el.lat && el.long) {

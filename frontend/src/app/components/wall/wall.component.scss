@@ -1,0 +1,90 @@
+.outer-container {
+  background-image: linear-gradient(yellow, red);
+  margin-right : 10px;
+  padding: 0px 10px;
+  opacity : 0.7;
+}
+
+
+.post-container {
+  width: 22em;
+  overflow-y: scroll;
+  height: inherit;
+}
+
+
+
+mat-card {
+  border-radius: 0px;
+  padding: 0px;
+  width : 100%;
+  margin: 10px 0px;
+  .mat-flat-button {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  mat-card-header {
+    min-height: 60px;
+    background-image: linear-gradient(red, yellow);
+    padding : 5px;
+  }
+
+  mat-card-content {
+    margin : 10px;
+    padding: 5px;
+    // height: 100px;
+    // background-color: rgb(179, 126, 12)
+  }
+
+  mat-icon {
+    zoom: 0.7;
+  }
+
+  button {
+    font-size: 10px;
+    margin: 0 !important;
+    padding: 0px !important;
+  }
+}
+
+.inner-card {
+  // height : 300px;
+}
+
+
+.inner-card:first {
+  margin-top: 150px !important;
+}
+
+.outer-card {
+  margin-bottom: 50px;
+}
+
+.summary {
+  background-image: linear-gradient(yellow, red, );
+  font-size: 14pt;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0px;
+  height: 70px;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+
+  .summary {
+    margin:0px!important;
+  }
+  .outer-container {
+    padding: 0px;
+    margin-right: 0px;
+  }
+  .post-container {
+    width: 22em;
+    height: 20em;
+  }
+
+  mat-card {
+    width : 76%;
+  }
+}

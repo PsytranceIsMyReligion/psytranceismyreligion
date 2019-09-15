@@ -18,7 +18,7 @@ export class MemberService {
   selectedMember$: BehaviorSubject<Member>;
   countries = countries;
   dropdowns = dropdowns;
-
+  members;
   constructor(private http: HttpClient) {}
 
   saveMemberToLocalStorage(_member: Member) {
@@ -43,10 +43,15 @@ export class MemberService {
     return this.user$;
   }
 
-  getUserId(): number {
+  getUserId(): string {
     if (this.user) {
       return this.user._id;
     }
+  }
+
+  getMemberById(id) {
+    console.log("m", this.members.filter(m => m._id == id)[0]);
+    return this.members.filter(m => m._id == id)[0];
   }
 
   // getRegistrationFormStaticData() {
@@ -67,6 +72,7 @@ export class MemberService {
   }
   getMembers() {
     return this.http.get(`${baseUri}/members`).pipe(
+      tap(members => (this.members = members)),
       map((members: Array<Member>) => {
         return members.map(member => {
           return this.enrichMember(member);
@@ -86,13 +92,16 @@ export class MemberService {
       "partyfrequency",
       member.partyfrequency
     );
-    console.log(member)
+    member.membertypeDisplay = this.getDropdownDisplay(
+      "membertype",
+      member.membertype
+    );
     return member;
   }
 
-  getMemberById(id) {
-    return this.http.get(`${baseUri}/members/${id}`);
-  }
+  // getMemberById(id) {
+  //   return this.http.get(`${baseUri}/members/${id}`);
+  // }
 
   getMemberBySocialId(id) {
     return this.http.get(`${baseUri}/members/bysocialid/${id}`);
@@ -119,7 +128,6 @@ export class MemberService {
   }
 
   getDropdownDisplay(dataset, value) {
-    console.log(dropdowns[dataset].filter(el => el.id === value)[0])
     return dropdowns[dataset].filter(el => el.id === value)[0]["value"];
   }
 

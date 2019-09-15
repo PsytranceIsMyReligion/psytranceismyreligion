@@ -10,6 +10,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "types": [
+      "hammerjs"
+    ],
     "paths": {
       "core-js/es7/reflect": [
         "node_modules/core-js/proposals/reflect-metadata"

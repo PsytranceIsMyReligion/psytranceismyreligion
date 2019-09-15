@@ -50,6 +50,7 @@ router.route("/bysocialid/:id").get((req, res) => {
 
 router.route("/add").post((req, res) => {
     let member = new Member(req.body);
+    karmicKudosCheck(member, req.body.referer, false);
     member
         .save()
         .then(member => {
@@ -63,35 +64,11 @@ router.route("/add").post((req, res) => {
 
 
 router.route("/update/:id").post((req, res, next) => {
-    // let newGenres = [];
-    // _.forEach(req.body.musictype, (element) => {
-    //     if (element._id == "new") {
-    //         new MusicGenre({
-    //             name: element.name
-    //         }).save(element).then(genre => {
-    //             newGenres.push(genre);
-    //         })
-    //     } else
-    //         newGenres.push(element);
-    // });
-    // req.body.musictype = newGenres;
 
-    // let newArtists = [];
-    // _.forEach(req.body.favouriteartists, (element) => {
-    //     if (element._id == "new") {
-    //         new Artist({
-    //             name: element.name
-    //         }).save(element).then(artist => {
-    //             console.log('addened',artist);
-    //             newArtists.push(artist);
-    //         })
-    //     } else
-    //         newArtists.push(element);
-    // });
-    // console.log(newArtists);
-    // req.body.favouriteartists = newArtists;
     let member = new Member(req.body);
-    if (mongoose.Types.ObjectId.isValid(member.referer)) {
+
+    karmicKudosCheck(member, req.body.referer, true);
+    if (!mongoose.Types.ObjectId.isValid(member.referer)) {
         member.referer = mongoose.Types.ObjectId();
     }
     member
@@ -113,5 +90,35 @@ router.route("/delete/:id").get((req, res) => {
         else res.json("Removed successfully");
     });
 });
+
+function karmicKudosCheck(member, referer, updateMode) {
+    if (updateMode && member.referer) {
+        Member.find({
+            _id: member.id
+        }).populate('referer').exec((err, checkMember) => {
+            if (!checkMember.referer) {
+                updateKarmicKudos(referer);
+            };
+        });
+    } else {
+        updateKarmicKudos(referer);
+    }
+
+}
+
+function updateKarmicKudos(referer) {
+    if (referer) {
+        Member.findOneAndUpdate({
+            _id: referer._id
+        }, {
+            karmicKudos: referer.karmicKudos + 10
+        }, {
+            upsert: false
+        }, (err, res) => {
+            if (err) throw (err);
+        });
+    }
+
+}
 
 export default router;
