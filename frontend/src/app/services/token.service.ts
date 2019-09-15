@@ -1,3 +1,4 @@
+import { User } from '@progress/kendo-angular-conversational-ui';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,11 +15,11 @@ export class TokenService {
   constructor(private http: HttpClient,  private jwtHelper: JwtHelperService) {
    }
 
-  login(id: string): Observable<boolean> {
-    return this.http.post<{token: string}>(`${baseUri}/api/auth`, {id: id})
+  login(user: User): Observable<boolean> {
+    return this.http.post(`${baseUri}/api/auth`, {id: user.id, name : user.name })
       .pipe(
         map(result => {
-          localStorage.setItem('access_token', result.token);
+          localStorage.setItem('access_token', result['token']);
           console.log('added access token')
           return true;
         })

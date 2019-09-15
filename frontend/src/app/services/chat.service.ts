@@ -1,5 +1,5 @@
 import { Socket } from "ngx-socket-io";
-import { Observable, Subject, BehaviorSubject, Observer, of } from "rxjs";
+import { Observable, Subject, BehaviorSubject, Observer, of, ReplaySubject } from "rxjs";
 import { map, tap, filter } from "rxjs/operators";
 import { Injectable, OnInit } from "@angular/core";
 import { User, Message } from "@progress/kendo-angular-conversational-ui";
@@ -21,10 +21,13 @@ export class ChatService implements OnInit {
   responses: Observable<Message> = this.socket.fromEvent<Message>(
     "chat-message"
   );
-  initial: Observable<Message> = this.socket.fromEvent<Message>("chat-init");
+  initial: ReplaySubject<Message> = new ReplaySubject<Message>(100);
 
   // initial: Observable<Message>;
   constructor(private socket: Socket) {
+    this.socket.fromEvent<Message>("chat-init").subscribe(msg => {
+      this.initial.next(msg);
+    })
     this.socket.emit("chat-init", []);
     // this.initial$
     // .subscribe((init : Array<Message>) => {

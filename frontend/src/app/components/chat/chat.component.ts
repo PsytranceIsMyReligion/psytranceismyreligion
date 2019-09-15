@@ -53,7 +53,6 @@ export class ChatComponent {
       from([hello]),
       this.local,
       this.svc.initial.pipe(
-        // tap(res => console.log("init", res)),
         filter(res => res != null),
         map(
           (response): Message => {
@@ -73,9 +72,9 @@ export class ChatComponent {
         )
       )
     ).pipe(
-      tap(res => console.log(res)),
+      // tap(res => console.log(res)),
       scan((acc, x) => [...acc, x], []),
-      tap(res => console.log(res))
+      // tap(res => console.log(res))
     );
   }
 

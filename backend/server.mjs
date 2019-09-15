@@ -89,7 +89,8 @@ router.route("/api/auth").post((req, res) => {
   }, secretConfig.secret, {
     expiresIn: 86400 // expires in 24 hours
   });
-  io.emit('system-message', req.body.uname + ' has logged on!');
+  console.log(req.body)
+  io.emit('system-message', req.body.name + ' has logged on!');
   res.status(200).send({
     token: token
   });
@@ -98,7 +99,21 @@ router.route("/api/auth").post((req, res) => {
 app.use("/", router);
 const server = app.listen(process.env.PORT, () => console.log("express server running on port " + process.env.PORT));
 const io = socketIO(server);
+
+const connections = new Set();
+
+// io.on('connection', (socket) => {
+
+//   connections.add(socket);
+
+//   socket.once('disconnect', function () {
+//     connections.delete(socket);
+//   });
+
+// });
+
 io.on('connection', (socket) => {
+  connections.add(socket);
   console.log('socket.io connected');
   io.on('system-message', (message) => {
     console.log('system-message', message);
@@ -112,10 +127,28 @@ io.on('connection', (socket) => {
       values.map(el => socket.emit('chat-init', el));
   }).bind(messageCache));
 
+  socket.on('logoff', (err, member) => {
+    console.log("logoff", member)
+    if (member) {
+      console.log('l', member.name)
+      io.emit("system-message", member.name + " logged off");
+    }
+  })
+
 
   socket.on('chat-message', (null, (message) => {
     let values = messageCache.get("messages");
-    messageCache.set("messages", [message, ...values]);
+    if (values)
+      messageCache.set("messages", [message, ...values]);
+    else
+      messageCache.set("messages", [message]);
     socket.broadcast.emit('chat-message', message);
   }).bind(messageCache));
+  socket.on('disconnect', function (member) {
+    //   console.log(member)
+    //   socket.broadcast.emit('system-message', member.uname + ' logged off');
+    connections.delete(socket);
+
+  });
+
 });

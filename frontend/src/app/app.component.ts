@@ -1,6 +1,6 @@
+import { MemberService } from './services/member.service';
 import { environment } from "./../environments/environment";
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
 import { Member } from "./models/member.model";
 import { AuthService, SocialUser } from "angularx-social-login";
 import { TokenService } from "./services/token.service";
@@ -17,10 +17,10 @@ export class AppComponent implements OnDestroy, OnInit {
   toastContainer: ToastContainerDirective;
 
   constructor(
-    private router: Router,
     private toastrService: ToastrService,
     private socialAuthService: AuthService,
     private tokenService: TokenService,
+    private memberService : MemberService,
     private socket: Socket
   ) {}
 
@@ -30,11 +30,12 @@ export class AppComponent implements OnDestroy, OnInit {
   user: SocialUser;
 
   ngOnInit() {
+    this.member = this.memberService.getUser();
     this.socialAuthService.authState.subscribe(user => {
       this.user = user;
     });
     this.socket.on("system-message", message => {
-      this.toastrService.info(message, "Info");
+      this.toastrService.info(message);
     });
     // if(this.env.production){
     window.onbeforeunload = () => this.ngOnDestroy();
@@ -42,8 +43,12 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
+    console.log('logoff', this.member);
+    this.socket.emit("logoff", this.member ); 
     this.socialAuthService.signOut();
+    // this.memberService.log
     sessionStorage.removeItem("member");
     this.tokenService.logout();
+
   }
 }

@@ -52,10 +52,10 @@ export class LandingComponent implements OnInit {
         this.memberService.getMemberBySocialId(user.id).subscribe((member : Member) => {
           if (!member) this.router.navigate(["register", "social"]);
           else {
-            this.toastr.success('Welcome back ' + member.fname);
+            // this.toastr.success('Welcome back ' + member.fname);
             this.loggedInMember = member;
             this.memberService.saveMemberToLocalStorage(member);
-            this.tokenService.login(user.id).subscribe(token => {
+            this.tokenService.login(user).subscribe(token => {
               this.router.navigate(["nav/list"]);
             });
           }
