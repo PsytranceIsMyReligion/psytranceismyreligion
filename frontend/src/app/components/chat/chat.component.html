@@ -1,1 +1,7 @@
-<p>chat works!</p>
+<kendo-chat
+class="chat-box"
+[messages]="feed$ | async"
+[user]="user"
+(sendMessage)="sendMessage($event)"
+>
+</kendo-chat>

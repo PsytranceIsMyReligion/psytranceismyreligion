@@ -46,7 +46,6 @@ export class AppComponent implements OnDestroy, OnInit {
     console.log('logoff', this.member);
     this.socket.emit("logoff", this.member ); 
     this.socialAuthService.signOut();
-    // this.memberService.log
     sessionStorage.removeItem("member");
     this.tokenService.logout();
 

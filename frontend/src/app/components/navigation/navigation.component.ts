@@ -23,9 +23,9 @@ export class NavigationComponent implements OnInit {
   ngOnInit() {}
 
   logout() {
-    console.log('loging')
     this.socialAuthService.signOut();
-    this.socket.emit("logof", this.memberService.getUser());
+    // console.log('logging off', this.memberService.getUser().uname);
+    this.socket.emit("logoff", this.memberService.getUser().fname + ' ' + this.memberService.getUser().lname);
     sessionStorage.removeItem("member");
     this.tokenService.logout();
     let toast: ActiveToast<any> = this.toastrService.success(
