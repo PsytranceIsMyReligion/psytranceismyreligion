@@ -12,27 +12,17 @@ import wallPostRoutes from "./routes/wallpost.routes";
 import socketIO from "socket.io";
 import nodeCache from "node-cache";
 import path from "path";
-import {
-  dirname
-} from 'path';
-import {
-  fileURLToPath
-} from 'url';
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
-import {
-  resolve
-} from "path";
-import dotenv from 'dotenv';
+import { resolve } from "path";
+import dotenv from "dotenv";
 import NodeCache from "node-cache";
 
-
-const __dirname = dirname(fileURLToPath(
-  import.meta.url));
-dotenv.config(
-  ({
-    path: resolve(__dirname, ".env")
-  }));
-
+const __dirname = dirname(fileURLToPath(import.meta.url));
+dotenv.config({
+  path: resolve(__dirname, ".env")
+});
 
 const app = express();
 const router = express.Router();
@@ -41,115 +31,134 @@ const messageCache = new NodeCache({
   checkperiod: 120
 });
 messageCache.set("messages", []);
-app.use(cors({
-  credentials: true,
-  origin: 'http://localhost:4200'
-}));
-app.use(express.static('public'));
-// app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use(
+  cors({
+    credentials: true,
+    origin: [
+      "http://localhost:4200",
+      "http://localhost:3000",
+      "http://ec2-3-8-187-23.eu-west-2.compute.amazonaws.com:3000",
+      "http://www.psytranceismyreligion.com"
+    ]
+  })
+);
+app.use(express.static("public"));
+app.use("/static", express.static(path.join(__dirname, "public")));
 app.options("*", cors());
-router.use(bodyParser.urlencoded({
-  limit: '16mb',
-  extended: true
-}));
-app.use(bodyParser.json({
-  limit: '16mb',
-  extended: true
-}));
+router.use(
+  bodyParser.urlencoded({
+    limit: "16mb",
+    extended: true
+  })
+);
+app.use(
+  bodyParser.json({
+    limit: "16mb",
+    extended: true
+  })
+);
 app.use(
   expressJwt({
     secret: "psytranceismyreligion-super-secret"
   }).unless({
     path: [
       "/api/auth",
-      "/members",
-      "/members/add",
-      "/members/add/avatar",
+      // "/members/.*",
+      // "/members/add",
+      // "/members/add/avatar",
       "/wallposts",
-      "/static",
-      "/images",
-      "/public/*",
-      "/members/landingpagestats",
-      /^\/members\/bysocialid\/.*/
+      "/staticdata",
+      // "/members/landingpagestats",
+      /^\/members\/bysocialid\/.*/,
+      /\/static\/*/,
+      /\/member\/*/
     ]
   })
 );
 
-process.env.NODE_ENV == undefined ? process.env.NODE_ENV = "development" : null;
-let dbUrl = process.env.NODE_ENV === "production" ? process.env.DB_HOST_PROD : process.env.DB_HOST_DEV;
-console.log('Loading environment ' + process.env.NODE_ENV);
-console.log('connecting to ' + dbUrl);
+process.env.NODE_ENV == undefined
+  ? (process.env.NODE_ENV = "development")
+  : null;
+let dbUrl =
+  process.env.NODE_ENV === "production"
+    ? process.env.DB_HOST_PROD
+    : process.env.DB_HOST_DEV;
+console.log("Loading environment " + process.env.NODE_ENV);
+console.log("connecting to " + dbUrl);
 mongoose.connect(dbUrl, {
   useNewUrlParser: true
 });
-
 
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("Mongo db connected");
 });
 
-
-
-app.use('/members', memberRoutes);
-app.use('/videos', videoRoutes);
-app.use('/static', staticDataRoutes);
-app.use('/wallposts', wallPostRoutes);
+app.use("/members", memberRoutes);
+app.use("/videos", videoRoutes);
+app.use("/static", staticDataRoutes);
+app.use("/wallposts", wallPostRoutes);
 
 router.route("/api/auth").post((req, res) => {
-  var token = jwt.sign({
-    id: req.body.id
-  }, secretConfig.secret, {
-    expiresIn: 86400 // expires in 24 hours
-  });
-  console.log(req.body)
-  io.emit('system-message', req.body.name + ' has logged on!');
+  var token = jwt.sign(
+    {
+      id: req.body.id
+    },
+    secretConfig.secret,
+    {
+      expiresIn: 86400 // expires in 24 hours
+    }
+  );
+  console.log(req.body);
+  io.emit("system-message", req.body.name + " has logged on!");
   res.status(200).send({
     token: token
   });
 });
 
 app.use("/", router);
-const server = app.listen(process.env.PORT, () => console.log("express server running on port " + process.env.PORT));
+const server = app.listen(process.env.PORT, () =>
+  console.log("express server running on port " + process.env.PORT)
+);
 const io = socketIO(server);
 
 const connections = new Set();
 
-
-io.on('connection', (socket) => {
-
+io.on("connection", socket => {
   connections.add(socket);
-  console.log('socket.io connected');
-  io.on('system-message', (message) => {
-    console.log('system-message', message);
-    io.emit('system-message', message);
+  console.log("socket.io connected");
+  io.on("system-message", message => {
+    console.log("system-message", message);
+    io.emit("system-message", message);
   });
 
+  socket.on(
+    "chat-init",
+    (null,
+    () => {
+      let values = messageCache.get("messages");
+      if (values) values.map(el => socket.emit("chat-init", el));
+    }).bind(messageCache)
+  );
 
-  socket.on('chat-init', (null, () => {
-    let values = messageCache.get("messages");
-    if (values)
-      values.map(el => socket.emit('chat-init', el));
-  }).bind(messageCache));
-
-  socket.on('logoff', (name) => {
-    console.log("logoff", name)
+  socket.on("logoff", name => {
+    console.log("logoff", name);
     if (name) {
       io.emit("system-message", name + " logged off");
     }
   });
 
-
-  socket.on('chat-message', (null, (message) => {
-    let values = messageCache.get("messages");
-    if (values)
-      messageCache.set("messages", [message, ...values]);
-    else
-      messageCache.set("messages", [message]);
-    socket.broadcast.emit('chat-message', message);
-  }).bind(messageCache));
-  socket.on('disconnect', function (member) {
+  socket.on(
+    "chat-message",
+    (null,
+    message => {
+      let values = messageCache.get("messages");
+      if (values) messageCache.set("messages", [message, ...values]);
+      else messageCache.set("messages", [message]);
+      socket.broadcast.emit("chat-message", message);
+    }).bind(messageCache)
+  );
+  socket.on("disconnect", function(member) {
     connections.delete(socket);
   });
-
 });

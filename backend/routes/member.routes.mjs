@@ -6,31 +6,26 @@ import Member from "../models/member";
 import _ from "lodash";
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, './public/images');
+        cb(null, './public/images');
     },
     filename: (req, file, cb) => {
-      console.log(file);
-      var filetype = '';
-      if(file.mimetype === 'image/gif') {
-        filetype = 'gif';
-      }
-      if(file.mimetype === 'image/png') {
-        filetype = 'png';
-      }
-      if(file.mimetype === 'image/jpeg') {
-        filetype = 'jpg';
-      }
-      cb(null, 'image-' + Date.now() + '.' + filetype);
+        console.log(file);
+        var filetype = '';
+        if (file.mimetype === 'image/gif') {
+            filetype = 'gif';
+        }
+        if (file.mimetype === 'image/png') {
+            filetype = 'png';
+        }
+        if (file.mimetype === 'image/jpeg') {
+            filetype = 'jpg';
+        }
+        cb(null, 'image-' + Date.now() + '.' + filetype);
     }
 });
-const uploader = multer({storage: storage});
-
-const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
+const uploader = multer({
+    storage: storage
+});
 
 router.route("/landingpagestats").get((req, res) => {
     Member.countDocuments((err, count) => {
@@ -115,7 +110,7 @@ router.route("/delete/:id").get((req, res) => {
     }, (err, member) => {
         if (err) res.json(err);
         else res.json("Removed successfully");
-    }); 
+    });
 });
 
 router.route("/add/avatar").post(uploader.single('files'), (req, res) => {
@@ -123,9 +118,7 @@ router.route("/add/avatar").post(uploader.single('files'), (req, res) => {
     Member.findOneAndUpdate({
         _id: req.body.id
     }, {
-        // avatarUrl : `http://www.psytranceismyreligion.com/images/${req.file.filename}`
-        avatarUrl : `http://localhost:3000/images/${req.file.filename}`
-
+        avatarUrl: process.env.NODE_ENV === "production" ? `http://www.psytranceismyreligion.com/images/${req.file.filename}` : `http://localhost:3000/images/${req.file.filename}`
     }, {
         new: true,
         upsert: false

@@ -8,18 +8,19 @@ import countries from "../../assets/static-data/countries.json";
 import dropdowns from "../../assets/static-data/dropdowns.json";
 
 const baseUri = environment.baseUri;
-const toBase64 = file => new Promise((resolve, reject) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => resolve(reader.result);
-  reader.onerror = error => reject(error);
-});
+const toBase64 = file =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 @Injectable({
   providedIn: "root"
 })
 export class MemberService {
   user: Member;
-  user$: BehaviorSubject<Member> =  new BehaviorSubject({});
+  user$: BehaviorSubject<Member> = new BehaviorSubject({});
   avatarUrl$: BehaviorSubject<string> = new BehaviorSubject("");
   selectedMember$: BehaviorSubject<Member> = new BehaviorSubject({});
   countries = countries;
@@ -50,7 +51,6 @@ export class MemberService {
     return this.user$;
   }
 
-  
   getUserId(): string {
     if (this.user) {
       return this.user._id;
@@ -148,7 +148,7 @@ export class MemberService {
   }
 
   getStaticData() {
-    return this.http.get(`${baseUri}/static`);
+    return this.http.get(`${baseUri}/staticdata`);
   }
 
   // createMusicGenre(genre) {
@@ -156,6 +156,6 @@ export class MemberService {
   // }
 
   addStaticData(value) {
-    return this.http.post(`${baseUri}/static/add`, { params: value });
+    return this.http.post(`${baseUri}/staticdata/add`, { params: value });
   }
 }

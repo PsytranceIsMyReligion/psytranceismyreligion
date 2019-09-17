@@ -1,9 +1,12 @@
 <div fxLayoutAlign="center" class="registration-container opaque-card">
   <mat-card class="registration-form">
-    <mat-card-header>
-      <img [hidden]="newMode" mat-card-avatar src="{{ avatarUrl$ | async }}" />
+    <mat-card-header *ngIf="avatarUrl$ | async as avatarUrl">
+      <img [hidden]="newMode" mat-card-avatar [src]="avatarUrl" />
       <h3>
-        <mat-icon mat-card-avatar [hidden]="!newMode || avatarUrl">person</mat-icon><button mat-icon-button color="accent" (click)="openAvatarDialog()"><mat-icon>edit</mat-icon>Edit</button> Your Profile
+        <mat-icon mat-card-avatar [hidden]="!newMode || avatarUrl">person</mat-icon><button mat-icon-button
+          color="accent" (click)="openAvatarDialog()">
+          <mat-icon>edit</mat-icon>Edit
+        </button> Your Profile
       </h3>
     </mat-card-header>
     <mat-horizontal-stepper [linear]="true" #stepper>
@@ -36,21 +39,26 @@
             <mat-error>{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput placeholder="Were you referred by a member? Please add their username and they'll earn Karmic Kudos for it!" formControlName="referer" [matAutocomplete]="auto3" />
+            <input matInput
+              placeholder="Were you referred by a member? Please add their username and they'll earn Karmic Kudos for it!"
+              formControlName="referer" [matAutocomplete]="auto3" />
             <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayRefererFn">
-              <mat-option (onSelectionChange)="setReferer(option)" *ngFor="let option of filteredReferers | async" [value]="option">
+              <mat-option *ngFor="let option of filteredReferers | async" [value]="option">
                 {{ option.uname }} - {{ option.fname}} {{ option.lname}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput [matDatepicker]="picker" formControlName="birthyear" [min]="minDate" [max]="maxDate" placeholder="When were you born?" />
+            <input matInput [matDatepicker]="picker" formControlName="birthyear" [min]="minDate" [max]="maxDate"
+              placeholder="When were you born?" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker startView="multi-year" [startAt]="yearStart" #picker (yearSelected)="birthYearSelected($event, picker)"></mat-datepicker>
+            <mat-datepicker startView="multi-year" [startAt]="yearStart" #picker
+              (yearSelected)="birthYearSelected($event, picker)"></mat-datepicker>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input type="text" matInput placeholder="Where are you from?" formControlName="origin" [matAutocomplete]="auto" />
+            <input type="text" matInput placeholder="Where are you from?" formControlName="origin"
+              [matAutocomplete]="auto" />
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
               <mat-option *ngFor="let option of filteredCountriesOrigin | async" [value]="option">
                 {{ option.name }}
@@ -59,9 +67,11 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input type="text" matInput placeholder="Where do you live?" formControlName="location" [matAutocomplete]="auto2" />
+            <input type="text" matInput placeholder="Where do you live?" formControlName="location"
+              [matAutocomplete]="auto2" />
             <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
-              <mat-option (onSelectionChange)="setLocation(option)" *ngFor="let option of filteredCountriesLocation | async" [value]="option">
+              <mat-option (onSelectionChange)="setLocation(option)"
+                *ngFor="let option of filteredCountriesLocation | async" [value]="option">
                 {{ option.name }}
               </mat-option>
             </mat-autocomplete>
@@ -72,7 +82,8 @@
             <mat-error>Required</mat-error>
           </mat-form-field>
           <div [hidden]="!basicInfoGroup.get('postcode').value">
-            <app-map [postcode]="basicInfoGroup.get('postcode').value" [countryCode]="basicInfoGroup.get('location').value" (latLng)="setLatLng($event)"></app-map>
+            <app-map [postcode]="basicInfoGroup.get('postcode').value"
+              [countryCode]="basicInfoGroup.get('location').value" (latLng)="setLatLng($event)"></app-map>
           </div>
           <button style="float:right;" mat-button matStepperNext>
             Next
@@ -82,28 +93,35 @@
       <mat-step [stepControl]="detailGroup">
         <form [formGroup]="detailGroup">
           <ng-template matStepLabel>About You</ng-template>
-          <label class="label" *ngIf="detailGroup.get('musictype').value && detailGroup.get('musictype').value.length > 0">What are your favourite music genres?</label>
+          <label class="label"
+            *ngIf="detailGroup.get('musictype').value && detailGroup.get('musictype').value.length > 0">What are your
+            favourite music genres?</label>
           <mat-form-field class="field-full-width">
             <input matInput style="display: none" />
-            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="musicTypeData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="false"
-              [valueNormalizer]="musictypeValueNormalizer">
+            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="musicTypeData" [filterable]="true"
+              [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?"
+              [allowCustom]="false" [valueNormalizer]="musictypeValueNormalizer">
             </kendo-multiselect>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="What's your involvement in the scene?" formControlName="membertype">
-              <mat-option *ngFor="let option of dropdownData.membertype" [value]="option.id">I am {{option.value}}</mat-option>
+              <mat-option *ngFor="let option of dropdownData.membertype" [value]="option.id">I am {{option.value}}
+              </mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <input matInput [matDatepicker]="picker2" formControlName="startyear" [min]="minDate" [max]="maxDate" placeholder="When did you get into psytrance?" />
+            <input matInput [matDatepicker]="picker2" formControlName="startyear" [min]="minDate" [max]="maxDate"
+              placeholder="When did you get into psytrance?" />
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker startView="multi-year" [startAt]="yearStart" #picker2 (yearSelected)="partyStartYearSelected($event, picker2)"></mat-datepicker>
+            <mat-datepicker startView="multi-year" [startAt]="yearStart" #picker2
+              (yearSelected)="partyStartYearSelected($event, picker2)"></mat-datepicker>
             <mat-error>Required</mat-error>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <textarea class="reasonField" matInput placeholder="Tell us something about yourself" formControlName="bio"></textarea>
+            <textarea class="reasonField" matInput placeholder="Tell us something about yourself"
+              formControlName="bio"></textarea>
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <span matPrefix>http://www.facebook.com/</span>
@@ -124,17 +142,22 @@
       <mat-step [stepControl]="opinionGroup">
         <form [formGroup]="opinionGroup">
           <ng-template matStepLabel>Your opinions</ng-template>
-          <button mat-raised-button class="hvr-pulse artist-btn"  color="primary" (click)="openNewArtistDialog()">Add Artist</button>
-          <label class="label" *ngIf="opinionGroup.get('favouriteartists').value && opinionGroup.get('favouriteartists').value.length > 0">What are your favourite artists?</label>
+          <button mat-raised-button class="hvr-pulse artist-btn" color="primary" (click)="openNewArtistDialog()">Add
+            Artist</button>
+          <label class="label"
+            *ngIf="opinionGroup.get('favouriteartists').value && opinionGroup.get('favouriteartists').value.length > 0">What
+            are your favourite artists?</label>
           <mat-form-field class="field-full-width">
             <input matInput style="display: none" />
-            <kendo-multiselect #artistList formControlName="favouriteartists" [data]="artistData" [filterable]="true" [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?" [allowCustom]="false"
-              [valueNormalizer]="artistValueNormalizer">
+            <kendo-multiselect #artistList formControlName="favouriteartists" [data]="artistData" [filterable]="true"
+              [textField]="'name'" [valueField]="'_id'" placeholder="What are your favourite music genres?"
+              [allowCustom]="false" [valueNormalizer]="artistValueNormalizer">
             </kendo-multiselect>
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="How often do you go to parties?" formControlName="partyfrequency">
-              <mat-option *ngFor="let option of dropdownData.partyfrequency" [value]="option.id">{{option.value}}</mat-option>
+              <mat-option *ngFor="let option of dropdownData.partyfrequency" [value]="option.id">{{option.value}}
+              </mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -144,7 +167,8 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="How often do you go to festivals?" formControlName="festivalfrequency">
-              <mat-option *ngFor="let option of dropdownData.festivalfrequency" [value]="option.id">{{option.value}}</mat-option>
+              <mat-option *ngFor="let option of dropdownData.festivalfrequency" [value]="option.id">{{option.value}}
+              </mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
@@ -154,11 +178,13 @@
           </mat-form-field>
           <mat-form-field class="field-full-width">
             <mat-select placeholder="What is Psytrance to you?" formControlName="psystatus">
-              <mat-option *ngFor="let option of dropdownData.psystatus" [value]="option.id">{{option.value}}</mat-option>
+              <mat-option *ngFor="let option of dropdownData.psystatus" [value]="option.id">{{option.value}}
+              </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="field-full-width">
-            <textarea class="reasonField" matInput placeholder="Please describe why you feel this way" formControlName="reason"></textarea>
+            <textarea class="reasonField" matInput placeholder="Please describe why you feel this way"
+              formControlName="reason"></textarea>
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Back</button>
