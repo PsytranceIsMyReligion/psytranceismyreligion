@@ -1,11 +1,11 @@
-import { Artist } from './../../models/member.model';
+import { Artist } from "./../../models/member.model";
 import { Member } from "src/app/models/member.model";
 import { MemberService } from "./../../services/member.service";
 import { Component, OnInit } from "@angular/core";
 import { of, BehaviorSubject } from "rxjs";
 import moment from "moment";
-import { ActivatedRoute } from '@angular/router';
-
+import { ActivatedRoute } from "@angular/router";
+import { groupBy, GroupResult } from '@progress/kendo-data-query';
 @Component({
   selector: "app-stats",
   templateUrl: "./stats.component.html",
@@ -14,12 +14,14 @@ import { ActivatedRoute } from '@angular/router';
 export class StatsComponent implements OnInit {
   members: Member[];
   chartSeries$: BehaviorSubject<any> = new BehaviorSubject([]);
-  staticData
+  staticData;
   categories = ["Male", "Female"];
-  musicGenres : Array<any> = [];
-  artists : Array<Artist> = [];
-  constructor(private memberService: MemberService, private activatedRoute: ActivatedRoute
-    ) {
+  musicGenres: Array<any> = [];
+  artists: Array<Artist> = [];
+  constructor(
+    private memberService: MemberService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.musicGenres = this.activatedRoute.snapshot.data["data"]["static"][0];
     this.artists = this.activatedRoute.snapshot.data["data"]["static"][1];
     this.members = this.activatedRoute.snapshot.data["data"]["members"];
@@ -56,7 +58,7 @@ export class StatsComponent implements OnInit {
       {
         name: "Female",
         data: [
-          this.calcPercent(this.members.filter(m => m.gender == "M").length)
+          this.calcPercent(this.members.filter(m => m.gender == "F").length)
         ]
       }
     ];
@@ -80,40 +82,45 @@ export class StatsComponent implements OnInit {
 
     // }));
 
-    return this.artists.forEach((a:Artist) => {
+    return this.artists.forEach((a: Artist) => {
       return {
-        name : a.name,
+        name: a.name
         // count : this.countUnique(a.name)
-      }
-
+      };
     });
   }
   buildAge() {
+    let years = this.members.map(m => m.birthyear);
+    return years.map(y => {
+      return {
+        // yearDisplay: y,
+        year: moment()
+          .set("year", y)
+          .set("month", 1)
+          .set("day", 1)
+          .toISOString(),
+        count: this.members.map(m => m.birthyear == y).length
+      };
+    });
+    // return {
+    //   'name' : "Age",
+    //   data : map
+    // };
 
-      let years = this.members.map(m => m.birthyear);
-      years.map(y => {
-        return {
-          year :  moment()
-          .set("year", y).set("month", 1).set("day",1)
-          .toDate(),
-          count : this.members.map(m => m.birthyear == y)
-        }
-      })
+    // return this.members.map(m => {
+    // // name: this.members.map(m => m.uname),
+    // return {
 
-      // return this.members.map(m => {
-      // // name: this.members.map(m => m.uname),
-      // return {
-
-      //   dob : moment()
-      //       .set("year", m.birthyear).set("month", 1).set("day",1)
-      //       .toDate(),
-      //   name: m.uname,
-      // }
-      // data: this.members.map(m =>
-      //   moment()
-      //     .set("year", m.birthyear).set("month", 1).set("day",1)
-      //     .toDate()
-      // )
+    //   dob : moment()
+    //       .set("year", m.birthyear).set("month", 1).set("day",1)
+    //       .toDate(),
+    //   name: m.uname,
+    // }
+    // data: this.members.map(m =>
+    //   moment()
+    //     .set("year", m.birthyear).set("month", 1).set("day",1)
+    //     .toDate()
+    // )
     // });
   }
   buildCountry() {

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject, pipe } from "rxjs";
 import { map, tap, switchMap } from "rxjs/operators";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Member } from "../models/member.model";
 import { environment } from "../../environments/environment";
 import countries from "../../assets/static-data/countries.json";
@@ -15,6 +15,13 @@ const toBase64 = file =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
   });
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    "Content-Type": "application/json",
+    // "Access-Control-Allow-Credentials": "true"
+  })
+};
 @Injectable({
   providedIn: "root"
 })
@@ -79,7 +86,7 @@ export class MemberService {
     return this.selectedMember$;
   }
   getMembers() {
-    return this.http.get(`${baseUri}/members`).pipe(
+    return this.http.get(`${baseUri}/members`, httpOptions).pipe(
       tap(members => (this.members = members)),
       map((members: Array<Member>) => {
         return members.map(member => {
@@ -127,16 +134,12 @@ export class MemberService {
     return this.http.get(`${baseUri}/members/delete/${id}`);
   }
 
-  // createAvatar(avatar) {
-  //   return this.http.post(`${baseUri}/members/add/avatar`, avatar);
-  // }
-
   updateAvatar(avatar) {
     return this.http.post(`${baseUri}/members/add/avatar${avatar._id}`, avatar);
   }
 
   landingPageStats() {
-    return this.http.get(`${baseUri}/members/landingpagestats`);
+    return this.http.get(`${baseUri}/members/landingpagestats`, httpOptions);
   }
 
   getAllCountries() {
@@ -148,12 +151,8 @@ export class MemberService {
   }
 
   getStaticData() {
-    return this.http.get(`${baseUri}/staticdata`);
+    return this.http.get(`${baseUri}/staticdata`,httpOptions);
   }
-
-  // createMusicGenre(genre) {
-  //   return this.http.get(`${baseUri}/staticdata/add`, { params: genre });
-  // }
 
   addStaticData(value) {
     return this.http.post(`${baseUri}/staticdata/add`, { params: value });

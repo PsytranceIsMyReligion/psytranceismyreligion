@@ -5,8 +5,7 @@
     "ng": "ng",
     "start": "ng serve --configuration=local",
     "build": "ng build",
-    "build-dev": "node --max_old_space_size=1052 node_modules/@angular/cli/bin/ng build",
-    "build-prod": "node --max_old_space_size=1052 node_modules/@angular/cli/bin/ng build --prod",
+    "build-prod": "ng build --outputPath ./prod --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -42,6 +41,7 @@
     "@progress/kendo-angular-l10n": "^2.0.0",
     "@progress/kendo-angular-popup": "^3.0.1",
     "@progress/kendo-angular-upload": "^5.1.0",
+    "@progress/kendo-data-query": "^1.5.2",
     "@progress/kendo-drawing": "^1.5.12",
     "@progress/kendo-theme-default": "^4.1.0",
     "@types/googlemaps": "^3.37.3",

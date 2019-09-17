@@ -11,7 +11,10 @@
           on {{ post.updatedAt | date : 'medium' : localeId }}</span>
       </mat-card-header>
       <mat-card-content>
-        <div [innerHTML]="post.content"></div>
+        <div class="ql-container ql-snow" style="border-width: 0;">
+          <div class="ql-editor" [innerHTML]="post.content">
+          </div>
+        </div>
         <button *ngIf="user._id == post.createdBy._id" mat-icon-button color="accent" (click)="openPostDialog(post)">
           <mat-icon>edit</mat-icon>Edit
         </button>&nbsp;&nbsp;

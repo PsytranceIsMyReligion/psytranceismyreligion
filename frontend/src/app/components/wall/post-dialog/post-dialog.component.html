@@ -5,9 +5,9 @@
       <input matInput placeholder="Story Title" cdkFocusInitial formControlName="title" />
       <mat-error>Required</mat-error>
     </mat-form-field>
-    <mat-form-field class="field-full-width">
+    <mat-form-field class="field-full-width content">
       <input matInput [hidden]="true" />
-      <quill-editor placeholder="Content" class="content" formControlName="content"> </quill-editor>
+      <quill-editor placeholder="Content" scrollingContainer="content" class="editor" formControlName="content"> </quill-editor>
       <mat-error>Required</mat-error>
     </mat-form-field>
     </form>

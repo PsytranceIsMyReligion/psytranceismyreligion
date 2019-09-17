@@ -10,7 +10,7 @@
     background-image: linear-gradient(red, yellow);
   }
 
-  
+
   .mat-card-avatar {
     margin: 5px 0px 10px 5px;
     padding-bottom: 10px;
@@ -86,8 +86,10 @@
 
   .title {
     font-size: 31pt;
+    margin: auto;
+    /* margin-top: auto;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto; */
     width: 24em;
   }
 
@@ -125,8 +127,8 @@
     width : 30%;
     margin-right : 30px;
   }
-  
-  
+
+
   .field-two-third-width {
     width : 64%;
   }
@@ -134,13 +136,13 @@
   .field-full-width  {
     width: 100%;
   }
-  
+
   .field-half-width {
     width : 47%;
     margin-right : 30px;
   }
-  
-  
+
+
   .born-control {
     height: 61px!important;
   }
@@ -150,9 +152,9 @@
     position: relative;
     top: 6px;
     margin-left : 20px;
-  
+
   }
-  
+
 }
 
 

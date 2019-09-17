@@ -1,30 +1,36 @@
-<div class="outer-container" fxLayout="row" fxLayoutAlign="center"
-  *ngIf="chartSeries$ | async as chartSeries">
+<div class="outer-container" fxLayout="row" fxLayoutAlign="center" *ngIf="chartSeries$ | async as chartSeries">
   <mat-card class="chart">
     <mat-card-content>
-        <kendo-chart [series]="chartSeries.genderSeries">
-            <kendo-chart-title text="Membership by Gender"></kendo-chart-title>
-            <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
-            <kendo-chart-tooltip format="{0}%"></kendo-chart-tooltip>
-        </kendo-chart>
+      <kendo-chart [series]="chartSeries.genderSeries">
+        <kendo-chart-title text="Membership by Gender"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-tooltip format="{0}%"></kendo-chart-tooltip>
+      </kendo-chart>
     </mat-card-content>
   </mat-card>
   <mat-card class="chart">
-      <mat-card-content>
-          <kendo-chart >
-              <kendo-chart-title text="Membership by Age"></kendo-chart-title>
-              <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
-              <kendo-chart-x-axis>
-                  <kendo-chart-x-axis-item [baseUnit]="'years'">
-                  </kendo-chart-x-axis-item>
-              </kendo-chart-x-axis>
-              <kendo-chart-series-item type="scatterLine" [data]="chartSeries.ageSeries"
-                yField="count" xField="Date">
-              </kendo-chart-series-item>
-          </kendo-chart>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="chart">
+    <mat-card-content>
+      <kendo-chart>
+        <kendo-chart-series  *ngIf="chartSeries$ | async as chartSeries" >
+          <kendo-chart-title text="Membership by Age"></kendo-chart-title>
+          <!-- <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+          <kendo-chart-tooltip format="{0}"></kendo-chart-tooltip> -->
+          <!-- <kendo-chart-series-item type="scatterLine" [data]="chartSeries.ageSeries">
+          </kendo-chart-series-item> -->
+          <kendo-chart-series-item type="column" [data]="chartSeries.ageSeries" field="count" categoryField="Date">
+          </kendo-chart-series-item>
+          <!-- <kendo-chart-x-axis-item>
+            <kendo-chart-x-axis-item>
+            </kendo-chart-x-axis-item>
+          </kendo-chart-x-axis-item> -->
+          <!-- <kendo-chart-series-item type="scatterLine" [data]="chartSeries.ageSeries" yField="count"
+          xField="year">
+        </kendo-chart-series-item> --> -->
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+  <!-- <mat-card class="chart">
         <mat-card-content>
             <kendo-chart [series]="chartSeries.kudosSeries">
                 <kendo-chart-title text="Karmic Kudos Legends"></kendo-chart-title>
@@ -32,5 +38,5 @@
                 <kendo-chart-tooltip format="{0}"></kendo-chart-tooltip>
             </kendo-chart>
         </mat-card-content>
-      </mat-card>
+      </mat-card> -->
 </div>

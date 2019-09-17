@@ -27,6 +27,8 @@ const uploader = multer({
     storage: storage
 });
 
+
+
 router.route("/landingpagestats").get((req, res) => {
     Member.countDocuments((err, count) => {
         if (err) res.json(err);

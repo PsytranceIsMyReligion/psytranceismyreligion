@@ -43,6 +43,7 @@ export interface Video {
     description: string;
     value: string;
     createdBy: Member;
+    createdAt?: Date;
     _id ?: string;
 }
 
@@ -51,6 +52,7 @@ export interface Artist {
   origin: string;
   facebookUrl: string;
   createdBy: Member;
+  createdAt?: Date;
   _id ?: string;
 }
 

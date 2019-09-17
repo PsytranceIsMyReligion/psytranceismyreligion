@@ -1,8 +1,14 @@
 .content {
-  /* height : 400px;
-  width : 95%; */
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.editor {
+  height: 9em;
+  overflow-y: scroll;
 }
 
 mat-form-field {
-  width : 100%;
+  width : 90%;
 }
+  
