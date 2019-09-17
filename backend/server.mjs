@@ -96,7 +96,7 @@ connection.once("open", () => {
 
 app.use("/members", memberRoutes);
 app.use("/videos", videoRoutes);
-app.use("/static", staticDataRoutes);
+app.use("/staticdata", staticDataRoutes);
 app.use("/wallposts", wallPostRoutes);
 
 router.route("/api/auth").post((req, res) => {

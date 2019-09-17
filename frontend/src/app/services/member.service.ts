@@ -21,7 +21,7 @@ const toBase64 = file =>
 export class MemberService {
   user: Member;
   user$: BehaviorSubject<Member> = new BehaviorSubject({});
-  avatarUrl$: BehaviorSubject<string> = new BehaviorSubject("");
+  public avatarUrl$: BehaviorSubject<string> = new BehaviorSubject("");
   selectedMember$: BehaviorSubject<Member> = new BehaviorSubject({});
   countries = countries;
   dropdowns = dropdowns;

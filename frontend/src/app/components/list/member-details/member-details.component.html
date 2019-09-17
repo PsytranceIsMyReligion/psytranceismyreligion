@@ -1,7 +1,7 @@
 <mat-card *ngIf="selectedMember$ | async as selectedMember">
   <mat-card-header>
     <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
-    <mat-icon zoom="3" *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
+    <mat-icon *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
     {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }}
     <span class="links">
       &nbsp;&nbsp;&nbsp;&nbsp;

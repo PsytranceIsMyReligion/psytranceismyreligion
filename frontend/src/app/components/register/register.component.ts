@@ -20,7 +20,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ArtistDialogComponent } from "./artist-dialog/artist-dialog.component";
 import { ToastrService } from 'ngx-toastr';
 import { AvatarDialogComponent } from './avatar-dialog/avatar-dialog.component';
-import { BehaviorSubject, of } from "rxjs";
 
 export const MY_FORMATS = {
   parse: {
@@ -70,7 +69,7 @@ export class RegisterComponent implements OnInit {
   yearStart: Date;
   minDate: Date;
   maxDate: Date;
-  newMode: boolean = true;
+  newMode: Boolean = true;
   user: SocialUser;
   socialid: string;
   member: Member = {};
@@ -105,7 +104,7 @@ export class RegisterComponent implements OnInit {
     this.artists = this.activatedRoute.snapshot.data["data"]["static"][1];
     this.members = this.activatedRoute.snapshot.data["data"]["members"];
     if(!this.newMode) {
-      this.referers = this.members.filter(el => el._id != this.memberService.getUser()._id)
+      this.referers = this.members.filter(el => el._id !== this.memberService.getUser()._id)
     }
     else this.referers = this.members;
     this.musicTypeData = this.musicGenres.slice();
@@ -134,7 +133,7 @@ export class RegisterComponent implements OnInit {
     const contains = value => s => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
     this.musicGenreList.filterChange.asObservable().pipe(
       switchMap(value => from([this.musicGenres]).pipe(
-        tap((value) => { this.musicGenreList.loading = true }),
+        tap((value) => { this.musicGenreList.loading = true; }),
         map((data) => data.filter(contains(value)))
       ))
     )
@@ -144,7 +143,7 @@ export class RegisterComponent implements OnInit {
       });
     this.artistList.filterChange.asObservable().pipe(
       switchMap(value => from([this.artists]).pipe(
-        tap((value) => { this.artistList.loading = true }),
+        tap((value) => { this.artistList.loading = true; }),
         map((data) => data.filter(contains(value)))
       ))
     )

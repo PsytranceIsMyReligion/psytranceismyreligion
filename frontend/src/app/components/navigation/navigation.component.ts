@@ -25,16 +25,11 @@ export class NavigationComponent implements OnInit {
   logout() {
     this.socialAuthService.signOut();
     // console.log('logging off', this.memberService.getUser().uname);
-    this.socket.emit("logoff", this.memberService.getUser().fname + ' ' + this.memberService.getUser().lname);
+    this.socket.emit(
+      "logoff",
+      this.memberService.getUser().fname + " " + this.memberService.getUser().lname
+    );
     sessionStorage.removeItem("member");
     this.tokenService.logout();
-    let toast: ActiveToast<any> = this.toastrService.success(
-      "Logged Out. See you soon!",
-      "Goodbye!",
-      { timeOut: 2000 }
-    );
-    toast.onHidden.subscribe(el => {
-      this.router.navigate([""]);
-    });
   }
 }
