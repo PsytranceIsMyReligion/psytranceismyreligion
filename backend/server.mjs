@@ -49,9 +49,13 @@ app.use(express.static('public'));
 // app.use('/static', express.static(path.join(__dirname, 'public')))
 app.options("*", cors());
 router.use(bodyParser.urlencoded({
-  extended: false
+  limit: '16mb',
+  extended: true
 }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: '16mb',
+  extended: true
+}));
 app.use(
   expressJwt({
     secret: "psytranceismyreligion-super-secret"
@@ -110,7 +114,10 @@ const server = app.listen(process.env.PORT, () => console.log("express server ru
 const io = socketIO(server);
 
 const connections = new Set();
+
+
 io.on('connection', (socket) => {
+
   connections.add(socket);
   console.log('socket.io connected');
   io.on('system-message', (message) => {
@@ -125,13 +132,12 @@ io.on('connection', (socket) => {
       values.map(el => socket.emit('chat-init', el));
   }).bind(messageCache));
 
-  socket.on('logoff', (err, member) => {
-    console.log("logoff", member)
-    if (member) {
-      console.log('l', member.name)
-      io.emit("system-message", member.name + " logged off");
+  socket.on('logoff', (name) => {
+    console.log("logoff", name)
+    if (name) {
+      io.emit("system-message", name + " logged off");
     }
-  })
+  });
 
 
   socket.on('chat-message', (null, (message) => {

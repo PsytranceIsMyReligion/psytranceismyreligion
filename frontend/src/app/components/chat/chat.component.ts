@@ -2,7 +2,7 @@ import { MemberService } from "./../../services/member.service";
 import { ChatService } from "./../../services/chat.service";
 import { Component } from "@angular/core";
 
-import { Subject, from, merge, Observable, of} from "rxjs";
+import { Subject, from, merge, Observable, of } from "rxjs";
 import { filter, map, scan, tap, switchMap } from "rxjs/operators";
 import _ from "lodash";
 import {
@@ -16,14 +16,8 @@ import moment from "moment";
 @Component({
   providers: [ChatService],
   selector: "app-chat",
-  template: `
-    <kendo-chat
-      [messages]="feed$ | async"
-      [user]="user"
-      (sendMessage)="sendMessage($event)"
-    >
-    </kendo-chat>
-  `
+  templateUrl: "./chat.component.html",
+  styleUrls: ["./chat.component.scss"]
 })
 export class ChatComponent {
   public feed$: Observable<Message[]>;
@@ -60,7 +54,7 @@ export class ChatComponent {
             return response;
           }
         ),
-        tap(res => console.log("init2", res)),
+        tap(res => console.log("init2", res))
       ),
       this.svc.responses.pipe(
         filter(res => res != null),
@@ -73,7 +67,7 @@ export class ChatComponent {
       )
     ).pipe(
       // tap(res => console.log(res)),
-      scan((acc, x) => [...acc, x], []),
+      scan((acc, x) => [...acc, x], [])
       // tap(res => console.log(res))
     );
   }

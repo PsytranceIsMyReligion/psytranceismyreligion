@@ -1,0 +1,19 @@
+@media only screen and (min-width: 1224px) {
+  .k-chat {
+    //   background-color: GoldenRod!important;
+    margin-top: 100px;
+
+  }
+
+  ::ng-deep .k-chat .k-bubble {
+    background-color: red;
+    border-color: red;
+    color: white;
+  }
+
+  ::ng-deep .k-chat .k-alt .k-bubble {
+    background-color: orange;
+    border-color: orange
+  }
+
+}
