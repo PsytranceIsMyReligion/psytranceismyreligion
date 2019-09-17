@@ -2,9 +2,11 @@
   ::ng-deep .top-banner {
     height: 50px !important;
   }
+
   .opaque-card {
     margin-top: 0px;
   }
+
   .registration-container {
     font-size: 10pt;
     margin-left: 0px;
@@ -12,7 +14,7 @@
   }
 
   .label {
-    font-weight : normal;
+    font-weight: normal;
   }
 
   .registration-form {
@@ -28,15 +30,27 @@
   float: right;
 }
 
+.mat-button, .mat-icon-button {
+  zoom: 0.7;
+  position: relative;
+  top: -25px;
+  left: -25px;
+
+}
+
 @media only screen and (min-width: 1224px) {
 
   .mat-card-avatar {
     margin-right: 10px;
+    zoom : 2;
   }
+
+
 
   .mat-panel-header-text {
     margin-left: 10px;
   }
+
   .registration-form {
     width: 95%;
     margin-bottom: 20px;

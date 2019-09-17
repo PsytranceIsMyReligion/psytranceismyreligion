@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { Video } from "../models/member.model";
 import { environment } from "../../environments/environment";
 
-const baseUri = "http://" + environment.baseUri;
+const baseUri = environment.baseUri;
 @Injectable({
   providedIn: "root"
 })

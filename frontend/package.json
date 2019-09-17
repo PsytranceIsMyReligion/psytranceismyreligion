@@ -41,6 +41,7 @@
     "@progress/kendo-angular-intl": "^2.0.0",
     "@progress/kendo-angular-l10n": "^2.0.0",
     "@progress/kendo-angular-popup": "^3.0.1",
+    "@progress/kendo-angular-upload": "^5.1.0",
     "@progress/kendo-drawing": "^1.5.12",
     "@progress/kendo-theme-default": "^4.1.0",
     "@types/googlemaps": "^3.37.3",

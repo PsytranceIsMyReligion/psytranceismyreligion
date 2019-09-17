@@ -2,7 +2,7 @@ import { WallPost } from "./../models/member.model";
 import { environment } from "./../../environments/environment";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-const baseUri = "http://" + environment.baseUri;
+const baseUri = environment.baseUri;
 
 @Injectable({
   providedIn: "root"

@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
 
-const baseUri = "http://" + environment.baseUri;
+const baseUri =  environment.baseUri;
 
 @Injectable()
 export class TokenService {

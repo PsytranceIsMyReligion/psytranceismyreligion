@@ -74,6 +74,8 @@ import { WallComponent } from "./components/wall/wall.component";
 import { PostDialogComponent } from "./components/wall/post-dialog/post-dialog.component";
 import { EventsComponent } from "./components/events/events.component";
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { AvatarDialogComponent } from './components/register/avatar-dialog/avatar-dialog.component';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
 
 
@@ -106,7 +108,8 @@ export function tokenGetter() {
   entryComponents: [
     VideoUploadComponent,
     ArtistDialogComponent,
-    PostDialogComponent
+    PostDialogComponent,
+    AvatarDialogComponent
   ],
   declarations: [
     AppComponent,
@@ -127,7 +130,8 @@ export function tokenGetter() {
     ChatComponent,
     WallComponent,
     PostDialogComponent,
-    EventsComponent
+    EventsComponent,
+    AvatarDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -154,6 +158,7 @@ export function tokenGetter() {
       positionClass: "toast-top-right",
       preventDuplicates: true
     }),
+    UploadModule,
     ChartModule,
     FormsModule,
     ChatModule,

@@ -1,4 +1,4 @@
-import { Artist } from './../../models/member.model';
+import { Artist, Avatar } from './../../models/member.model';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Member } from "../../models/member.model";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -19,6 +19,8 @@ import { environment } from '../../../environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistDialogComponent } from "./artist-dialog/artist-dialog.component";
 import { ToastrService } from 'ngx-toastr';
+import { AvatarDialogComponent } from './avatar-dialog/avatar-dialog.component';
+import { BehaviorSubject, of } from "rxjs";
 
 export const MY_FORMATS = {
   parse: {
@@ -33,7 +35,12 @@ export const MY_FORMATS = {
 };
 
 const urlRegex = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
-
+const toBase64 = file => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = error => reject(error);
+});
 @Component({
   selector: "app-register",
   templateUrl: "./register.component.html",
@@ -63,7 +70,6 @@ export class RegisterComponent implements OnInit {
   yearStart: Date;
   minDate: Date;
   maxDate: Date;
-  avatarUrl: string = null;
   newMode: boolean = true;
   user: SocialUser;
   socialid: string;
@@ -78,6 +84,7 @@ export class RegisterComponent implements OnInit {
   musicTypeData: Array<any>;
   artistData: Array<any>;
   dropdownData;
+  avatarUrl$;
 
   @ViewChild("musicGenreList", { static: false }) musicGenreList;
   @ViewChild("artistList", { static: false }) artistList;
@@ -90,7 +97,6 @@ export class RegisterComponent implements OnInit {
     private toastrService: ToastrService,
     private fb: FormBuilder,
     private socialAuthService: AuthService,
-    private tokenService: TokenService,
     public dialog: MatDialog
   ) {
     this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
@@ -106,12 +112,15 @@ export class RegisterComponent implements OnInit {
     this.artistData = this.artists.slice();
     this.dropdownData = dropdowns;
     this.countries = this.memberService.getAllCountries();
+    this.avatarUrl$ = this.memberService.avatarUrl$;
   }
 
   ngOnInit() {
     this.createForm();
     this.initializeFilters();
-    this.loadSocialUser();
+    if(this.newMode)
+      this.loadSocialUserDetails();
+    this.loadRegistrationForm();
     this.yearStart = moment()
       .add(-18, "year")
       .toDate();
@@ -145,7 +154,7 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  loadSocialUser() {
+  loadSocialUserDetails() {
     this.socialAuthService.authState.subscribe(user => {
       if (user) {
         this.user = user;
@@ -153,16 +162,16 @@ export class RegisterComponent implements OnInit {
         this.basicInfoGroup.get("lname").setValue(this.user.lastName);
         this.basicInfoGroup.get("email").setValue(this.user.email);
         this.socialid = this.user.id;
-        this.avatarUrl = user.photoUrl;
-        this.loadRegistrationForm();
+        this.memberService.avatarUrl$.next(user.photoUrl);
       }
     });
   }
 
-  loadRegistrationForm() {
+ async loadRegistrationForm() {
     this.member = this.memberService.getUser();
     if (this.member) {
       console.log("loading member details to", this.member);
+      // this.memberService.avatarUrl$.next(this.member.avatarUrl);
       this.socialid = this.member.socialid;
       this.basicInfoGroup.get("uname").setValue(this.member.uname);
       this.basicInfoGroup.get("fname").setValue(this.member.fname);
@@ -189,17 +198,11 @@ export class RegisterComponent implements OnInit {
       this.opinionGroup.get("festivalfrequency").setValue(this.member.festivalfrequency);
       this.opinionGroup.get("favouritefestival").setValue(this.member.favouritefestival);
       this.opinionGroup.get("favouriteartists").setValue(this.member.favouriteartists);
-
-
     }
   }
 
   setLocation(event) {
     this.basicInfoGroup.get("postcode").setValue("");
-  }
-
-  setReferer(event) {
-    // this.basicInfoGroup.get("referer").setValue(event);
   }
 
   initializeFilters() {
@@ -279,8 +282,7 @@ export class RegisterComponent implements OnInit {
     return this.basicInfoGroup.get("gender");
   }
 
-  registerMember() {
-    // this.createNewStaticDataTypes();
+  updateMember() {
     let updateMember: Member = {
       _id: this.member._id,
       uname: this.basicInfoGroup.get("uname").value,
@@ -297,7 +299,6 @@ export class RegisterComponent implements OnInit {
       lat: this.latitude,
       long: this.longitude,
       membertype: this.detailGroup.get("membertype").value,
-
       musictype: this.detailGroup.get("musictype").value,
       startyear: this.detailGroup.get("startyear").value.year(),
       bio: this.detailGroup.get("bio").value,
@@ -311,7 +312,7 @@ export class RegisterComponent implements OnInit {
       favouriteparty: this.opinionGroup.get("favouriteparty").value,
       festivalfrequency: this.opinionGroup.get("festivalfrequency").value,
       favouritefestival: this.opinionGroup.get("favouritefestival").value,
-      avatarUrl: this.avatarUrl
+      // avatar = this.avatarext
     };
     console.log('memcheck', this.member, this.memberService.getUserId())
     if (this.memberService.getUser() && this.memberService.getUserId()) {
@@ -425,9 +426,6 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  // addNewStaticData(value) {
-  //   return this.memberService.addStaticData(value);
-  // }
   openNewArtistDialog() {
     const dialogRef = this.dialog.open(ArtistDialogComponent, {
       width: '300px',
@@ -444,4 +442,33 @@ export class RegisterComponent implements OnInit {
         });
     });
   }
+
+  openAvatarDialog() {
+    const dialogRef = this.dialog.open(AvatarDialogComponent, {
+      width: '300px',
+      height: '400px',
+      data: this.memberService.avatarUrl$.getValue()
+    });
+
+    dialogRef.afterClosed().subscribe(async(avatars) => {
+      if(!avatars) return;
+      else console.log(avatars);
+      let newAvatar = await toBase64(avatars[0].rawFile) as string;
+      this.memberService.avatarUrl$.next(newAvatar);  
+      this.member.avatarUrl = newAvatar;
+      this.memberService.selectedMember$.next(this.member);
+      this.toastrService.success("Avatar Updated", "Info", { timeOut: 2000});
+    });
+  }
+
+  getAvatarSrc(file, ext) {
+    console.log(file,ext)
+    console.log(`data:image/${ext};base64,${file}`)
+    return `data:image/${ext};base64,${file}`
+  }
+
+
+
+ 
+ 
 }

@@ -7,6 +7,9 @@ let MemberSchema = new Schema({
   socialid: {
     type: Number
   },
+  avatar : {
+    type: Buffer
+  },
   uname: {
     type: String
   },
@@ -99,7 +102,7 @@ let MemberSchema = new Schema({
   },
   karmicKudos: {
     type: Number,
-    default: 10 
+    default: 10
   }
 }, {
   timestamps: {

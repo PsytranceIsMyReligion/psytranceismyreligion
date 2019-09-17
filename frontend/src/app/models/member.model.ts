@@ -32,6 +32,8 @@ export interface Member {
     websiteUrl ?: string;
     psystatus ?: string;
     reason ?: string;
+    avatar ? : string;
+    avatarext? : string;
     avatarUrl ?: string;
     karmicKudos ?: number;
 }
@@ -52,6 +54,11 @@ export interface Artist {
   _id ?: string;
 }
 
+export interface Avatar {
+  createdBy? : string;
+  content : string;
+  _id ?: string;
+}
 export interface WallPost {
   title : string;
   content : string;

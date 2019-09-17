@@ -11,6 +11,7 @@ import staticDataRoutes from "./routes/staticdata.routes";
 import wallPostRoutes from "./routes/wallpost.routes";
 import socketIO from "socket.io";
 import nodeCache from "node-cache";
+import path from "path";
 import {
   dirname
 } from 'path';
@@ -40,7 +41,12 @@ const messageCache = new NodeCache({
   checkperiod: 120
 });
 messageCache.set("messages", []);
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:4200'
+}));
+app.use(express.static('public'));
+// app.use('/static', express.static(path.join(__dirname, 'public')))
 app.options("*", cors());
 router.use(bodyParser.urlencoded({
   extended: false
@@ -54,8 +60,11 @@ app.use(
       "/api/auth",
       "/members",
       "/members/add",
+      "/members/add/avatar",
       "/wallposts",
       "/static",
+      "/images",
+      "/public/*",
       "/members/landingpagestats",
       /^\/members\/bysocialid\/.*/
     ]
@@ -101,17 +110,6 @@ const server = app.listen(process.env.PORT, () => console.log("express server ru
 const io = socketIO(server);
 
 const connections = new Set();
-
-// io.on('connection', (socket) => {
-
-//   connections.add(socket);
-
-//   socket.once('disconnect', function () {
-//     connections.delete(socket);
-//   });
-
-// });
-
 io.on('connection', (socket) => {
   connections.add(socket);
   console.log('socket.io connected');
@@ -145,10 +143,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('chat-message', message);
   }).bind(messageCache));
   socket.on('disconnect', function (member) {
-    //   console.log(member)
-    //   socket.broadcast.emit('system-message', member.uname + ' logged off');
     connections.delete(socket);
-
   });
 
 });

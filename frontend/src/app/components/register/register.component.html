@@ -1,9 +1,9 @@
 <div fxLayoutAlign="center" class="registration-container opaque-card">
   <mat-card class="registration-form">
     <mat-card-header>
-      <img [hidden]="newMode" mat-card-avatar src="{{ avatarUrl }}" />
+      <img [hidden]="newMode" mat-card-avatar src="{{ avatarUrl$ | async }}" />
       <h3>
-        <mat-icon mat-card-avatar [hidden]="!newMode || avatarUrl">person</mat-icon> Your Profile
+        <mat-icon mat-card-avatar [hidden]="!newMode || avatarUrl">person</mat-icon><button mat-icon-button color="accent" (click)="openAvatarDialog()"><mat-icon>edit</mat-icon>Edit</button> Your Profile
       </h3>
     </mat-card-header>
     <mat-horizontal-stepper [linear]="true" #stepper>
@@ -162,7 +162,7 @@
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button type="submit" mat-raised-button color="primary" (click)="registerMember()" [disabled]="
+            <button type="submit" mat-raised-button color="primary" (click)="updateMember()" [disabled]="
                 (basicInfoGroup.pristine && opinionGroup.pristine && detailGroup.pristine) ||
                 (basicInfoGroup.invalid || opinionGroup.invalid || detailGroup.invalid)
               ">

@@ -7,29 +7,36 @@ import { environment } from "../../environments/environment";
 import countries from "../../assets/static-data/countries.json";
 import dropdowns from "../../assets/static-data/dropdowns.json";
 
-const baseUri = "http://" + environment.baseUri;
-
+const baseUri = environment.baseUri;
+const toBase64 = file => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = error => reject(error);
+});
 @Injectable({
   providedIn: "root"
 })
 export class MemberService {
   user: Member;
-  user$: BehaviorSubject<Member>;
-  selectedMember$: BehaviorSubject<Member>;
+  user$: BehaviorSubject<Member> =  new BehaviorSubject({});
+  avatarUrl$: BehaviorSubject<string> = new BehaviorSubject("");
+  selectedMember$: BehaviorSubject<Member> = new BehaviorSubject({});
   countries = countries;
   dropdowns = dropdowns;
   members;
   constructor(private http: HttpClient) {}
 
-  saveMemberToLocalStorage(_member: Member) {
+  async saveMemberToLocalStorage(_member: Member) {
     _member.originDisplay = this.getCountryName(_member.origin);
     _member.locationDisplay = this.getCountryName(_member.location);
     sessionStorage.setItem(
       "member",
       JSON.stringify(this.enrichMember(_member))
     );
-    this.user$ = new BehaviorSubject(_member);
-    this.selectedMember$ = new BehaviorSubject(_member);
+    this.avatarUrl$.next(_member.avatarUrl);
+    this.user$.next(_member);
+    this.selectedMember$.next(_member);
     this.user = _member;
   }
 
@@ -43,6 +50,7 @@ export class MemberService {
     return this.user$;
   }
 
+  
   getUserId(): string {
     if (this.user) {
       return this.user._id;
@@ -117,6 +125,14 @@ export class MemberService {
 
   deleteMember(id) {
     return this.http.get(`${baseUri}/members/delete/${id}`);
+  }
+
+  // createAvatar(avatar) {
+  //   return this.http.post(`${baseUri}/members/add/avatar`, avatar);
+  // }
+
+  updateAvatar(avatar) {
+    return this.http.post(`${baseUri}/members/add/avatar${avatar._id}`, avatar);
   }
 
   landingPageStats() {
