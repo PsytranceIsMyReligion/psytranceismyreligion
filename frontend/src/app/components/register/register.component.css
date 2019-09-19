@@ -62,9 +62,6 @@
     top: -7px;
   }
 
-  .label {
-    font-weight: normal;
-  }
 
   .registration-form {
     width: 106%;
@@ -93,7 +90,11 @@
   height: 80px;
 }
 
-
+.hidden-label {
+  color: black!important;
+  font-weight: normal!important;
+  font-size: 85%!important;
+}
 
 @media only screen and (min-width: 1224px) {
 
@@ -172,6 +173,9 @@
     margin-left: 20px;
 
   }
+
+
+
 
 }
 

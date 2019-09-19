@@ -48,7 +48,7 @@
               (yearSelected)="birthYearSelected($event, picker)"></mat-datepicker>
             <mat-error>Required</mat-error>
           </mat-form-field>
-          <mat-form-field class="field-half-width">
+          <mat-form-field class="field-full-width">
             <input type="text" matInput placeholder="Where are you from?" formControlName="origin"
               [matAutocomplete]="auto" />
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -58,7 +58,7 @@
             </mat-autocomplete>
             <mat-error>Required</mat-error>
           </mat-form-field>
-          <mat-form-field class="field-half-width">
+          <mat-form-field class="field-full-width">
             <input type="text" matInput placeholder="Where do you live?" formControlName="location"
               [matAutocomplete]="auto2" />
             <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
@@ -69,11 +69,11 @@
             </mat-autocomplete>
             <mat-error>Required</mat-error>
           </mat-form-field>
-          <mat-form-field class="field-third-width">
+          <mat-form-field class="field-full-width">
             <input matInput type="text" placeholder="Zip / Post Code" formControlName="postcode" />
             <mat-error>Required</mat-error>
           </mat-form-field>
-          <mat-form-field class="field-two-third-width">
+          <mat-form-field class="field-full-width">
             <input matInput
               placeholder="Were you referred by a member? Please add their username and they'll earn Karmic Kudos for it!"
               formControlName="referer" [matAutocomplete]="auto3" />
@@ -95,9 +95,9 @@
       <mat-step [stepControl]="detailGroup">
         <form [formGroup]="detailGroup">
           <ng-template matStepLabel>About You</ng-template>
-          <label class="label"
+          <mat-label class="hidden-label"
             *ngIf="detailGroup.get('musictype').value && detailGroup.get('musictype').value.length > 0">What are your
-            favourite music genres?</label>
+            favourite music genres?</mat-label>
           <mat-form-field class="field-full-width">
             <input matInput style="display: none" />
             <kendo-multiselect #musicGenreList formControlName="musictype" [data]="musicTypeData" [filterable]="true"
@@ -106,14 +106,14 @@
             </kendo-multiselect>
             <mat-error>Required</mat-error>
           </mat-form-field>
-          <mat-form-field class="field-third-width">
+          <mat-form-field class="field-full-width">
             <mat-select placeholder="What's your involvement in the scene?" formControlName="membertype">
               <mat-option *ngFor="let option of dropdownData.membertype" [value]="option.id">I am {{option.value}}
               </mat-option>
             </mat-select>
             <mat-error>Required</mat-error>
           </mat-form-field>
-          <mat-form-field class="field-third-width">
+          <mat-form-field class="field-full-width">
             <input matInput [matDatepicker]="picker2" formControlName="startyear" [min]="minDate" [max]="maxDate"
               placeholder="When did you get into psytrance?" />
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -125,15 +125,15 @@
             <textarea class="reasonField" matInput placeholder="Tell us something about yourself"
               formControlName="bio"></textarea>
           </mat-form-field>
-          <mat-form-field class="field-third-width">
+          <mat-form-field class="field-full-width">
             <span matPrefix>http://www.facebook.com/</span>
             <input matInput placeholder="Your Facebook URL" formControlName="facebookUrl" />
           </mat-form-field>
-          <mat-form-field class="field-third-width">
+          <mat-form-field class="field-full-width">
             <span matPrefix>https://www.soundcloud.com/</span>
             <input matInput placeholder="Your Soundcloud URL" formControlName="soundcloudUrl" />
           </mat-form-field>
-          <mat-form-field class="field-third-width">
+          <mat-form-field class="field-full-width">
             <input matInput placeholder="Your website URL" formControlName="websiteUrl" />
             <mat-error>Incorrect format</mat-error>
           </mat-form-field>
@@ -146,9 +146,9 @@
           <ng-template matStepLabel>Your opinions</ng-template>
           <button mat-raised-button class="hvr-pulse artist-btn" color="primary" (click)="openNewArtistDialog()">Add
             Artist</button>
-          <label class="label"
+          <mat-label class="hidden-label"
             *ngIf="opinionGroup.get('favouriteartists').value && opinionGroup.get('favouriteartists').value.length > 0">What
-            are your favourite artists?</label>
+            are your favourite artists?</mat-label>
           <mat-form-field class="field-full-width">
             <input matInput style="display: none" />
             <kendo-multiselect #artistList formControlName="favouriteartists" [data]="artistData" [filterable]="true"

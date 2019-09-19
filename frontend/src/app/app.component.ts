@@ -37,14 +37,17 @@ export class AppComponent implements OnDestroy, OnInit {
     this.socket.on("system-message", message => {
       this.toastrService.info(message);
     });
+    this.socket.on("chat-message", message => {
+      this.toastrService.info(message.text,'Chat Message from ' + message.author.name);
+    });
     // if(this.env.production){
     window.onbeforeunload = () => this.ngOnDestroy();
     // }
   }
 
   ngOnDestroy() {
-    console.log('logoff', this.member);
-    this.socket.emit("logoff", this.member ); 
+    console.log('logoff');
+    this.socket.emit("logoff", this.memberService.getUser());
     this.socialAuthService.signOut();
     sessionStorage.removeItem("member");
     this.tokenService.logout();

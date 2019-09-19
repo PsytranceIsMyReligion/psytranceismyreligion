@@ -42,6 +42,11 @@ const messageCache = new NodeCache({
   checkperiod: 120
 });
 messageCache.set("messages", []);
+const loggedOnUserCache = new NodeCache({
+  stdTTL: 0,
+  checkperiod: 120
+});
+loggedOnUserCache.set("users", []);
 app.use(
   cors({
     credentials: true,
@@ -116,6 +121,7 @@ router.route("/api/auth").post((req, res) => {
   );
   console.log(req.body);
   io.emit("system-message", req.body.name + " has logged on!");
+
   res.status(200).send({
     token: token
   });
@@ -146,12 +152,26 @@ io.on("connection", socket => {
       }).bind(messageCache)
   );
 
-  socket.on("logoff", name => {
-    console.log("logoff", name);
-    if (name) {
-      io.emit("system-message", name + " logged off");
+  socket.on("get-logged-on-users", (null,
+    (user) => {
+      console.log('user', user)
+      isProd ?
+        loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != id)]) :
+        loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
+      console.log("getting users")
+      io.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
+    }).bind(loggedOnUserCache));
+
+  socket.on("logoff", (null, (member) => {
+    console.log("logoff", member);
+    isProd ? loggedOnUserCache.set("users", [...loggedOnUserCache.get("users").filter(el => el != member._id)]) :
+      loggedOnUserCache.set("users", [...loggedOnUserCache.get("users")]);
+
+
+    if (member) {
+      io.emit("system-message", member.uname + " logged off");
     }
-  });
+  }).bind(loggedOnUserCache));
 
   socket.on(
     "chat-message",

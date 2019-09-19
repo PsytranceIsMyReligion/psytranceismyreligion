@@ -1,6 +1,7 @@
+import { Socket } from "ngx-socket-io";
 import { Injectable, OnInit } from "@angular/core";
 import { Observable, BehaviorSubject, pipe } from "rxjs";
-import { map, tap, switchMap, shareReplay } from "rxjs/operators";
+import { map, tap, switchMap, shareReplay, first } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Member } from "../models/member.model";
 import { environment } from "../../environments/environment";
@@ -30,16 +31,18 @@ export class MemberService implements OnInit {
   user$: BehaviorSubject<Member> = new BehaviorSubject({});
   public avatarUrl$: BehaviorSubject<string> = new BehaviorSubject("");
   selectedMember$: BehaviorSubject<Member> = new BehaviorSubject({});
+  loggedOnUsers$: BehaviorSubject<Member>;
   countries = countries;
   dropdowns = dropdowns;
-  members;
   members$: BehaviorSubject<Array<Member>>;
-  constructor(private http: HttpClient) {
+  loggedOnMembers$: BehaviorSubject<Array<Member>> = new BehaviorSubject([]);
+  constructor(private http: HttpClient, private socket: Socket) {
 
   }
 
   ngOnInit() {
     this.loadMembers();
+
   }
 
   async saveMemberToLocalStorage(_member: Member) {
@@ -72,10 +75,9 @@ export class MemberService implements OnInit {
   }
 
   getMemberById(id) {
-    console.log("m", this.members.filter(m => m._id == id)[0]);
-    return this.members.filter(m => m._id == id)[0];
+    console.log('id',  this.members$.getValue().filter(m => m._id == id))
+    return this.members$.getValue().filter(m => m._id == id)[0];
   }
-
 
   getCountryName(code) {
     return this.countries.filter(country => country["alpha3Code"] == code)[0][
@@ -90,19 +92,32 @@ export class MemberService implements OnInit {
     return this.selectedMember$;
   }
   loadMembers() {
-     return this.http.get(`${baseUri}/members`, httpOptions).pipe(
-        map((members: Array<Member>) => {
-          return members.map(member => {
-            return this.enrichMember(member);
-          });
-        }),
-        tap(members => {
-          this.members = members;
-          console.log('loading', members)
-          this.members$ = new BehaviorSubject(members as Array<Member>);
-        }),
-        shareReplay()
-      );
+    return this.http.get(`${baseUri}/members`, httpOptions).pipe(
+      map((members: Array<Member>) => {
+        return members.map(member => {
+          return this.enrichMember(member);
+        });
+      }),
+      tap(members => {
+        console.log("loading", members);
+        this.members$ = new BehaviorSubject(members as Array<Member>);
+      }),
+      first(
+      ),
+      tap(() => {console.log('initi users');this.initLoggedOnUsers()}),
+      shareReplay()
+    );
+
+  }
+
+  initLoggedOnUsers() {
+    console.log("initing user listing")
+    this.socket.on("logged-on-users", (users: Array<String>) => {
+      let user = users.filter(el => el).map(el => this.getMemberById(el));
+      console.log("logged-on-users", user);
+      this.loggedOnMembers$.next(user);
+    });
+    this.socket.emit("get-logged-on-users", this.user$.getValue());
   }
 
   private enrichMember(member: Member) {
@@ -122,10 +137,6 @@ export class MemberService implements OnInit {
     );
     return member;
   }
-
-  // getMemberById(id) {
-  //   return this.http.get(`${baseUri}/members/${id}`);
-  // }
 
   getMemberBySocialId(id) {
     return this.http.get(`${baseUri}/members/bysocialid/${id}`);
