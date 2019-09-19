@@ -60,7 +60,7 @@
     opacity: 0.8;
   }
 
-  .field-full-width .field-half-width   .field-two-third-width {
+  .field-full-width .field-half-width .field-two-third-width {
     width: 100%;
   }
 
@@ -76,7 +76,6 @@
 
   .mat-card-avatar {
     margin: 5px 0px 10px 5px;
-    padding-bottom: 10px;
     zoom: 2;
     border-radius: 0;
     width: 70px;
@@ -98,7 +97,7 @@
     zoom: 0.9;
     font-weight: bold;
     position: relative;
-    left: 7px;
+    left: -24px;
   }
 
   mat-card-header {
@@ -120,38 +119,38 @@
   }
 
   ::ng-deep .mat-form-field-flex {
-    height : 50px;
+    height: 50px;
   }
 
   .field-third-width {
-    width : 30%;
-    margin-right : 30px;
+    width: 30%;
+    margin-right: 30px;
   }
 
 
   .field-two-third-width {
-    width : 64%;
+    width: 64%;
   }
 
-  .field-full-width  {
+  .field-full-width {
     width: 100%;
   }
 
   .field-half-width {
-    width : 47%;
-    margin-right : 30px;
+    width: 47%;
+    margin-right: 30px;
   }
 
 
   .born-control {
-    height: 61px!important;
+    height: 61px !important;
   }
 
   .field-birthyear {
     width: 50%;
     position: relative;
     top: 6px;
-    margin-left : 20px;
+    margin-left: 20px;
 
   }
 

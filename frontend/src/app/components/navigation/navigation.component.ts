@@ -24,11 +24,7 @@ export class NavigationComponent implements OnInit {
 
   logout() {
     this.socialAuthService.signOut();
-    // console.log('logging off', this.memberService.getUser().uname);
-    this.socket.emit(
-      "logoff",
-      this.memberService.getUser().fname + " " + this.memberService.getUser().lname
-    );
+    this.socket.emit("logoff", this.memberService.getUser());
     sessionStorage.removeItem("member");
     this.tokenService.logout();
   }

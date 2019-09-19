@@ -12,6 +12,8 @@ import wallPostRoutes from "./routes/wallpost.routes";
 import socketIO from "socket.io";
 import nodeCache from "node-cache";
 import path from "path";
+import _ from "lodash";
+
 import {
   dirname
 } from "path";
@@ -41,6 +43,10 @@ const messageCache = new NodeCache({
   stdTTL: 100,
   checkperiod: 120
 });
+const loggedOnUsersCache = new NodeCache({
+  stdTTL: 0,
+});
+loggedOnUsersCache.set("users", []);
 messageCache.set("messages", []);
 app.use(
   cors({
@@ -115,7 +121,10 @@ router.route("/api/auth").post((req, res) => {
     }
   );
   console.log(req.body);
+  if(!_.includes(loggedOnUsersCache.get("users"), req.body.id))
+    loggedOnUsersCache.set("users", [req.body.id, ...loggedOnUsersCache.get("users")]);
   io.emit("system-message", req.body.name + " has logged on!");
+  io.emit("logged-on-users", loggedOnUsersCache.get("users"));
   res.status(200).send({
     token: token
   });
@@ -131,7 +140,6 @@ const connections = new Set();
 
 io.on("connection", socket => {
   connections.add(socket);
-  console.log("socket.io connected");
   io.on("system-message", message => {
     console.log("system-message", message);
     io.emit("system-message", message);
@@ -146,10 +154,12 @@ io.on("connection", socket => {
       }).bind(messageCache)
   );
 
-  socket.on("logoff", name => {
-    console.log("logoff", name);
-    if (name) {
-      io.emit("system-message", name + " logged off");
+  socket.on("logoff", member => {
+    if (member) {
+      io.emit("system-message", member.uname + " logged off");
+      loggedOnUsersCache.set("users", loggedOnUsersCache.get("users").filter(el => el !== member.id));
+      console.log('user cache', loggedOnUsersCache.get("users"))
+      io.emit("logged-on-users", loggedOnUsersCache.get("users"));
     }
   });
 
@@ -163,7 +173,7 @@ io.on("connection", socket => {
         socket.broadcast.emit("chat-message", message);
       }).bind(messageCache)
   );
-  socket.on("disconnect", function (member) {
+  socket.on("disconnect", () => {
     connections.delete(socket);
   });
 });

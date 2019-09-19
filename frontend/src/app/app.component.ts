@@ -1,4 +1,4 @@
-import { MemberService } from './services/member.service';
+import { MemberService } from "./services/member.service";
 import { environment } from "./../environments/environment";
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Member } from "./models/member.model";
@@ -20,7 +20,7 @@ export class AppComponent implements OnDestroy, OnInit {
     private toastrService: ToastrService,
     private socialAuthService: AuthService,
     private tokenService: TokenService,
-    private memberService : MemberService,
+    private memberService: MemberService,
     private socket: Socket
   ) {}
 
@@ -37,17 +37,18 @@ export class AppComponent implements OnDestroy, OnInit {
     this.socket.on("system-message", message => {
       this.toastrService.info(message);
     });
+    this.socket.on("logged-on-users", message => {
+      console.log('users update ', message);
+    });
     // if(this.env.production){
     window.onbeforeunload = () => this.ngOnDestroy();
     // }
   }
 
   ngOnDestroy() {
-    console.log('logoff', this.member);
-    this.socket.emit("logoff", this.member ); 
+    this.socket.emit("logoff", this.memberService.getUser());
     this.socialAuthService.signOut();
     sessionStorage.removeItem("member");
     this.tokenService.logout();
-
   }
 }
