@@ -65,12 +65,11 @@
   }
 
   .video-button {
-    margin: 0 4px;
+    margin: 5px 10px 0px 4px;
   }
 
   .panel-info {
     width: 100%;
-    height: 3.5em;
     padding: 5px;
     font-weight: bold;
   }
@@ -80,16 +79,25 @@
     margin-left: 10px;
   }
 
-  .mat-card-avatar {
-    top: 10px;
-    left: 5px;
+  .tags {
     position: relative;
+    top: 10px;
+    padding-bottom: 4px;
+    padding-right: 8px;
+    background-color: lightgray;
+    opacity: 0.6;
+  }
+
+  .mat-card-avatar {
+    margin-left: -7px;
+    margin-right: 4px;
+    margin-bottom: 5px;
+    cursor: pointer;
   }
 
   .description {
     font-size: 14pt;
     font-weight: bold;
-    padding: 10px;
   }
 
   .panel-container {
@@ -101,8 +109,11 @@
   }
 
   .form-control {
+    height: 40px;
+    font-size: 14pt;
+    font-weight: bold;
     display: block;
-    width: 25em;
+    width: 47.7%;
     margin-top : 10px;
     margin-left: 20px;
   }

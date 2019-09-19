@@ -76,7 +76,6 @@
 
   .mat-card-avatar {
     margin: 5px 0px 10px 5px;
-    padding-bottom: 10px;
     zoom: 2;
     border-radius: 0;
     width: 70px;
@@ -98,7 +97,7 @@
     zoom: 0.9;
     font-weight: bold;
     position: relative;
-    left: 7px;
+    left: -20px;
   }
 
   mat-card-header {

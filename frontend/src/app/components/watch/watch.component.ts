@@ -19,8 +19,7 @@ export class WatchComponent implements OnInit {
   videos$: BehaviorSubject<Array<Video>>;
   user: Member;
   height: number = 400;
-  width: number = 600;
-  // tagFilter: any = { $or : { tags: ''} };
+  width: number = 560;
   tagFilter: any = { tags: ''};
   tags;
   constructor(

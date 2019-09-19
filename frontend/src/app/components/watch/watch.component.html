@@ -6,20 +6,23 @@
   </div>
   <div fxLayout="row wrap" class="panel-container" fxLayoutAlign="start start">
     <mat-card *ngFor="let video of videos$  | async | filterBy: tagFilter" class="opaque-card">
-      <mat-card-title class="panel-info ">{{ video.title }}
-        <span class="video-meta">Uploaded by {{ video.createdBy.uname }}
+      <mat-card-title class="panel-info ">{{ video.title }}<br/>
+        <span class="video-meta">
+          <img mat-card-avatar [routerLink]="'/nav/list/' + video.createdBy._id" [src]="video.createdBy.avatarUrl" />
+          Uploaded by {{ video.createdBy.uname }}
           {{ video.createdAt | date : 'shortDate' : localeId }}
-          {{ video.createdAt | date : 'shortTime' }}</span><img mat-card-avatar [routerLink]="'/nav/list/' + video.createdBy._id" [src]="video.createdBy.avatarUrl" />
-
+        </span>
       </mat-card-title>
       <mat-card-content>
         <div class="description">{{ video.description }}<br />
-          Tags: &nbsp;&nbsp;<span class="tags" *ngFor="let tag of video.tags;let last = last;">{{tag}}<span *ngIf="!last">,
-            </span></span>
+          <span class="tags" *ngFor="let tag of video.tags;let last = last; let first = first;"><span *ngIf="first">&nbsp;&nbsp;Tags:&nbsp;&nbsp;</span>{{tag}}<span
+              *ngIf="!last">,</span></span>
           <br /><br />
           <youtube-player [height]="height" [width]="width" [videoId]="video.value"></youtube-player><br />
-          <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button color="accent" (click)="openUploadDialog(video)">Update</button>
-          <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button color="accent" (click)="deleteVideo(video._id)">Delete</button>
+          <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button
+            color="accent" (click)="openUploadDialog(video)">Update</button>
+          <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button
+            color="accent" (click)="deleteVideo(video._id)">Delete</button>
         </div>
       </mat-card-content>
     </mat-card>
