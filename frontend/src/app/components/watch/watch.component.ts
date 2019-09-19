@@ -22,6 +22,7 @@ export class WatchComponent implements OnInit {
   width: number = 560;
   tagFilter: any = { tags: ''};
   tags;
+  isMobile = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -35,6 +36,7 @@ export class WatchComponent implements OnInit {
     if (this.deviceDetectorService.isMobile()) {
       this.height = 200;
       this.width = 250;
+      this.isMobile = true;
     }
     this.user = this.memberService.getUser();
   }
