@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { Observable, BehaviorSubject, pipe } from "rxjs";
-import { map, tap, switchMap } from "rxjs/operators";
+import { map, tap, switchMap, shareReplay } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Member } from "../models/member.model";
 import { environment } from "../../environments/environment";
@@ -18,14 +18,14 @@ const toBase64 = file =>
 
 const httpOptions = {
   headers: new HttpHeaders({
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
     // "Access-Control-Allow-Credentials": "true"
   })
 };
 @Injectable({
   providedIn: "root"
 })
-export class MemberService {
+export class MemberService implements OnInit {
   user: Member;
   user$: BehaviorSubject<Member> = new BehaviorSubject({});
   public avatarUrl$: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +33,14 @@ export class MemberService {
   countries = countries;
   dropdowns = dropdowns;
   members;
-  constructor(private http: HttpClient) {}
+  members$: BehaviorSubject<Array<Member>>;
+  constructor(private http: HttpClient) {
+
+  }
+
+  ngOnInit() {
+    this.loadMembers();
+  }
 
   async saveMemberToLocalStorage(_member: Member) {
     _member.originDisplay = this.getCountryName(_member.origin);
@@ -69,9 +76,6 @@ export class MemberService {
     return this.members.filter(m => m._id == id)[0];
   }
 
-  // getRegistrationFormStaticData() {
-
-  // }
 
   getCountryName(code) {
     return this.countries.filter(country => country["alpha3Code"] == code)[0][
@@ -85,15 +89,20 @@ export class MemberService {
   getSelectedMember$() {
     return this.selectedMember$;
   }
-  getMembers() {
-    return this.http.get(`${baseUri}/members`, httpOptions).pipe(
-      tap(members => (this.members = members)),
-      map((members: Array<Member>) => {
-        return members.map(member => {
-          return this.enrichMember(member);
-        });
-      })
-    );
+  loadMembers() {
+     return this.http.get(`${baseUri}/members`, httpOptions).pipe(
+        map((members: Array<Member>) => {
+          return members.map(member => {
+            return this.enrichMember(member);
+          });
+        }),
+        tap(members => {
+          this.members = members;
+          console.log('loading', members)
+          this.members$ = new BehaviorSubject(members as Array<Member>);
+        }),
+        shareReplay()
+      );
   }
 
   private enrichMember(member: Member) {
@@ -134,10 +143,6 @@ export class MemberService {
     return this.http.get(`${baseUri}/members/delete/${id}`);
   }
 
-  updateAvatar(avatar) {
-    return this.http.post(`${baseUri}/members/add/avatar${avatar._id}`, avatar);
-  }
-
   landingPageStats() {
     return this.http.get(`${baseUri}/members/landingpagestats`, httpOptions);
   }
@@ -151,7 +156,7 @@ export class MemberService {
   }
 
   getStaticData() {
-    return this.http.get(`${baseUri}/staticdata`,httpOptions);
+    return this.http.get(`${baseUri}/staticdata`, httpOptions);
   }
 
   addStaticData(value) {

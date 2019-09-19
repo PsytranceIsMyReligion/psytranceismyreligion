@@ -1,3 +1,4 @@
+import { WallResolve } from "./../resolvers/wall.resolve";
 import { Routes } from "@angular/router";
 import { AuthGuard } from "../guards/auth.guard";
 import { LandingGuard } from "../guards/landing.guard";
@@ -17,7 +18,7 @@ import { EventsComponent } from "../components/events/events.component";
 export const ROUTES: Routes = [
   {
     path: "",
-    runGuardsAndResolvers: "always",
+    // runGuardsAndResolvers: "always",
     component: LandingComponent,
     canActivate: [LandingGuard],
     resolve: {
@@ -47,9 +48,20 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
         component: ListComponent,
         resolve: {
-          data: MemberListResolve
-        },
-        runGuardsAndResolvers: "always"
+          data: MemberListResolve,
+          posts: WallResolve
+        }
+        // runGuardsAndResolvers: "always"
+      },
+      {
+        path: "list/:id",
+        canActivate: [AuthGuard],
+        component: ListComponent,
+        resolve: {
+          data: MemberListResolve,
+          wallposts: WallResolve
+        }
+        // runGuardsAndResolvers: "always"
       },
       {
         path: "profile/:mode",
@@ -65,7 +77,7 @@ export const ROUTES: Routes = [
         component: WatchComponent,
         runGuardsAndResolvers: "always",
         resolve: {
-          data: WatchResolve
+          videos: WatchResolve
         }
       },
       { path: "events", canActivate: [AuthGuard], component: EventsComponent },

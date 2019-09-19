@@ -3,10 +3,14 @@ const router = express.Router();
 import WallPost from "../models/wallpost";
 
 router.route("/").get((req, res) => {
+    console.log('getting wall')
     WallPost.find({}).populate('createdBy').sort({
         'updatedAt': 'desc'
     }).exec((err, docs) => {
-        if (err) res.status(400).send("Failed to get wallposts");
+        if (err) {
+            console.log('error', err)
+            res.status(400).send("Failed to get wallposts");
+        }
         else res.json(docs);
     });
 });
@@ -16,7 +20,6 @@ router.route("/add").post((req, res) => {
     post
         .save()
         .then(post => {
-            console.log('saved', post)
             res.status(200).json(post);
         })
         .catch(err => {
@@ -37,7 +40,6 @@ router.route("/update/:id").post((req, res, next) => {
         }, {
             new: true
         }, (err, post) => {
-            // console.log('updated', post)
             if (err) res.json(err);
             res.status(200).json(post);
         })

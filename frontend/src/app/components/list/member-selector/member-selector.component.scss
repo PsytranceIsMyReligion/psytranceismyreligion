@@ -12,22 +12,21 @@
 
   .flex-members {
     width: 95%;
-    // border-radius : 5px;
     overflow-y: hidden;
     margin-left: 10px;
     margin-right: 70px;
-
     ul {
       cursor: pointer;
       background-color: orange;
-
+      padding-inline-start: 10px;
+      margin-block-start: 0.5em;
+      margin-top: 10px;
+      margin-bottom: 0px;
 
       li {
-        height: 40px;
         width: 100%;
-        text-align: center;
-        padding-top: 10px;
         width: 100%;
+        // height: fit-content;
       }
 
       li:hover {
@@ -39,10 +38,28 @@
   .summary {
     background-image: linear-gradient(red, yellow);
     font-weight: bold;
-    text-align: center;
     height: 50px;
+    text-align: center;
   }
 
+  .avatar {
+    margin: 13px 10px 0 0;
+  }
+
+  .title {
+    position: relative;
+    top: -20px;
+    text-align: left;
+  }
+
+  .title2 {
+    position: relative;
+    // display: block;
+    margin-left: 20px;
+    text-align: left;
+    top: -22px;
+    left: 34px;
+  }
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
@@ -62,7 +79,7 @@
     ul {
       cursor: pointer;
       background-color: orange;
-
+      padding-inline-start: 10px;
 
       li {
         height: 30px;

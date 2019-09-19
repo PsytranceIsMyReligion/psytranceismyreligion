@@ -3,7 +3,9 @@
         <div class="summary">We have {{ headerInfo.count  }} members
           <br />{{ headerInfo.conversionPercent }}% have converted to psytrance</div>
         <ul *ngFor="let member of members$  | async ">
-          <li class="hvr-float" (click)="focusMember(member)"> {{member.uname ? member.uname : '' }} {{ member.uname ? 'aka' : '' }} {{ member.fname }} {{ member.lname }} </li>
+          <li class="hvr-float" (click)="focusMember(member)">
+              <img mat-card-avatar class="avatar" src="{{ member.avatarUrl }}" />
+             <span class="title"> {{member.uname ? member.uname : '' }}<br/></span><span class="title2"> {{ member.fname }} {{ member.lname }}</span></li>
         </ul>
       </div>
 </div>

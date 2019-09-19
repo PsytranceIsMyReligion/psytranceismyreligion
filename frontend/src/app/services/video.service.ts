@@ -23,13 +23,13 @@ export class VideoService {
 
 
   createVideoLink(video: Video) {
-    console.log('saving', video);
     return this.http.post(`${baseUri}/videos/add`, video);
   }
 
 
-  updateVideoLink(id: string, video: Video) {
-    return this.http.post(`${baseUri}/videos/update/${id}`, video);
+  updateVideoLink(video: Video) {
+    console.log('updating', video)
+    return this.http.post(`${baseUri}/videos/update/${video._id}`, video);
   }
 
   deleteVideoLink(id: string) {

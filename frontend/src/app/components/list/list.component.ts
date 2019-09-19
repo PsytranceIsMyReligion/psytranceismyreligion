@@ -1,10 +1,10 @@
-import { WallPost } from './../../models/member.model';
+import { WallPost } from "./../../models/member.model";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Member } from "../../models/member.model";
 import { MemberService } from "../../services/member.service";
 import { BehaviorSubject, of } from "rxjs";
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
   selector: "app-list",
@@ -24,7 +24,7 @@ export class ListComponent implements OnInit {
   ];
   @ViewChild("gmap", { static: true }) gmapElement: any;
   map: google.maps.Map;
-  focusMarker : any;
+  focusMarker: any;
   selectedMember$: BehaviorSubject<Member>;
   isMobile: boolean = false;
   members$: BehaviorSubject<Array<Member>>;
@@ -34,39 +34,42 @@ export class ListComponent implements OnInit {
     private memberService: MemberService,
     private router: Router,
     private route: ActivatedRoute,
-    private deviceDetectorService :DeviceDetectorService
+    private deviceDetectorService: DeviceDetectorService
   ) {
-    this.members$ = new BehaviorSubject(this.route.snapshot.data["data"]["members"]);
-    this.wall$ = new BehaviorSubject(this.route.snapshot.data["data"]["wallposts"]);
+    this.wall$ = new BehaviorSubject(this.route.snapshot.data["posts"]);
+    console.log("posts,", this.route.snapshot.data);
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.headerInfo$.next({
-      count :  this.route.snapshot.data["data"]["stats"]["count"],
-      conversionPercent :  this.route.snapshot.data["data"]["stats"]["conversionPercent"]
+      count: this.route.snapshot.data["data"]["stats"]["count"],
+      conversionPercent: this.route.snapshot.data["data"]["stats"][
+        "conversionPercent"
+      ]
     });
     this.isMobile = this.deviceDetectorService.isMobile();
   }
 
   ngOnInit() {
+    this.members$ = this.memberService.members$;
     this.generateMemberMap();
-    this.route.params.subscribe( params => {
-      if(params.id) {
-        console.log('param',params.id)
-        this.selectedMember$.next(this.memberService.getMemberById(params.id))
-      }
-    });
-    this.selectedMember$.subscribe((member) => this.updateFocusedMember(member));
+    if (this.route.snapshot.paramMap.get("id")) {
+      this.selectedMember$.next(
+        this.memberService.getMemberById(this.route.snapshot.paramMap.get("id"))
+      );
+    }
+    this.selectedMember$.subscribe(member => this.updateFocusedMember(member));
   }
 
   updateFocusedMember(member: Member) {
-    console.log('focusing on ', member.uname)
     const location = new google.maps.LatLng(member.lat, member.long);
     let marker = new google.maps.Marker({
       position: location,
       map: this.map
     });
     marker.setAnimation(google.maps.Animation.DROP);
-    marker.setIcon('http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png');
-    if(this.focusMarker) {
+    marker.setIcon(
+      "http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png"
+    );
+    if (this.focusMarker) {
       this.focusMarker.setMap(null);
     }
     this.focusMarker = marker;
@@ -86,9 +89,8 @@ export class ListComponent implements OnInit {
       fullscreenControl: true
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    this.members$.subscribe(members =>
-      {
-         members.forEach(el => {
+    this.members$.subscribe(members => {
+      members.forEach(el => {
         if (el.lat && el.long) {
           const location = new google.maps.LatLng(el.lat, el.long);
           const marker = new google.maps.Marker({
@@ -104,12 +106,10 @@ export class ListComponent implements OnInit {
           marker.addListener("mouseout", () => {
             infowindow.close();
           });
-      }
+        }
+      });
     });
-
-
-  })
-}
+  }
 
   centreMapOnUser() {
     let member: Member = JSON.parse(sessionStorage.getItem("member"));

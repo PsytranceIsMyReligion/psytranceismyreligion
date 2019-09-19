@@ -22,7 +22,6 @@ router.route("/").get((rq, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    console.log('adding', req.body.params)
     if (req.body.params.type == 'musictype') {
         let genre = new MusicGenre(req.body.params.value);
         genre

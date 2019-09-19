@@ -9,15 +9,18 @@ let VideoSchema = new Schema({
   description: {
     type: String
   },
-  value : {
+  value: {
     type: String
+  },
+  tags: {
+    type: [String],
+    default: []
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Member'
   }
-},
- {
+}, {
   timestamps: {
     createdAt: true,
     updatedAt: false

@@ -113,7 +113,6 @@ export class RegisterComponent implements OnInit {
     this.musicGenres = this.activatedRoute.snapshot.data["data"]["static"][0];
     console.log(this.musicGenres);
     this.artists = this.activatedRoute.snapshot.data["data"]["static"][1];
-    this.members = this.activatedRoute.snapshot.data["data"]["members"];
     if (!this.newMode) {
       this.referers = this.members.filter(
         el => el._id !== this.memberService.getUser()._id
@@ -127,6 +126,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.members = this.memberService.members$.getValue();
     this.createForm();
     this.initializeFilters();
     if (this.newMode) this.loadSocialUserDetails();

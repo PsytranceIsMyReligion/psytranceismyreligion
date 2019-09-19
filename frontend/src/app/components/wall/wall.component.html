@@ -6,15 +6,13 @@
   <div fxLayout="column" class="post-container" fxLayoutAlign="start start" *ngIf="wall$ | async as wall">
 
     <mat-card class="inner-card" *ngFor="let post of wall$ | async">
-      <mat-card-header><span>{{post.title}} <br /> By <a [routerLink]=""
-            (click)="setSelectedMember$(post.createdBy)">{{ post.createdBy.uname }}</a>
-          on {{ post.updatedAt | date : 'medium' : localeId }}</span>
+      <mat-card-header><span>{{post.title}} <br /> By <a [routerLink]="" (click)="setSelectedMember$(post.createdBy)">
+
+            {{ post.createdBy.uname }}</a>
+          on {{ post.updatedAt | date : 'shortDate' : localeId }} {{ post.updatedAt | date : 'shortTime' }}</span>
       </mat-card-header>
       <mat-card-content>
-        <div class="ql-container ql-snow" style="border-width: 0;">
-          <div class="ql-editor" [innerHTML]="post.content">
-          </div>
-        </div>
+          <quill-view [content]="post.content"  theme="snow"></quill-view>
         <button *ngIf="user._id == post.createdBy._id" mat-icon-button color="accent" (click)="openPostDialog(post)">
           <mat-icon>edit</mat-icon>Edit
         </button>&nbsp;&nbsp;

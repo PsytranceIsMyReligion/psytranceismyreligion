@@ -1,3 +1,4 @@
+import { WallResolve } from './resolvers/wall.resolve';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { environment } from "./../environments/environment";
 import { BrowserModule } from "@angular/platform-browser";
@@ -77,7 +78,7 @@ import { EventsComponent } from "./components/events/events.component";
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AvatarDialogComponent } from './components/register/avatar-dialog/avatar-dialog.component';
 import { UploadModule } from '@progress/kendo-angular-upload';
-
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 
 
@@ -192,6 +193,7 @@ export function tokenGetter() {
     AngularFontAwesomeModule,
     ButtonsModule,
     MatMomentDateModule,
+    FilterPipeModule,
     DeviceDetectorModule.forRoot(),
     NgxYoutubePlayerModule.forRoot(),
     JwtModule.forRoot({
@@ -213,6 +215,7 @@ export function tokenGetter() {
     MemberListResolve,
     RegisterResolve,
     WatchResolve,
+    WallResolve,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

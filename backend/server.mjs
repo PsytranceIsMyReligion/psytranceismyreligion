@@ -42,17 +42,17 @@ const messageCache = new NodeCache({
   checkperiod: 120
 });
 messageCache.set("messages", []);
-  app.use(
-    cors({
-      credentials: true,
-      origin: [
-        "http://localhost:4200",
-        "http://localhost:3000",
-        "http://ec2-3-8-187-23.eu-west-2.compute.amazonaws.com:3000",
-        "http://www.psytranceismyreligion.com"
-      ]
-    })
-  );
+app.use(
+  cors({
+    credentials: true,
+    origin: [
+      "http://localhost:4200",
+      "http://localhost:3000",
+      "http://ec2-3-8-187-23.eu-west-2.compute.amazonaws.com:3000",
+      "http://www.psytranceismyreligion.com"
+    ]
+  })
+);
 app.use(express.static("public"));
 app.use("/static", express.static(path.join(__dirname, "public")));
 app.options("*", cors());
@@ -83,7 +83,8 @@ app.use(
       /\/members\/bysocialid\/.*/,
       /\/staticdata\/*/,
       /\/static\/*/,
-      // /\/member\/*/
+      /\/public\/*/,
+      // /\/member\/*/  
     ]
   })
 );

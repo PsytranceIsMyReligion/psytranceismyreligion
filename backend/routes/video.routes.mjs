@@ -37,6 +37,7 @@ router.route("/update/:id").post((req, res, next) => {
         title: req.body.title,
         description: req.body.description,
         value: req.body.value,
+        tags: req.body.tags
       }
     }, {
       new: true
