@@ -2,7 +2,7 @@
   <mat-card-header>
     <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
     <mat-icon *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
-    {{ selectedMember.uname }} aka {{ selectedMember.fname }} {{ selectedMember.lname }}
+    <span>{{ selectedMember.uname }} <br/> {{ selectedMember.fname }} {{ selectedMember.lname }}</span>
     <span class="links">
       &nbsp;&nbsp;&nbsp;&nbsp;
       <a *ngIf="selectedMember.facebookUrl" title="Member Facebook" class="fa fa-facebook" target="_blank"

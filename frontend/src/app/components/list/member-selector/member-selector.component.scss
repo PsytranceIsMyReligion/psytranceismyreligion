@@ -6,12 +6,12 @@
     height: 100%;
     width: 95%;
     font-weight: bold;
-    margin-top: 10px;
     background-image: linear-gradient(red, yellow);
   }
 
   .flex-members {
     width: 95%;
+    font-size: 14pt;
     overflow-y: hidden;
     margin-left: 10px;
     margin-right: 70px;
@@ -26,6 +26,7 @@
       li {
         width: 100%;
         width: 100%;
+        opacity: 1;
         // height: fit-content;
       }
 
@@ -33,12 +34,19 @@
         background-color: red;
       }
     }
+
+    .title {
+      position: relative;
+      top: -5px;
+      text-align: left;
+    }
   }
 
   .summary {
     background-image: linear-gradient(red, yellow);
+    font-size: 14pt;
     font-weight: bold;
-    height: 50px;
+    height: 80px;
     text-align: center;
   }
 
