@@ -9,9 +9,7 @@ export class LandingGuard implements CanActivate {
     if (sessionStorage.getItem("member")) {
       // logged in so return true
       console.log("Member found - logged in redirecting to list page", route.paramMap);
-      if(!route.params.id)
-        this.router.navigate(["nav/list"]);
-
+      if (!route.params.id) this.router.navigate(["nav/home"]);
     }
     // not logged in so redirect to login page with the return url
     return true;
