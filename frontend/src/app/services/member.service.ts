@@ -36,22 +36,16 @@ export class MemberService implements OnInit {
   dropdowns = dropdowns;
   members$: BehaviorSubject<Array<Member>>;
   loggedOnMembers$: BehaviorSubject<Array<Member>> = new BehaviorSubject([]);
-  constructor(private http: HttpClient, private socket: Socket) {
-
-  }
+  constructor(private http: HttpClient, private socket: Socket) {}
 
   ngOnInit() {
     this.loadMembers();
-
   }
 
   async saveMemberToLocalStorage(_member: Member) {
     _member.originDisplay = this.getCountryName(_member.origin);
     _member.locationDisplay = this.getCountryName(_member.location);
-    sessionStorage.setItem(
-      "member",
-      JSON.stringify(this.enrichMember(_member))
-    );
+    sessionStorage.setItem("member", JSON.stringify(this.enrichMember(_member)));
     this.avatarUrl$.next(_member.avatarUrl);
     this.user$.next(_member);
     this.selectedMember$.next(_member);
@@ -75,14 +69,11 @@ export class MemberService implements OnInit {
   }
 
   getMemberById(id) {
-    console.log('id',  this.members$.getValue().filter(m => m._id == id))
     return this.members$.getValue().filter(m => m._id == id)[0];
   }
 
   getCountryName(code) {
-    return this.countries.filter(country => country["alpha3Code"] == code)[0][
-      "name"
-    ];
+    return this.countries.filter(country => country["alpha3Code"] == code)[0]["name"];
   }
 
   setSelectedMember$(member) {
@@ -102,16 +93,17 @@ export class MemberService implements OnInit {
         console.log("loading", members);
         this.members$ = new BehaviorSubject(members as Array<Member>);
       }),
-      first(
-      ),
-      tap(() => {console.log('initi users');this.initLoggedOnUsers()}),
+      first(),
+      tap(() => {
+        console.log("initi users");
+        this.initLoggedOnUsers();
+      }),
       shareReplay()
     );
-
   }
 
   initLoggedOnUsers() {
-    console.log("initing user listing")
+    console.log("initing user listing");
     this.socket.on("logged-on-users", (users: Array<String>) => {
       let user = users.filter(el => el).map(el => this.getMemberById(el));
       console.log("logged-on-users", user);
@@ -127,14 +119,8 @@ export class MemberService implements OnInit {
       "festivalfrequency",
       member.festivalfrequency
     );
-    member.partyfrequencyDisplay = this.getDropdownDisplay(
-      "partyfrequency",
-      member.partyfrequency
-    );
-    member.membertypeDisplay = this.getDropdownDisplay(
-      "membertype",
-      member.membertype
-    );
+    member.partyfrequencyDisplay = this.getDropdownDisplay("partyfrequency", member.partyfrequency);
+    member.membertypeDisplay = this.getDropdownDisplay("membertype", member.membertype);
     return member;
   }
 

@@ -2,13 +2,11 @@
   <mat-card-header>
     <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
     <mat-icon *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
-    <span>{{ selectedMember.uname }} <br/> {{ selectedMember.fname }} {{ selectedMember.lname }}</span>
+    <span>{{ selectedMember.uname }} <br /> {{ selectedMember.fname }} {{ selectedMember.lname }}</span>
     <span class="links">
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <a *ngIf="selectedMember.facebookUrl" title="Member Facebook" class="fa fa-facebook" target="_blank"
-        href="{{ selectedMember.facebookUrl}}"></a>&nbsp;&nbsp;
-      <a *ngIf="selectedMember.soundcloudUrl" title="Member Soundcloud" class="fa fa-soundcloud" target="_blank"
-        href="{{ selectedMember.soundcloudUrl}}"></a>&nbsp;&nbsp;
+      <a *ngIf="selectedMember.facebookUrl" title="Member Facebook" class="fa fa-facebook" target="_blank" href="{{ selectedMember.facebookUrl}}"></a>&nbsp;&nbsp;
+      <a *ngIf="selectedMember.soundcloudUrl" title="Member Soundcloud" class="fa fa-soundcloud" target="_blank" href="{{ selectedMember.soundcloudUrl}}"></a>&nbsp;&nbsp;
       <span *ngIf="selectedMember.websiteUrl">
         <a class="fa fa-link" target="_blank" title="Member Website" href="{{ selectedMember.websiteUrl}}"></a>
       </span>
@@ -27,9 +25,14 @@
     <br />
     <span *ngIf="selectedMember.favouriteparty">
       Favourite parties: {{ selectedMember.favouriteparty }} <br /></span>
-    <span *ngIf="selectedMember.favouritefestival">
-      Favourite festivals: {{ selectedMember.favouritefestival }}<br /> </span>
-    <br *ngIf="selectedMember.favouritefestival" />
+    <span *ngIf="selectedMember.favouritefestivals">
+      <span *ngIf="selectedMember.favouritefestivals.length > 0">Favourite festivals:
+        <span *ngFor="let festival of selectedMember.favouritefestivals; let last = last;">{{ festival.name }}<span *ngIf="!last">, </span>
+        </span>
+        <br *ngIf="selectedMember.favouritefestivals.length > 0" />
+      </span>
+    </span>
+    <br *ngIf="selectedMember.favouritefestivals" />
     <span *ngIf="selectedMember.musictype.length > 0">Favourite Music Genres:
       <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">, </span>
       </span>

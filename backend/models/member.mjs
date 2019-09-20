@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import validator from "validator";
 
 const Schema = mongoose.Schema;
 
@@ -7,7 +6,7 @@ let MemberSchema = new Schema({
   socialid: {
     type: Number
   },
-  avatar : {
+  avatar: {
     type: Buffer
   },
   uname: {
@@ -61,11 +60,11 @@ let MemberSchema = new Schema({
   },
   musictype: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'MusicGenre'
+    ref: 'StaticData'
   }],
   favouriteartists: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Artist'
+    ref: 'StaticData'
   }],
   startyear: {
     type: Number
@@ -79,9 +78,10 @@ let MemberSchema = new Schema({
   partyfrequency: {
     type: String
   },
-  favouritefestival: {
-    type: String
-  },
+  favouritefestivals: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'StaticData'
+  }],
   festivalfrequency: {
     type: String
   },

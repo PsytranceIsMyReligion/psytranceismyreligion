@@ -36,7 +36,7 @@ export const ROUTES: Routes = [
     path: "register/:mode",
     component: RegisterComponent,
     resolve: {
-      data: RegisterResolve
+      staticdata: RegisterResolve
     }
   },
   {

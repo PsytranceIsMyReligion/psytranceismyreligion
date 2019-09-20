@@ -65,7 +65,7 @@ import { MemberDetailsComponent } from "./components/home/member-details/member-
 import { MemberSelectorComponent } from "./components/home/member-selector/member-selector.component";
 import { NgxYoutubePlayerModule } from "ngx-youtube-player";
 import { StatsComponent } from "./components/stats/stats.component";
-import { ArtistDialogComponent } from "./components/register/artist-dialog/artist-dialog.component";
+import { StaticDataDialogComponent } from "./components/register/staticdata-dialog/staticdata-dialog.component";
 import { ChartModule } from "@progress/kendo-angular-charts";
 import { ChatComponent } from "./components/chat/chat.component";
 import { ChatModule } from "@progress/kendo-angular-conversational-ui";
@@ -105,7 +105,7 @@ export function tokenGetter() {
 @NgModule({
   entryComponents: [
     VideoUploadComponent,
-    ArtistDialogComponent,
+    StaticDataDialogComponent,
     PostDialogComponent,
     AvatarDialogComponent
   ],
@@ -124,7 +124,7 @@ export function tokenGetter() {
     MemberDetailsComponent,
     MemberSelectorComponent,
     StatsComponent,
-    ArtistDialogComponent,
+    StaticDataDialogComponent,
     ChatComponent,
     WallComponent,
     PostDialogComponent,

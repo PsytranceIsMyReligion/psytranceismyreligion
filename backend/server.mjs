@@ -125,9 +125,6 @@ router.route("/api/auth").post((req, res) => {
       expiresIn: 86400 // expires in 24 hours
     }
   );
-  console.log(req.body);
-  if(!_.includes(loggedOnUsersCache.get("users"), req.body.id))
-    loggedOnUsersCache.set("users", [req.body.id, ...loggedOnUsersCache.get("users")]);
   io.emit("system-message", req.body.name + " has logged on!");
   res.status(200).send({
     token: token
@@ -160,16 +157,13 @@ io.on("connection", socket => {
 
   socket.on("get-logged-on-users", (null,
     (user) => {
-      console.log('user', user)
       isProd ?
         loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)]) :
         loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
-      console.log("getting users")
       io.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
     }).bind(loggedOnUserCache));
 
   socket.on("logoff", (null, (member) => {
-    console.log("logoff", member);
     isProd ? loggedOnUserCache.set("users", [...loggedOnUserCache.get("users").filter(el => el != member._id)]) :
       loggedOnUserCache.set("users", [...loggedOnUserCache.get("users")]);
 

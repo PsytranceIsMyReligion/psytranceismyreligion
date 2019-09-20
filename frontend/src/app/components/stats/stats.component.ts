@@ -1,5 +1,4 @@
-import { Artist } from "./../../models/member.model";
-import { Member } from "src/app/models/member.model";
+import { Member, StaticData } from "src/app/models/member.model";
 import { MemberService } from "./../../services/member.service";
 import { Component, OnInit } from "@angular/core";
 import { of, BehaviorSubject } from "rxjs";
@@ -16,8 +15,8 @@ export class StatsComponent implements OnInit {
   chartSeries$: BehaviorSubject<any> = new BehaviorSubject([]);
   staticData;
   categories = ["Male", "Female"];
-  musicGenres: Array<any> = [];
-  artists: Array<Artist> = [];
+  musicGenres: Array<StaticData> = [];
+  artists: Array<StaticData> = [];
   constructor(
     private memberService: MemberService,
     private activatedRoute: ActivatedRoute
@@ -82,7 +81,7 @@ export class StatsComponent implements OnInit {
 
     // }));
 
-    return this.artists.forEach((a: Artist) => {
+    return this.artists.forEach((a: StaticData) => {
       return {
         name: a.name
         // count : this.countUnique(a.name)

@@ -74,7 +74,7 @@
   }
 
   .reasonField {
-    height: 300px!important;
+    height: 300px !important;
   }
 
 }
@@ -82,6 +82,7 @@
 .artist-btn {
   float: right;
 }
+
 .mat-form-field--no-underline .mat-input-underline {
   background-color: transparent;
 }
@@ -91,9 +92,23 @@
 }
 
 .hidden-label {
-  color: black!important;
-  font-weight: normal!important;
-  font-size: 85%!important;
+  color: #929292 !important;
+  font-weight: normal !important;
+  font-size: 75% !important;
+  opacity: 0.8;
+}
+
+::ng-deep .k-multiselect-wrap {
+  border-width: 0 !important;
+}
+
+.festival-select ::ng-deep .mat-form-field-underline {
+  position: relative;
+  top: 11px;
+}
+
+.festival-select {
+  padding-bottom: 10px;
 }
 
 @media only screen and (min-width: 1224px) {
@@ -178,5 +193,3 @@
 
 
 }
-
-

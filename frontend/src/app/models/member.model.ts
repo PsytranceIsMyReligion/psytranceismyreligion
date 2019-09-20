@@ -22,7 +22,7 @@ export interface Member {
   bio?: string;
   favouriteparty?: string;
   partyfrequency?: string;
-  favouritefestival?: string;
+  favouritefestivals?: string;
   partyfrequencyDisplay?: string;
   festivalfrequencyDisplay?: string;
   festivalfrequency?: string;
@@ -48,10 +48,11 @@ export interface Video {
   _id?: string;
 }
 
-export interface Artist {
+export interface StaticData {
   name: string;
-  origin: string;
-  facebookUrl: string;
+  type: string;
+  origin?: string;
+  facebookUrl?: string;
   createdBy: Member;
   createdAt?: Date;
   _id?: string;

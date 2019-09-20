@@ -45,7 +45,7 @@ router.route("/landingpagestats").get((req, res) => {
 });
 
 router.route("/").get((req, res) => {
-    Member.find({}).populate('referer').populate('musictype').populate('favouriteartists').sort({
+    Member.find({}).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals').sort({
         'createdAt': 'desc'
     }).exec((err, docs) => {
         if (err) {
@@ -57,7 +57,7 @@ router.route("/").get((req, res) => {
 
 
 router.route("/:id").get((req, res) => {
-    Member.findById(req.params.id).populate('referer').populate('musictype').populate('favouriteartists').exec((err, docs) => {
+    Member.findById(req.params.id).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals').exec((err, docs) => {
         if (err) res.status(400).send("Failed to get member");
         else res.json(docs);
     });
@@ -66,7 +66,7 @@ router.route("/:id").get((req, res) => {
 router.route("/bysocialid/:id").get((req, res) => {
     Member.findOne({
         socialid: req.params.id
-    }).populate('referer').populate('musictype').populate('favouriteartists').exec((err, docs) => {
+    }).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals').exec((err, docs) => {
         if (err) res.status(400).send("Failed to get bysocialid");
         else res.json(docs);
     });
@@ -120,7 +120,7 @@ router.route("/add/avatar").post(uploader.single('files'), (req, res) => {
     Member.findOneAndUpdate({
         _id: req.body.id
     }, {
-        avatarUrl: process.env.NODE_ENV === "production" ? `http://www.psytranceismyreligion.com/images/${req.file.filename}` : `http://localhost:3000/images/${req.file.filename}`
+        avatarUrl: process.env.NODE_ENV === "production" ? `http://www.psytranceismyreligion.com/public/images/${req.file.filename}` : `http://localhost:3000/images/${req.file.filename}`
     }, {
         new: true,
         upsert: false

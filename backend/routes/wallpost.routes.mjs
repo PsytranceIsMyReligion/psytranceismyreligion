@@ -3,7 +3,6 @@ const router = express.Router();
 import WallPost from "../models/wallpost";
 
 router.route("/").get((req, res) => {
-    console.log('getting wall')
     WallPost.find({}).populate('createdBy').sort({
         'updatedAt': 'desc'
     }).exec((err, docs) => {
