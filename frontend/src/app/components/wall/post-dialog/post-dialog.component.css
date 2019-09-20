@@ -4,11 +4,18 @@
 }
 
 .editor {
-  height: 9em;
+  height: 10em;
   overflow-y: scroll;
 }
 
 mat-form-field {
-  width : 90%;
+  width: 90%;
 }
-  
+
+::ng-deep .ql-editor {
+  height: 200px;
+}
+
+::ng-deep .ql-tooltip {
+  margin-left: 142px !important;
+}

@@ -1,113 +1,97 @@
 <div fxLayoutAlign="center center" fxLayout="column">
-<mat-card class="opaque-card">
-  <mat-card-content>
+  <mat-card class="opaque-card">
+    <mat-card-content>
       <div fxLayoutAlign="center center" fxLayout="column">
-      <span class="title">Hello Multi Dimensional Holographic Universe!</span>
-      <span class="content"><br/>
-        There are {{ memberCount }} members of which {{ conversionPercent }}% say 'Psytrance is my
-        Religion'<br
-      /><br/></span>
-      <span class="sub-title">The Member Map</span>
-      <div [hidden]="mapOpened" #gmap class="map"></div>
-      <button
-        kendoButton
-        *ngIf="!mapOpened"
-        (click)="openCloseMap(true)"
-        [icon]="'hyperlink-open'"
-        [primary]="true"
-        class="warn"
-      >
-        Click for Pop Out Map
-      </button>
-    </div>
+        <span class="title">Hello Multi Dimensional Holographic Universe!</span>
+        <span class="content"><br />
+          There are {{ memberCount }} members of which {{ conversionPercent }}% say 'Psytrance is my
+          Religion'<br /><br /></span>
+        <span class="sub-title">The Member Map</span>
+        <div fxLayout="row" class="map-container" fxLayoutAlign="center">
+          <div [hidden]="mapOpened" #gmap class="map"></div>
+          <button kendoButton *ngIf="!mapOpened" (click)="openCloseMap(true)" [icon]="'hyperlink-open'" [primary]="true" class="warn">
 
-    <kendo-window
-      class="expandable-map"
-      title="Expandable Member Map"
-      [top]="100"
-      [left]="100"
-      [width]="1000"
-      [height]="400"
-      [draggable]="true"
-      [keepContent]="true"
-      [hidden]="!mapOpened"
-      (close)="closeWindow()"
-    >
-      <div #gmap2 style="width:100%; height:100%; opacity: 1"></div>
-    </kendo-window>
-    <br/>
-    <div fxLayoutAlign="center center" class="login-buttons">
-      <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithFB()">
-        Sign in / Register with Facebook
-      </button>
-      <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithGoogle()">
-        Sign in / Register with Google
-      </button>
-    </div>
+          </button>
+        </div>
+      </div>
 
-    <div class="text-container">
-      <p>
-        <span class="header">
-          Welcome to religion based on the psychedelic trance state of mind and belief in the
-          holographic universe mediated by the experiental proof of psychedelic visionary states.<br /><br />
-          When enough of us come together and say 'Psytrance is my Religion', we will have created a
-          religion! Both <a target="_blank" href="https://www.jedichurch.org/">The Jedi Church</a> and
-          <a target="_blank" href="https://www.venganza.org/">Church of the Flying Spaghetti Monster</a> have both
-          been officially recognised as religions in recent years. Let's do the same for psytrance!
-          <br /><br />
-          <span class="title">What's the point? <br />Let's hack reality!</span><br /><br />
-          If psytrance is officially recognised as religion, we can then lobby our governments to
-          legalise psychedelics, since surely we will be consuming them as part of a religious
-          experience. They would become transformed into the sacrament in our rituals of rave. Surely this would make
-          their illegality an infringement on our inalienable right to freedom of religous
-          expression! Get round that narrow minded hypocritical politicians!
-          <br /><br />
+      <kendo-window class="expandable-map" title="Expandable Member Map" [top]="100" [left]="100" [width]="1000" [height]="400" [draggable]="true" [keepContent]="true" [hidden]="!mapOpened"
+        (close)="closeWindow()">
+        <div #gmap2 style="width:100%; height:100%; opacity: 1"></div>
+      </kendo-window>
+      <br />
+      <div fxLayoutAlign="center center" class="login-buttons">
+        <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithFB()">
+          Sign in / Register with Facebook
+        </button>
+        <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithGoogle()">
+          Sign in / Register with Google
+        </button>
+      </div>
 
-          <span class="title">Yeah, but a religion! Really?</span><br /><br />
-          So in part this is a reality hack. However religions are defined by 'a specific
-          fundamental set of beliefs and practices generally agreed upon by a number of persons or
-          sects'. It is my belief that psychedelics reveal to us the true nature of the universe,
-          specifically that visions mediated by the most powerful psychedelic known to man, DMT,
-          gives us direct experiential proof that we live in a Holographic Universe where everything
-          is totally interconnected.<br /><br />
+      <div class="text-container">
+        <p>
+          <span class="header">
+            Welcome to religion based on the psychedelic trance state of mind and belief in the
+            holographic universe mediated by the experiental proof of psychedelic visionary states.<br /><br />
+            When enough of us come together and say 'Psytrance is my Religion', we will have created a
+            religion! Both <a target="_blank" href="https://www.jedichurch.org/">The Jedi Church</a> and
+            <a target="_blank" href="https://www.venganza.org/">Church of the Flying Spaghetti Monster</a> have both
+            been officially recognised as religions in recent years. Let's do the same for psytrance!
+            <br /><br />
+            <span class="title">What's the point? <br />Let's hack reality!</span><br /><br />
+            If psytrance is officially recognised as religion, we can then lobby our governments to
+            legalise psychedelics, since surely we will be consuming them as part of a religious
+            experience. They would become transformed into the sacrament in our rituals of rave. Surely this would make
+            their illegality an infringement on our inalienable right to freedom of religous
+            expression! Get round that narrow minded hypocritical politicians!
+            <br /><br />
 
-          <span class="title"> WE ARE ONE! Literally!</span><br /><br />
-          Each and every one of us holds the universe inside us, it's true! It hasn't been proved
-          yet that the universe is holographic but the evidence is mounting in it's favour
-          and the consequences and implications of this interconnectedness of everything in the universe are powerful
-          and profound. This knowledge can be used by each and every one of us to manefest the
-          change we want in the world because belief and intention create reality! You are able with
-          the power of your intention and belief to make your dreams come true! Check out the 'Your
-          Free Upgrade' learning path and the video library for deeper looks into this subject.
-          <br /><br />
+            <span class="title">Yeah, but a religion! Really?</span><br /><br />
+            So in part this is a reality hack. However religions are defined by 'a specific
+            fundamental set of beliefs and practices generally agreed upon by a number of persons or
+            sects'. It is my belief that psychedelics reveal to us the true nature of the universe,
+            specifically that visions mediated by the most powerful psychedelic known to man, DMT,
+            gives us direct experiential proof that we live in a Holographic Universe where everything
+            is totally interconnected.<br /><br />
 
-          <span class="title">But psytrance is music dude!</span><br /><br />
-          When talking about psychedelic trance as a religion, I don't necessarily mean psytrance
-          the genre of music, more the state of mind attained by listening to any type of
-          repetitive beat music, with or without the help of psychedelic drugs. Yoga, meditation and
-          sensory deprivation are all routes to this same mental state. However in the 21st century
-          it is on the dancefloor where many of us find release from the worries and concerns of
-          everyday life, our minds entrained to the hypnotic beat of electronic music, whether it be
-          psytrance, techno, drum and bass, dubstep, or deep house. Our minds and bodies respond with the
-          flow state of the trance dance, an active meditation which can be therapeutic,
-          revitalising, renewing. We can have moments of peak experience, epiphany and
-          revalation, gain creative insight and grow spiritually as well as share great times with
-          good friends and who knows maybe get lucky.<br /><br />
+            <span class="title"> WE ARE ONE! Literally!</span><br /><br />
+            Each and every one of us holds the universe inside us, it's true! It hasn't been proved
+            yet that the universe is holographic but the evidence is mounting in it's favour
+            and the consequences and implications of this interconnectedness of everything in the universe are powerful
+            and profound. This knowledge can be used by each and every one of us to manefest the
+            change we want in the world because belief and intention create reality! You are able with
+            the power of your intention and belief to make your dreams come true! Check out the 'Your
+            Free Upgrade' learning path and the video library for deeper looks into this subject.
+            <br /><br />
 
-          Of course psytrance doesn't have to be your religion to join and make use of the social
-          networking capabilities of this website. Once you've joined you can discover psytrance
-          heads living in your local area and say hello by sending them a message. Maybe you'll make
-          new friends!<br /><br />
+            <span class="title">But psytrance is music dude!</span><br /><br />
+            When talking about psychedelic trance as a religion, I don't necessarily mean psytrance
+            the genre of music, more the state of mind attained by listening to any type of
+            repetitive beat music, with or without the help of psychedelic drugs. Yoga, meditation and
+            sensory deprivation are all routes to this same mental state. However in the 21st century
+            it is on the dancefloor where many of us find release from the worries and concerns of
+            everyday life, our minds entrained to the hypnotic beat of electronic music, whether it be
+            psytrance, techno, drum and bass, dubstep, or deep house. Our minds and bodies respond with the
+            flow state of the trance dance, an active meditation which can be therapeutic,
+            revitalising, renewing. We can have moments of peak experience, epiphany and
+            revalation, gain creative insight and grow spiritually as well as share great times with
+            good friends and who knows maybe get lucky.<br /><br />
 
-          You can also see the statistical breakdown of our membership and earn Karmic Kudos by
-          downloading flyers and handing them to other psytrance heads at parties. The more members
-          you refer, the more Karmic Kudos you generate! There's also a forum for discussing ideas
-          and a TV channel where you can share your favourite youtube clips with the rest of us.
-          <br /><br />
-          <span class="title">Stay tuned to the alpha frequency!</span>
-        </span>
-      </p>
-    </div>
-  </mat-card-content>
-</mat-card>
+            Of course psytrance doesn't have to be your religion to join and make use of the social
+            networking capabilities of this website. Once you've joined you can discover psytrance
+            heads living in your local area and say hello by sending them a message. Maybe you'll make
+            new friends!<br /><br />
+
+            You can also see the statistical breakdown of our membership and earn Karmic Kudos by
+            downloading flyers and handing them to other psytrance heads at parties. The more members
+            you refer, the more Karmic Kudos you generate! There's also a forum for discussing ideas
+            and a TV channel where you can share your favourite youtube clips with the rest of us.
+            <br /><br />
+            <span class="title">Stay tuned to the alpha frequency!</span>
+          </span>
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

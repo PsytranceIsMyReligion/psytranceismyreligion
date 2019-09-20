@@ -38,6 +38,11 @@ a​:hover {
   background: transparent;
 }
 
+.k-button.k-primary {
+  border-color: #E64A19 !important;
+  color: #fff;
+  background-color: #E64A19 !important;
+}
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   body {

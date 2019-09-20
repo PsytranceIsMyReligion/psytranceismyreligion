@@ -9,10 +9,10 @@
       <mat-card-header><span>{{post.title}} <br /> By <a [routerLink]="" (click)="setSelectedMember$(post.createdBy)">
             {{ post.createdBy.uname }}</a>
           on {{ post.updatedAt | date : 'shortDate' : localeId }} {{ post.updatedAt | date : 'shortTime' }}</span>
-          <img mat-card-avatar  src="{{ post.createdBy.avatarUrl }}" />
+        <img mat-card-avatar [src]="post.createdBy.avatarUrl" />
       </mat-card-header>
       <mat-card-content>
-          <quill-view [content]="post.content"  theme="snow"></quill-view>
+        <quill-view [content]="post.content" theme="snow"></quill-view>
         <button *ngIf="user._id == post.createdBy._id" mat-icon-button color="accent" (click)="openPostDialog(post)">
           <mat-icon>edit</mat-icon>Edit
         </button>&nbsp;&nbsp;

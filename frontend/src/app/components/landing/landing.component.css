@@ -17,8 +17,8 @@ table {
 }
 
 :host ::ng-deep .k-window-titlebar {
-  background-color: #3f51b5 !important;
-  border-color: #3f51b5 !important;
+  background-color: #E64A19 !important;
+  border-color: #E64A19 !important;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
@@ -73,6 +73,10 @@ table {
     width: 60em;
     font-weight: bold;
     text-align: center;
+  }
+
+  .map-container {
+    width: 149%;
   }
 
   ::-webkit-scrollbar {

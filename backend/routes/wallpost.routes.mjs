@@ -9,8 +9,7 @@ router.route("/").get((req, res) => {
         if (err) {
             console.log('error', err)
             res.status(400).send("Failed to get wallposts");
-        }
-        else res.json(docs);
+        } else res.json(docs);
     });
 });
 
@@ -19,7 +18,11 @@ router.route("/add").post((req, res) => {
     post
         .save()
         .then(post => {
-            res.status(200).json(post);
+            WallPost.findOne({
+                _id: post._id
+            }).populate('createdBy').exec((err, docs) => {
+                res.status(200).json(docs);
+            });
         })
         .catch(err => {
             console.log('error', err);
@@ -39,8 +42,11 @@ router.route("/update/:id").post((req, res, next) => {
         }, {
             new: true
         }, (err, post) => {
-            if (err) res.json(err);
-            res.status(200).json(post);
+            WallPost.findOne({
+                _id: post._id
+            }).populate('createdBy').exec((err, docs) => {
+                res.status(200).json(docs);
+            });
         })
         .catch(err => {
             console.log(err);

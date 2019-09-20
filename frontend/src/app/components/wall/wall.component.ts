@@ -73,6 +73,7 @@ export class WallComponent implements OnInit {
         this.wallService
           .createWallPost(updatePost)
           .subscribe((res: WallPost) => {
+            console.log('post', res);
             this.wall$.next([res, ...this.wallData]);
             this.toastrService
               .success("Story created!", "OK", { timeOut: 2000 })
