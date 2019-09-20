@@ -1,5 +1,5 @@
-import { WallResolve } from './resolvers/wall.resolve';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { WallResolve } from "./resolvers/wall.resolve";
+import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { environment } from "./../environments/environment";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ListComponent } from "./components/list/list.component";
+import { ListComponent } from "./components/home/home.component";
 import { QuillModule } from "ngx-quill";
 import {
   MatToolbarModule,
@@ -37,10 +37,7 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { JwtModule } from "@auth0/angular-jwt";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider
-} from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
 import { WindowModule } from "@progress/kendo-angular-dialog";
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { LandingComponent } from "./components/landing/landing.component";
@@ -64,8 +61,8 @@ import { AngularFontAwesomeModule } from "angular-font-awesome";
 import { VideoUploadComponent } from "./components/watch/upload/video-upload.component";
 import { ToastrModule } from "ngx-toastr";
 import { DeviceDetectorModule } from "ngx-device-detector";
-import { MemberDetailsComponent } from "./components/list/member-details/member-details.component";
-import { MemberSelectorComponent } from "./components/list/member-selector/member-selector.component";
+import { MemberDetailsComponent } from "./components/home/member-details/member-details.component";
+import { MemberSelectorComponent } from "./components/home/member-selector/member-selector.component";
 import { NgxYoutubePlayerModule } from "ngx-youtube-player";
 import { StatsComponent } from "./components/stats/stats.component";
 import { ArtistDialogComponent } from "./components/register/artist-dialog/artist-dialog.component";
@@ -75,12 +72,10 @@ import { ChatModule } from "@progress/kendo-angular-conversational-ui";
 import { WallComponent } from "./components/wall/wall.component";
 import { PostDialogComponent } from "./components/wall/post-dialog/post-dialog.component";
 import { EventsComponent } from "./components/events/events.component";
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { AvatarDialogComponent } from './components/register/avatar-dialog/avatar-dialog.component';
-import { UploadModule } from '@progress/kendo-angular-upload';
-import { FilterPipeModule } from 'ngx-filter-pipe';
-
-
+import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+import { AvatarDialogComponent } from "./components/register/avatar-dialog/avatar-dialog.component";
+import { UploadModule } from "@progress/kendo-angular-upload";
+import { FilterPipeModule } from "ngx-filter-pipe";
 
 const env = environment;
 const socketConfig: SocketIoConfig = { url: env.baseUri, options: {} };
@@ -91,7 +86,7 @@ const config = new AuthServiceConfig([
     provider: new GoogleLoginProvider(
       "793868332939-fabl9ni7mpbvg900l7rrkf1tesaunal2.apps.googleusercontent.com"
     )
-  },
+  }
   // {
   //   id: FacebookLoginProvider.PROVIDER_ID,
   //   provider: new FacebookLoginProvider("315354469236603")
@@ -103,7 +98,7 @@ export function provideConfig() {
 }
 
 export function tokenGetter() {
-  console.log("getting token")
+  console.log("getting token");
   return localStorage.getItem("access_token");
 }
 

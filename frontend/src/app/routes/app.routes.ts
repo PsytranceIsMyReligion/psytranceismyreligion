@@ -3,7 +3,7 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "../guards/auth.guard";
 import { LandingGuard } from "../guards/landing.guard";
 import { LandingComponent } from "../components/landing/landing.component";
-import { ListComponent } from "../components/list/list.component";
+import { ListComponent } from "../components/home/home.component";
 import { StatsComponent } from "../components/stats/stats.component";
 import { WatchComponent } from "../components/watch/watch.component";
 import { LearnComponent } from "../components/learn/learn.component";

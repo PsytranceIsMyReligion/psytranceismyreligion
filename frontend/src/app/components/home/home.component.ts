@@ -1,4 +1,4 @@
-import { WallPost } from "./../../models/member.model";
+import { WallPost } from "../../models/member.model";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Member } from "../../models/member.model";
@@ -7,9 +7,9 @@ import { BehaviorSubject, of } from "rxjs";
 import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
-  selector: "app-list",
-  templateUrl: "./list.component.html",
-  styleUrls: ["./list.component.scss"]
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"]
 })
 export class ListComponent implements OnInit {
   displayedColumns = [
