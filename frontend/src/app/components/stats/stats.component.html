@@ -1,4 +1,4 @@
-<div class="outer-container" fxLayout="row" fxLayoutAlign="center" *ngIf="chartSeries$ | async as chartSeries">
+<div class="outer-container" fxLayout="row wrap" fxLayoutAlign="space-between" *ngIf="chartSeries$ | async as chartSeries">
   <mat-card class="chart">
     <mat-card-content>
       <kendo-chart [series]="chartSeries.genderSeries">
@@ -11,32 +11,62 @@
   <mat-card class="chart">
     <mat-card-content>
       <kendo-chart>
-        <kendo-chart-series  *ngIf="chartSeries$ | async as chartSeries" >
-          <kendo-chart-title text="Membership by Age"></kendo-chart-title>
-          <!-- <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
-          <kendo-chart-tooltip format="{0}"></kendo-chart-tooltip> -->
-          <!-- <kendo-chart-series-item type="scatterLine" [data]="chartSeries.ageSeries">
-          </kendo-chart-series-item> -->
-          <kendo-chart-series-item type="column" [data]="chartSeries.ageSeries" field="count" categoryField="Date">
+        <kendo-chart-title text="Artist Popularity"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.artistSeries" categoryField="name" field="count">
           </kendo-chart-series-item>
-          <!-- <kendo-chart-x-axis-item>
-            <kendo-chart-x-axis-item>
-            </kendo-chart-x-axis-item>
-          </kendo-chart-x-axis-item> -->
-          <!-- <kendo-chart-series-item type="scatterLine" [data]="chartSeries.ageSeries" yField="count"
-          xField="year">
-        </kendo-chart-series-item> --> -->
         </kendo-chart-series>
       </kendo-chart>
     </mat-card-content>
   </mat-card>
-  <!-- <mat-card class="chart">
-        <mat-card-content>
-            <kendo-chart [series]="chartSeries.kudosSeries">
-                <kendo-chart-title text="Karmic Kudos Legends"></kendo-chart-title>
-                <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
-                <kendo-chart-tooltip format="{0}"></kendo-chart-tooltip>
-            </kendo-chart>
-        </mat-card-content>
-      </mat-card> -->
+  <mat-card class="chart">
+    <mat-card-content>
+      <kendo-chart>
+        <kendo-chart-title text="Festival Popularity"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.festivalSeries" categoryField="name" field="count">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="chart">
+    <mat-card-content>
+      <kendo-chart>
+        <kendo-chart-title text="Membership by Birth Year"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.ageSeries" categoryField="yearDisplay" field="count">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="chart">
+    <mat-card-content>
+      <kendo-chart>
+        <kendo-chart-title text="Membership by Country"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.countrySeries" categoryField="name" field="count">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="chart">
+    <mat-card-content>
+      <kendo-chart>
+        <kendo-chart-title text="Karmic Kudos League"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.kudosSeries" categoryField="name" field="kudos">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+
 </div>

@@ -113,17 +113,9 @@ export class RegisterComponent implements OnInit {
 
   private populateStaticData() {
     this.countries = this.memberService.getAllCountries();
-    console.log(this.activatedRoute.snapshot.data["data"]);
-    this.artists = Array.from(this.activatedRoute.snapshot.data["data"] as Array<
-      StaticData
-    >).filter(el => el.type == "artist");
-    this.festivals = Array.from(this.activatedRoute.snapshot.data["data"] as Array<
-      StaticData
-    >).filter(el => el.type == "festival");
-    this.musicGenres = Array.from(this.activatedRoute.snapshot.data["data"] as Array<
-      StaticData
-    >).filter(el => el.type == "musicgenre");
-    console.log(this.artists, this.festivals, this.musicGenres);
+    this.artists = this.activatedRoute.snapshot.data["data"].artists;
+    this.festivals = this.activatedRoute.snapshot.data["data"].festivals;
+    this.musicGenres = this.activatedRoute.snapshot.data["data"].musicGenres;
     this.musicGenreData = this.musicGenres.slice();
     this.artistData = this.artists.slice();
     this.festivalData = this.festivals.slice();

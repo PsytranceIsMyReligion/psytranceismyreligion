@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit {
     private deviceDetectorService: DeviceDetectorService
   ) {
     this.wall$ = new BehaviorSubject(this.route.snapshot.data["posts"]);
-    console.log("posts,", this.route.snapshot.data);
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.headerInfo$.next({
       count: this.route.snapshot.data["data"]["stats"]["count"],

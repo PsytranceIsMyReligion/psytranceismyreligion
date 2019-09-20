@@ -69,8 +69,8 @@ import { StaticDataDialogComponent } from "./components/register/staticdata-dial
 import { ChartModule } from "@progress/kendo-angular-charts";
 import { ChatComponent } from "./components/chat/chat.component";
 import { ChatModule } from "@progress/kendo-angular-conversational-ui";
-import { WallComponent } from "./components/wall/wall.component";
-import { PostDialogComponent } from "./components/wall/post-dialog/post-dialog.component";
+import { WallComponent } from "./components/home/wall/wall.component";
+import { PostDialogComponent } from "./components/home/wall/post-dialog/post-dialog.component";
 import { EventsComponent } from "./components/events/events.component";
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 import { AvatarDialogComponent } from "./components/register/avatar-dialog/avatar-dialog.component";
