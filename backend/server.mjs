@@ -156,7 +156,7 @@ io.on("connection", socket => {
     (user) => {
       console.log('user', user)
       isProd ?
-        loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != id)]) :
+        loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)]) :
         loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
       console.log("getting users")
       io.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
