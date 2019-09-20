@@ -10,10 +10,25 @@
     background-image: linear-gradient(red, yellow);
   }
 
+  ::ng-deep .mat-horizontal-stepper-header {
+    padding: 0px 14px !important;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-header-container {
+    position: relative !important;
+    left: -15px !important;
+  }
+
+  ::ng-deep .mat-horizontal-content-container {
+    padding: 0 24px 24px 15px !important;
+  }
+
+  ::ng-deep .mat-form-field {
+    width: 98%;
+  }
 
   .mat-card-avatar {
     margin: 5px 0px 10px 5px;
-    padding-bottom: 10px;
     border-radius: 0;
     width: 70px;
     height: 70px;
@@ -21,8 +36,6 @@
 
   .title {
     font-size: 10pt;
-    /* margin-left: auto;
-    margin-right: auto; */
   }
 
   .mat-card-header-text {
@@ -31,6 +44,7 @@
 
   .opaque-card {
     margin-top: 0px;
+    margin-right: 0;
   }
 
   .registration-container {
@@ -48,15 +62,10 @@
     top: -7px;
   }
 
-  .label {
-    font-weight: normal;
-  }
 
   .registration-form {
-    width: 90%;
-    margin-left: 20px;
+    width: 106%;
     height: 200%;
-    margin-bottom: 20px;
     opacity: 0.8;
   }
 
@@ -64,13 +73,28 @@
     width: 100%;
   }
 
+  .reasonField {
+    height: 300px!important;
+  }
+
 }
 
 .artist-btn {
   float: right;
 }
+.mat-form-field--no-underline .mat-input-underline {
+  background-color: transparent;
+}
 
+.reasonField {
+  height: 80px;
+}
 
+.hidden-label {
+  color: black!important;
+  font-weight: normal!important;
+  font-size: 85%!important;
+}
 
 @media only screen and (min-width: 1224px) {
 
@@ -86,9 +110,6 @@
   .title {
     font-size: 31pt;
     margin: auto;
-    /* margin-top: auto;
-    margin-left: auto;
-    margin-right: auto; */
     width: 24em;
   }
 
@@ -97,7 +118,7 @@
     zoom: 0.9;
     font-weight: bold;
     position: relative;
-    left: -24px;
+    left: -20px;
   }
 
   mat-card-header {
@@ -111,7 +132,6 @@
   .registration-form {
     width: 95%;
     margin-bottom: 20px;
-    /* opacity: 0.8; */
   }
 
   .registration-container {
@@ -154,13 +174,9 @@
 
   }
 
+
+
+
 }
 
 
-.mat-form-field--no-underline .mat-input-underline {
-  background-color: transparent;
-}
-
-.reasonField {
-  height: 80px;
-}

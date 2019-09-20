@@ -27,5 +27,6 @@ export class NavigationComponent implements OnInit {
     this.socket.emit("logoff", this.memberService.getUser());
     sessionStorage.removeItem("member");
     this.tokenService.logout();
+    this.router.navigate(['/landing'])
   }
 }

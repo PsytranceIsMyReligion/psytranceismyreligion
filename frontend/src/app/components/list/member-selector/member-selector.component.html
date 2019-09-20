@@ -1,11 +1,16 @@
-<div class="member-container"  >
-<div class="flex-members" fxLayout="row" fxAlignItems="center" *ngIf="headerInfo$ | async as headerInfo" fxLayout="{{isMobile ? 'row' : 'column'}}" fxLayoutAlign="start">
-        <div class="summary">We have {{ headerInfo.count  }} members
-          <br />{{ headerInfo.conversionPercent }}% have converted to psytrance</div>
-        <ul *ngFor="let member of members$  | async ">
-          <li class="hvr-float" (click)="focusMember(member)">
-              <img mat-card-avatar class="avatar" src="{{ member.avatarUrl }}" />
-             <span class="title"> {{member.uname ? member.uname : '' }}<br/></span><span class="title2"> {{ member.fname }} {{ member.lname }}</span></li>
-        </ul>
-      </div>
+<div class="member-container">
+  <div class="flex-members" fxLayout="row" fxAlignItems="center" fxLayout="{{isMobile ? 'row' : 'column'}}"
+    fxLayoutAlign="start">
+    <div class="summary" *ngIf="headerInfo$ | async as headerInfo">We have {{ headerInfo.count  }} members
+      <br />{{ headerInfo.conversionPercent }}% have converted to psytrance</div>
+    <div class="chat-summary" *ngIf="chatHeaderInfo$ | async as headerInfo">
+       <span>{{ headerInfo }}</span>
+    </div>
+    <ul *ngFor="let member of members$  | async ">
+      <li class="hvr-float" (click)="focusOnMap(member)">
+        <img mat-card-avatar class="avatar" src="{{ member.avatarUrl }}" />
+        <span class="title"> {{member.uname ? member.uname : '' }}<br /></span><span class="title2"> {{ member.fname }}
+          {{ member.lname }}</span></li>
+    </ul>
+  </div>
 </div>

@@ -44,6 +44,7 @@
     "@progress/kendo-data-query": "^1.5.2",
     "@progress/kendo-drawing": "^1.5.12",
     "@progress/kendo-theme-default": "^4.1.0",
+    "@progress/kendo-theme-material": "^3.3.3",
     "@types/googlemaps": "^3.37.3",
     "angular-font-awesome": "^3.1.2",
     "angular-jwt": "^0.1.11",

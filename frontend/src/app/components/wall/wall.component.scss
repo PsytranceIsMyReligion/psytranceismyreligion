@@ -74,7 +74,21 @@ mat-card {
   height: 80px;
 }
 
+::ng-deep label {
+  font-weight: normal;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+
+
+  mat-card {
+    width: 19em;
+  }
+
+  .mat-card-avatar {
+    margin: 0.2em;
+    padding: 0px;
+  }
 
   .summary {
     margin: 0px !important;
@@ -90,7 +104,4 @@ mat-card {
     height: 20em;
   }
 
-  mat-card {
-    width: 76%;
-  }
 }

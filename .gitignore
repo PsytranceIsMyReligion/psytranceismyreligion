@@ -3,6 +3,7 @@
 /backend/public
 /backend/uploads
 
+/frontend/prod
 /frontend/dist
 /frontend/.vscode
 

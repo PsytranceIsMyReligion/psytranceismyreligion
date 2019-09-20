@@ -23,18 +23,12 @@ export class ChatService implements OnInit {
   );
   initial: ReplaySubject<Message> = new ReplaySubject<Message>(100);
 
-  // initial: Observable<Message>;
   constructor(private socket: Socket) {
     this.socket.fromEvent<Message>("chat-init").subscribe(msg => {
       this.initial.next(msg);
     })
     this.socket.emit("chat-init", []);
-    // this.initial$
-    // .subscribe((init : Array<Message>) => {
-    //   init.map((message : Message) => {
-    //     this.initial = of(message);
-    //   })
-  // })
+
   }
 
   ngOnInit() {}
@@ -48,5 +42,6 @@ export class ChatService implements OnInit {
   sendMessage(msg: Message) {
     console.log("sending", msg);
     this.socket.emit("chat-message", msg);
+    this.socket.emit("system-message", msg);
   }
 }
