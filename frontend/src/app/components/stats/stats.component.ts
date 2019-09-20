@@ -21,8 +21,6 @@ export class StatsComponent implements OnInit {
     private memberService: MemberService,
     private activatedRoute: ActivatedRoute
   ) {
-    this.musicGenres = this.activatedRoute.snapshot.data["data"]["static"][0];
-    this.artists = this.activatedRoute.snapshot.data["data"]["static"][1];
     this.members = this.activatedRoute.snapshot.data["data"]["members"];
     this.buildCharts();
   }

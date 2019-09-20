@@ -56,7 +56,7 @@ export class LandingComponent implements OnInit {
             this.loggedInMember = member;
             this.memberService.saveMemberToLocalStorage(member);
             this.tokenService.login(user).subscribe(token => {
-              this.router.navigate(["nav/list"]);
+              this.router.navigate(["nav/home"]);
             });
           }
         });

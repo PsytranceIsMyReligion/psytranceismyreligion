@@ -3,7 +3,7 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "../guards/auth.guard";
 import { LandingGuard } from "../guards/landing.guard";
 import { LandingComponent } from "../components/landing/landing.component";
-import { ListComponent } from "../components/home/home.component";
+import { HomeComponent } from "../components/home/home.component";
 import { StatsComponent } from "../components/stats/stats.component";
 import { WatchComponent } from "../components/watch/watch.component";
 import { LearnComponent } from "../components/learn/learn.component";
@@ -44,9 +44,9 @@ export const ROUTES: Routes = [
     component: NavigationComponent,
     children: [
       {
-        path: "list",
+        path: "home",
         canActivate: [AuthGuard],
-        component: ListComponent,
+        component: HomeComponent,
         resolve: {
           data: MemberListResolve,
           posts: WallResolve
@@ -54,9 +54,9 @@ export const ROUTES: Routes = [
         // runGuardsAndResolvers: "always"
       },
       {
-        path: "list/:id",
+        path: "home/:id",
         canActivate: [AuthGuard],
-        component: ListComponent,
+        component: HomeComponent,
         resolve: {
           data: MemberListResolve,
           wallposts: WallResolve

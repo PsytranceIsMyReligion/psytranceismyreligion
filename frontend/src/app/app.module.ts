@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ListComponent } from "./components/home/home.component";
+import { HomeComponent } from "./components/home/home.component";
 import { QuillModule } from "ngx-quill";
 import {
   MatToolbarModule,
@@ -111,7 +111,7 @@ export function tokenGetter() {
   ],
   declarations: [
     AppComponent,
-    ListComponent,
+    HomeComponent,
     NavigationComponent,
     LandingComponent,
     RegisterComponent,

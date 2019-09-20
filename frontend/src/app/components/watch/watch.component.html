@@ -10,7 +10,7 @@
     <mat-card *ngFor="let video of videos$  | async | filterBy: tagFilter" class="opaque-card">
       <mat-card-title class="panel-info ">{{ video.title }}<br/>
         <span class="video-meta">
-          <img mat-card-avatar [routerLink]="'/nav/list/' + video.createdBy._id" [src]="video.createdBy.avatarUrl" />
+          <img mat-card-avatar [routerLink]="'/nav/home/' + video.createdBy._id" [src]="video.createdBy.avatarUrl" />
           Uploaded by {{ video.createdBy.uname }}
           {{ video.createdAt | date : 'shortDate' : localeId }}
         </span>

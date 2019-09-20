@@ -370,7 +370,7 @@ export class RegisterComponent implements OnInit {
           this.toastrService
             .success("Successfully updated", "OK", { timeOut: 2000 })
             .onHidden.subscribe(res => {
-              this.router.navigate(["/list"]);
+              this.router.navigate(["/home"]);
             });
         });
     } else {
@@ -380,7 +380,7 @@ export class RegisterComponent implements OnInit {
         this.toastrService
           .success("Successfully created", "OK", { timeOut: 2000 })
           .onHidden.subscribe(res => {
-            this.router.navigate(["/list"]);
+            this.router.navigate(["/home"]);
           });
       });
     }

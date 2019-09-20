@@ -11,7 +11,7 @@ import { DeviceDetectorService } from "ngx-device-detector";
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"]
 })
-export class ListComponent implements OnInit {
+export class HomeComponent implements OnInit {
   displayedColumns = [
     "fname",
     "lname",
@@ -41,9 +41,7 @@ export class ListComponent implements OnInit {
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.headerInfo$.next({
       count: this.route.snapshot.data["data"]["stats"]["count"],
-      conversionPercent: this.route.snapshot.data["data"]["stats"][
-        "conversionPercent"
-      ]
+      conversionPercent: this.route.snapshot.data["data"]["stats"]["conversionPercent"]
     });
     this.isMobile = this.deviceDetectorService.isMobile();
   }
@@ -66,9 +64,7 @@ export class ListComponent implements OnInit {
       map: this.map
     });
     marker.setAnimation(google.maps.Animation.DROP);
-    marker.setIcon(
-      "http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png"
-    );
+    marker.setIcon("http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png");
     if (this.focusMarker) {
       this.focusMarker.setMap(null);
     }
