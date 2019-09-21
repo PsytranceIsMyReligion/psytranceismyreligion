@@ -4,7 +4,7 @@
   }
 
   .opaque-card {
-    margin-top: 0!important;
+    margin-top: 0 !important;
   }
 
   .chat-container {
@@ -12,9 +12,6 @@
     overflow-y: scroll;
   }
 
-  .members-container {
-    margin-top : 10px;
-  }
   ::ng-deep .k-chat .k-bubble {
     background-color: red;
     border-color: red;
@@ -25,5 +22,17 @@
     background-color: orange;
     border-color: orange
   }
+
+}
+
+::ng-deep .members-container {
+  margin-top: 10px !important;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .k-chat {
+    height: 500px;
+  }
+
 
 }

@@ -64,8 +64,12 @@ app.use(
     ]
   })
 );
-app.use(express.static("public"));
-app.use("/static", express.static(path.join(__dirname, "public")));
+// app.use(express.static("public"));
+express.static(path.join(__dirname, "public"));
+// app.use('/resources',express.static(__dirname + '/images'));
+
+console.log("setting public folder to ", path.join(__dirname, "public"));
+// app.use("/static", express.static(path.join(__dirname, "public")));
 app.options("*", cors());
 router.use(
   bodyParser.urlencoded({
@@ -94,8 +98,7 @@ app.use(
       /\/members\/bysocialid\/.*/,
       /\/staticdata\/*/,
       /\/static\/*/,
-      /\/public\/*/,
-      // /\/member\/*/  
+      /\/resources\/*/
     ]
   })
 );
@@ -125,7 +128,7 @@ router.route("/api/auth").post((req, res) => {
       expiresIn: 86400 // expires in 24 hours
     }
   );
-  io.emit("system-message", req.body.name + " has logged on!");
+  // io.emit("system-message", req.body.name + " has logged on!");
   res.status(200).send({
     token: token
   });
@@ -135,6 +138,10 @@ app.use("/", router);
 const server = app.listen(process.env.PORT, () =>
   console.log("express server running on port " + process.env.PORT)
 );
+
+
+/////////////////////    Socket IO Config ////////////////////////
+
 const io = socketIO(server);
 
 const connections = new Set();
@@ -160,7 +167,10 @@ io.on("connection", socket => {
       isProd ?
         loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)]) :
         loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
-      io.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
+      socket.emit("system-message", "Welcome back " + user.uname + "! There are " +
+        loggedOnUserCache.get("users").length + " other members online. Why not say Hello? ");
+      socket.broadcast.emit("system-message", user.uname + " has logged on!");
+      socket.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
     }).bind(loggedOnUserCache));
 
   socket.on("logoff", (null, (member) => {
@@ -169,7 +179,7 @@ io.on("connection", socket => {
 
 
     if (member) {
-      io.emit("system-message", member.uname + " logged off");
+      socket.broadcast.emit("system-message", member.uname + " logged off");
     }
   }).bind(loggedOnUserCache));
 

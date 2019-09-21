@@ -53,6 +53,7 @@ export interface StaticData {
   type: string;
   origin?: string;
   facebookUrl?: string;
+  location?: string;
   createdBy: Member;
   createdAt?: Date;
   _id?: string;

@@ -2,7 +2,10 @@ table {
   width: 95%;
 }
 
-
+.sub-title {
+  display: block;
+  margin-bottom: 10px;
+}
 
 .primary {
   background-color: #3f51b5;
@@ -25,6 +28,11 @@ table {
 
   :host ::ng-deep .opaque-card {
     opacity: 0.9;
+  }
+
+  .map-container {
+    width: 97%;
+    margin-left: 2em;
   }
 
   .map {

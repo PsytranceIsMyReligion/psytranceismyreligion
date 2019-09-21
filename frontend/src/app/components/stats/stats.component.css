@@ -1,4 +1,31 @@
-.chart {
-  margin: 20px;
-  width: 45%;
+@media only screen and (min-width: 1224px) {
+  .chart-half {
+    margin: 2em;
+    width: 45%;
+  }
+
+  .chart-full {
+    margin: 2em;
+    width: 100%;
+  }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .outer-container {
+    width: 100%;
+  }
+
+  mat-card {
+    margin: 1em;
+    overflow-y: scroll;
+  }
+
+  .chart-half {
+    width: 100%;
+  }
+
+  .chart-full .mat-card-content {
+    width: 300%;
+  }
+
 }

@@ -1,5 +1,19 @@
-<div class="outer-container" fxLayout="row wrap" fxLayoutAlign="space-between" *ngIf="chartSeries$ | async as chartSeries">
-  <mat-card class="chart">
+<div class="outer-container" fxLayout="row wrap" fxLayoutAlign="space-between"
+  *ngIf="chartSeries$ | async as chartSeries">
+  <mat-card class="chart-half">
+    <mat-card-content class="content">
+      <kendo-chart>
+        <kendo-chart-title text="Is Psytrance Your Religion?"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.psyStatusSeries" categoryField="name"
+            field="count">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="chart-half">
     <mat-card-content>
       <kendo-chart [series]="chartSeries.genderSeries">
         <kendo-chart-title text="Membership by Gender"></kendo-chart-title>
@@ -8,7 +22,7 @@
       </kendo-chart>
     </mat-card-content>
   </mat-card>
-  <mat-card class="chart">
+  <mat-card class="chart-full">
     <mat-card-content>
       <kendo-chart>
         <kendo-chart-title text="Artist Popularity"></kendo-chart-title>
@@ -20,7 +34,25 @@
       </kendo-chart>
     </mat-card-content>
   </mat-card>
-  <mat-card class="chart">
+  <mat-card class="chart-full">
+    <mat-card-content>
+      <kendo-chart>
+        <kendo-chart-title text="Artist By Origin"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-tooltip>
+          <ng-template kendoChartSeriesTooltipTemplate let-value="value" let-dataItem="dataItem">
+            Artists: {{ dataItem.artists }}
+          </ng-template>
+        </kendo-chart-tooltip>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.artistByOriginSeries" categoryField="name"
+            field="count">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="chart-full">
     <mat-card-content>
       <kendo-chart>
         <kendo-chart-title text="Festival Popularity"></kendo-chart-title>
@@ -32,19 +64,38 @@
       </kendo-chart>
     </mat-card-content>
   </mat-card>
-  <mat-card class="chart">
+  <mat-card class="chart-full">
     <mat-card-content>
       <kendo-chart>
-        <kendo-chart-title text="Membership by Birth Year"></kendo-chart-title>
+        <kendo-chart-tooltip>
+          <ng-template kendoChartSeriesTooltipTemplate let-value="value" let-dataItem="dataItem">
+            {{ dataItem.festivals }}
+          </ng-template>
+        </kendo-chart-tooltip>
+        <kendo-chart-title text="Festivals By Country"></kendo-chart-title>
         <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
         <kendo-chart-series>
-          <kendo-chart-series-item type="column" [data]="chartSeries.ageSeries" categoryField="yearDisplay" field="count">
+          <kendo-chart-series-item type="column" [data]="chartSeries.festivalsByLocationSeries.data"
+            categoryField="name" field="count">
           </kendo-chart-series-item>
         </kendo-chart-series>
       </kendo-chart>
     </mat-card-content>
   </mat-card>
-  <mat-card class="chart">
+  <mat-card class="chart-full">
+    <mat-card-content>
+      <kendo-chart>
+        <kendo-chart-title text="Membership by Birth Year"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.ageSeries" categoryField="yearDisplay"
+            field="count">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="chart-full">
     <mat-card-content>
       <kendo-chart>
         <kendo-chart-title text="Membership by Country"></kendo-chart-title>
@@ -56,7 +107,7 @@
       </kendo-chart>
     </mat-card-content>
   </mat-card>
-  <mat-card class="chart">
+  <mat-card class="chart-half">
     <mat-card-content>
       <kendo-chart>
         <kendo-chart-title text="Karmic Kudos League"></kendo-chart-title>

@@ -1,3 +1,4 @@
+import { MemberSelectorComponent } from "./../home/member-selector/member-selector.component";
 import { Member, StaticData } from "src/app/models/member.model";
 import { MemberService } from "./../../services/member.service";
 import { Component, OnInit } from "@angular/core";
@@ -19,43 +20,63 @@ export class StatsComponent implements OnInit {
   musicGenres: Array<StaticData> = [];
   festivals: Array<StaticData> = [];
   artists: Array<StaticData> = [];
-  constructor(private memberService: MemberService, private activatedRoute: ActivatedRoute) {
+  allCountries = [];
+  allFestivals = [];
+  allArtists = [];
+  constructor(
+    private memberService: MemberService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.members = this.memberService.members$.getValue();
     this.artists = this.activatedRoute.snapshot.data["data"].artists;
     this.festivals = this.activatedRoute.snapshot.data["data"].festivals;
     this.musicGenres = this.activatedRoute.snapshot.data["data"].musicGenres;
-    this.buildCharts();
+    console.log("resolved", this.artists, this.festivals, this.musicGenres);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.members.forEach(
+      m => (this.allCountries = this.allCountries.concat(m.origin))
+    );
+    this.members.forEach(m => {
+      this.allFestivals = this.allFestivals.concat(m.favouritefestivals);
+    });
+    this.members.forEach(m => {
+      this.allArtists = this.allArtists.concat(m.favouriteartists);
+    });
+    this.buildCharts();
+
+    console.log("all countries", this.allCountries);
+  }
 
   buildCharts() {
-    console.log("built", {
-      genderSeries: this.buildGender(),
-      countrySeries: this.buildCountrySeries(),
-      ageSeries: this.buildAgeSeries(),
-      artistSeries: this.buildArtistSeries(),
-      kudosSeries: this.buildKudosSeries()
-    });
     this.chartSeries$.next({
       genderSeries: this.buildGender(),
       countrySeries: this.buildCountrySeries(),
       ageSeries: this.buildAgeSeries(),
       artistSeries: this.buildArtistSeries(),
       kudosSeries: this.buildKudosSeries(),
-      festivalSeries: this.buildFestivalSeries()
+      festivalSeries: this.buildFestivalSeries(),
+      artistByOriginSeries: this.buildArtistByOriginSeries(),
+      festivalsByLocationSeries: this.buildFestivalsByLocationSeries(),
+      psyStatusSeries: this.buildPsyStatusSeries()
     });
+    console.log("chart series data ", this.chartSeries$.getValue());
   }
 
   buildGender() {
     return [
       {
         name: "Male",
-        data: [this.calcPercent(this.members.filter(m => m.gender == "M").length)]
+        data: [
+          this.calcPercent(this.members.filter(m => m.gender == "M").length)
+        ]
       },
       {
         name: "Female",
-        data: [this.calcPercent(this.members.filter(m => m.gender == "F").length)]
+        data: [
+          this.calcPercent(this.members.filter(m => m.gender == "F").length)
+        ]
       }
     ];
   }
@@ -75,29 +96,82 @@ export class StatsComponent implements OnInit {
     });
     return this.countOfStaticData(allArtists);
   }
-
   buildFestivalSeries() {
-    let allFestivals = [];
-    this.members.forEach(mem => {
-      allFestivals = allFestivals.concat(mem.favouritefestivals);
+    return this.countOfStaticData(this.allFestivals);
+  }
+
+  buildFestivalsByLocationSeries() {
+    let festivalCountries = [];
+    this.festivals.forEach(
+      el => (festivalCountries = festivalCountries.concat(el.location))
+    );
+    let festivalsByLocation = groupBy(this.festivals, [{ field: "location" }]);
+    let festivalCount = this.countOf(festivalCountries);
+    festivalCount.forEach((dat, index, array) => {
+      let clone = _.clone(festivalsByLocation);
+      clone = _.filter(clone, el => {
+        return el["value"] == dat.name;
+      });
+      array[index].festivals = clone[0].items;
     });
-    return this.countOfStaticData(allFestivals);
+    festivalCount.forEach(el => {
+      el.festivals = el.festivals.map(festival => festival.name);
+    });
+    return {
+      data: festivalCount
+    };
   }
 
   buildCountrySeries() {
-    let allCountries = [];
-    this.members.forEach(m => (allCountries = allCountries.concat(m.location)));
-    console.log(allCountries);
-    return this.countOf(allCountries);
+    return this.countOf(this.allCountries, "name");
   }
 
-  private countOf(items: any[]) {
+  buildArtistByOriginSeries() {
+    let artistByLocation: any = groupBy(this.artists, [{ field: "origin" }]);
+    let artistCountries = [];
+    this.artists.forEach(
+      el => (artistCountries = artistCountries.concat(el.origin))
+    );
+    let artistCount = this.countOf(artistCountries);
+    artistCount.forEach((dat, index, array) => {
+      let filtered = _.filter(artistByLocation, el => {
+        let originData = artistByLocation.filter(el => {
+          let res = el.items.find(el => {
+            return el.origin == dat.name;
+          });
+          return res != null;
+        });
+        return el.value == originData[0].value;
+      });
+      array[index].artists = filtered[0]["items"];
+    });
+    artistCount.forEach(el => {
+      el.artists = el.artists.map(artist => artist.name);
+    });
+    return artistCount;
+  }
+
+  buildPsyStatusSeries() {
+    let psystatus = [];
+    this.members.forEach(el => (psystatus = psystatus.concat(el.psystatus)));
+    console.log("stat", psystatus);
+    return this.countOf(psystatus);
+  }
+
+  private countOf(items: any[], field?) {
+    console.log("countOf", items, field);
     return items.reduce((acc, cur) => {
-      let item = acc.filter(el => el.name == cur.name);
+      // console.log(acc, cur);
+      let item;
+      if (field) item = acc.filter(el => el[field] == cur[field]);
+      else item = acc.filter(el => el.name == cur);
+
       if (item.length == 0) {
         acc.push({ name: cur, count: 1 });
       } else {
-        let index = _.findIndex(acc, o => o == cur.name);
+        let index;
+        if (field) index = _.findIndex(acc, o => o == cur[field]);
+        else index = _.findIndex(acc, o => o.name == cur);
         acc[index] = { name: cur, count: acc[index].count + 1 };
       }
       return acc;

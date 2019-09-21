@@ -1,7 +1,7 @@
 @media only screen and (min-width: 1224px) {
 
 
-  .member-container {
+  .members-container {
     opacity: 0.7;
     height: 100%;
     width: 95%;
@@ -77,9 +77,9 @@
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .flex-members {
-    width: 17em;
+    // width: 17em;
     padding: 10px;
-    margin-top: 0;
+    // margin-top: 1em;
     margin-left: 0;
     font-size: 12pt;
     overflow-y: hidden;
@@ -107,7 +107,7 @@
       }
     }
 
-    .member-container {
+    .members-container {
       margin-left: 10px;
       opacity: 0.7;
       width: 100px;

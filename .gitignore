@@ -2,7 +2,7 @@
 /backend/.env
 /backend/public
 /backend/uploads
-
+/backend/images
 /frontend/prod
 /frontend/dist
 /frontend/.vscode
