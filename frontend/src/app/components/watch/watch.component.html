@@ -1,24 +1,25 @@
 <div class="outer-container">
   <div fxLayout="row" fxLayoutAlign="space-between" class="search-panel">
     <input matInput #search class="form-control" type="text" [(ngModel)]="tagFilter.tags" placeholder="Search by tags">
-    <button *ngIf="!isMobile" mat-raised-button class="add-button hvr-pulse" (click)="openUploadDialog()" color="accent">
+    <button *ngIf="!isMobile" mat-raised-button class="add-button hvr-pulse" (click)="openUploadDialog()"
+      color="accent">
       <i class="material-icons">video_library</i>&nbsp;&nbsp;Add Video</button>
-      <button *ngIf="isMobile" mat-mini-fab class="add-button hvr-pulse" (click)="openUploadDialog()" color="accent">
-          <i class="material-icons">add</i></button>
+    <button *ngIf="isMobile" mat-mini-fab class="add-button hvr-pulse" (click)="openUploadDialog()" color="accent">
+      <i class="material-icons">add</i></button>
   </div>
   <div fxLayout="row wrap" class="panel-container" fxLayoutAlign="start start">
     <mat-card *ngFor="let video of videos$  | async | filterBy: tagFilter" class="opaque-card">
-      <mat-card-title class="panel-info ">{{ video.title }}<br/>
+      <mat-card-title class="panel-info ">{{ video.title }}<br />
         <span class="video-meta">
-          <img mat-card-avatar [routerLink]="'/nav/home/' + video.createdBy._id" [src]="video.createdBy.avatarUrl" />
+          <img mat-card-avatar (click)="navigateToMember(video.createdBy._id)"  [src]="video.createdBy.avatarUrl" />
           Uploaded by {{ video.createdBy.uname }}
           {{ video.createdAt | date : 'shortDate' : localeId }}
         </span>
       </mat-card-title>
       <mat-card-content>
         <div class="description">{{ video.description }}<br />
-          <span class="tags" *ngFor="let tag of video.tags;let last = last; let first = first;"><span *ngIf="first">&nbsp;&nbsp;Tags:&nbsp;&nbsp;</span>{{tag}}<span
-              *ngIf="!last">,</span></span>
+          <span class="tags" *ngFor="let tag of video.tags;let last = last; let first = first;"><span
+              *ngIf="first">&nbsp;&nbsp;Tags:&nbsp;&nbsp;</span>{{tag}}<span *ngIf="!last">,</span></span>
           <br /><br />
           <youtube-player [height]="height" [width]="width" [videoId]="video.value"></youtube-player><br />
           <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button

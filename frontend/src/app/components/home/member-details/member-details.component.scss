@@ -27,6 +27,10 @@
   }
 }
 
+img {
+  cursor: pointer;
+}
+
 .links {
 
   a {
@@ -42,7 +46,7 @@
     zoom: 2;
     margin: 5px;
     border-radius: 0;
-  }
+    }
 
   .mat-card-header-text {
     opacity: 0.9;

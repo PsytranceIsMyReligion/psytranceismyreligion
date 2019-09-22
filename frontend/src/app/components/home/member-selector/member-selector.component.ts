@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MemberService } from "./../../../services/member.service";
 import { Component, OnInit, Input } from "@angular/core";
 import { BehaviorSubject, Observable, of } from "rxjs";
@@ -20,7 +20,8 @@ export class MemberSelectorComponent {
   constructor(
     private memberService: MemberService,
     private deviceDetectorService: DeviceDetectorService,
-    private router : Router
+    private router : Router,
+    private route: ActivatedRoute
   ) {
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.isMobile = this.deviceDetectorService.isMobile();
@@ -32,6 +33,6 @@ export class MemberSelectorComponent {
 
   focusOnMap(member) {
     this.selectedMember$.next(member);
-    this.router.navigate(['/nav/home']);
+    this.router.navigate(['home'], { relativeTo: this.route.parent });
   }
 }

@@ -58,6 +58,9 @@ export class WatchComponent implements OnInit {
     });
   }
 
+  navigateToMember(id) {
+    this.router.navigate(['home/' + id], { relativeTo : this.activatedRoute.parent })
+  }
   deleteVideo(id) {
     this.videoService.deleteVideoLink(id).subscribe(res => {
       this.toastrService

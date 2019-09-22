@@ -1,4 +1,3 @@
-import { MemberSelectorComponent } from "./../home/member-selector/member-selector.component";
 import { Member, StaticData } from "src/app/models/member.model";
 import { MemberService } from "./../../services/member.service";
 import { Component, OnInit } from "@angular/core";

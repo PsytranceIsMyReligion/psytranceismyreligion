@@ -9,7 +9,11 @@ import { Observable, from } from "rxjs";
 import { switchMap, map, tap, startWith } from "rxjs/operators";
 import { AuthService, SocialUser } from "angularx-social-login";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from "@angular/material/core";
 import moment from "moment";
 import dropdowns from "../../../assets/static-data/dropdowns.json";
 import { Moment } from "moment";
@@ -103,10 +107,15 @@ export class RegisterComponent implements OnInit {
     private socialAuthService: AuthService,
     public dialog: MatDialog
   ) {
-    this.newMode = this.activatedRoute.snapshot.paramMap.get("mode") === "new" ? true : false;
+    this.newMode =
+      this.activatedRoute.snapshot.paramMap.get("mode") === "new"
+        ? true
+        : false;
     this.populateStaticData();
     if (!this.newMode) {
-      this.referers = this.members.filter(el => el._id !== this.memberService.getUser()._id);
+      this.referers = this.members.filter(
+        el => el._id !== this.memberService.getUser()._id
+      );
     } else this.referers = this.members;
     this.avatarUrl$ = this.memberService.avatarUrl$;
   }
@@ -138,13 +147,18 @@ export class RegisterComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.setUpFilter(this.musicGenreList, this.musicGenres, this.musicGenreData);
+    this.setUpFilter(
+      this.musicGenreList,
+      this.musicGenres,
+      this.musicGenreData
+    );
     this.setUpFilter(this.artistList, this.artists, this.artistData);
     this.setUpFilter(this.festivalList, this.festivals, this.festivalData);
   }
 
   setUpFilter(list, dataSource, filterData) {
-    const contains = value => s => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    const contains = value => s =>
+      s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
     list.filterChange
       .asObservable()
       .pipe(
@@ -184,19 +198,28 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("fname").setValue(this.member.fname);
       this.basicInfoGroup.get("lname").setValue(this.member.lname);
       this.basicInfoGroup.get("email").setValue(this.member.email);
-      if (this.member.referer) this.basicInfoGroup.get("referer").setValue(this.member.referer);
+      if (this.member.referer)
+        this.basicInfoGroup.get("referer").setValue(this.member.referer);
       this.genderSelected = this.member.gender;
       this.basicInfoGroup.get("postcode").setValue(this.member.postcode);
       this.basicInfoGroup
         .get("origin")
-        .setValue(this.countries.filter(el => el.alpha3Code === this.member.origin));
+        .setValue(
+          this.countries.filter(el => el.alpha3Code === this.member.origin)
+        );
       this.basicInfoGroup
         .get("location")
-        .setValue(this.countries.filter(el => el.alpha3Code === this.member.location));
-      this.basicInfoGroup.get("birthyear").setValue(moment().set("year", this.member.birthyear));
+        .setValue(
+          this.countries.filter(el => el.alpha3Code === this.member.location)
+        );
+      this.basicInfoGroup
+        .get("birthyear")
+        .setValue(moment().set("year", this.member.birthyear));
       this.detailGroup.get("membertype").setValue(this.member.membertype);
       this.detailGroup.get("musictype").setValue(this.member.musictype);
-      this.detailGroup.get("startyear").setValue(moment().set("year", this.member.startyear));
+      this.detailGroup
+        .get("startyear")
+        .setValue(moment().set("year", this.member.startyear));
       this.detailGroup.get("bio").setValue(this.member.bio);
       this.detailGroup
         .get("facebookUrl")
@@ -224,11 +247,21 @@ export class RegisterComponent implements OnInit {
         );
       this.opinionGroup.get("psystatus").setValue(this.member.psystatus);
       this.opinionGroup.get("reason").setValue(this.member.reason);
-      this.opinionGroup.get("favouriteparty").setValue(this.member.favouriteparty);
-      this.opinionGroup.get("partyfrequency").setValue(this.member.partyfrequency);
-      this.opinionGroup.get("festivalfrequency").setValue(this.member.festivalfrequency);
-      this.opinionGroup.get("favouritefestivals").setValue(this.member.favouritefestivals);
-      this.opinionGroup.get("favouriteartists").setValue(this.member.favouriteartists);
+      this.opinionGroup
+        .get("favouriteparty")
+        .setValue(this.member.favouriteparty);
+      this.opinionGroup
+        .get("partyfrequency")
+        .setValue(this.member.partyfrequency);
+      this.opinionGroup
+        .get("festivalfrequency")
+        .setValue(this.member.festivalfrequency);
+      this.opinionGroup
+        .get("favouritefestivals")
+        .setValue(this.member.favouritefestivals);
+      this.opinionGroup
+        .get("favouriteartists")
+        .setValue(this.member.favouriteartists);
     }
   }
 
@@ -237,18 +270,30 @@ export class RegisterComponent implements OnInit {
   }
 
   initializeFilters() {
-    this.filteredCountriesOrigin = this.basicInfoGroup.get("origin").valueChanges.pipe(
-      startWith(""),
-      map(value => (value ? this.countryFilter(value) : this.countries.slice()))
-    );
-    this.filteredCountriesLocation = this.basicInfoGroup.get("location").valueChanges.pipe(
-      startWith(""),
-      map(value => (value ? this.countryFilter(value) : this.countries.slice()))
-    );
-    this.filteredReferers = this.basicInfoGroup.get("referer").valueChanges.pipe(
-      startWith(""),
-      map(value => (value ? this.refererFilter(value) : this.referers.slice()))
-    );
+    this.filteredCountriesOrigin = this.basicInfoGroup
+      .get("origin")
+      .valueChanges.pipe(
+        startWith(""),
+        map(value =>
+          value ? this.countryFilter(value) : this.countries.slice()
+        )
+      );
+    this.filteredCountriesLocation = this.basicInfoGroup
+      .get("location")
+      .valueChanges.pipe(
+        startWith(""),
+        map(value =>
+          value ? this.countryFilter(value) : this.countries.slice()
+        )
+      );
+    this.filteredReferers = this.basicInfoGroup
+      .get("referer")
+      .valueChanges.pipe(
+        startWith(""),
+        map(value =>
+          value ? this.refererFilter(value) : this.referers.slice()
+        )
+      );
   }
 
   refererFilter(value): any[] {
@@ -259,7 +304,9 @@ export class RegisterComponent implements OnInit {
     if (value) {
       if (value.alpha3Code) {
         return this.countries.filter(option =>
-          option.alpha3Code.toLowerCase().includes(value.alpha3Code.toLowerCase())
+          option.alpha3Code
+            .toLowerCase()
+            .includes(value.alpha3Code.toLowerCase())
         );
       } else {
         return this.countries.filter(option =>
@@ -292,13 +339,20 @@ export class RegisterComponent implements OnInit {
   }
 
   birthYearSelected(momentYear: Moment, datepicker: MatDatepicker<Moment>) {
-    this.basicInfoGroup.get("birthyear").setValue(moment().set("year", momentYear.year()));
+    this.basicInfoGroup
+      .get("birthyear")
+      .setValue(moment().set("year", momentYear.year()));
     this.basicInfoGroup.get("birthyear").markAsDirty();
     datepicker.close();
   }
 
-  partyStartYearSelected(momentYear: Moment, datepicker: MatDatepicker<Moment>) {
-    this.detailGroup.get("startyear").setValue(moment().set("year", momentYear.year()));
+  partyStartYearSelected(
+    momentYear: Moment,
+    datepicker: MatDatepicker<Moment>
+  ) {
+    this.detailGroup
+      .get("startyear")
+      .setValue(moment().set("year", momentYear.year()));
     this.detailGroup.get("startyear").markAsDirty();
     datepicker.close();
   }
@@ -338,7 +392,8 @@ export class RegisterComponent implements OnInit {
         ? "http://www.facebook.com/" + this.detailGroup.get("facebookUrl").value
         : "",
       soundcloudUrl: this.detailGroup.get("soundcloudUrl").value
-        ? "http://www.soundcloud.com/" + this.detailGroup.get("soundcloudUrl").value
+        ? "http://www.soundcloud.com/" +
+          this.detailGroup.get("soundcloudUrl").value
         : "",
       psystatus: this.opinionGroup.get("psystatus").value,
       favouriteartists: this.opinionGroup.get("favouriteartists").value,
@@ -359,19 +414,21 @@ export class RegisterComponent implements OnInit {
           this.toastrService
             .success("Successfully updated", "OK", { timeOut: 2000 })
             .onHidden.subscribe(res => {
-              this.router.navigate(["/nav/home"]);
+              this.router.navigate(["home"],{relativeTo: this.activatedRoute.parent});
             });
         });
     } else {
       console.log("creating ", updateMember);
-      this.memberService.createMember(updateMember).subscribe((member: Member) => {
-        this.memberService.saveMemberToLocalStorage(member, false);
-        this.toastrService
-          .success("Successfully created", "OK", { timeOut: 2000 })
-          .onHidden.subscribe(res => {
-            this.router.navigate(["/nav/home"]);
-          });
-      });
+      this.memberService
+        .createMember(updateMember)
+        .subscribe((member: Member) => {
+          this.memberService.saveMemberToLocalStorage(member, false);
+          this.toastrService
+            .success("Successfully created", "OK", { timeOut: 2000 })
+            .onHidden.subscribe(res => {
+              this.router.navigate(["home"],{relativeTo: this.activatedRoute.parent});
+            });
+        });
     }
   }
 
@@ -390,7 +447,10 @@ export class RegisterComponent implements OnInit {
       fname: ["", this.env.production ? Validators.required : null],
       lname: ["", this.env.production ? Validators.required : null],
       gender: ["", this.env.production ? Validators.required : null],
-      email: ["", this.env.production ? [Validators.required, Validators.email] : null],
+      email: [
+        "",
+        this.env.production ? [Validators.required, Validators.email] : null
+      ],
       referer: [""],
       origin: ["", this.env.production ? Validators.required : null],
       location: ["", this.env.production ? Validators.required : null],
@@ -423,7 +483,9 @@ export class RegisterComponent implements OnInit {
         artist.name.toLowerCase().includes(value.name.toLowerCase())
       );
     } else if (value)
-      return this.artists.filter(artist => artist.name.toLowerCase().includes(value.toLowerCase()));
+      return this.artists.filter(artist =>
+        artist.name.toLowerCase().includes(value.toLowerCase())
+      );
   }
 
   musicGenreFilter(value) {
@@ -470,8 +532,16 @@ export class RegisterComponent implements OnInit {
       })
     );
 
-  getValueForNormalizer(selectedData: Array<any>, text: string, data: Array<any>) {
-    if (selectedData && Array.isArray(selectedData) && selectedData.length > 0) {
+  getValueForNormalizer(
+    selectedData: Array<any>,
+    text: string,
+    data: Array<any>
+  ) {
+    if (
+      selectedData &&
+      Array.isArray(selectedData) &&
+      selectedData.length > 0
+    ) {
       const matchingValue: any = selectedData.find((item: any) => {
         return item.name.toLowerCase() === text.toLowerCase();
       });
@@ -502,15 +572,21 @@ export class RegisterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((updateArtist: StaticData) => {
       if (!updateArtist) return;
-      this.memberService.addStaticData({ type: "artist", value: updateArtist }).subscribe(res => {
-        this.artists.push(res);
-        this.artists.sort();
-        this.artistData.push(res);
-        this.artistData.sort();
-        this.toastrService.success("Artist added! You may now select them", "Success", {
-          timeOut: 2000
+      this.memberService
+        .addStaticData({ type: "artist", value: updateArtist })
+        .subscribe(res => {
+          this.artists.push(res);
+          this.artists.sort();
+          this.artistData.push(res);
+          this.artistData.sort();
+          this.toastrService.success(
+            "Artist added! You may now select them",
+            "Success",
+            {
+              timeOut: 2000
+            }
+          );
         });
-      });
     });
   }
 
@@ -544,15 +620,21 @@ export class RegisterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((updated: StaticData) => {
       if (!updated) return;
-      this.memberService.addStaticData({ type: "festival", value: updated }).subscribe(res => {
-        this.festivals.push(res);
-        this.festivals.sort();
-        this.festivalData.push(res);
-        this.festivalData.sort();
-        this.toastrService.success("Festival added! You can now select it.", "Success", {
-          timeOut: 2000
+      this.memberService
+        .addStaticData({ type: "festival", value: updated })
+        .subscribe(res => {
+          this.festivals.push(res);
+          this.festivals.sort();
+          this.festivalData.push(res);
+          this.festivalData.sort();
+          this.toastrService.success(
+            "Festival added! You can now select it.",
+            "Success",
+            {
+              timeOut: 2000
+            }
+          );
         });
-      });
     });
   }
 }

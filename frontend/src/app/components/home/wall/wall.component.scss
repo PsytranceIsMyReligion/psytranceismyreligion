@@ -33,9 +33,10 @@ mat-card {
     padding: 5px;
   }
 
-  .mat-card-avatar {
+  img {
     margin-top: 0.2em;
     margin-right: 1em;
+    cursor:pointer;
   }
 
   mat-icon {
@@ -74,11 +75,16 @@ mat-card {
   font-weight: normal;
 }
 
+
+img {
+  cursor: pointer;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 
 
   mat-card {
-    // width: 19em;
+    width: 19em;
   }
 
   .mat-card-avatar {
