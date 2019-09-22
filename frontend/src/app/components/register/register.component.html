@@ -90,7 +90,7 @@
             favourite music genres?</mat-label>
           <mat-form-field class="field-full-width multi-select">
             <input matInput class="hidden-input" style="display: none" />
-            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="musicTypeData" [filterable]="true" [textField]="'name'" [valueField]="'_id'"
+            <kendo-multiselect #musicGenreList formControlName="musictype" [data]="musicGenreData" [filterable]="true" [textField]="'name'" [valueField]="'_id'"
               placeholder="What are your favourite music genres?" [allowCustom]="false" [valueNormalizer]="musictypeValueNormalizer">
             </kendo-multiselect>
             <mat-error>Required</mat-error>

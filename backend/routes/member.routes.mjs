@@ -6,7 +6,7 @@ import Member from "../models/member";
 import _ from "lodash";
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public/images');
+        cb(null, './images');
     },
     filename: (req, file, cb) => {
         console.log(file);
@@ -115,12 +115,12 @@ router.route("/delete/:id").get((req, res) => {
     });
 });
 
-router.route("/add/avatar").post(uploader.single('files'), (req, res) => {
-    console.log('adding avatar ', req.file);
+router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
+    console.log('adding avatar ', req.files);
     Member.findOneAndUpdate({
         _id: req.body.id
     }, {
-        avatarUrl: process.env.NODE_ENV === "production" ? `http://www.psytranceismyreligion.com/public/images/${req.file.filename}` : `http://localhost:3000/images/${req.file.filename}`
+        avatarUrl: process.env.NODE_ENV === "production" ? `http://www.psytranceismyreligion.com:3001/${req.files[0].filename}` : `http://localhost:3000/images/${req.files[0].filename}`
     }, {
         new: true,
         upsert: false

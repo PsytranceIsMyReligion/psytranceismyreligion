@@ -1,9 +1,8 @@
 import { MemberService } from "./../../services/member.service";
 import { Socket } from "ngx-socket-io";
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthService, SocialUser } from "angularx-social-login";
-import { ToastrService, ActiveToast } from "ngx-toastr";
+import { AuthService } from "angularx-social-login";
 import { TokenService } from "src/app/services/token.service";
 @Component({
   selector: "app-navigation",
@@ -15,7 +14,6 @@ export class NavigationComponent implements OnInit {
     private router: Router,
     private socialAuthService: AuthService,
     private tokenService: TokenService,
-    private toastrService: ToastrService,
     private memberService: MemberService,
     private socket: Socket
   ) {}

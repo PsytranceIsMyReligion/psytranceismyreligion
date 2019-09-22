@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   members$: BehaviorSubject<Array<Member>>;
   wall$: BehaviorSubject<Array<WallPost>>;
   headerInfo$: BehaviorSubject<any> = new BehaviorSubject({});
+
   constructor(
     private memberService: MemberService,
     private router: Router,
@@ -40,7 +41,9 @@ export class HomeComponent implements OnInit {
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.headerInfo$.next({
       count: this.route.snapshot.data["data"]["stats"]["count"],
-      conversionPercent: this.route.snapshot.data["data"]["stats"]["conversionPercent"]
+      conversionPercent: this.route.snapshot.data["data"]["stats"][
+        "conversionPercent"
+      ]
     });
     this.isMobile = this.deviceDetectorService.isMobile();
   }
@@ -63,7 +66,9 @@ export class HomeComponent implements OnInit {
       map: this.map
     });
     marker.setAnimation(google.maps.Animation.DROP);
-    marker.setIcon("http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png");
+    marker.setIcon(
+      "http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png"
+    );
     if (this.focusMarker) {
       this.focusMarker.setMap(null);
     }
@@ -85,6 +90,8 @@ export class HomeComponent implements OnInit {
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
     this.members$.subscribe(members => {
+      // this.memberService.members$.subscribe(members => {
+      //   console.log('received members', members)
       members.forEach(el => {
         if (el.lat && el.long) {
           const location = new google.maps.LatLng(el.lat, el.long);

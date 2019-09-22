@@ -145,7 +145,6 @@ export class RegisterComponent implements OnInit {
 
   setUpFilter(list, dataSource, filterData) {
     const contains = value => s => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-    console.log(dataSource);
     list.filterChange
       .asObservable()
       .pipe(
@@ -180,7 +179,6 @@ export class RegisterComponent implements OnInit {
   async loadRegistrationForm() {
     this.member = this.memberService.getUser();
     if (this.member) {
-      console.log("loading member details to", this.member);
       this.socialid = this.member.socialid;
       this.basicInfoGroup.get("uname").setValue(this.member.uname);
       this.basicInfoGroup.get("fname").setValue(this.member.fname);
@@ -351,28 +349,27 @@ export class RegisterComponent implements OnInit {
       favouritefestivals: this.opinionGroup.get("favouritefestivals").value
       // avatar = this.avatarext
     };
-    console.log("memcheck", this.member, this.memberService.getUserId());
     if (this.memberService.getUser() && this.memberService.getUserId()) {
       console.log("updating ", updateMember);
       this.memberService
         .updateMember(this.memberService.getUserId(), updateMember)
         .subscribe(result => {
           console.log("returned member", updateMember);
-          this.memberService.saveMemberToLocalStorage(updateMember);
+          this.memberService.saveMemberToLocalStorage(updateMember, false);
           this.toastrService
             .success("Successfully updated", "OK", { timeOut: 2000 })
             .onHidden.subscribe(res => {
-              this.router.navigate(["/home"]);
+              this.router.navigate(["/nav/home"]);
             });
         });
     } else {
       console.log("creating ", updateMember);
       this.memberService.createMember(updateMember).subscribe((member: Member) => {
-        this.memberService.saveMemberToLocalStorage(member);
+        this.memberService.saveMemberToLocalStorage(member, false);
         this.toastrService
           .success("Successfully created", "OK", { timeOut: 2000 })
           .onHidden.subscribe(res => {
-            this.router.navigate(["/home"]);
+            this.router.navigate(["/nav/home"]);
           });
       });
     }
@@ -526,7 +523,6 @@ export class RegisterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async avatars => {
       if (!avatars) return;
-      else console.log(avatars);
       let newAvatar = (await toBase64(avatars[0].rawFile)) as string;
       this.memberService.avatarUrl$.next(newAvatar);
       this.member.avatarUrl = newAvatar;
@@ -535,11 +531,9 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  getAvatarSrc(file, ext) {
-    console.log(file, ext);
-    console.log(`data:image/${ext};base64,${file}`);
-    return `data:image/${ext};base64,${file}`;
-  }
+  // getAvatarSrc(file, ext) {
+  //   return `data:image/${ext};base64,${file}`;
+  // }
 
   openNewFestivaDialog() {
     const dialogRef = this.dialog.open(StaticDataDialogComponent, {

@@ -7,9 +7,10 @@ import { MemberService } from "../../services/member.service";
 import { TokenService } from "../../services/token.service";
 import { ViewChild } from "@angular/core";
 import { AuthService, SocialUser } from "angularx-social-login";
-import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
-import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
-import { ToastrService } from "ngx-toastr";
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from "angularx-social-login";
 
 @Component({
   selector: "app-landing",
@@ -34,12 +35,16 @@ export class LandingComponent implements OnInit {
     private socialAuthService: AuthService,
     private router: Router,
     private tokenService: TokenService,
-    private route: ActivatedRoute,
-    private toastr: ToastrService
+    private route: ActivatedRoute
   ) {
-    this.members = this.route.snapshot.data["data"]["members"];
+    this.memberService.members$.subscribe(mems => {
+      console.log('rece', mems)
+      this.members = mems;
+    });
     this.memberCount = this.route.snapshot.data["data"]["stats"]["count"];
-    this.conversionPercent = this.route.snapshot.data["data"]["stats"]["conversionPercent"];
+    this.conversionPercent = this.route.snapshot.data["data"]["stats"][
+      "conversionPercent"
+    ];
   }
 
   ngOnInit() {
@@ -47,19 +52,24 @@ export class LandingComponent implements OnInit {
 
     this.socialAuthService.authState.subscribe(user => {
       this.user = user;
+      // console.log("user");
       this.loggedIn = user != null;
       if (user) {
-        this.memberService.getMemberBySocialId(user.id).subscribe((member : Member) => {
-          if (!member) this.router.navigate(["register", "social"]);
-          else {
-            // this.toastr.success('Welcome back ' + member.fname);
-            this.loggedInMember = member;
-            this.memberService.saveMemberToLocalStorage(member);
-            this.tokenService.login(user).subscribe(token => {
-              this.router.navigate(["nav/home"]);
-            });
-          }
-        });
+        this.memberService
+          .getMemberBySocialId(user.id)
+          .subscribe((member: Member) => {
+            if (!member) this.router.navigate(["register", "social"]);
+            else {
+              this.loggedInMember = member;
+              console.log('saving member')
+              this.memberService.saveMemberToLocalStorage(member,true);
+              this.tokenService.login(user).subscribe(token => {
+                this.router.navigate(["nav/home"]);
+              });
+            }
+          });
+      } else {
+        // console.log("no user");
       }
     });
   }
@@ -100,7 +110,8 @@ export class LandingComponent implements OnInit {
           title: el.uname + el.fname + " " + el.lname
         });
         var infowindow = new google.maps.InfoWindow({
-          content: el.fname + " " + el.lname + " thinks psytrance is " + el.psystatus
+          content:
+            el.fname + " " + el.lname + " thinks psytrance is " + el.psystatus
         });
         marker.addListener("mouseover", () => {
           infowindow.open(this.map, marker);
@@ -124,18 +135,10 @@ export class LandingComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(memberData => {
-      // console.log("memberData", memberData);
-    });
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
   signInWithFB(): void {
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID).then(memberData => {
-      // console.log("memberData", memberData);
-    });
-  }
-
-  public register() {
-    this.router.navigate(["register", "new"]);
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 }

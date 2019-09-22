@@ -148,10 +148,11 @@ const connections = new Set();
 
 io.on("connection", socket => {
   connections.add(socket);
-  io.on("system-message", message => {
-    console.log("system-message", message);
-    io.emit("system-message", message);
-  });
+  // io.on("system-message", message => {
+  //   console.log("system-message", message);
+  //   io.emit("system-message", message);
+  // });
+
 
   socket.on(
     "chat-init",
@@ -162,13 +163,26 @@ io.on("connection", socket => {
       }).bind(messageCache)
   );
 
+  setInterval(() => {
+    io.emit('logged-on-users', loggedOnUserCache.get("users").filter(el => el));
+  }, 600000); // 10 mins
+
+
   socket.on("get-logged-on-users", (null,
     (user) => {
+      console.log(user)
+      if (user._id && loggedOnUserCache.get("users").filter(u => u._id == user._id).length > 0) {
+        console.log('user', user)
+        socket.emit("system-message", "Welcome back " + user.uname + "! There are " +
+          loggedOnUserCache.get("users").length > 1 ? loggedOnUserCache.get("users").length + " other members online. Why not say Hello? " : "");
+      } else {
+        console.log('user2', user)
+        socket.emit("system-message", "Welcome back " + user.uname + "!");
+      }
       isProd ?
         loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)]) :
         loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
-      socket.emit("system-message", "Welcome back " + user.uname + "! There are " +
-        loggedOnUserCache.get("users").length + " other members online. Why not say Hello? ");
+
       socket.broadcast.emit("system-message", user.uname + " has logged on!");
       socket.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
     }).bind(loggedOnUserCache));

@@ -1,28 +1,31 @@
 import { Socket } from "ngx-socket-io";
 import { Injectable, OnInit } from "@angular/core";
-import { Observable, BehaviorSubject, pipe } from "rxjs";
-import { map, tap, switchMap, shareReplay, first } from "rxjs/operators";
+import {
+  Observable,
+  BehaviorSubject,
+  pipe,
+  of,
+  from,
+  empty,
+  Subject
+} from "rxjs";
+import {
+  map,
+  tap,
+  switchMap,
+  shareReplay,
+  first,
+  publishReplay,
+  refCount
+} from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Member } from "../models/member.model";
 import { environment } from "../../environments/environment";
 import countries from "../../assets/static-data/countries.json";
 import dropdowns from "../../assets/static-data/dropdowns.json";
-
+import { Cacheable } from "ngx-cacheable";
 const baseUri = environment.baseUri;
-const toBase64 = file =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    "Content-Type": "application/json"
-    // "Access-Control-Allow-Credentials": "true"
-  })
-};
+const memberCacheBuster$ = new Subject<void>();
 @Injectable({
   providedIn: "root"
 })
@@ -34,22 +37,29 @@ export class MemberService implements OnInit {
   loggedOnUsers$: BehaviorSubject<Member>;
   countries = countries;
   dropdowns = dropdowns;
-  members$: BehaviorSubject<Array<Member>>;
+  members$: BehaviorSubject<Array<Member>> = new BehaviorSubject([]);
   loggedOnMembers$: BehaviorSubject<Array<Member>> = new BehaviorSubject([]);
-  constructor(private http: HttpClient, private socket: Socket) {}
-
-  ngOnInit() {
-    this.loadMembers();
+  constructor(private http: HttpClient, private socket: Socket) {
+    this.loadMembers().subscribe(members => {
+      this.members$.next(members as Array<Member>);
+    });
   }
 
-  async saveMemberToLocalStorage(_member: Member) {
+  ngOnInit() {}
+
+  async saveMemberToLocalStorage(_member: Member, initialFlag?: boolean) {
     _member.originDisplay = this.getCountryName(_member.origin);
     _member.locationDisplay = this.getCountryName(_member.location);
-    sessionStorage.setItem("member", JSON.stringify(this.enrichMember(_member)));
+    sessionStorage.setItem(
+      "member",
+      JSON.stringify(this.enrichMember(_member))
+    );
     this.avatarUrl$.next(_member.avatarUrl);
     this.user$.next(_member);
     this.selectedMember$.next(_member);
     this.user = _member;
+    if(initialFlag)
+      this.initLoggedOnUsers();
   }
 
   getUser(): Member {
@@ -73,7 +83,9 @@ export class MemberService implements OnInit {
   }
 
   getCountryName(code) {
-    return this.countries.filter(country => country["alpha3Code"] == code)[0]["name"];
+    return this.countries.filter(country => country["alpha3Code"] == code)[0][
+      "name"
+    ];
   }
 
   setSelectedMember$(member) {
@@ -82,34 +94,30 @@ export class MemberService implements OnInit {
   getSelectedMember$() {
     return this.selectedMember$;
   }
+  @Cacheable({ maxAge: 600000, cacheBusterObserver: memberCacheBuster$ })
   loadMembers() {
-    return this.http.get(`${baseUri}/members`, httpOptions).pipe(
+    console.log("loading");
+    return this.http.get(`${baseUri}/members`).pipe(
       map((members: Array<Member>) => {
         return members.map(member => {
           return this.enrichMember(member);
         });
-      }),
-      tap(members => {
-        console.log("loading", members);
-        this.members$ = new BehaviorSubject(members as Array<Member>);
-      }),
-      first(),
-      tap(() => {
-        console.log("initi users");
-        this.initLoggedOnUsers();
-      }),
-      shareReplay()
+      })
     );
   }
 
   initLoggedOnUsers() {
-    console.log("initing user listing");
-    this.socket.on("logged-on-users", (users: Array<String>) => {
-      let user = users.filter(el => el).map(el => this.getMemberById(el));
-      console.log("logged-on-users", user);
-      this.loggedOnMembers$.next(user);
+    this.members$.subscribe(() => {
+      console.log("initing user listing");
+      this.socket.on("logged-on-users", (users: Array<String>) => {
+        let user = users.map(el => this.getMemberById(el));
+        this.loggedOnMembers$.next(user);
+      });
+      console.log("get lgd on", this.user$.getValue());
+      setTimeout(() => {
+        this.socket.emit("get-logged-on-users", this.user$.getValue());
+      });
     });
-    this.socket.emit("get-logged-on-users", this.user$.getValue());
   }
 
   private enrichMember(member: Member) {
@@ -119,8 +127,14 @@ export class MemberService implements OnInit {
       "festivalfrequency",
       member.festivalfrequency
     );
-    member.partyfrequencyDisplay = this.getDropdownDisplay("partyfrequency", member.partyfrequency);
-    member.membertypeDisplay = this.getDropdownDisplay("membertype", member.membertype);
+    member.partyfrequencyDisplay = this.getDropdownDisplay(
+      "partyfrequency",
+      member.partyfrequency
+    );
+    member.membertypeDisplay = this.getDropdownDisplay(
+      "membertype",
+      member.membertype
+    );
     return member;
   }
 
@@ -140,8 +154,9 @@ export class MemberService implements OnInit {
     return this.http.get(`${baseUri}/members/delete/${id}`);
   }
 
+  @Cacheable({ maxAge: 600000, cacheBusterObserver: memberCacheBuster$ })
   landingPageStats() {
-    return this.http.get(`${baseUri}/members/landingpagestats`, httpOptions);
+    return this.http.get(`${baseUri}/members/landingpagestats`);
   }
 
   getAllCountries() {
@@ -153,7 +168,7 @@ export class MemberService implements OnInit {
   }
 
   getStaticData() {
-    return this.http.get(`${baseUri}/staticdata`, httpOptions);
+    return this.http.get(`${baseUri}/staticdata`);
   }
 
   addStaticData(value) {

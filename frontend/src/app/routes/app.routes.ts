@@ -17,21 +17,14 @@ import { ChatComponent } from "../components/chat/chat.component";
 import { EventsComponent } from "../components/events/events.component";
 export const ROUTES: Routes = [
   {
-    path: "",
-    // runGuardsAndResolvers: "always",
+    path: "landing",
     component: LandingComponent,
     canActivate: [LandingGuard],
     resolve: {
       data: MemberListResolve
     }
   },
-  {
-    path: "home",
-    component: LandingComponent,
-    resolve: {
-      data: MemberListResolve
-    }
-  },
+
   {
     path: "register/:mode",
     component: RegisterComponent,
@@ -106,5 +99,5 @@ export const ROUTES: Routes = [
       }
     ]
   },
-  { path: "**", redirectTo: "", pathMatch: "full" }
+  { path: "**", redirectTo: "/landing", pathMatch: "full" }
 ];

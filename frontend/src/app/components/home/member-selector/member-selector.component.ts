@@ -31,7 +31,6 @@ export class MemberSelectorComponent {
   }
 
   focusOnMap(member) {
-    console.log('fouc')
     this.selectedMember$.next(member);
     this.router.navigate(['/nav/home']);
   }

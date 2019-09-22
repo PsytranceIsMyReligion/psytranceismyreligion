@@ -45,7 +45,6 @@ export class MapComponent {
   ngOnChanges(changes: SimpleChanges) {
     const postcodeChange: SimpleChange = changes.postcode;
     const countryCodeChange: SimpleChange = changes.countryCode;
-    console.log(postcodeChange, countryCodeChange);
     let countryCodeUpdate;
     if (countryCodeChange) {
       if (Array.isArray(countryCodeChange.currentValue)) {
