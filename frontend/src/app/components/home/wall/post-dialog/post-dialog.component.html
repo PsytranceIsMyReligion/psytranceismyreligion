@@ -7,12 +7,14 @@
     </mat-form-field>
     <mat-form-field class="field-full-width content">
       <input matInput [hidden]="true" />
-      <quill-editor placeholder="Content" scrollingContainer="content" class="editor" formControlName="content"> </quill-editor>
+      <quill-editor placeholder="What's on your mind?"  
+        scrollingContainer="content"  (onEditorCreated)="configEditor($event)" class="editor" formControlName="content"> </quill-editor>
       <mat-error>Required</mat-error>
     </mat-form-field>
-    </form>
+  </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button class="hrv-pulse" color="accent" [disabled]="!postGroup.valid" (click)="saveWallPost()">Save</button>
-  <button  mat-raised-button class="hrv-pulse" color="accent" (click)="cancel()">Cancel</button>
+  <button mat-raised-button class="hrv-pulse" color="accent" [disabled]="!postGroup.valid"
+    (click)="saveWallPost()">Save</button>
+  <button mat-raised-button class="hrv-pulse" color="accent" (click)="cancel()">Cancel</button>
 </div>

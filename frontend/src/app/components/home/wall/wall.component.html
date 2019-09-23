@@ -12,7 +12,7 @@
         <img mat-card-avatar [src]="post.createdBy.avatarUrl" />
       </mat-card-header>
       <mat-card-content>
-        <quill-view [content]="post.content" theme="snow"></quill-view>
+        <quill-view [modules]="quillToolBarOptions" [content]="post.content" theme="snow"></quill-view>
         <button *ngIf="user._id == post.createdBy._id" mat-icon-button color="accent" (click)="openPostDialog(post)">
           <mat-icon>edit</mat-icon>Edit
         </button>&nbsp;&nbsp;

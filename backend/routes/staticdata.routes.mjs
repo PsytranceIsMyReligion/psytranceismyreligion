@@ -1,8 +1,41 @@
 import StaticData from "../models/staticdata";
+import multer from "multer";
 
 import express from "express";
 const router = express.Router();
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './images');
+    },
+    filename: (req, file, cb) => {
+        console.log(file);
+        var filetype = '';
+        if (file.mimetype === 'image/gif') {
+            filetype = 'gif';
+        }
+        if (file.mimetype === 'image/png') {
+            filetype = 'png';
+        }
+        if (file.mimetype === 'image/jpeg') {
+            filetype = 'jpg';
+        }
+        cb(null, 'image-' + Date.now() + '.' + filetype);
+    }
+});
+const uploader = multer({
+    storage: storage
+});
 
+
+router.route("/upload").post(uploader.array('files'), (req, res) => {
+    const files = req.files
+    if (!files) {
+        const error = new Error('Please choose files')
+        error.httpStatusCode = 400
+        return next(error)
+    }
+    res.send(files)
+});
 
 router.route("/").get((rq, res) => {
     StaticData.find({}).sort({
@@ -26,7 +59,6 @@ router.route("/add").post((req, res) => {
             console.error(err);
             res.status(400).send("Failed to create a new genre", err);
         });
-
 });
 
 

@@ -16,6 +16,7 @@ export class WallComponent implements OnInit {
   @Input("wall$") wall$: BehaviorSubject<any> = new BehaviorSubject({});
   wallData: Array<WallPost> = new Array();
   user: Member;
+
   constructor(
     private wallService: WallService,
     private memberService: MemberService,
@@ -70,9 +71,6 @@ export class WallComponent implements OnInit {
           this.wall$.next([res, ...this.wallData]);
           this.toastrService
             .success("Story created!", "OK", { timeOut: 2000 })
-            .onHidden.subscribe((el: WallPost) => {
-              // this.router.navigate(['/nav/watch']);
-            });
         });
       } else {
         console.log(updatePost);
@@ -81,9 +79,6 @@ export class WallComponent implements OnInit {
           this.wall$.next([...this.wallData]);
           this.toastrService
             .success("Story updated!", "OK", { timeOut: 2000 })
-            .onHidden.subscribe(el => {
-              // this.router.navigate(['/nav/watch']);
-            });
         });
       }
     });

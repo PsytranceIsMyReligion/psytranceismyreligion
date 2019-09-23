@@ -39,6 +39,10 @@ dotenv.config({
 console.log('__dirname', __dirname);
 const app = express();
 const router = express.Router();
+
+
+
+////////////////////// Cache Config ////////////////////////////
 const messageCache = new NodeCache({
   stdTTL: 100,
   checkperiod: 120
@@ -53,6 +57,10 @@ const loggedOnUserCache = new NodeCache({
   checkperiod: 120
 });
 loggedOnUserCache.set("users", []);
+
+
+
+///////////////////////////////////     App Config  /////////////////////////////
 app.use(
   cors({
     credentials: true,
@@ -64,12 +72,12 @@ app.use(
     ]
   })
 );
+
+
+
 // app.use(express.static("public"));
 express.static(path.join(__dirname, "public"));
-// app.use('/resources',express.static(__dirname + '/images'));
-
 console.log("setting public folder to ", path.join(__dirname, "public"));
-// app.use("/static", express.static(path.join(__dirname, "public")));
 app.options("*", cors());
 router.use(
   bodyParser.urlencoded({
@@ -97,8 +105,8 @@ app.use(
       "/videos",
       /\/members\/bysocialid\/.*/,
       /\/staticdata\/*/,
-      /\/static\/*/,
-      /\/resources\/*/
+      /\/upload\/*/,
+
     ]
   })
 );
@@ -170,13 +178,10 @@ io.on("connection", socket => {
 
   socket.on("get-logged-on-users", (null,
     (user) => {
-      console.log(user)
       if (user._id && loggedOnUserCache.get("users").filter(u => u._id == user._id).length > 0) {
-        console.log('user', user)
         socket.emit("system-message", "Welcome back " + user.uname + "! There are " +
           loggedOnUserCache.get("users").length > 1 ? loggedOnUserCache.get("users").length + " other members online. Why not say Hello? " : "");
       } else {
-        console.log('user2', user)
         socket.emit("system-message", "Welcome back " + user.uname + "!");
       }
       isProd ?

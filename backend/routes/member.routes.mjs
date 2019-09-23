@@ -5,27 +5,28 @@ import multer from "multer";
 import Member from "../models/member";
 import _ from "lodash";
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './images');
-    },
-    filename: (req, file, cb) => {
-        console.log(file);
-        var filetype = '';
-        if (file.mimetype === 'image/gif') {
-            filetype = 'gif';
-        }
-        if (file.mimetype === 'image/png') {
-            filetype = 'png';
-        }
-        if (file.mimetype === 'image/jpeg') {
-            filetype = 'jpg';
-        }
-        cb(null, 'image-' + Date.now() + '.' + filetype);
-    }
+  destination: (req, file, cb) => {
+      cb(null, './images');
+  },
+  filename: (req, file, cb) => {
+      console.log(file);
+      var filetype = '';
+      if (file.mimetype === 'image/gif') {
+          filetype = 'gif';
+      }
+      if (file.mimetype === 'image/png') {
+          filetype = 'png';
+      }
+      if (file.mimetype === 'image/jpeg') {
+          filetype = 'jpg';
+      }
+      cb(null, 'image-' + Date.now() + '.' + filetype);
+  }
 });
 const uploader = multer({
     storage: storage
 });
+
 
 
 
