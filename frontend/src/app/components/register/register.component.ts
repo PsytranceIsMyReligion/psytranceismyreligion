@@ -23,7 +23,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { StaticDataDialogComponent } from "./staticdata-dialog/staticdata-dialog.component";
 import { ToastrService } from "ngx-toastr";
 import { AvatarDialogComponent } from "./avatar-dialog/avatar-dialog.component";
-
+import { uniqueUsername } from "../../validators/unique-username.validator";
 export const MY_FORMATS = {
   parse: {
     dateInput: "YYYY"
@@ -447,25 +447,22 @@ export class RegisterComponent implements OnInit {
 
   createForm() {
     this.basicInfoGroup = this.fb.group({
-      uname: ["", this.env.production ? Validators.required : null],
-      fname: ["", this.env.production ? Validators.required : null],
-      lname: ["", this.env.production ? Validators.required : null],
-      gender: ["", this.env.production ? Validators.required : null],
-      email: [
-        "",
-        this.env.production ? [Validators.required, Validators.email] : null
-      ],
+      uname: ["", [Validators.required, uniqueUsername(this.members)]],
+      fname: ["", Validators.required],
+      lname: ["", Validators.required],
+      gender: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]],
       referer: [""],
-      origin: ["", this.env.production ? Validators.required : null],
-      location: ["", this.env.production ? Validators.required : null],
-      birthyear: ["", this.env.production ? Validators.required : null],
-      postcode: ["", this.env.production ? Validators.required : null]
+      origin: ["", Validators.required],
+      location: ["", Validators.required],
+      birthyear: ["", Validators.required],
+      postcode: ["", Validators.required]
     });
     this.detailGroup = this.fb.group({
-      musictype: ["", this.env.production ? Validators.required : null],
-      membertype: ["", this.env.production ? Validators.required : null],
-      startyear: ["", this.env.production ? Validators.required : null],
-      bio: ["", this.env.production ? Validators.required : null],
+      musictype: ["", Validators.required],
+      membertype: ["", Validators.required],
+      startyear: ["", Validators.required],
+      bio: ["", Validators.required],
       soundcloudUrl: [""],
       facebookUrl: [""],
       websiteUrl: ["", Validators.pattern(urlRegex)]
@@ -473,9 +470,9 @@ export class RegisterComponent implements OnInit {
     this.opinionGroup = this.fb.group({
       favouriteparty: [""],
       favouriteartists: [""],
-      partyfrequency: ["", this.env.production ? Validators.required : null],
+      partyfrequency: ["", Validators.required],
       favouritefestivals: [""],
-      festivalfrequency: ["", this.env.production ? Validators.required : null],
+      festivalfrequency: ["", Validators.required],
       psystatus: ["", Validators.required],
       reason: ["", Validators.required]
     });
