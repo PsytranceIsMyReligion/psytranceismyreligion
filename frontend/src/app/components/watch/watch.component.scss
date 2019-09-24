@@ -1,6 +1,8 @@
-.outer-container {
+.watch-container {
   background-image: url("/assets/mainbackground.jpg");
   margin-left: -10px;
+  height: 100%;
+  overflow-y: scroll
 }
 
 .search-panel {
@@ -14,7 +16,7 @@
   font-weight: bold;
   display: block;
   width: 47.7%;
-  margin-top : 10px;
+  margin-top: 10px;
   margin-left: 20px;
 }
 
@@ -50,25 +52,29 @@
 
   .opaque-card {
     margin-left: 5px;
-    margin-right: 10px;
+    margin-right: 0px;
   }
+
   .form-control {
-    width : 70%;
+    width: 70%;
   }
+
   .description {
     font-size: 12pt;
     font-weight: bold;
   }
+
   .add-button {
     margin: 10px 20px 0px 10px;
     // padding-bottom: 5px;
   }
+
   .panel-info {
     padding: 5px;
     font-size: 13pt;
   }
 
-  .outer-container {
+  .watch-container {
     margin-left: -10px;
   }
 
@@ -82,7 +88,7 @@
 }
 
 img {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 @media only screen and (min-width : 1224px) {

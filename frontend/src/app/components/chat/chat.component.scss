@@ -1,14 +1,20 @@
 @media only screen and (min-width: 1224px) {
   .k-chat {
-    margin-top: 100px;
+    height: 54em;
+    overflow: hidden;
+    width: 35em;
+    margin-top: 2em;
   }
 
   .opaque-card {
     margin-top: 0 !important;
+    height: 100%;
+    overflow-y: scroll;
   }
 
   .chat-container {
-    height: 80%;
+    height: 100%;
+    width: 30%;
     overflow-y: scroll;
   }
 
@@ -23,16 +29,33 @@
     border-color: orange
   }
 
+  ::ng-deep .members-container {
+    height: auto !important;
+  }
+
 }
 
-::ng-deep .members-container {
-  margin-top: 10px !important;
-}
+
+
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .opaque-card {
+    margin: 0;
+    height: 100%;
+  }
+
+  .chat-container {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+  }
+
   .k-chat {
-    height: 500px;
+    height: 39em;
   }
 
 
+  :host ::ng-deep .mat-drawer-content {
+    overflow-y: hidden !important;
+  }
 }

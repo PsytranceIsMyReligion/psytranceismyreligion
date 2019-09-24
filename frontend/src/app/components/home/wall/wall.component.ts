@@ -1,4 +1,5 @@
-import { environment } from './../../../../environments/environment.prod';
+import { DeviceDetectorService } from "ngx-device-detector";
+import { environment } from "./../../../../environments/environment.prod";
 import { MemberService } from "./../../../services/member.service";
 import { PostDialogComponent } from "./post-dialog/post-dialog.component";
 import { WallPost, Member } from "./../../../models/member.model";
@@ -21,10 +22,12 @@ export class WallComponent implements OnInit {
   user: Member;
   editor = ClassicEditor;
   env = environment;
+  isMobile = false;
+
   editorConfig = {
     readOnly: true,
     toolbar: [],
-    simpleUpload : {
+    simpleUpload: {
       uploadUrl: `${this.env.baseUri}/staticdata/upload`
     },
     mediaEmbed: {
@@ -60,9 +63,12 @@ export class WallComponent implements OnInit {
     private wallService: WallService,
     private memberService: MemberService,
     private toastrService: ToastrService,
+    private deviceDetectorService: DeviceDetectorService,
     @Inject(LOCALE_ID) protected localeId: string,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.isMobile = this.deviceDetectorService.isMobile();
+  }
 
   ngOnInit() {
     this.wall$.subscribe(data => {
@@ -70,12 +76,6 @@ export class WallComponent implements OnInit {
       this.user = this.memberService.getUser();
     });
   }
-
-  // ngOnAfterViewInit() {
-  //   document.querySelectorAll('oembed[url]').forEach(element: => {
-  //     iframely.load(element, element.attributes.url.value);
-  //   });
-  // }
 
   setSelectedMember$(member) {
     this.memberService.selectedMember$.next(member);
@@ -100,8 +100,8 @@ export class WallComponent implements OnInit {
       };
     }
     const dialogRef = this.dialog.open(PostDialogComponent, {
-      width: "700px",
-      height: "600px",
+      width: this.isMobile ? "600px" : "700px",
+      height: this.isMobile ? "600px" : "700px",
       data: data
     });
 

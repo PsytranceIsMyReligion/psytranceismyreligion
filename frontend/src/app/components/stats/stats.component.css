@@ -10,10 +10,14 @@
   }
 }
 
+.stats-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-  .outer-container {
-    width: 100%;
-  }
+
 
   mat-card {
     margin: 1em 0 1em 0;

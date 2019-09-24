@@ -22,7 +22,10 @@ export class HomeComponent implements OnInit {
     "reason",
     "actions"
   ];
-  @ViewChild("gmap", { static: true }) gmapElement: any;
+  @ViewChild("desktop", { static: true }) gmapDesktop: any;
+  @ViewChild("mobile", { static: true }) gmapMobile: any;
+  desktopMap: google.maps.Map;
+  mobileMap: google.maps.Map;
   map: google.maps.Map;
   focusMarker: any;
   selectedMember$: BehaviorSubject<Member>;
@@ -61,6 +64,7 @@ export class HomeComponent implements OnInit {
 
   updateFocusedMember(member: Member) {
     const location = new google.maps.LatLng(member.lat, member.long);
+    console.log('update', this.map)
     let marker = new google.maps.Marker({
       position: location,
       map: this.map
@@ -88,10 +92,11 @@ export class HomeComponent implements OnInit {
       rotateControl: false,
       fullscreenControl: true
     };
-    this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+    if (this.isMobile)
+      this.map = new google.maps.Map(this.gmapMobile.nativeElement, mapProp);
+    else
+      this.map = new google.maps.Map(this.gmapDesktop.nativeElement, mapProp);
     this.members$.subscribe(members => {
-      // this.memberService.members$.subscribe(members => {
-      //   console.log('received members', members)
       members.forEach(el => {
         if (el.lat && el.long) {
           const location = new google.maps.LatLng(el.lat, el.long);

@@ -5,9 +5,6 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-const IFRAME_SRC = "//cdn.iframe.ly/api/iframe";
-const API_KEY = "f1a837d9d5c21c46096ba2";
-const env = environment;
 @Component({
   selector: "app-post-dialog",
   templateUrl: "./post-dialog.component.html",

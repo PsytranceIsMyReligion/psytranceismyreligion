@@ -1,12 +1,19 @@
-.outer-container {
-  background-image: linear-gradient(yellow, red);
-  margin-right: 10px;
-  padding: 0px 10px;
+@media only screen and (min-width: 1224px) {
+  .wall-container {
+    background-image: linear-gradient(yellow, red);
+    padding: 0px 10px;
+    height: 100%;
+    width: 30em;
+    overflow-y: scroll;
+  }
+
+  mat-card {
+    width: 97%;
+  }
+
 }
 
-
 .post-container {
-  width: 22em;
   overflow-y: scroll;
   height: inherit;
 }
@@ -14,8 +21,7 @@
 mat-card {
   border-radius: 0px;
   padding: 0px;
-  width: 100%;
-  margin: 10px 0px;
+  margin: 10px 10 10 0px;
 
   .mat-flat-button {
     margin: 0 !important;
@@ -50,9 +56,6 @@ mat-card {
   }
 }
 
-.inner-card {
-  // height : 300px;
-}
 
 
 .inner-card:first {
@@ -68,6 +71,7 @@ mat-card {
   font-size: 14pt;
   font-weight: bold;
   text-align: center;
+  margin-right: 12px;
   height: 80px;
 }
 
@@ -91,7 +95,9 @@ mat-card {
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 
-
+  mat-card {
+    width: 100%;
+  }
   .mat-card-avatar {
     margin: 0.2em;
     padding: 0px;
@@ -101,13 +107,14 @@ mat-card {
     margin: 0px !important;
   }
 
-  .outer-container {
+  .wall-container {
     padding: 0px;
     margin-right: 0px;
+
   }
 
   .post-container {
-    width: 22em;
+    width: 22.6em;
     height: 20em;
   }
 

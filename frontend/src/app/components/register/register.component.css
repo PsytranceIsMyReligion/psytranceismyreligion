@@ -32,7 +32,7 @@
     border-radius: 0;
     width: 70px;
     height: 70px;
-    cursor:pointer;
+    cursor: pointer;
   }
 
   .title {
@@ -117,13 +117,17 @@
 
 @media only screen and (min-width: 1224px) {
 
+  .opaque-card {
+    margin-top: 0;
+  }
+
   .mat-card-avatar {
     margin: 5px 0px 10px 5px;
     zoom: 2;
     border-radius: 0;
     width: 70px;
     height: 70px;
-    cursor:pointer;
+    cursor: pointer;
   }
 
 
@@ -152,10 +156,14 @@
   .registration-form {
     width: 95%;
     margin-bottom: 20px;
+    height: 121%;
   }
 
   .registration-container {
     width: 98%;
+    height: 100%;
+    overflow-y: scroll;
+
   }
 
   ::ng-deep .mat-form-field-flex {

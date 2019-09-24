@@ -1,6 +1,17 @@
-<div class="chat-container" fxLayout="isMobile ? column : row" fxLayoutAlign="start start" class="opaque-card">
+<div *ngIf="isMobile" fxLayout="column" fxLayoutAlign="start start" class="opaque-card">
+  <div class="chat-container">
+    <kendo-chat class="chat-box" [messages]="feed$ | async" [user]="user" (sendMessage)="sendMessage($event)">
+    </kendo-chat>
+    <app-member-selector [chatHeaderInfo$]="chatHeaderInfo$" [members$]="loggedOnMembers$">
+    </app-member-selector>
+  </div>
+</div>
+<div *ngIf="!isMobile" fxLayout="row" fxLayoutAlign="start start" class="opaque-card">
+
   <kendo-chat class="chat-box" [messages]="feed$ | async" [user]="user" (sendMessage)="sendMessage($event)">
   </kendo-chat>
-  <app-member-selector [chatHeaderInfo$]="chatHeaderInfo$" [members$]="loggedOnMembers$">
-  </app-member-selector>
+  <div class="chat-container">
+    <app-member-selector [chatHeaderInfo$]="chatHeaderInfo$" [members$]="loggedOnMembers$">
+    </app-member-selector>
+  </div>
 </div>

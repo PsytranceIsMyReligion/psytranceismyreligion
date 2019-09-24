@@ -1,4 +1,8 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+
+  .details-container {
+    height: 100%;
+  }
   mat-card {
     margin: 0px;
     border-radius: 0;
@@ -58,10 +62,18 @@ img {
     left: 1em;
   }
 
+  .details-container {
+    height: 100%;
+    left: -6px;
+    position: relative;
+    overflow-y: scroll;
+  }
+
   mat-card {
-    margin: 1em 1em;
-    width: 40em;
+    border-radius: 0;
+    width: 35em;
     opacity: 0.7;
+    height: 100%;
 
     mat-card-header {
       height: 100px;

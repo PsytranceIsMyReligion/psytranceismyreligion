@@ -19,3 +19,22 @@ mat-form-field {
 ::ng-deep .ql-tooltip {
   margin-left: 142px !important;
 }
+
+::ng-deep .ck-editor__editable_inline {
+  min-height: 200px;
+  max-height: 300px;
+}
+
+@media only screen and (min-width: 1224px) {
+  ::ng-deep .ck-editor__editable_inline {
+    min-height: 400px;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  ::ng-deep .ck-editor__editable_inline {
+    min-height: 200px;
+    max-height: 300px;
+  }
+
+}

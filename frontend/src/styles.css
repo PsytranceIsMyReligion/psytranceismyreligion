@@ -48,6 +48,7 @@ a​:hover {
     background-size: contain;
     opacity: 1;
     font-weight: bold;
+    height: 100%;
   }
 
   .opaque-card::before {

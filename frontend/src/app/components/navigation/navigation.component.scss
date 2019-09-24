@@ -1,20 +1,25 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  .content-container {
+  .top-container {
     height: 100%;
   }
+
   .side-nav {
     width: 95px;
   }
+
   .sidenav-content {
     display: block;
-    width: 98%;
     align-items: left;
     justify-content: left;
-    border-radius: 5px;
+    border-radius: 5px 0 5px 0;
+    width: 109%;
+    height: 92%;
   }
+
   ::ng-deep .mat-drawer-inner-container {
     margin-left: -7px;
   }
+
   .mat-drawer-content {
     background-image: url("/assets/mainbackground.jpg");
     background-size: contain;
@@ -26,10 +31,11 @@
 
 
 @media only screen and (min-width: 1224px) {
-  .content-container {
-    height: 99%;
+  .top-container {
+    height: 100%;
     padding-top: 80px;
   }
+
   .sidenav-content {
     display: block;
     font-weight: bold;
@@ -38,12 +44,14 @@
     align-items: left;
     justify-content: left;
   }
+
   .mat-drawer-content {
     background-image: url("/assets/mainbackground.jpg");
     background-size: contain;
-      overflow-y: scroll;
-      overflow-x: hidden;
-    }
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+
   ::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -58,10 +66,3 @@
   opacity: 0.7px !important;
 }
 
-// :host ::ng-deep .mat-card-header {
-//   height: 30px;
-//   h3 {
-//     position: relative;
-//     top: -15px;
-//   }
-// }
