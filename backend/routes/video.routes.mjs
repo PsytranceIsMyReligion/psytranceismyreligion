@@ -65,7 +65,6 @@ function addWallPost(video) {
     content: video.createdBy.uname + ' uploaded a link ' + video.description + ' ' + '<a target="_blank" href="http://www.youtube.com/watch?v=' + video.value + '">Link</a><br/><br/>',
     createdBy: video.createdBy
   }
-  console.log('creating ', payload);
   let post = new WallPost(payload);
   post.save().then(saved => {
       console.log('saved log', saved);

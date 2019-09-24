@@ -9,7 +9,6 @@ const storage = multer.diskStorage({
       cb(null, './images');
   },
   filename: (req, file, cb) => {
-      console.log(file);
       var filetype = '';
       if (file.mimetype === 'image/gif') {
           filetype = 'gif';
@@ -117,7 +116,6 @@ router.route("/delete/:id").get((req, res) => {
 });
 
 router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
-    console.log('adding avatar ', req.files);
     Member.findOneAndUpdate({
         _id: req.body.id
     }, {
@@ -126,7 +124,6 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
         new: true,
         upsert: false
     }, (err, member) => {
-        console.log(member)
         if (err) throw (err);
         else
             res.json(member);

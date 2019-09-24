@@ -8,7 +8,6 @@ const storage = multer.diskStorage({
         cb(null, './images');
     },
     filename: (req, file, cb) => {
-        console.log(file);
         var filetype = '';
         if (file.mimetype === 'image/gif') {
             filetype = 'gif';
@@ -28,7 +27,6 @@ const uploader = multer({
 
 
 router.route("/upload").post(uploader.single('upload'), (req, res) => {
-    console.log("uploading ", req.file)
     const file = req.file
     if (!file) {
         const error = new Error('Please choose files')

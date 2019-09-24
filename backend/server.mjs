@@ -156,12 +156,6 @@ const connections = new Set();
 
 io.on("connection", socket => {
   connections.add(socket);
-  // io.on("system-message", message => {
-  //   console.log("system-message", message);
-  //   io.emit("system-message", message);
-  // });
-
-
   socket.on(
     "chat-init",
     (null,
