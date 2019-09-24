@@ -11,6 +11,9 @@
     width: 97%;
   }
 
+  ::ng-deep .details-container {
+    padding-bottom: 5em;
+  }
 }
 
 .post-container {
@@ -98,6 +101,7 @@ mat-card {
   mat-card {
     width: 100%;
   }
+
   .mat-card-avatar {
     margin: 0.2em;
     padding: 0px;

@@ -414,7 +414,9 @@ export class RegisterComponent implements OnInit {
           this.toastrService
             .success("Successfully updated", "OK", { timeOut: 2000 })
             .onHidden.subscribe(res => {
-              this.router.navigate(["home"],{relativeTo: this.activatedRoute.parent});
+              this.router.navigate(["home"], {
+                relativeTo: this.activatedRoute.parent
+              });
             });
         });
     } else {
@@ -426,7 +428,9 @@ export class RegisterComponent implements OnInit {
           this.toastrService
             .success("Successfully created", "OK", { timeOut: 2000 })
             .onHidden.subscribe(res => {
-              this.router.navigate(["home"],{relativeTo: this.activatedRoute.parent});
+              this.router.navigate(["home"], {
+                relativeTo: this.activatedRoute.parent
+              });
             });
         });
     }
@@ -567,7 +571,10 @@ export class RegisterComponent implements OnInit {
     const dialogRef = this.dialog.open(StaticDataDialogComponent, {
       width: "300px",
       height: "400px",
-      data: { type: "artist", name: "", origin: "", facebookUrl: "" }
+      data: {
+        toFilter: this.artists,
+        payload: { type: "artist", name: "", origin: "", facebookUrl: "" }
+      }
     });
 
     dialogRef.afterClosed().subscribe((updateArtist: StaticData) => {
@@ -576,9 +583,9 @@ export class RegisterComponent implements OnInit {
         .addStaticData({ type: "artist", value: updateArtist })
         .subscribe(res => {
           this.artists.push(res);
-          this.artists.sort();
+          this.artists = this.artists.sort();
           this.artistData.push(res);
-          this.artistData.sort();
+          this.artistData = this.artistData.sort();
           this.toastrService.success(
             "Artist added! You may now select them",
             "Success",
@@ -607,15 +614,14 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  // getAvatarSrc(file, ext) {
-  //   return `data:image/${ext};base64,${file}`;
-  // }
-
   openNewFestivaDialog() {
     const dialogRef = this.dialog.open(StaticDataDialogComponent, {
       width: "300px",
       height: "400px",
-      data: { type: "festival", origin: "", name: "" }
+      data: {
+        toFilter: this.festivals,
+        payload: { type: "festival", name: "", origin: "", facebookUrl: "" }
+      }
     });
 
     dialogRef.afterClosed().subscribe((updated: StaticData) => {

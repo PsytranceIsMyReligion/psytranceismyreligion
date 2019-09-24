@@ -1,21 +1,24 @@
-<h3 mat-dialog-title>Add {{data.type}}</h3>
+<h3 mat-dialog-title>Add {{type}}</h3>
 <div mat-dialog-content>
   <form [formGroup]="staticDataGroup">
     <mat-form-field class="field-full-width">
-      <input matInput placeholder="{{data.type}} Name" cdkFocusInitial formControlName="name" />
-      <mat-error>Required</mat-error>
+      <input matInput placeholder="{{type}} Name" cdkFocusInitial formControlName="name" />
+      <mat-error *ngIf="staticDataGroup.get('name').hasError('required')">Required</mat-error>
+      <mat-error *ngIf="staticDataGroup.get('name').hasError('duplicate')">{{ type }} already exists!
+      </mat-error>
     </mat-form-field>
     <mat-form-field class="field-full-width">
-      <input matInput placeholder="{{ data.type == 'artist' ? 'Origin' : 'Location' }}" formControlName="origin" />
+      <input matInput placeholder="{{ staticData.type == 'artist' ? 'Origin' : 'Location' }}" formControlName="origin" />
       <mat-error>Required</mat-error>
     </mat-form-field>
-    <mat-form-field *ngIf="data.type=='artist'" class="field-full-width">
+    <mat-form-field *ngIf="staticData.type=='artist'" class="field-full-width">
       <input matInput placeholder="Facebook URL" formControlName="facebookUrl" />
       <mat-error>Required</mat-error>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions>
+  <!-- -->
   <button mat-button [disabled]="!staticDataGroup.valid" (click)="saveStaticData()">Save</button>
   <button mat-button (click)="cancel()">Cancel</button>
 </div>

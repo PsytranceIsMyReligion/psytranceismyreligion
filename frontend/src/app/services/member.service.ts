@@ -39,6 +39,8 @@ export class MemberService implements OnInit {
   dropdowns = dropdowns;
   members$: BehaviorSubject<Array<Member>> = new BehaviorSubject([]);
   loggedOnMembers$: BehaviorSubject<Array<Member>> = new BehaviorSubject([]);
+  staticData: Array<String>;
+
   constructor(private http: HttpClient, private socket: Socket) {
     this.loadMembers().subscribe(members => {
       this.members$.next(members as Array<Member>);
@@ -96,7 +98,7 @@ export class MemberService implements OnInit {
   }
   @Cacheable({ maxAge: 600000, cacheBusterObserver: memberCacheBuster$ })
   loadMembers() {
-    console.log("loading");
+    console.log("loading members from server");
     return this.http.get(`${baseUri}/members`).pipe(
       map((members: Array<Member>) => {
         return members.map(member => {
@@ -168,7 +170,7 @@ export class MemberService implements OnInit {
   }
 
   getStaticData() {
-    return this.http.get(`${baseUri}/staticdata`);
+    return this.http.get(`${baseUri}/staticdata`).pipe(tap((data : any) => this.staticData = data));
   }
 
   addStaticData(value) {
