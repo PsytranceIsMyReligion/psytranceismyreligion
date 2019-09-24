@@ -36,7 +36,7 @@ mat-card {
   img {
     margin-top: 0.2em;
     margin-right: 1em;
-    cursor:pointer;
+    cursor: pointer;
   }
 
   mat-icon {
@@ -75,17 +75,22 @@ mat-card {
   font-weight: normal;
 }
 
+::ng-deep .image {
+  img {
+    max-width: 100%;
+    height: auto;
 
-img {
-  cursor: pointer;
+    // max-height: 100%;
+    object-fit: contain;
+  }
+}
+
+::ng-deep .editor {
+  width: auto;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 
-
-  mat-card {
-    width: 19em;
-  }
 
   .mat-card-avatar {
     margin: 0.2em;

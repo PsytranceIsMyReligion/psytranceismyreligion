@@ -12,7 +12,6 @@ import {
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HomeComponent } from "./components/home/home.component";
-import { QuillModule } from "ngx-quill";
 import {
   MatToolbarModule,
   MatFormFieldModule,
@@ -83,55 +82,11 @@ import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 import { AvatarDialogComponent } from "./components/register/avatar-dialog/avatar-dialog.component";
 import { UploadModule } from "@progress/kendo-angular-upload";
 import { FilterPipeModule } from "ngx-filter-pipe";
-// import { ImageUpload } from "quill-image-upload";
-import imageUpload from "quill-plugin-image-upload";
-import QuillStatic from "quill";
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 const env = environment;
 const socketConfig: SocketIoConfig = { url: env.baseUri, options: {} };
-QuillStatic.register("modules/imageUpload", imageUpload);
 
-// const imageHandlerDef = file => {
-//   return new Promise((resolve, reject) => {
-//     console.log("uploading file");
-//     const fd = new FormData();
-//     fd.append("upload_file", file);
-
-//     const xhr = new XMLHttpRequest();
-//     xhr.open("POST", `${environment.baseUri}/upload`, true);
-//     xhr.onload = () => {
-//       if (xhr.status === 200) {
-//         const response = JSON.parse(xhr.responseText);
-//         resolve(response.file_path); // Must resolve as a link to the image
-//       }
-//     };
-//     xhr.send(fd);
-//   });
-// };
-
-// const imageUploadDef = {
-//   url: `${environment.baseUri}/upload`, // server url. If the url is empty then the base64 returns
-//   method: "POST", // change query method, default 'POST'
-//   withCredentials: true, // withCredentials
-//   headers: {}, // add custom headers, example { token: 'your-token'}
-//   // personalize successful callback and call next function to insert new url to the editor
-//   callbackOK: (serverResponse, next) => {
-//     console.log("resp", serverResponse);
-//     next(serverResponse);
-//   },
-//   // personalize failed callback
-//   callbackKO: serverError => {
-//     console.log("err", serverError);
-
-//     alert(serverError);
-//   },
-//   // optional
-//   // add callback when a image have been chosen
-//   checkBeforeSend: (file, next) => {
-//     console.log(file);
-//     next(file); // go back to component and send to the server
-//   }
-// };
-// Quill.register("modules/imageUpload", ImageUpload);
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -144,10 +99,6 @@ const config = new AuthServiceConfig([
   //   provider: new FacebookLoginProvider("315354469236603")
   // }
 ]);
-
-export function apiPostNewsImage(data) {
-  console.log("posting", data);
-}
 
 export function provideConfig() {
   return config;
@@ -191,51 +142,6 @@ export function tokenGetter() {
     BrowserModule,
     BrowserAnimationsModule,
     SocketIoModule.forRoot(socketConfig),
-    QuillModule.forRoot({
-      modules: {
-        toolbar: {
-          container: [
-            ["bold", "italic", "underline", "strike"], // toggled buttons
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-            [{ direction: "rtl" }], // text direction
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-            [{ font: [] }],
-            [{ align: [] }],
-            // ["clean"], // remove formatting button
-            ["link", "image", "video"], // link and image, video
-            []
-          ],
-          handlers: {
-            imageUpload: {
-              upload: file => {
-                return new Promise((resolve, reject) => {
-                  const fd = new FormData();
-                  fd.append("files", file);
-                  console.log("uploading file", file);
-
-                  const xhr = new XMLHttpRequest();
-                  xhr.open(
-                    "POST",
-                    `${environment.baseUri}/staticdata/upload`,
-                    true
-                  );
-                  xhr.onload = () => {
-                    if (xhr.status === 200) {
-                      const response = JSON.parse(xhr.responseText);
-                      console.log("response", response);
-                      resolve(response.file_path); // Must resolve as a link to the image
-                    }
-                  };
-                  xhr.send(fd);
-                });
-              }
-            }
-          }
-        }
-      }
-    }),
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: "toast-top-right",
@@ -245,6 +151,7 @@ export function tokenGetter() {
     ChartModule,
     FormsModule,
     ChatModule,
+    CKEditorModule,
     HttpClientModule,
     MatToolbarModule,
     MatDialogModule,

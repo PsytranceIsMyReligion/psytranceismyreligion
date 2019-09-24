@@ -1,3 +1,4 @@
+
 <div class="outer-container">
   <div class="summary">Member Wall<br />
     <button mat-raised-button color="accent" (click)="openPostDialog()">Share Story&nbsp;<mat-icon>create</mat-icon>
@@ -12,7 +13,7 @@
         <img mat-card-avatar [src]="post.createdBy.avatarUrl" />
       </mat-card-header>
       <mat-card-content>
-        <quill-view [modules]="quillToolBarOptions" [content]="post.content" theme="snow"></quill-view>
+        <div class="editor" [innerHTML]="post.content | sanitizeHtml"></div>
         <button *ngIf="user._id == post.createdBy._id" mat-icon-button color="accent" (click)="openPostDialog(post)">
           <mat-icon>edit</mat-icon>Edit
         </button>&nbsp;&nbsp;

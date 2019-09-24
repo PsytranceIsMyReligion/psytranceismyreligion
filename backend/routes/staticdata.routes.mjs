@@ -27,14 +27,22 @@ const uploader = multer({
 });
 
 
-router.route("/upload").post(uploader.array('files'), (req, res) => {
-    const files = req.files
-    if (!files) {
+router.route("/upload").post(uploader.single('upload'), (req, res) => {
+    console.log("uploading ", req.file)
+    const file = req.file
+    if (!file) {
         const error = new Error('Please choose files')
         error.httpStatusCode = 400
         return next(error)
     }
-    res.send(files)
+    let imgUrl = process.env.NODE_ENV === "production" ? "http://www.psytranceismyreligion.com:3001/" + file.filename : "http://localhost:3001/" + file.filename;
+    let retVal = {
+        "uploaded": true,
+        "url": imgUrl
+    };
+    res.json(
+        retVal
+    )
 });
 
 router.route("/").get((rq, res) => {

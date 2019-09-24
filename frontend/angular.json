@@ -30,7 +30,6 @@
               "src/theme.scss"
             ],
             "scripts": [
-              // "node_modules/hammer/bin/hammer.js"
             ]
           },
           "configurations": {

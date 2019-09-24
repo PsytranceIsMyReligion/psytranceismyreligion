@@ -6,9 +6,9 @@
       <mat-error>Required</mat-error>
     </mat-form-field>
     <mat-form-field class="field-full-width content">
-      <input matInput [hidden]="true" />
-      <quill-editor placeholder="What's on your mind?"  
-        scrollingContainer="content"  (onEditorCreated)="configEditor($event)" class="editor" formControlName="content"> </quill-editor>
+      <input matInput [hidden]="true" formControlName="content" />
+      <ckeditor [editor]="editor" formControlName="content" [config]="editorConfig"></ckeditor>
+
       <mat-error>Required</mat-error>
     </mat-form-field>
   </form>
