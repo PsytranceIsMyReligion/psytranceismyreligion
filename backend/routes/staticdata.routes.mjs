@@ -34,6 +34,7 @@ router.route("/upload").post(uploader.single('upload'), (req, res) => {
         return next(error)
     }
     let imgUrl = process.env.NODE_ENV === "production" ? "http://www.psytranceismyreligion.com:3001/" + file.filename : "http://localhost:3001/" + file.filename;
+    console.log('image url is ', imgUrl)
     let retVal = {
         "uploaded": true,
         "url": imgUrl

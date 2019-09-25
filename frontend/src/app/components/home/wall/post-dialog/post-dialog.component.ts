@@ -1,4 +1,4 @@
-import { environment } from "./../../../../../environments/environment.local";
+import { environment } from "./../../../../../environments/environment";
 import { MemberService } from "./../../../../services/member.service";
 import { WallPost } from "./../../../../models/member.model";
 import { Component, OnInit, Inject } from "@angular/core";

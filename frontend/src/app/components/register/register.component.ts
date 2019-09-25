@@ -447,7 +447,7 @@ export class RegisterComponent implements OnInit {
 
   createForm() {
     this.basicInfoGroup = this.fb.group({
-      uname: ["", [Validators.required, uniqueUsername(this.members)]],
+      uname: ["", [Validators.required, uniqueUsername(this.referers)]],
       fname: ["", Validators.required],
       lname: ["", Validators.required],
       gender: ["", Validators.required],

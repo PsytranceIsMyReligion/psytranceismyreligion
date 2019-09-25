@@ -10,7 +10,6 @@ import videoRoutes from "./routes/video.routes";
 import staticDataRoutes from "./routes/staticdata.routes";
 import wallPostRoutes from "./routes/wallpost.routes";
 import socketIO from "socket.io";
-import nodeCache from "node-cache";
 import path from "path";
 import _ from "lodash";
 
