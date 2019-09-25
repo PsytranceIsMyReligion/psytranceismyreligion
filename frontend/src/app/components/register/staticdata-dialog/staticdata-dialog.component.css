@@ -1,0 +1,7 @@
+.mat-dialog-content {
+  margin: 0;
+}
+
+::ng-deep .mat-form-field {
+  width: 100%;
+}

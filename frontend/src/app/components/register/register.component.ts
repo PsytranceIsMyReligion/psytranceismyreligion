@@ -566,10 +566,11 @@ export class RegisterComponent implements OnInit {
 
   openNewArtistDialog() {
     const dialogRef = this.dialog.open(StaticDataDialogComponent, {
-      width: "300px",
+      width: "400px",
       height: "400px",
       data: {
         toFilter: this.artists,
+        countries: this.countries,
         payload: { type: "artist", name: "", origin: "", facebookUrl: "" }
       }
     });
@@ -580,9 +581,13 @@ export class RegisterComponent implements OnInit {
         .addStaticData({ type: "artist", value: updateArtist })
         .subscribe(res => {
           this.artists.push(res);
-          this.artists = this.artists.sort();
+          this.artists = this.artists.sort((a,b) => {
+            return a.name.localeCompare(b.name)
+          });
           this.artistData.push(res);
-          this.artistData = this.artistData.sort();
+          this.artistData = this.artistData.sort((a,b) => {
+            return a.name.localeCompare(b.name)
+          });
           this.toastrService.success(
             "Artist added! You may now select them",
             "Success",
@@ -617,6 +622,7 @@ export class RegisterComponent implements OnInit {
       height: "400px",
       data: {
         toFilter: this.festivals,
+        countries: this.countries,
         payload: { type: "festival", name: "", origin: "", facebookUrl: "" }
       }
     });
@@ -627,9 +633,13 @@ export class RegisterComponent implements OnInit {
         .addStaticData({ type: "festival", value: updated })
         .subscribe(res => {
           this.festivals.push(res);
-          this.festivals.sort();
+          this.festivals.sort((a,b) => {
+            return a.name.localeCompare(b.name)
+          });
           this.festivalData.push(res);
-          this.festivalData.sort();
+          this.festivalData.sort((a,b) => {
+            return a.name.localeCompare(b.name)
+          });
           this.toastrService.success(
             "Festival added! You can now select it.",
             "Success",

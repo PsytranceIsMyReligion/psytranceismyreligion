@@ -5,6 +5,8 @@ import { notDuplicateValidator } from "../../../validators/duplicate.staticdata.
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import _ from "lodash";
+import { Observable } from "rxjs";
+import { startWith, map } from "rxjs/operators";
 @Component({
   selector: "app-artist-dialog",
   templateUrl: "./staticdata-dialog.component.html",
@@ -14,6 +16,7 @@ export class StaticDataDialogComponent implements OnInit {
   staticDataGroup: FormGroup;
   staticData: StaticData;
   type: string;
+  filteredCountriesOrigin: Observable<any[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +45,30 @@ export class StaticDataDialogComponent implements OnInit {
         origin: [this.staticData.origin, Validators.required]
       });
     }
+    this.initFilter();
+  }
+
+  initFilter() {
+    this.filteredCountriesOrigin = this.staticDataGroup
+      .get("origin")
+      .valueChanges.pipe(
+        startWith(""),
+        map(value =>
+          value ? this.countryFilter(value) : this.data.countries.slice()
+        )
+      );
+  }
+
+  countryFilter(value){
+    return this.data.countries.filter(option =>
+      option.name.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+
+  displayFn(country) {
+    if (Array.isArray(country) && country.length > 0)
+      return typeof country[0] !== "string" ? country[0].name : country[0];
+    else return typeof country !== "string" ? country.name : country;
   }
 
   public findInvalidControls() {
