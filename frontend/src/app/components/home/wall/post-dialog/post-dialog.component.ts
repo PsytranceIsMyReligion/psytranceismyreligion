@@ -5,6 +5,7 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
 @Component({
   selector: "app-post-dialog",
   templateUrl: "./post-dialog.component.html",
@@ -13,12 +14,13 @@ import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export class PostDialogComponent implements OnInit {
   postGroup: FormGroup;
   editor = ClassicEditor;
+  saveButtonEnabled = true;
   editorConfig = {
     mediaEmbed: {
-      previewsInData: true
+      previewsInData: false
     },
     simpleUpload: {
-      uploadUrl: `${environment.baseUri}/staticdata/upload`
+      uploadUrl: `${environment.uploadUri}/staticdata/upload`
     }
   };
 
@@ -28,7 +30,7 @@ export class PostDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: WallPost,
     private memberService: MemberService
   ) {
-    console.log(`base uri ${environment.baseUri}`);
+    console.log(`Upload URL ${environment.uploadUri}`);
   }
 
   ngOnInit() {
@@ -38,6 +40,17 @@ export class PostDialogComponent implements OnInit {
     });
   }
 
+  public onChange( { editor }: ChangeEvent ) {
+    if(editor) {
+      const data = editor.getData();
+      if(data.indexOf("<img>") > -1) {
+        this.saveButtonEnabled = false;
+      }
+      else
+        this.saveButtonEnabled = true;
+    }
+}
+
   saveWallPost() {
     let post: WallPost = {
       title: this.postGroup.get("title").value,
@@ -45,7 +58,14 @@ export class PostDialogComponent implements OnInit {
       createdBy: this.memberService.getUser()
     };
     if (this.data && this.data._id) post._id = this.data._id;
-    this.dialogRef.close(post);
+    if (post.content.indexOf("<img") > -1) {
+      console.log('timeout')
+      setTimeout(() => {
+        this.dialogRef.close(post);
+      });
+    } else {
+      this.dialogRef.close(post);
+    }
   }
 
   cancel() {

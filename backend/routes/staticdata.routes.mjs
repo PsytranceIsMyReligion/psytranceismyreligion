@@ -29,12 +29,14 @@ const uploader = multer({
 router.route("/upload").post(uploader.single('upload'), (req, res) => {
     const file = req.file
     if (!file) {
-        const error = new Error('Please choose files')
-        error.httpStatusCode = 400
-        return next(error)
+        res.status(500).json({
+            "uploaded": false,
+            "error": {
+                "message": "could not upload this image"
+            }
+        });
     }
-    let imgUrl = process.env.NODE_ENV === "production" ? "http://www.psytranceismyreligion.com:3001/" + file.filename : "http://localhost:3001/" + file.filename;
-    console.log('image url is ', imgUrl)
+    let imgUrl = "http://www.psytranceismyreligion.com:3001/" + file.filename;
     let retVal = {
         "uploaded": true,
         "url": imgUrl

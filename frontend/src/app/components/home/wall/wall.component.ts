@@ -23,7 +23,6 @@ export class WallComponent implements OnInit {
   editor = ClassicEditor;
   env = environment;
   isMobile = false;
-
   editorConfig = {
     readOnly: true,
     toolbar: [],
@@ -110,7 +109,7 @@ export class WallComponent implements OnInit {
         return;
       }
       if (!updatePost._id) {
-        console.log("creating");
+        console.log("creating", updatePost);
         this.wallService
           .createWallPost(updatePost)
           .subscribe((res: WallPost) => {
@@ -121,7 +120,7 @@ export class WallComponent implements OnInit {
             });
           });
       } else {
-        console.log(updatePost);
+        console.log("updating", updatePost);
         this.wallService
           .updateWallPost(updatePost._id, updatePost)
           .subscribe((res: WallPost) => {

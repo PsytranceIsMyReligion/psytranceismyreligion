@@ -7,14 +7,12 @@
     </mat-form-field>
     <mat-form-field class="field-full-width content">
       <input matInput [hidden]="true" formControlName="content" />
-      <ckeditor [editor]="editor" formControlName="content" [config]="editorConfig"></ckeditor>
-
-      <mat-error>Required</mat-error>
+      <ckeditor [editor]="editor" formControlName="content" (change)="onChange($event)" [config]="editorConfig"></ckeditor>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button class="hrv-pulse" color="accent" [disabled]="!postGroup.valid"
+  <button mat-raised-button class="hrv-pulse" color="accent" [disabled]="!postGroup.valid || !saveButtonEnabled"
     (click)="saveWallPost()">Save</button>
   <button mat-raised-button class="hrv-pulse" color="accent" (click)="cancel()">Cancel</button>
 </div>

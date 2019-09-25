@@ -5,7 +5,6 @@ const httpServer = http;
 httpServer.createServer(function (request, response) {
     request.addListener('end', function () {
         fileServer.serve(request, response, function (e, res) {
-            console.log(e)
         });
     }).resume();
 }).listen(3001, () =>
