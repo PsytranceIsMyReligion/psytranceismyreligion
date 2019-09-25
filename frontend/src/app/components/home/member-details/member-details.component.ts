@@ -1,36 +1,43 @@
-import { MemberService } from './../../../services/member.service';
-import { Component, OnInit, Input, Inject, LOCALE_ID } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Member } from 'src/app/models/member.model';
-import moment from 'moment';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { MemberService } from "./../../../services/member.service";
+import { Component, OnInit, Input, Inject, LOCALE_ID } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Member, Message } from "src/app/models/member.model";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { MatDialog } from "@angular/material/dialog";
+import { MessageDialogComponent } from "./message-dialog/message-dialog.component";
 
 @Component({
-  selector: 'app-member-details',
-  templateUrl: './member-details.component.html',
-  styleUrls: ['./member-details.component.scss']
+  selector: "app-member-details",
+  templateUrl: "./member-details.component.html",
+  styleUrls: ["./member-details.component.scss"]
 })
 export class MemberDetailsComponent implements OnInit {
+  selectedMember$: BehaviorSubject<Member>;
+  isMobile: boolean = false;
 
-   selectedMember$: BehaviorSubject<Member>;
-   isMobile: boolean = false;
-
-
-  constructor(private memberService : MemberService, @Inject( LOCALE_ID ) protected localeId: string,
-  private deviceDetectorService :DeviceDetectorService) {
+  constructor(
+    private memberService: MemberService,
+    @Inject(LOCALE_ID) protected localeId: string,
+    private deviceDetectorService: DeviceDetectorService,
+    public dialog: MatDialog,
+  ) {
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.isMobile = this.deviceDetectorService.isMobile();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  openMessageDialog(receiver: Member): void {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
+      width: "650px",
+      height: "600px",
+      data : receiver
+    });
+
+    dialogRef.afterClosed().subscribe((message: Message) => {
+      console.log('message', message);
+      this.memberService.messageMember(message);
+
+    })
   }
-
-  calculateAge(birthday) {
-    let bdate = moment().set('year', birthday).toDate();
-    var ageDifMs = Date.now() - bdate.getTime();
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  }
-
-
 }

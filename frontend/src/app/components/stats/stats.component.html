@@ -25,6 +25,19 @@
   <mat-card class="chart-full">
     <mat-card-content>
       <kendo-chart>
+        <kendo-chart-title text="Membership by Age"></kendo-chart-title>
+        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="column" [data]="chartSeries.ageSeries" categoryField="age"
+            field="count">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="chart-full">
+    <mat-card-content>
+      <kendo-chart>
         <kendo-chart-title text="Artist Popularity"></kendo-chart-title>
         <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
         <kendo-chart-series>
@@ -82,19 +95,7 @@
       </kendo-chart>
     </mat-card-content>
   </mat-card>
-  <mat-card class="chart-full">
-    <mat-card-content>
-      <kendo-chart>
-        <kendo-chart-title text="Membership by Birth Year"></kendo-chart-title>
-        <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
-        <kendo-chart-series>
-          <kendo-chart-series-item type="column" [data]="chartSeries.ageSeries" categoryField="yearDisplay"
-            field="count">
-          </kendo-chart-series-item>
-        </kendo-chart-series>
-      </kendo-chart>
-    </mat-card-content>
-  </mat-card>
+
   <mat-card class="chart-full">
     <mat-card-content>
       <kendo-chart>

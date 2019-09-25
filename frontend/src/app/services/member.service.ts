@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Socket } from "ngx-socket-io";
 import { Injectable, OnInit } from "@angular/core";
 import {
@@ -19,7 +20,7 @@ import {
   refCount
 } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Member } from "../models/member.model";
+import { Member, Message } from "../models/member.model";
 import { environment } from "../../environments/environment";
 import countries from "../../assets/static-data/countries.json";
 import dropdowns from "../../assets/static-data/dropdowns.json";
@@ -60,8 +61,7 @@ export class MemberService implements OnInit {
     this.user$.next(_member);
     this.selectedMember$.next(_member);
     this.user = _member;
-    if(initialFlag)
-      this.initLoggedOnUsers();
+    if (initialFlag) this.initLoggedOnUsers();
   }
 
   getUser(): Member {
@@ -137,6 +137,7 @@ export class MemberService implements OnInit {
       "membertype",
       member.membertype
     );
+    member.age = this.calculateAge(member.birthyear);
     return member;
   }
 
@@ -161,6 +162,11 @@ export class MemberService implements OnInit {
     return this.http.get(`${baseUri}/members/landingpagestats`);
   }
 
+  messageMember(message: Message) {
+    console.log("sending message");
+    return this.http.post(`${baseUri}/members/message`, message);
+  }
+
   getAllCountries() {
     return countries;
   }
@@ -170,10 +176,22 @@ export class MemberService implements OnInit {
   }
 
   getStaticData() {
-    return this.http.get(`${baseUri}/staticdata`).pipe(tap((data : any) => this.staticData = data));
+    return this.http
+      .get(`${baseUri}/staticdata`)
+      .pipe(tap((data: any) => (this.staticData = data)));
   }
 
   addStaticData(value) {
-    return this.http.post(`${baseUri}/staticdata/add`, { params: value });
+    console.log("adding static data", value);
+    return this.http.post(`${baseUri}/staticdata/add`, value);
+  }
+
+  calculateAge(birthday) {
+    let bdate = moment()
+      .set("year", birthday)
+      .toDate();
+    var ageDifMs = Date.now() - bdate.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 }

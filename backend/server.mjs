@@ -100,7 +100,7 @@ app.use(
       "/members/add",
       "/members/add/avatar",
       "/members/landingpagestats",
-      "/wallposts",
+      // "/wallposts",
       "/videos",
       /\/members\/bysocialid\/.*/,
       /\/staticdata\/*/,
@@ -177,9 +177,9 @@ io.on("connection", socket => {
       } else {
         socket.emit("system-message", "Welcome back " + user.uname + "!");
       }
-      isProd ?
-        loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)]) :
-        loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
+      // isProd ?
+        loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)])
+        //  : loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
 
       socket.broadcast.emit("system-message", user.uname + " has logged on!");
       socket.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));

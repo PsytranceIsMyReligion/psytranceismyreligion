@@ -1,0 +1,19 @@
+<h3 mat-dialog-title>Email Message to {{ receiver.uname }}</h3>
+<div mat-dialog-content class="opaque-card">
+  <form [formGroup]="postGroup">
+    <mat-form-field class="field-full-width">
+      <input matInput placeholder="Story Title" cdkFocusInitial formControlName="title" />
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="field-full-width content">
+      <input matInput [hidden]="true" formControlName="content" />
+      <ckeditor [editor]="editor" class="editor" formControlName="content" (change)="onChange($event)" [config]="editorConfig">
+      </ckeditor>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button class="hrv-pulse" color="accent" [disabled]="!postGroup.valid || !saveButtonEnabled"
+    (click)="saveMessage()">Save</button>
+  <button mat-raised-button class="hrv-pulse" color="accent" (click)="cancel()">Cancel</button>
+</div>

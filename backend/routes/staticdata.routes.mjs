@@ -58,7 +58,8 @@ router.route("/").get((rq, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    let staticData = new StaticData(req.body.params.value);
+    console.log('adding ', req.body)
+    let staticData = new StaticData(req.body);
     staticData
         .save()
         .then(staticData => {

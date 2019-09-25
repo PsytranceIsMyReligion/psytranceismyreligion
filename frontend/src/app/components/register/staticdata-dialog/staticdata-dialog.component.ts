@@ -59,10 +59,13 @@ export class StaticDataDialogComponent implements OnInit {
       );
   }
 
-  countryFilter(value){
-    return this.data.countries.filter(option =>
-      option.name.toLowerCase().includes(value.toLowerCase())
-    );
+  countryFilter(value) {
+    console.log(value)
+    if (value) {
+      return this.data.countries.filter(option =>
+        option.name.toLowerCase().includes(value.name.toLowerCase())
+      );
+    }
   }
 
   displayFn(country) {
@@ -86,8 +89,8 @@ export class StaticDataDialogComponent implements OnInit {
     this.findInvalidControls();
     const staticData: StaticData = {
       name: this.staticDataGroup.get("name").value,
-      type: this.data.type,
-      origin: this.staticDataGroup.get("origin").value,
+      type: this.type,
+      origin: this.staticDataGroup.get("origin").value.alpha3Code,
       facebookUrl:
         this.data.type == "artist"
           ? this.staticDataGroup.get("facebookUrl").value

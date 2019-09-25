@@ -1,17 +1,19 @@
-import { environment } from "./../../../../../environments/environment";
-import { MemberService } from "./../../../../services/member.service";
-import { WallPost } from "./../../../../models/member.model";
-import { Component, OnInit, Inject } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { PostDialogComponent } from '../../wall/post-dialog/post-dialog.component';
+import { Message, Member } from 'src/app/models/member.model';
+import { MemberService } from 'src/app/services/member.service';
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
 @Component({
-  selector: "app-post-dialog",
-  templateUrl: "./post-dialog.component.html",
-  styleUrls: ["./post-dialog.component.css"]
+  selector: 'app-message-dialog',
+  templateUrl: './message-dialog.component.html',
+  styleUrls: ['./message-dialog.component.css']
 })
-export class PostDialogComponent implements OnInit {
+export class MessageDialogComponent implements OnInit {
+
   postGroup: FormGroup;
   editor = ClassicEditor;
   saveButtonEnabled = true;
@@ -23,20 +25,22 @@ export class PostDialogComponent implements OnInit {
       uploadUrl: `${environment.uploadUri}/staticdata/upload`
     }
   };
+  receiver : Member;
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<PostDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: WallPost,
+    @Inject(MAT_DIALOG_DATA) public data: Message,
     private memberService: MemberService
   ) {
     console.log(`Upload URL ${environment.uploadUri}`);
   }
 
   ngOnInit() {
+    this.receiver = this.data as Member;
     this.postGroup = this.fb.group({
-      title: [this.data ? this.data.title : "", Validators.required],
-      content: [this.data ? this.data.content : "", Validators.required]
+      title: ["", Validators.required],
+      content: ["", Validators.required]
     });
   }
 
@@ -51,20 +55,20 @@ export class PostDialogComponent implements OnInit {
     }
 }
 
-  saveWallPost() {
-    let post: WallPost = {
+  saveMessage() {
+    let message: Message = {
       title: this.postGroup.get("title").value,
       content: this.postGroup.get("content").value,
-      createdBy: this.memberService.getUser()
+      createdBy: this.memberService.getUser(),
+      receiver: this.receiver
     };
-    if (this.data && this.data._id) post._id = this.data._id;
-    if (post.content.indexOf("<img") > -1) {
+    if (message.content.indexOf("<img") > -1) {
       console.log('timeout')
       setTimeout(() => {
-        this.dialogRef.close(post);
+        this.dialogRef.close(message);
       });
     } else {
-      this.dialogRef.close(post);
+      this.dialogRef.close(message);
     }
   }
 

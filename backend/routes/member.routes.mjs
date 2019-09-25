@@ -5,22 +5,22 @@ import multer from "multer";
 import Member from "../models/member";
 import _ from "lodash";
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-      cb(null, './images');
-  },
-  filename: (req, file, cb) => {
-      var filetype = '';
-      if (file.mimetype === 'image/gif') {
-          filetype = 'gif';
-      }
-      if (file.mimetype === 'image/png') {
-          filetype = 'png';
-      }
-      if (file.mimetype === 'image/jpeg') {
-          filetype = 'jpg';
-      }
-      cb(null, 'image-' + Date.now() + '.' + filetype);
-  }
+    destination: (req, file, cb) => {
+        cb(null, './images');
+    },
+    filename: (req, file, cb) => {
+        var filetype = '';
+        if (file.mimetype === 'image/gif') {
+            filetype = 'gif';
+        }
+        if (file.mimetype === 'image/png') {
+            filetype = 'png';
+        }
+        if (file.mimetype === 'image/jpeg') {
+            filetype = 'jpg';
+        }
+        cb(null, 'image-' + Date.now() + '.' + filetype);
+    }
 });
 const uploader = multer({
     storage: storage
@@ -130,11 +130,16 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
     });
 });
 
+router.route("/message").post((req, res) => {
+    console.log('received message ', req.body);
+    res.status(200);
+});
+
+
 function karmicKudosCheck(member, referer, updateMode) {
     if (updateMode && member.referer) {
-        Member.find({
-            _id: member.id
-        }).populate('referer').exec((err, checkMember) => {
+        Member.findById(member._id).populate('referer').exec((err, checkMember) => {
+            console.log(checkMember);
             if (!checkMember.referer) {
                 updateKarmicKudos(referer);
             };
@@ -146,6 +151,7 @@ function karmicKudosCheck(member, referer, updateMode) {
 }
 
 function updateKarmicKudos(referer) {
+    console.log('updating Karmic Kudos for: ', referer.uname)
     if (referer) {
         Member.findOneAndUpdate({
             _id: referer._id

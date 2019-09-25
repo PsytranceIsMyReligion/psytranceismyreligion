@@ -82,7 +82,8 @@ import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 import { AvatarDialogComponent } from "./components/register/avatar-dialog/avatar-dialog.component";
 import { UploadModule } from "@progress/kendo-angular-upload";
 import { FilterPipeModule } from "ngx-filter-pipe";
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
+import { MessageDialogComponent } from "./components/home/member-details/message-dialog/message-dialog.component";
 
 const env = environment;
 const socketConfig: SocketIoConfig = { url: env.baseUri, options: {} };
@@ -114,7 +115,8 @@ export function tokenGetter() {
     VideoUploadComponent,
     StaticDataDialogComponent,
     PostDialogComponent,
-    AvatarDialogComponent
+    AvatarDialogComponent,
+    MessageDialogComponent
   ],
   declarations: [
     AppComponent,
@@ -136,7 +138,8 @@ export function tokenGetter() {
     WallComponent,
     PostDialogComponent,
     EventsComponent,
-    AvatarDialogComponent
+    AvatarDialogComponent,
+    MessageDialogComponent
   ],
   imports: [
     BrowserModule,

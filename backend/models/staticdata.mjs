@@ -6,9 +6,15 @@ let StaticDataSchema = new Schema({
   name: {
     type: String
   },
-  type : {
-      type : String
+  type: {
+    type: String
   },
+  origin: {
+    type: String
+  },
+  facebookUrl: {
+    type: String
+  }
 });
 
-export default mongoose.model("StaticData", StaticDataSchema); 
+export default mongoose.model("StaticData", StaticDataSchema);

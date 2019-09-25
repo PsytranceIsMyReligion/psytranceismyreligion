@@ -191,16 +191,11 @@ export class StatsComponent implements OnInit {
   }
 
   buildAgeSeries() {
-    let years = this.members.map(m => m.birthyear);
-    return years.map(y => {
+    let ages = this.members.map(m => m.age);
+    return ages.map(age => {
       return {
-        yearDisplay: y,
-        year: moment()
-          .set("year", y)
-          .set("month", 1)
-          .set("day", 1)
-          .toISOString(),
-        count: this.members.map(m => m.birthyear == y).length
+        age: age,
+        count: this.members.map(m => m.age == age).length
       };
     });
   }

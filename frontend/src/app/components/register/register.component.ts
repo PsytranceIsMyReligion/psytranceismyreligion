@@ -577,25 +577,23 @@ export class RegisterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((updateArtist: StaticData) => {
       if (!updateArtist) return;
-      this.memberService
-        .addStaticData({ type: "artist", value: updateArtist })
-        .subscribe(res => {
-          this.artists.push(res);
-          this.artists = this.artists.sort((a,b) => {
-            return a.name.localeCompare(b.name)
-          });
-          this.artistData.push(res);
-          this.artistData = this.artistData.sort((a,b) => {
-            return a.name.localeCompare(b.name)
-          });
-          this.toastrService.success(
-            "Artist added! You may now select them",
-            "Success",
-            {
-              timeOut: 2000
-            }
-          );
+      this.memberService.addStaticData(updateArtist).subscribe(res => {
+        this.artists.push(updateArtist);
+        this.artists = this.artists.sort((a, b) => {
+          return a.name.localeCompare(b.name);
         });
+        this.artistData.push(updateArtist);
+        this.artistData = this.artistData.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+        this.toastrService.success(
+          "Artist added! You may now select them",
+          "Success",
+          {
+            timeOut: 2000
+          }
+        );
+      });
     });
   }
 
@@ -629,25 +627,26 @@ export class RegisterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((updated: StaticData) => {
       if (!updated) return;
-      this.memberService
-        .addStaticData({ type: "festival", value: updated })
-        .subscribe(res => {
-          this.festivals.push(res);
-          this.festivals.sort((a,b) => {
-            return a.name.localeCompare(b.name)
+      this.memberService.addStaticData(updated).subscribe(res => {
+        console.log("update res", res);
+        this.festivals.push(updated);
+        this.festivals
+          .sort((a, b) => {
+            return a.name.localeCompare(b.name);
           });
-          this.festivalData.push(res);
-          this.festivalData.sort((a,b) => {
-            return a.name.localeCompare(b.name)
+        this.festivalData.push(updated);
+        this.festivalData
+          .sort((a, b) => {
+            return a.name.localeCompare(b.name);
           });
-          this.toastrService.success(
-            "Festival added! You can now select it.",
-            "Success",
-            {
-              timeOut: 2000
-            }
-          );
-        });
+        this.toastrService.success(
+          "Festival added! You can now select it.",
+          "Success",
+          {
+            timeOut: 2000
+          }
+        );
+      });
     });
   }
 }

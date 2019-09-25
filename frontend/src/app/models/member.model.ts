@@ -1,3 +1,4 @@
+import { Message } from '@progress/kendo-angular-conversational-ui';
 export interface Member {
   _id?: string;
   socialid?: string;
@@ -8,6 +9,7 @@ export interface Member {
   gender?: string;
   email?: string;
   birthyear?: number;
+  age?:number;
   origin?: string;
   originDisplay?: string;
   location?: string;
@@ -70,4 +72,12 @@ export interface WallPost {
   content: string;
   createdBy: Member;
   _id?: string;
+}
+
+export interface Message {
+  title: string;
+  content: string;
+  createdBy : Member;
+  createdAt? : Date;
+  receiver: Member;
 }
