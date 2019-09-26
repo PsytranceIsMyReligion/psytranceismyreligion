@@ -130,7 +130,7 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
 });
 
 router.route("/message/:id").post((req, res) => {
-    let result =  sendMessage(req.body.message);
+    let result = sendMessage(req.body.message);
     res.status(200).json(result);
 });
 
