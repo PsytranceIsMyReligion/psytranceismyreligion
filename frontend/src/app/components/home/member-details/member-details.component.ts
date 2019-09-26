@@ -5,6 +5,7 @@ import { Member, Message } from "src/app/models/member.model";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { MatDialog } from "@angular/material/dialog";
 import { MessageDialogComponent } from "./message-dialog/message-dialog.component";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-member-details",
@@ -19,7 +20,8 @@ export class MemberDetailsComponent implements OnInit {
     private memberService: MemberService,
     @Inject(LOCALE_ID) protected localeId: string,
     private deviceDetectorService: DeviceDetectorService,
-    public dialog: MatDialog,
+    private toastrService: ToastrService,
+    public dialog: MatDialog
   ) {
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.isMobile = this.deviceDetectorService.isMobile();
@@ -31,15 +33,20 @@ export class MemberDetailsComponent implements OnInit {
     const dialogRef = this.dialog.open(MessageDialogComponent, {
       width: "650px",
       height: "600px",
-      data : receiver
+      data: receiver
     });
 
     dialogRef.afterClosed().subscribe((message: Message) => {
-      console.log('message', message);
-      this.memberService.messageMember(message).subscribe((res) => {
-        console.log('message res', res)
-      })
-
-    })
+      console.log("message", message);
+      if (message.content) {
+        this.memberService.messageMember(message).subscribe(res => {
+          this.toastrService.success(
+            "Successfully sent message to " + message.receiver.uname,
+            "OK",
+            { timeOut: 2000 }
+          );
+        });
+      }
+    });
   }
 }

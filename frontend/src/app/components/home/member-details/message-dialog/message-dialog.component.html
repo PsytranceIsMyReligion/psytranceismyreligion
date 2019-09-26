@@ -14,6 +14,6 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button class="hrv-pulse" color="accent" [disabled]="!postGroup.valid || !saveButtonEnabled"
-    (click)="saveMessage()">Save</button>
+    (click)="saveMessage()">Send Message to {{receiver.uname}}</button>
   <button mat-raised-button class="hrv-pulse" color="accent" (click)="cancel()">Cancel</button>
 </div>

@@ -130,9 +130,8 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
 });
 
 router.route("/message/:id").post((req, res) => {
-    // console.log('received message ', req.body.message);
-    sendMessage(req.body.message);
-    res.status(200);
+    let result =  sendMessage(req.body.message);
+    res.status(200).json(result);
 });
 
 
@@ -187,6 +186,7 @@ async function sendMessage(message) {
         subject: 'Your copy of message to Psytrance Is My Religion member ' + message.createdBy.uname + ': ' + message.title,
         html: message.content
     });
+    return info;
 }
 
 export default router;
