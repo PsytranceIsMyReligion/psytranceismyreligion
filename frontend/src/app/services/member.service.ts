@@ -146,11 +146,11 @@ export class MemberService implements OnInit {
   }
 
   createMember(member: Member) {
-    return this.http.post(`${baseUri}/members/add`, member);
+    return this.http.post(`${baseUri}/members/add`, {member: member});
   }
 
   updateMember(id, member) {
-    return this.http.post(`${baseUri}/members/update/${id}`, member);
+    return this.http.post(`${baseUri}/members/update/${id}`,{member: member});
   }
 
   deleteMember(id) {
@@ -163,8 +163,8 @@ export class MemberService implements OnInit {
   }
 
   messageMember(message: Message) {
-    console.log("sending message");
-    return this.http.post(`${baseUri}/members/message`, message);
+    console.log("sending message", message);
+    return this.http.post(`${baseUri}/members/message/${message.receiver._id}`, {message : message});
   }
 
   getAllCountries() {

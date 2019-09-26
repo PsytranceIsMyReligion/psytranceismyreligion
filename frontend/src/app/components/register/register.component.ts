@@ -401,8 +401,8 @@ export class RegisterComponent implements OnInit {
       partyfrequency: this.opinionGroup.get("partyfrequency").value,
       favouriteparty: this.opinionGroup.get("favouriteparty").value,
       festivalfrequency: this.opinionGroup.get("festivalfrequency").value,
-      favouritefestivals: this.opinionGroup.get("favouritefestivals").value
-      // avatar = this.avatarext
+      favouritefestivals: this.opinionGroup.get("favouritefestivals").value,
+      avatarUrl : this.member.avatarUrl
     };
     if (this.memberService.getUser() && this.memberService.getUserId()) {
       console.log("updating ", updateMember);

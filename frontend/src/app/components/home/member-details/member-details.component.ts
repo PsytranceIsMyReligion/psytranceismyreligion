@@ -36,7 +36,9 @@ export class MemberDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((message: Message) => {
       console.log('message', message);
-      this.memberService.messageMember(message);
+      this.memberService.messageMember(message).subscribe((res) => {
+        console.log('message res', res)
+      })
 
     })
   }

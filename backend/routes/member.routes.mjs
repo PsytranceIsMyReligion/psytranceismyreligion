@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import multer from "multer";
 import Member from "../models/member";
 import _ from "lodash";
+import nodemailer from 'nodemailer';
+import smtpTransport from 'nodemailer-smtp-transport';
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './images');
@@ -25,9 +27,6 @@ const storage = multer.diskStorage({
 const uploader = multer({
     storage: storage
 });
-
-
-
 
 router.route("/landingpagestats").get((req, res) => {
     Member.countDocuments((err, count) => {
@@ -73,8 +72,8 @@ router.route("/bysocialid/:id").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    let member = new Member(req.body);
-    karmicKudosCheck(member, req.body.referer, false);
+    let member = new Member(req.body.member);
+    karmicKudosCheck(member, req.body.member.referer, false);
     member
         .save()
         .then(member => {
@@ -88,10 +87,10 @@ router.route("/add").post((req, res) => {
 
 
 router.route("/update/:id").post((req, res, next) => {
+    // console.log('updating ', req.body.member.uname)
+    let member = new Member(req.body.member);
 
-    let member = new Member(req.body);
-
-    karmicKudosCheck(member, req.body.referer, true);
+    karmicKudosCheck(member, req.body.member.referer, true);
     if (!mongoose.Types.ObjectId.isValid(member.referer)) {
         member.referer = mongoose.Types.ObjectId();
     }
@@ -119,7 +118,7 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
     Member.findOneAndUpdate({
         _id: req.body.id
     }, {
-        avatarUrl: process.env.NODE_ENV === "production" ? `http://www.psytranceismyreligion.com:3001/${req.files[0].filename}` : `http://localhost:3000/images/${req.files[0].filename}`
+        avatarUrl: `http://www.psytranceismyreligion.com:3001/${req.files[0].filename}`
     }, {
         new: true,
         upsert: false
@@ -130,8 +129,9 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
     });
 });
 
-router.route("/message").post((req, res) => {
-    console.log('received message ', req.body);
+router.route("/message/:id").post((req, res) => {
+    // console.log('received message ', req.body.message);
+    sendMessage(req.body.message);
     res.status(200);
 });
 
@@ -139,7 +139,6 @@ router.route("/message").post((req, res) => {
 function karmicKudosCheck(member, referer, updateMode) {
     if (updateMode && member.referer) {
         Member.findById(member._id).populate('referer').exec((err, checkMember) => {
-            console.log(checkMember);
             if (!checkMember.referer) {
                 updateKarmicKudos(referer);
             };
@@ -164,6 +163,30 @@ function updateKarmicKudos(referer) {
         });
     }
 
+}
+
+async function sendMessage(message) {
+    let transporter = nodemailer.createTransport(smtpTransport({
+        service: 'gmail',
+        auth: {
+            user: 'psytranceismyreligion@googlemail.com',
+            pass: process.env.SMTP_PWD
+        }
+    }));
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+        from: '"Psytrance Is My Religion" <psytranceismyreligion@gmail.com>',
+        to: message.receiver.email,
+        subject: 'Message from Psytrance Is My Religion member ' + message.createdBy.uname + ': ' + message.title,
+        html: message.content
+    });
+    console.log('Message sent: %s', info.messageId);
+    let copy = await transporter.sendMail({
+        from: '"Psytrance Is My Religion" <psytranceismyreligion@gmail.com>',
+        to: message.createdBy.email,
+        subject: 'Your copy of message to Psytrance Is My Religion member ' + message.createdBy.uname + ': ' + message.title,
+        html: message.content
+    });
 }
 
 export default router;
