@@ -13,7 +13,7 @@
         <span class="video-meta">
           <img mat-card-avatar (click)="navigateToMember(video.createdBy._id)" [src]="video.createdBy.avatarUrl" />
           Uploaded by {{ video.createdBy.uname }}
-          {{ video.createdAt | date : 'shortDate' : localeId }}
+          {{ video.createdAt | date : 'mediumDate' :  '+0000' : localeId }}
         </span>
       </mat-card-title>
       <mat-card-content>

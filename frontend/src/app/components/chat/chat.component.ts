@@ -13,6 +13,7 @@ import {
 import moment from "moment";
 import { Member } from "src/app/models/member.model";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { Angulartics2 } from "angulartics2";
 
 @Component({
   providers: [ChatService],
@@ -40,7 +41,9 @@ export class ChatComponent {
   constructor(
     private svc: ChatService,
     private memberService: MemberService,
-    private deviceDetectorService: DeviceDetectorService
+    private deviceDetectorService: DeviceDetectorService,
+    private angulartics2: Angulartics2
+
   ) {
     this.user.name = this.memberService.getUser().uname;
     this.user.avatarUrl = this.memberService.getUser().avatarUrl;
@@ -89,5 +92,9 @@ export class ChatComponent {
   public sendMessage(e: SendMessageEvent): void {
     this.local.next(e.message);
     this.svc.sendMessage(e.message);
+    this.angulartics2.eventTrack.next({ 
+      action: 'ChatAction', 
+      properties: { sender: e.message.author.name },
+    });
   }
 }

@@ -2,7 +2,7 @@ import { WallResolve } from "./resolvers/wall.resolve";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { environment } from "./../environments/environment";
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, LOCALE_ID } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import {
   HttpClientModule,
@@ -84,9 +84,14 @@ import { UploadModule } from "@progress/kendo-angular-upload";
 import { FilterPipeModule } from "ngx-filter-pipe";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { MessageDialogComponent } from "./components/home/member-details/message-dialog/message-dialog.component";
+import { LocaleService } from "./services/locale.service";
+import { registerLocaleData } from "@angular/common";
+import { Angulartics2Module } from "angulartics2";
 
+import localeGB from "@angular/common/locales/en-GB";
 const env = environment;
 const socketConfig: SocketIoConfig = { url: env.baseUri, options: {} };
+registerLocaleData(localeGB, "en");
 
 const config = new AuthServiceConfig([
   {
@@ -144,6 +149,7 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    Angulartics2Module.forRoot(),
     SocketIoModule.forRoot(socketConfig),
     ToastrModule.forRoot({
       timeOut: 5000,
@@ -190,13 +196,12 @@ export function tokenGetter() {
       config: {
         tokenGetter: tokenGetter,
         whitelistedDomains: [env.baseUri],
-        blacklistedRoutes: [env.baseUri + "/api/auth"]
+        blacklistedRoutes: [env.baseUri + "/auth"]
       }
     }),
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES, { onSameUrlNavigation: "reload" })
   ],
-
   providers: [
     AuthGuard,
     LandingGuard,
@@ -206,6 +211,13 @@ export function tokenGetter() {
     RegisterResolve,
     WatchResolve,
     WallResolve,
+    {
+      useFactory: (localeService: LocaleService) => {
+        return localeService.getUsersLocale();
+      },
+      provide: LOCALE_ID,
+      deps: [LocaleService]
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

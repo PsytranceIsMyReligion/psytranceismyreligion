@@ -64,7 +64,6 @@ export class HomeComponent implements OnInit {
 
   updateFocusedMember(member: Member) {
     const location = new google.maps.LatLng(member.lat, member.long);
-    console.log('update', this.map)
     let marker = new google.maps.Marker({
       position: location,
       map: this.map

@@ -16,7 +16,7 @@ export class TokenService {
    }
 
   login(user: User): Observable<boolean> {
-    return this.http.post(`${baseUri}/api/auth`, {id: user.id, name : user.name })
+    return this.http.post(`${baseUri}/auth`, {id: user.id, name : user.name })
       .pipe(
         map(result => {
           localStorage.setItem('access_token', result['token']);

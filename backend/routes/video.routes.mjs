@@ -28,7 +28,6 @@ router.route("/add").post((req, res) => {
 })
 
 router.route("/update/:id").post((req, res, next) => {
-  let video = new Video(req.body);
   Video
     .findOneAndUpdate({
       _id: req.params.id
@@ -41,7 +40,7 @@ router.route("/update/:id").post((req, res, next) => {
       }
     }, {
       new: true
-    }, (err, post) => {
+    }, (err, video) => {
       res.status(200).json(video);
     })
     .catch(err => {

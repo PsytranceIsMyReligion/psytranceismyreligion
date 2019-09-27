@@ -25,6 +25,11 @@ mat-form-field {
   max-height: 300px;
 }
 
+::ng-deep .ck.ck-media-form {
+  position: relative;
+  left: 3px;
+}
+
 @media only screen and (min-width: 1224px) {
   ::ng-deep .ck-editor__editable_inline {
     min-height: 400px;
@@ -36,5 +41,7 @@ mat-form-field {
     min-height: 200px;
     max-height: 300px;
   }
+
+
 
 }

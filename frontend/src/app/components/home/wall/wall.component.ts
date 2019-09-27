@@ -1,3 +1,4 @@
+import { Angulartics2 } from 'angulartics2';
 import { DeviceDetectorService } from "ngx-device-detector";
 import { environment } from "./../../../../environments/environment.prod";
 import { MemberService } from "./../../../services/member.service";
@@ -64,7 +65,8 @@ export class WallComponent implements OnInit {
     private toastrService: ToastrService,
     private deviceDetectorService: DeviceDetectorService,
     @Inject(LOCALE_ID) protected localeId: string,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private angulartics2: Angulartics2,
   ) {
     this.isMobile = this.deviceDetectorService.isMobile();
   }
@@ -117,6 +119,10 @@ export class WallComponent implements OnInit {
             this.wall$.next([res, ...this.wallData]);
             this.toastrService.success("Story created!", "OK", {
               timeOut: 2000
+            });
+            this.angulartics2.eventTrack.next({ 
+              action: 'NewWallPostAction', 
+              properties: { author: updatePost.createdBy.uname },
             });
           });
       } else {

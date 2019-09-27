@@ -23,7 +23,7 @@
       <br />Living in {{ selectedMember.location }}
       <br /> Member Type : {{ selectedMember.membertypeDisplay }}
       <br />Into Psytrance since {{ selectedMember.startyear }}
-      <br /> Joined {{ selectedMember.createdAt | date : 'shortDate' : localeId }}
+      <br /> Joined {{ selectedMember.createdAt | date : 'mediumDate' :  '+0000' : localeId }}
       <br />
       <br /> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
       <br /> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
@@ -38,14 +38,14 @@
           <br *ngIf="selectedMember.favouritefestivals.length > 0" />
         </span>
       </span>
-      <br *ngIf="selectedMember.favouritefestivals" />
+      <br *ngIf="selectedMember.musictype" />
       <span *ngIf="selectedMember.musictype.length > 0">Favourite Music Genres:
         <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">,
           </span>
         </span>
         <br *ngIf="selectedMember.musictype.length > 0" />
       </span>
-      <br *ngIf="selectedMember.musictype.length > 0" />
+      <br *ngIf="selectedMember.favouriteartists.length > 0" />
       <span *ngIf="selectedMember.favouriteartists.length > 0">Favourite Artists:
         <span *ngFor="let type of selectedMember.favouriteartists; let last = last;">{{ type.name }}<span
             *ngIf="!last">,

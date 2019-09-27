@@ -21,10 +21,10 @@
       </kendo-window>
       <br />
       <div fxLayoutAlign="center center" class="login-buttons">
-        <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithFB()">
+        <button mat-raised-button color="primary" angulartics2On="click" angularticsAction="FBLogonClick" [hidden]="user" (click)="signInWithFB()">
           Sign in / Register with Facebook
         </button>
-        <button mat-raised-button color="primary" [hidden]="user" (click)="signInWithGoogle()">
+        <button mat-raised-button color="primary" angulartics2On="click" angularticsAction="GoogleLogonClick" [hidden]="user" (click)="signInWithGoogle()">
           Sign in / Register with Google
         </button>
       </div>

@@ -1,3 +1,4 @@
+import { Angulartics2 } from 'angulartics2';
 import { Router, ActivatedRoute } from "@angular/router";
 import { MemberService } from "./../../../services/member.service";
 import { Component, OnInit, Input } from "@angular/core";
@@ -21,7 +22,8 @@ export class MemberSelectorComponent {
     private memberService: MemberService,
     private deviceDetectorService: DeviceDetectorService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private angulartics2: Angulartics2
   ) {
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.isMobile = this.deviceDetectorService.isMobile();
@@ -29,6 +31,10 @@ export class MemberSelectorComponent {
 
   focusMember(member) {
     this.selectedMember$.next(member);
+    this.angulartics2.eventTrack.next({ 
+      action: 'FocusMemberAction', 
+      properties: { member: member.uname },
+    });
   }
 
   focusOnMap(member) {

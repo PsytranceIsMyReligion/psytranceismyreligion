@@ -25,6 +25,7 @@ export class MemberDetailsComponent implements OnInit {
   ) {
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.isMobile = this.deviceDetectorService.isMobile();
+    console.log("localeId", localeId);
   }
 
   ngOnInit() {}
@@ -41,7 +42,7 @@ export class MemberDetailsComponent implements OnInit {
       if (message.content) {
         this.memberService.messageMember(message).subscribe(res => {
           this.toastrService.success(
-            "Successfully sent message to " + message.receiver.uname,
+            `Successfully sent message to ${message.receiver.uname}. A copy has been sent to you too.`,
             "OK",
             { timeOut: 2000 }
           );

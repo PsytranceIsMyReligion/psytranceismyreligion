@@ -20,7 +20,7 @@ import {
   refCount
 } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Member, Message } from "../models/member.model";
+import { Member, Message, StaticData } from "../models/member.model";
 import { environment } from "../../environments/environment";
 import countries from "../../assets/static-data/countries.json";
 import dropdowns from "../../assets/static-data/dropdowns.json";
@@ -138,6 +138,9 @@ export class MemberService implements OnInit {
       member.membertype
     );
     member.age = this.calculateAge(member.birthyear);
+    member.favouriteartists = member.favouriteartists.sort((a,b)=> {return a.name.localeCompare(b.name)});
+    member.favouritefestivals = member.favouritefestivals.sort((a,b)=> {return a.name.localeCompare(b.name)});
+    member.musictype = member.musictype.sort((a,b)=> {return a.name.localeCompare(b.name)});
     return member;
   }
 

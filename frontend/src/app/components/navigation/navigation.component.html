@@ -2,16 +2,26 @@
   <mat-sidenav-container class="sidenav-content">
     <mat-sidenav #drawer mode="side" class="side-nav" opened role="navigation">
       <mat-nav-list>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="home">Home</a>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="profile/false">Profile</a>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="learn">Learn</a>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="watch">Watch</a>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="events">Events</a>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="stats">Stats</a>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="chat">Chat</a>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="home">Shop</a>
-        <a class="hvr-wobble-vertical" mat-list-item routerLink="recruit">Recruit</a>
-        <a class="hvr-wobble-vertical" mat-list-item (click)="logout()">Logout</a>
+        <a angulartics2On="click" angularticsAction="HomeClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="home">Home</a>
+        <a angulartics2On="click" angularticsAction="ProfileClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="profile/false">Profile</a>
+        <a angulartics2On="click" angularticsAction="LearnClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="learn">Learn</a>
+        <a angulartics2On="click" angularticsAction="WatchClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="watch">Watch</a>
+        <a angulartics2On="click" angularticsAction="EventsClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="events">Events</a>
+        <a angulartics2On="click" angularticsAction="StatsClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="stats">Stats</a>
+        <a angulartics2On="click" angularticsAction="ChatClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="chat">Chat</a>
+        <a angulartics2On="click" angularticsAction="ShopClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="home">Shop</a>
+        <a angulartics2On="click" angularticsAction="RecruitClick" class="hvr-wobble-vertical" mat-list-item
+          routerLink="recruit">Recruit</a>
+        <a angulartics2On="click" angularticsAction="LogoutClick" class="hvr-wobble-vertical" mat-list-item
+          (click)="logout()">Logout</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

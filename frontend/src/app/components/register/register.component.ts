@@ -1,3 +1,4 @@
+import { Angulartics2 } from 'angulartics2';
 import { StaticData } from "./../../models/member.model";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Member } from "../../models/member.model";
@@ -105,7 +106,8 @@ export class RegisterComponent implements OnInit {
     private toastrService: ToastrService,
     private fb: FormBuilder,
     private socialAuthService: AuthService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private angulartics2: Angulartics2
   ) {
     this.newMode =
       this.activatedRoute.snapshot.paramMap.get("mode") === "new"
@@ -192,6 +194,11 @@ export class RegisterComponent implements OnInit {
 
   async loadRegistrationForm() {
     this.member = this.memberService.getUser();
+    if(!this.member) {
+      this.angulartics2.eventTrack.next({ 
+        action: 'InitNewMemberAction', 
+      });
+    }
     if (this.member) {
       this.socialid = this.member.socialid;
       this.basicInfoGroup.get("uname").setValue(this.member.uname);
@@ -410,6 +417,10 @@ export class RegisterComponent implements OnInit {
         .updateMember(this.memberService.getUserId(), updateMember)
         .subscribe(result => {
           console.log("returned member", updateMember);
+          this.angulartics2.eventTrack.next({ 
+            action: 'UpdateMemberAction', 
+            properties: { member : updateMember.uname },
+          });
           this.memberService.saveMemberToLocalStorage(updateMember, false);
           this.toastrService
             .success("Successfully updated", "OK", { timeOut: 2000 })
@@ -424,6 +435,10 @@ export class RegisterComponent implements OnInit {
       this.memberService
         .createMember(updateMember)
         .subscribe((member: Member) => {
+          this.angulartics2.eventTrack.next({ 
+            action: 'CreateMemberAction', 
+            properties: { member : member.uname },
+          });
           this.memberService.saveMemberToLocalStorage(member, false);
           this.toastrService
             .success("Successfully created", "OK", { timeOut: 2000 })

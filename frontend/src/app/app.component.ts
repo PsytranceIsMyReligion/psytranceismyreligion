@@ -1,3 +1,4 @@
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { MemberService } from "./services/member.service";
 import { environment } from "./../environments/environment";
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
@@ -21,8 +22,11 @@ export class AppComponent implements OnDestroy, OnInit {
     private socialAuthService: AuthService,
     private tokenService: TokenService,
     private memberService: MemberService,
-    private socket: Socket
-  ) {}
+    private socket: Socket,
+    private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
+  ) {
+    angulartics2GoogleAnalytics.startTracking();
+  }
 
   env = environment;
 

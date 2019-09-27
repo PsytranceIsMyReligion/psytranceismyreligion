@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
-import jwt from "jsonwebtoken";
 import expressJwt from "express-jwt";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import secretConfig from "./secret-config";
+import authRoutes from "./routes/auth.routes";
 import memberRoutes from "./routes/member.routes";
 import videoRoutes from "./routes/video.routes";
 import staticDataRoutes from "./routes/staticdata.routes";
@@ -12,7 +11,6 @@ import wallPostRoutes from "./routes/wallpost.routes";
 import socketIO from "socket.io";
 import path from "path";
 import _ from "lodash";
-
 import {
   dirname
 } from "path";
@@ -95,13 +93,11 @@ app.use(
     secret: "psytranceismyreligion-super-secret"
   }).unless({
     path: [
-      "/api/auth",
+      "/auth",
       "/members",
       "/members/add",
       "/members/add/avatar",
       "/members/landingpagestats",
-      // "/wallposts",
-      "/videos",
       /\/members\/bysocialid\/.*/,
       /\/staticdata\/*/,
       /\/upload\/*/,
@@ -122,24 +118,13 @@ connection.once("open", () => {
   console.log("Mongo db connected");
 });
 
+app.use("/auth", authRoutes);
 app.use("/members", memberRoutes);
 app.use("/videos", videoRoutes);
 app.use("/staticdata", staticDataRoutes);
 app.use("/wallposts", wallPostRoutes);
 
-router.route("/api/auth").post((req, res) => {
-  var token = jwt.sign({
-      id: req.body.id
-    },
-    secretConfig.secret, {
-      expiresIn: 86400 // expires in 24 hours
-    }
-  );
-  // io.emit("system-message", req.body.name + " has logged on!");
-  res.status(200).send({
-    token: token
-  });
-});
+
 
 app.use("/", router);
 const server = app.listen(process.env.PORT, () =>
@@ -178,9 +163,8 @@ io.on("connection", socket => {
         socket.emit("system-message", "Welcome back " + user.uname + "!");
       }
       // isProd ?
-        loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)])
-        //  : loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
-
+      loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)])
+      //  : loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
       socket.broadcast.emit("system-message", user.uname + " has logged on!");
       socket.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
     }).bind(loggedOnUserCache));
