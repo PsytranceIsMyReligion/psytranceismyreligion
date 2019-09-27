@@ -98,17 +98,14 @@ export class LandingComponent implements OnInit {
         let location = new google.maps.LatLng(el.lat, el.long);
         let marker = new google.maps.Marker({
           position: location,
-          map: this.map,
-          title: el.uname + " " + el.fname + " " + el.lname
+          map: this.map
         });
         let marker2 = new google.maps.Marker({
           position: location,
-          map: this.map2,
-          title: el.uname + el.fname + " " + el.lname
+          map: this.map2
         });
         var infowindow = new google.maps.InfoWindow({
-          content:
-            el.fname + " " + el.lname + " thinks psytrance is " + el.psystatus
+          content: el.uname + " thinks psytrance is " + el.psystatus
         });
         marker.addListener("mouseover", () => {
           infowindow.open(this.map, marker);
@@ -117,7 +114,7 @@ export class LandingComponent implements OnInit {
           infowindow.close();
         });
         marker2.addListener("mouseover", () => {
-          infowindow.open(this.map2, marker);
+          infowindow.open(this.map2, marker2);
         });
         marker2.addListener("mouseout", () => {
           infowindow.close();
