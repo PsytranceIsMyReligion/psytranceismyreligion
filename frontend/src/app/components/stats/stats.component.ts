@@ -27,9 +27,11 @@ export class StatsComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.members = this.memberService.members$.getValue();
-    this.artists = this.activatedRoute.snapshot.data["data"].artists;
-    this.festivals = this.activatedRoute.snapshot.data["data"].festivals;
-    this.musicGenres = this.activatedRoute.snapshot.data["data"].musicGenres;
+    this.artists = this.activatedRoute.snapshot.data["staticdata"].artists;
+    this.festivals = this.activatedRoute.snapshot.data["staticdata"].festivals;
+    this.musicGenres = this.activatedRoute.snapshot.data[
+      "staticdata"
+    ].musicGenres;
     console.log("resolved", this.artists, this.festivals, this.musicGenres);
   }
 
@@ -125,6 +127,12 @@ export class StatsComponent implements OnInit {
     return this.countOf(this.allCountries, "name");
   }
 
+  buildMembersByTimeSeries() {
+    let membersByCreatedDate: any = groupBy(this.members, [
+      { field: "createdAt" }
+    ]);
+  }
+
   buildArtistByOriginSeries() {
     let artistByLocation: any = groupBy(this.artists, [{ field: "origin" }]);
     let artistCountries = [];
@@ -153,8 +161,17 @@ export class StatsComponent implements OnInit {
   buildPsyStatusSeries() {
     let psystatus = [];
     this.members.forEach(el => (psystatus = psystatus.concat(el.psystatus)));
-    console.log("stat", psystatus);
     return this.countOf(psystatus);
+  }
+
+  buildAgeSeries() {
+    let ages = this.members.map(m => m.age);
+    return ages.map(age => {
+      return {
+        age: age,
+        count: this.members.map(m => m.age == age).length
+      };
+    });
   }
 
   private countOf(items: any[], field?) {
@@ -188,16 +205,6 @@ export class StatsComponent implements OnInit {
       }
       return acc;
     }, []);
-  }
-
-  buildAgeSeries() {
-    let ages = this.members.map(m => m.age);
-    return ages.map(age => {
-      return {
-        age: age,
-        count: this.members.map(m => m.age == age).length
-      };
-    });
   }
 
   calcPercent(input: number) {

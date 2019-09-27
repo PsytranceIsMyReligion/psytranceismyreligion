@@ -38,7 +38,6 @@ export class LandingComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.memberService.members$.subscribe(mems => {
-      console.log('rece', mems)
       this.members = mems;
     });
     this.memberCount = this.route.snapshot.data["data"]["stats"]["count"];
@@ -52,24 +51,22 @@ export class LandingComponent implements OnInit {
 
     this.socialAuthService.authState.subscribe(user => {
       this.user = user;
-      // console.log("user");
+      console.log("social user", user);
       this.loggedIn = user != null;
       if (user) {
         this.memberService
           .getMemberBySocialId(user.id)
           .subscribe((member: Member) => {
-            if (!member) this.router.navigate(["register", "social"]);
+            if (!member) this.router.navigate(["/nav/register/new"]);
             else {
               this.loggedInMember = member;
-              console.log('saving member')
-              this.memberService.saveMemberToLocalStorage(member,true);
+              console.log("saving member");
+              this.memberService.saveMemberToLocalStorage(member, true);
               this.tokenService.login(user).subscribe(token => {
                 this.router.navigate(["/nav/home"]);
               });
             }
           });
-      } else {
-        // console.log("no user");
       }
     });
   }

@@ -48,7 +48,6 @@ import { WindowModule } from "@progress/kendo-angular-dialog";
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { LandingComponent } from "./components/landing/landing.component";
 import { AuthGuard } from "./guards/auth.guard";
-import { LandingGuard } from "./guards/landing.guard";
 import { ROUTES } from "./routes/app.routes";
 import { RegisterComponent } from "./components/register/register.component";
 import { MapComponent } from "./components/map/map.component";
@@ -99,11 +98,11 @@ const config = new AuthServiceConfig([
     provider: new GoogleLoginProvider(
       "793868332939-fabl9ni7mpbvg900l7rrkf1tesaunal2.apps.googleusercontent.com"
     )
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider("315354469236603")
   }
-  // {
-  //   id: FacebookLoginProvider.PROVIDER_ID,
-  //   provider: new FacebookLoginProvider("315354469236603")
-  // }
 ]);
 
 export function provideConfig() {
@@ -204,7 +203,6 @@ export function tokenGetter() {
   ],
   providers: [
     AuthGuard,
-    LandingGuard,
     MemberService,
     TokenService,
     MemberListResolve,

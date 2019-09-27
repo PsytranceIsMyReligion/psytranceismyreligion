@@ -1,7 +1,6 @@
 import { WallResolve } from "./../resolvers/wall.resolve";
 import { Routes } from "@angular/router";
 import { AuthGuard } from "../guards/auth.guard";
-import { LandingGuard } from "../guards/landing.guard";
 import { LandingComponent } from "../components/landing/landing.component";
 import { HomeComponent } from "../components/home/home.component";
 import { StatsComponent } from "../components/stats/stats.component";
@@ -19,23 +18,21 @@ export const ROUTES: Routes = [
   {
     path: "landing",
     component: LandingComponent,
-    canActivate: [LandingGuard],
     resolve: {
       data: MemberListResolve
-    }
-  },
-
-  {
-    path: "register/:mode",
-    component: RegisterComponent,
-    resolve: {
-      staticdata: RegisterResolve
     }
   },
   {
     path: "nav",
     component: NavigationComponent,
     children: [
+      {
+        path: "register/:mode",
+        component: RegisterComponent,
+        resolve: {
+          staticdata: RegisterResolve
+        }
+      },
       {
         path: "home",
         canActivate: [AuthGuard],

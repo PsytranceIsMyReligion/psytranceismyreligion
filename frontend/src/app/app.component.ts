@@ -31,13 +31,9 @@ export class AppComponent implements OnDestroy, OnInit {
   env = environment;
 
   member: Member;
-  user: SocialUser;
 
   ngOnInit() {
     this.member = this.memberService.getUser();
-    this.socialAuthService.authState.subscribe(user => {
-      this.user = user;
-    });
     this.socket.on("system-message", message => {
       console.log("system-message", message);
       if (message.trim() != "") this.toastrService.info(message);

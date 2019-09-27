@@ -55,7 +55,7 @@ router.route("/").get(async (req, res) => {
 });
 
 
-router.route("/:id").get(async(req, res) => {
+router.route("/:id").get(async (req, res) => {
   let member
   try {
     member = await Member.findByMemberId(req.params.id);
@@ -76,6 +76,7 @@ router.route("/bysocialid/:id").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
+  console.log('adding', req.body.member.uname, req.body.member._id)
   let member = new Member(req.body.member);
   karmicKudosCheck(member, req.body.member.referer, false);
   member
@@ -138,7 +139,7 @@ router.route("/message/:id").post((req, res) => {
 
 
 function karmicKudosCheck(member, referer, updateMode) {
-  if (updateMode && member.referer) {
+  if (updateMode && member.referer && member.referer._id) {
     Member.findById(member._id).populate('referer').exec((err, checkMember) => {
       if (!checkMember.referer) {
         updateKarmicKudos(referer);
@@ -151,10 +152,11 @@ function karmicKudosCheck(member, referer, updateMode) {
 }
 
 function updateKarmicKudos(referer) {
-  console.log('updating Karmic Kudos for: ', referer.uname)
+  console.log('updating Karmic Kudos for: ', referer._id)
+  console.log('valid', mongoose.Types.ObjectId.isValid(referer._id));
   if (referer) {
     Member.findOneAndUpdate({
-      _id: referer._id
+      _id: mongoose.Types.ObjectId(referer._id)
     }, {
       karmicKudos: referer.karmicKudos + 10
     }, {

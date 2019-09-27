@@ -1,7 +1,7 @@
 <div fxLayoutAlign="center" class="registration-container opaque-card">
   <mat-card class="registration-form">
     <mat-card-header *ngIf="avatarUrl$ | async as avatarUrl">
-      <img [hidden]="newMode" mat-card-avatar [src]="avatarUrl" />
+      <img [hidden]="newMode && !avatarUrl" mat-card-avatar [src]="avatarUrl" />
       <mat-icon mat-card-avatar [hidden]="!newMode || avatarUrl">person</mat-icon><button mat-icon-button color="accent"
         (click)="openAvatarDialog()">
         <mat-icon>edit</mat-icon>&nbsp;Edit

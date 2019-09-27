@@ -18,9 +18,9 @@
       </span>
     </mat-card-header>
     <mat-card-content>
-      {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} {{ selectedMember.age }}
-      <br /> From {{ selectedMember.origin }}
-      <br />Living in {{ selectedMember.location }}
+      {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} aged {{ selectedMember.age }}
+      <br /> From {{ selectedMember.originDisplay }}
+      <br />Living in {{ selectedMember.locationDisplay }}
       <br /> Member Type : {{ selectedMember.membertypeDisplay }}
       <br />Into Psytrance since {{ selectedMember.startyear }}
       <br /> Joined {{ selectedMember.createdAt | date : 'mediumDate' :  '+0000' : localeId }}

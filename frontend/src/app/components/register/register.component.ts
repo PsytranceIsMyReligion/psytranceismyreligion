@@ -1,4 +1,4 @@
-import { Angulartics2 } from 'angulartics2';
+import { Angulartics2 } from "angulartics2";
 import { StaticData } from "./../../models/member.model";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Member } from "../../models/member.model";
@@ -113,20 +113,24 @@ export class RegisterComponent implements OnInit {
       this.activatedRoute.snapshot.paramMap.get("mode") === "new"
         ? true
         : false;
+    this.members = this.memberService.members$.getValue();
     this.populateStaticData();
     if (!this.newMode) {
       this.referers = this.members.filter(
         el => el._id !== this.memberService.getUser()._id
       );
-    } else this.referers = this.members;
+    } else this.referers = this.members.slice();
+    console.log("referers", this.referers);
     this.avatarUrl$ = this.memberService.avatarUrl$;
   }
 
   private populateStaticData() {
     this.countries = this.memberService.getAllCountries();
-    this.artists = this.activatedRoute.snapshot.data["data"].artists;
-    this.festivals = this.activatedRoute.snapshot.data["data"].festivals;
-    this.musicGenres = this.activatedRoute.snapshot.data["data"].musicGenres;
+    this.artists = this.activatedRoute.snapshot.data["staticdata"].artists;
+    this.festivals = this.activatedRoute.snapshot.data["staticdata"].festivals;
+    this.musicGenres = this.activatedRoute.snapshot.data[
+      "staticdata"
+    ].musicGenres;
     this.musicGenreData = this.musicGenres.slice();
     this.artistData = this.artists.slice();
     this.festivalData = this.festivals.slice();
@@ -134,7 +138,6 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.members = this.memberService.members$.getValue();
     this.createForm();
     this.initializeFilters();
     if (this.newMode) this.loadSocialUserDetails();
@@ -180,8 +183,10 @@ export class RegisterComponent implements OnInit {
   }
 
   loadSocialUserDetails() {
+    console.log("loadSocialUserDetails");
     this.socialAuthService.authState.subscribe(user => {
       if (user) {
+        console.log("social user found ", user);
         this.user = user;
         this.basicInfoGroup.get("fname").setValue(this.user.firstName);
         this.basicInfoGroup.get("lname").setValue(this.user.lastName);
@@ -194,9 +199,9 @@ export class RegisterComponent implements OnInit {
 
   async loadRegistrationForm() {
     this.member = this.memberService.getUser();
-    if(!this.member) {
-      this.angulartics2.eventTrack.next({ 
-        action: 'InitNewMemberAction', 
+    if (!this.member) {
+      this.angulartics2.eventTrack.next({
+        action: "InitNewMemberAction"
       });
     }
     if (this.member) {
@@ -323,7 +328,7 @@ export class RegisterComponent implements OnInit {
     }
   }
   displayRefererFn(member) {
-    return member.uname;
+    if (member) return member.uname;
   }
 
   displayFn(country) {
@@ -374,7 +379,6 @@ export class RegisterComponent implements OnInit {
 
   updateMember() {
     let updateMember: Member = {
-      _id: this.member._id,
       uname: this.basicInfoGroup.get("uname").value,
       fname: this.basicInfoGroup.get("fname").value,
       lname: this.basicInfoGroup.get("lname").value,
@@ -409,17 +413,20 @@ export class RegisterComponent implements OnInit {
       favouriteparty: this.opinionGroup.get("favouriteparty").value,
       festivalfrequency: this.opinionGroup.get("festivalfrequency").value,
       favouritefestivals: this.opinionGroup.get("favouritefestivals").value,
-      avatarUrl : this.member.avatarUrl
+      avatarUrl: this.member
+        ? this.member.avatarUrl
+        : this.avatarUrl$.getValue()
     };
+    if (this.member) updateMember._id = this.member._id;
     if (this.memberService.getUser() && this.memberService.getUserId()) {
       console.log("updating ", updateMember);
       this.memberService
         .updateMember(this.memberService.getUserId(), updateMember)
         .subscribe(result => {
           console.log("returned member", updateMember);
-          this.angulartics2.eventTrack.next({ 
-            action: 'UpdateMemberAction', 
-            properties: { member : updateMember.uname },
+          this.angulartics2.eventTrack.next({
+            action: "UpdateMemberAction",
+            properties: { member: updateMember.uname }
           });
           this.memberService.saveMemberToLocalStorage(updateMember, false);
           this.toastrService
@@ -435,17 +442,17 @@ export class RegisterComponent implements OnInit {
       this.memberService
         .createMember(updateMember)
         .subscribe((member: Member) => {
-          this.angulartics2.eventTrack.next({ 
-            action: 'CreateMemberAction', 
-            properties: { member : member.uname },
+          this.angulartics2.eventTrack.next({
+            action: "CreateMemberAction",
+            properties: { member: member.uname }
           });
+          console.log("returned membver", member);
+          this.memberService.loadMembers();
           this.memberService.saveMemberToLocalStorage(member, false);
           this.toastrService
             .success("Successfully created", "OK", { timeOut: 2000 })
             .onHidden.subscribe(res => {
-              this.router.navigate(["home"], {
-                relativeTo: this.activatedRoute.parent
-              });
+              this.router.navigate([`nav/home/${member._id}`]);
             });
         });
     }
@@ -467,14 +474,14 @@ export class RegisterComponent implements OnInit {
       lname: ["", Validators.required],
       gender: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
-      referer: [""],
+      referer: [],
       origin: ["", Validators.required],
       location: ["", Validators.required],
       birthyear: ["", Validators.required],
       postcode: ["", Validators.required]
     });
     this.detailGroup = this.fb.group({
-      musictype: ["", Validators.required],
+      musictype: [[], Validators.required],
       membertype: ["", Validators.required],
       startyear: ["", Validators.required],
       bio: ["", Validators.required],
@@ -484,9 +491,9 @@ export class RegisterComponent implements OnInit {
     });
     this.opinionGroup = this.fb.group({
       favouriteparty: [""],
-      favouriteartists: [""],
+      favouriteartists: [[]],
       partyfrequency: ["", Validators.required],
-      favouritefestivals: [""],
+      favouritefestivals: [[]],
       festivalfrequency: ["", Validators.required],
       psystatus: ["", Validators.required],
       reason: ["", Validators.required]
@@ -645,15 +652,13 @@ export class RegisterComponent implements OnInit {
       this.memberService.addStaticData(updated).subscribe(res => {
         console.log("update res", res);
         this.festivals.push(updated);
-        this.festivals
-          .sort((a, b) => {
-            return a.name.localeCompare(b.name);
-          });
+        this.festivals.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
         this.festivalData.push(updated);
-        this.festivalData
-          .sort((a, b) => {
-            return a.name.localeCompare(b.name);
-          });
+        this.festivalData.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
         this.toastrService.success(
           "Festival added! You can now select it.",
           "Success",

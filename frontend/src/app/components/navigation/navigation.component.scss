@@ -29,11 +29,14 @@
 }
 
 
-
 @media only screen and (min-width: 1224px) {
   .top-container {
     height: 100%;
     padding-top: 80px;
+  }
+
+  .mat-drawer {
+    left: -1px;
   }
 
   .sidenav-content {
@@ -45,11 +48,20 @@
     justify-content: left;
   }
 
+  .sidenav-content.newMode {
+    background-image: linear-gradient(red, yellow);
+  }
+
   .mat-drawer-content {
     background-image: url("/assets/mainbackground.jpg");
     background-size: contain;
     overflow-y: hidden;
     overflow-x: hidden;
+    margin-left: 92px !important;
+  }
+
+  .mat-drawer-content.newMode {
+    margin-left: 0px !important;
   }
 
   ::-webkit-scrollbar {
@@ -65,4 +77,3 @@
 ::ng-deep .mat-drawer-container {
   opacity: 0.7px !important;
 }
-

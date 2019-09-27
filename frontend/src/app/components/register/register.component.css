@@ -152,6 +152,11 @@
     background-image: linear-gradient(red, yellow);
   }
 
+  ::ng-deep .mat-radio-label {
+    font-weight: normal;
+    color: #929292 !important;
+  }
+
   .mat-card-content {
     font-size: 12pt;
   }
