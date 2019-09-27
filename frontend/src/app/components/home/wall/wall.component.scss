@@ -78,6 +78,10 @@ mat-card {
   height: 80px;
 }
 
+.inner-card ::ng-deep .mat-card-header-text {
+  margin: 0!important;
+}
+
 ::ng-deep label {
   font-weight: normal;
 }

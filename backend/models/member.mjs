@@ -115,7 +115,7 @@ let MemberSchema = new Schema({
   }
 });
 
-MemberSchema.statics.findById = function(id) {
+MemberSchema.statics.findMemberById = function(id) {
   return this.findById(id).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals');
 };
 

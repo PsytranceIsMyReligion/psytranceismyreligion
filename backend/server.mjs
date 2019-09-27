@@ -11,6 +11,8 @@ import wallPostRoutes from "./routes/wallpost.routes";
 import socketIO from "socket.io";
 import path from "path";
 import _ from "lodash";
+import Member from "./models/member";
+import LoginRecord from "./models/loginrecord";
 import {
   dirname
 } from "path";
@@ -155,7 +157,7 @@ io.on("connection", socket => {
 
 
   socket.on("get-logged-on-users", (null,
-    (user) => {
+    async (user) => {
       if (user._id && loggedOnUserCache.get("users").filter(u => u._id == user._id).length > 0) {
         socket.emit("system-message", "Welcome back " + user.uname + "! There are " +
           loggedOnUserCache.get("users").length > 1 ? loggedOnUserCache.get("users").length + " other members online. Why not say Hello? " : "");
@@ -165,17 +167,28 @@ io.on("connection", socket => {
       // isProd ?
       loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)])
       //  : loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
+
+      Member.logon(user);
+      let loginRecord = new LoginRecord({
+        memberId: user._id
+      });
+      loginRecord = await loginRecord.save();
+      socket.emit("login-record", loginRecord);
       socket.broadcast.emit("system-message", user.uname + " has logged on!");
       socket.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
     }).bind(loggedOnUserCache));
 
-  socket.on("logoff", (null, (member) => {
-    isProd ? loggedOnUserCache.set("users", [...loggedOnUserCache.get("users").filter(el => el != member._id)]) :
-      loggedOnUserCache.set("users", [...loggedOnUserCache.get("users")]);
+  socket.on("logoff", (null, async (loginRecord) => {
+    if (loginRecord) {
+      loginRecord = await LoginRecord.logoff(loginRecord);
+      console.log("logging off user - record", loginRecord);
+      isProd ? loggedOnUserCache.set("users", [...loggedOnUserCache.get("users").filter(el => el != loginRecord.memberId)]) :
+        loggedOnUserCache.set("users", [...loggedOnUserCache.get("users")]);
 
-
-    if (member) {
-      socket.broadcast.emit("system-message", member.uname + " logged off");
+      let member = await Member.findMemberById(loginRecord.memberId);
+      if (member) {
+        socket.broadcast.emit("system-message", member.uname + " logged off");
+      }
     }
   }).bind(loggedOnUserCache));
 

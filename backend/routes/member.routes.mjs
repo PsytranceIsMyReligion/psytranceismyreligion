@@ -52,25 +52,18 @@ router.route("/").get(async (req, res) => {
     return res.status(500).send()
   }
   res.json(allMembers);
-  // Member.find({}).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals').sort({
-  //   'createdAt': 'desc'
-  // })
-
-  // Member.getAll().exec((err, docs) => {
-  //   if (err) {
-  //     console.error(err);
-  //     res.status(400).send("Failed to get members", err);
-  //   } else res.json(docs);
-  // });
 });
 
 
-router.route("/:id").get((req, res) => {
-  // Member.findById(req.params.id).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals').exec((err, docs) => {
-  Member.findById(req.params.id).exec((err, docs) => {
-    if (err) res.status(400).send("Failed to get member");
-    else res.json(docs);
-  });
+router.route("/:id").get(async(req, res) => {
+  let member
+  try {
+    member = await Member.findByMemberId(req.params.id);
+  } catch (err) {
+    logger.error('Http error', err)
+    return res.status(500).send()
+  }
+  res.json(member);
 });
 
 router.route("/bysocialid/:id").get((req, res) => {
@@ -98,9 +91,7 @@ router.route("/add").post((req, res) => {
 
 
 router.route("/update/:id").post((req, res, next) => {
-  // console.log('updating ', req.body.member.uname)
   let member = new Member(req.body.member);
-
   karmicKudosCheck(member, req.body.member.referer, true);
   if (!mongoose.Types.ObjectId.isValid(member.referer)) {
     member.referer = mongoose.Types.ObjectId();

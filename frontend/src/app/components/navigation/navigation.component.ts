@@ -22,9 +22,10 @@ export class NavigationComponent implements OnInit {
 
   logout() {
     this.socialAuthService.signOut();
-    this.socket.emit("logoff", this.memberService.getUser());
+    console.log("logging off with ",  JSON.parse(sessionStorage.getItem("login-record")))
+    this.socket.emit("logoff", JSON.parse(sessionStorage.getItem("login-record")));
     sessionStorage.removeItem("member");
     this.tokenService.logout();
-    this.router.navigate(['/landing'])
+    this.router.navigate(["/landing"]);
   }
 }
