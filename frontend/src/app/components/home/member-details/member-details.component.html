@@ -24,6 +24,7 @@
       <br /> Member Type : {{ selectedMember.membertypeDisplay }}
       <br />Into Psytrance since {{ selectedMember.startyear }}
       <br /> Joined {{ selectedMember.createdAt | date : 'mediumDate' :  '+0000' : localeId }}
+      <span *ngIf="selectedMember.referer"><br /> Referered by {{ selectedMember.referer.uname }}</span>
       <br />
       <br /> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
       <br /> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
