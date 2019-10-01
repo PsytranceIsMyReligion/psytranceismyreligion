@@ -13,10 +13,9 @@ import path from "path";
 import _ from "lodash";
 import Member from "./models/member";
 import LoginRecord from "./models/loginrecord";
+import forceHTTPS from './utils';
 import https from 'https';
 import fs from 'fs';
-import forceHTTPS from './utils';
-
 
 
 import {
@@ -37,12 +36,17 @@ const __dirname = dirname(fileURLToPath(
 const isProd = process.env.NODE_ENV === "production";
 console.log("isProduction?", isProd);
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
 dotenv.config({
   path: resolve(__dirname, ".env")
 });
 console.log('__dirname', __dirname);
 const app = express();
+
 const router = express.Router();
 
 
@@ -75,7 +79,8 @@ app.use(
       "http://www.psytranceismyreligion.com",
       "http://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
       "https://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
-      "https://www.psytranceismyreligion.com"
+      "https://www.psytranceismyreligion.com",
+      "https://psytranceismyreligion.com"
     ]
   })
 );
@@ -103,15 +108,14 @@ app.use(
     secret: "psytranceismyreligion-super-secret"
   }).unless({
     path: [
-      "/auth",
-      "/members",
-      "/members/add",
-      "/members/add/avatar",
-      "/members/landingpagestats",
-      /\/members\/bysocialid\/.*/,
-      /\/staticdata\/*/,
-      /\/upload\/*/,
-
+      "/api/auth",
+      "/api/members",
+      "/api/members/add",
+      "/api/members/add/avatar",
+      "/api/members/landingpagestats",
+      /\/api\/members\/bysocialid\/.*/,
+      /\/api\/staticdata\/*/,
+      /\/api\/upload\/*/,
     ]
   })
 );
@@ -131,11 +135,11 @@ connection.once("open", () => {
   console.log("Mongo db connected");
 });
 
-app.use("/auth", authRoutes);
-app.use("/members", memberRoutes);
-app.use("/videos", videoRoutes);
-app.use("/staticdata", staticDataRoutes);
-app.use("/wallposts", wallPostRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/members", memberRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/staticdata", staticDataRoutes);
+app.use("/api/wallposts", wallPostRoutes);
 
 
 
@@ -144,11 +148,16 @@ const server = app.listen(process.env.PORT, () =>
   console.log("express server running on port " + process.env.PORT)
 );
 
-
+const secureServer = https.createServer({
+  key: fs.readFileSync(isProd ? process.env.SSL_KEY_PATH_PROD : process.env.SSL_KEY_PATH_DEV),
+  cert: fs.readFileSync(isProd ? process.env.SSL_CRT_PATH_PROD : process.env.SSL_CRT_PATH_DEV)
+});
 
 /////////////////////    Socket IO Config ////////////////////////
 
-const io = socketIO(server);
+const io = socketIO(isProd ? secureServer : server, {
+  origins: '*:*'
+});
 
 const connections = new Set();
 

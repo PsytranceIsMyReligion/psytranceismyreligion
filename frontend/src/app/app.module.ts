@@ -4,7 +4,11 @@ import { environment } from "./../environments/environment";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, LOCALE_ID } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from "@angular/common/http";
+import {
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+  HttpClient
+} from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HomeComponent } from "./components/home/home.component";
@@ -36,7 +40,10 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { JwtModule } from "@auth0/angular-jwt";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
-import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from "angularx-social-login";
 import { WindowModule } from "@progress/kendo-angular-dialog";
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 
@@ -84,7 +91,10 @@ import { Angulartics2Module } from "angulartics2";
 
 import localeGB from "@angular/common/locales/en-GB";
 const env = environment;
-const socketConfig: SocketIoConfig = { url: env.baseUri, options: {} };
+const socketConfig: SocketIoConfig = {
+  url: env.baseUri,
+  options: { rejectUnauthorized: false }
+};
 registerLocaleData(localeGB, "en");
 
 const config = new AuthServiceConfig([
