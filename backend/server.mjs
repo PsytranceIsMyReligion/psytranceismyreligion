@@ -193,7 +193,6 @@ io.on("connection", socket => {
   socket.on("logoff", (null, async (loginRecord) => {
     if (loginRecord) {
       loginRecord = await LoginRecord.logoff(loginRecord);
-      console.log("logging off user - record", loginRecord);
       isProd ? loggedOnUserCache.set("users", [...loggedOnUserCache.get("users").filter(el => el != loginRecord.memberId)]) :
         loggedOnUserCache.set("users", [...loggedOnUserCache.get("users")]);
 

@@ -152,9 +152,9 @@ function karmicKudosCheck(member, referer, updateMode) {
 }
 
 function updateKarmicKudos(referer) {
-  console.log('updating Karmic Kudos for: ', referer._id)
-  console.log('valid', mongoose.Types.ObjectId.isValid(referer._id));
   if (referer) {
+    console.log('updating Karmic Kudos for: ', referer._id)
+    console.log('valid', mongoose.Types.ObjectId.isValid(referer._id));
     Member.findOneAndUpdate({
       _id: mongoose.Types.ObjectId(referer._id)
     }, {
