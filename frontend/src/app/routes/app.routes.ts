@@ -58,7 +58,7 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
         component: RegisterComponent,
         resolve: {
-          data: RegisterResolve
+          staticdata: RegisterResolve
         }
       },
       {
@@ -78,21 +78,13 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
         component: StatsComponent,
         resolve: {
-          data: RegisterResolve
+          staticdata: RegisterResolve
         }
       },
       {
         path: "recruit",
         canActivate: [AuthGuard],
         component: RecruitComponent
-      },
-      {
-        path: "edit/:id",
-        canActivate: [AuthGuard],
-        component: RegisterComponent,
-        resolve: {
-          data: RegisterResolve
-        }
       }
     ]
   },
