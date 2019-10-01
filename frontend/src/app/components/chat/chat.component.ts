@@ -5,11 +5,7 @@ import { Component } from "@angular/core";
 import { Subject, from, merge, Observable, of, BehaviorSubject } from "rxjs";
 import { filter, map, scan, tap, switchMap } from "rxjs/operators";
 import _ from "lodash";
-import {
-  Message,
-  User,
-  SendMessageEvent
-} from "@progress/kendo-angular-conversational-ui";
+import { Message, User, SendMessageEvent } from "@progress/kendo-angular-conversational-ui";
 import moment from "moment";
 import { Member } from "src/app/models/member.model";
 import { DeviceDetectorService } from "ngx-device-detector";
@@ -43,7 +39,6 @@ export class ChatComponent {
     private memberService: MemberService,
     private deviceDetectorService: DeviceDetectorService,
     private angulartics2: Angulartics2
-
   ) {
     this.user.name = this.memberService.getUser().uname;
     this.user.avatarUrl = this.memberService.getUser().avatarUrl;
@@ -56,9 +51,7 @@ export class ChatComponent {
     };
     this.loggedOnMembers$ = this.memberService.loggedOnMembers$;
     this.chatHeaderInfo$ = new BehaviorSubject(
-      "We have " +
-        this.memberService.loggedOnMembers$.getValue().length +
-        " Logged on Members"
+      "We have " + this.memberService.loggedOnMembers$.getValue().length + " Logged on Members"
     );
     this.feed$ = merge(
       from([hello]),
@@ -92,9 +85,9 @@ export class ChatComponent {
   public sendMessage(e: SendMessageEvent): void {
     this.local.next(e.message);
     this.svc.sendMessage(e.message);
-    this.angulartics2.eventTrack.next({ 
-      action: 'ChatAction', 
-      properties: { sender: e.message.author.name },
+    this.angulartics2.eventTrack.next({
+      action: "ChatAction",
+      properties: { sender: e.message.author.name }
     });
   }
 }

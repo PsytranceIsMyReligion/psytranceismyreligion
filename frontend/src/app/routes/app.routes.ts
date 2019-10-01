@@ -22,6 +22,10 @@ export const ROUTES: Routes = [
       data: MemberListResolve
     }
   },
+  // {
+  //   path: "landing",
+  //   loadChildren: () => import(`../components/landing/landing.module`).then(m => m.LandingModule)
+  // },
   {
     path: "nav",
     component: NavigationComponent,
