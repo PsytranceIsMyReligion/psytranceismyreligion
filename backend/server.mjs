@@ -13,6 +13,12 @@ import path from "path";
 import _ from "lodash";
 import Member from "./models/member";
 import LoginRecord from "./models/loginrecord";
+import https from 'https';
+import fs from 'fs';
+import forceHTTPS from './utils';
+
+
+
 import {
   dirname
 } from "path";
@@ -66,8 +72,10 @@ app.use(
     origin: [
       "http://localhost:4200",
       "http://localhost:3000",
-      "http://ec2-3-8-187-23.eu-west-2.compute.amazonaws.com:3000",
-      "http://www.psytranceismyreligion.com"
+      "http://www.psytranceismyreligion.com",
+      "http://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
+      "https://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
+      "https://www.psytranceismyreligion.com"
     ]
   })
 );
@@ -107,7 +115,10 @@ app.use(
     ]
   })
 );
-
+if (isProd) {
+  console.log('forcing use of https');
+  app.use(forceHTTPS());
+}
 let dbUrl = process.env.NODE_ENV === "production" ? process.env.DB_HOST_PROD : process.env.DB_HOST_DEV;
 console.log("Loading environment " + process.env.NODE_ENV);
 console.log("connecting to " + dbUrl);
@@ -132,6 +143,7 @@ app.use("/", router);
 const server = app.listen(process.env.PORT, () =>
   console.log("express server running on port " + process.env.PORT)
 );
+
 
 
 /////////////////////    Socket IO Config ////////////////////////
