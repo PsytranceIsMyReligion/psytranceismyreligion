@@ -628,6 +628,7 @@ export class RegisterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async avatars => {
       if (!avatars) return;
+      console.log('returned avatars ', avatars);
       let newAvatar = (await toBase64(avatars[0].rawFile)) as string;
       this.memberService.avatarUrl$.next(newAvatar);
       this.member.avatarUrl = newAvatar;

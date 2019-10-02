@@ -1,6 +1,5 @@
 import { WallResolve } from "./resolvers/wall.resolve";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
-import { environment } from "./../environments/environment";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, LOCALE_ID } from "@angular/core";
 import { RouterModule } from "@angular/router";
@@ -90,11 +89,16 @@ import { registerLocaleData } from "@angular/common";
 import { Angulartics2Module } from "angulartics2";
 
 import localeGB from "@angular/common/locales/en-GB";
-const env = environment;
+import { environment } from "./../environments/environment";
 const socketConfig: SocketIoConfig = {
-  url: env.baseUri,
-  options: { rejectUnauthorized: false }
+  url: environment.baseUri,
+  options: {
+    rejectUnauthorized: false,
+    transports: ["websocket"],
+    reconnectionAttempts: "Infinity"
+  }
 };
+console.log("socketConfig", socketConfig);
 registerLocaleData(localeGB, "en");
 
 const config = new AuthServiceConfig([
@@ -199,8 +203,8 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: [env.baseUri],
-        blacklistedRoutes: [env.baseUri + "/auth"]
+        whitelistedDomains: [environment.baseUri],
+        blacklistedRoutes: [environment.baseUri + "/api/auth"]
       }
     }),
     ReactiveFormsModule,

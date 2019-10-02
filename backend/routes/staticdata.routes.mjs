@@ -36,7 +36,7 @@ router.route("/upload").post(uploader.single('upload'), (req, res) => {
             }
         });
     }
-    let imgUrl = "http://www.psytranceismyreligion.com:3001/" + file.filename;
+    let imgUrl = "http://www.psytranceismyreligion.com/images" + file.filename;
     let retVal = {
         "uploaded": true,
         "url": imgUrl

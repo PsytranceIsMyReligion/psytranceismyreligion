@@ -76,9 +76,9 @@ app.use(
     origin: [
       "http://localhost:4200",
       "http://localhost:3000",
-      "http://www.psytranceismyreligion.com",
-      "http://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
-      "https://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
+      // "http://www.psytranceismyreligion.com",
+      // "http://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
+      // "https://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
       "https://www.psytranceismyreligion.com",
       "https://psytranceismyreligion.com"
     ]
@@ -86,9 +86,7 @@ app.use(
 );
 
 
-
-// app.use(express.static("public"));
-express.static(path.join(__dirname, "public"));
+app.use('/api/public', express.static(path.join(__dirname, "public")));
 console.log("setting public folder to ", path.join(__dirname, "public"));
 app.options("*", cors());
 router.use(
@@ -108,6 +106,7 @@ app.use(
     secret: "psytranceismyreligion-super-secret"
   }).unless({
     path: [
+
       "/api/auth",
       "/api/members",
       "/api/members/add",
@@ -116,6 +115,7 @@ app.use(
       /\/api\/members\/bysocialid\/.*/,
       /\/api\/staticdata\/*/,
       /\/api\/upload\/*/,
+      /\/api\/public\/*/,
     ]
   })
 );
@@ -150,13 +150,15 @@ const server = app.listen(process.env.PORT, () =>
 
 const secureServer = https.createServer({
   key: fs.readFileSync(isProd ? process.env.SSL_KEY_PATH_PROD : process.env.SSL_KEY_PATH_DEV),
-  cert: fs.readFileSync(isProd ? process.env.SSL_CRT_PATH_PROD : process.env.SSL_CRT_PATH_DEV)
+  cert: fs.readFileSync(isProd ? process.env.SSL_CRT_PATH_PROD : process.env.SSL_CRT_PATH_DEV),
+  passphrase: process.env.HTTPS_PASSPHRASE || 'psytrance'
 });
 
 /////////////////////    Socket IO Config ////////////////////////
 
 const io = socketIO(isProd ? secureServer : server, {
-  origins: '*:*'
+  origins: '*:*',
+  transports: ['websocket']
 });
 
 const connections = new Set();

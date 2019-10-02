@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     });
     marker.setAnimation(google.maps.Animation.DROP);
     marker.setIcon(
-      "http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png"
+      "https://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png"
     );
     if (this.focusMarker) {
       this.focusMarker.setMap(null);

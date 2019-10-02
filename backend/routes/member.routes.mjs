@@ -44,6 +44,7 @@ router.route("/landingpagestats").get((req, res) => {
 });
 
 router.route("/").get(async (req, res) => {
+  console.log('getting all members');
   let allMembers
   try {
     allMembers = await Member.getAll();
@@ -118,10 +119,11 @@ router.route("/delete/:id").get((req, res) => {
 });
 
 router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
+  console.log('adding avatar', 'https://www.psytranceismyreligion.com/images/' + req.files[0].filename);
   Member.findOneAndUpdate({
     _id: req.body.id
   }, {
-    avatarUrl: `http://www.psytranceismyreligion.com:3001/${req.files[0].filename}`
+    avatarUrl: `https://www.psytranceismyreligion.com/images/${req.files[0].filename}`
   }, {
     new: true,
     upsert: false
