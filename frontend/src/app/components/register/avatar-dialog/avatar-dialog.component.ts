@@ -39,7 +39,7 @@ export class AvatarDialogComponent implements OnInit {
     event.data = {
       id : this.memberService.getUserId()
     }
-    this.dialogRef.close(event.files);
+    setTimeout(() => this.dialogRef.close(event.files), 500);
   }
 
   cancel() {

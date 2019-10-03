@@ -4,10 +4,4 @@
     "watch": false,
     "command": "node --experimental-modules",
     "script": "server.mjs"
-}, {
-    "uid": "pimr-static",
-    "append": true,
-    "watch": false,
-    "command": "node --experimental-modules",
-    "script": "static-server.mjs"
 }]

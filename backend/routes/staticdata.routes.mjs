@@ -5,7 +5,7 @@ import express from "express";
 const router = express.Router();
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './images');
+        cb(null, './public');
     },
     filename: (req, file, cb) => {
         var filetype = '';
@@ -36,7 +36,7 @@ router.route("/upload").post(uploader.single('upload'), (req, res) => {
             }
         });
     }
-    let imgUrl = "http://www.psytranceismyreligion.com/images" + file.filename;
+    let imgUrl = "https://www.psytranceismyreligion.com/api/public/" + file.filename;
     let retVal = {
         "uploaded": true,
         "url": imgUrl

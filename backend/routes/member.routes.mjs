@@ -8,7 +8,7 @@ import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './images');
+    cb(null, './public');
   },
   filename: (req, file, cb) => {
     var filetype = '';
@@ -119,11 +119,11 @@ router.route("/delete/:id").get((req, res) => {
 });
 
 router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
-  console.log('adding avatar', 'https://www.psytranceismyreligion.com/images/' + req.files[0].filename);
+  console.log('adding avatar', 'https://www.psytranceismyreligion.com/api/public/' + req.files[0].filename);
   Member.findOneAndUpdate({
     _id: req.body.id
   }, {
-    avatarUrl: `https://www.psytranceismyreligion.com/images/${req.files[0].filename}`
+    avatarUrl: `https://www.psytranceismyreligion.com/api/public/${req.files[0].filename}`
   }, {
     new: true,
     upsert: false
