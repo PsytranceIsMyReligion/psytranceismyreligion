@@ -19,7 +19,9 @@ export class AvatarDialogComponent implements OnInit {
   public submitted = false;
   uploadSaveUrl = `${environment.baseUri}/members/add/avatar`;
   public fileRestrictions: FileRestrictions = {
-    allowedExtensions: ["jpg", "jpeg", "png"]
+    allowedExtensions: ["jpg", "jpeg", "png"],
+    minFileSize: 1048576,
+    maxFileSize: 4194304
   };
 
   constructor(

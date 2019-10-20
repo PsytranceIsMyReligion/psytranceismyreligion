@@ -128,7 +128,10 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
     new: true,
     upsert: false
   }, (err, member) => {
-    if (err) throw (err);
+    if (err) {
+      console.log(err);
+      throw (err);
+    }
     else
       res.json(member);
   });
