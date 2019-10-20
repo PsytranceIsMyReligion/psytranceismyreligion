@@ -12,7 +12,6 @@ import { MatSidenav } from "@angular/material";
   styleUrls: ["./navigation.component.scss"]
 })
 export class NavigationComponent implements OnInit {
-
   isMember: boolean = false;
   constructor(
     private router: Router,
@@ -38,6 +37,8 @@ export class NavigationComponent implements OnInit {
     );
     sessionStorage.removeItem("member");
     this.tokenService.logout();
-    this.router.navigate(["/landing"]);
+    setTimeout(() => {
+      this.router.navigate(["/landing"]);
+    }, 500);
   }
 }
