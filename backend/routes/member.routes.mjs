@@ -173,6 +173,9 @@ function updateKarmicKudos(referer) {
 async function sendMessage(message) {
   let transporter = nodemailer.createTransport(smtpTransport({
     service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
       user: 'psytranceismyreligion@googlemail.com',
       pass: process.env.SMTP_PWD
