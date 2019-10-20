@@ -44,12 +44,11 @@ router.route("/landingpagestats").get((req, res) => {
 });
 
 router.route("/").get(async (req, res) => {
-  console.log('getting all members');
   let allMembers
   try {
     allMembers = await Member.getAll();
   } catch (err) {
-    logger.error('Http error', err)
+    console.error('Http error', err)
     return res.status(500).send()
   }
   res.json(allMembers);
@@ -61,7 +60,7 @@ router.route("/:id").get(async (req, res) => {
   try {
     member = await Member.findByMemberId(req.params.id);
   } catch (err) {
-    logger.error('Http error', err)
+    console.error('Http error', err)
     return res.status(500).send()
   }
   res.json(member);
@@ -131,8 +130,7 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
     if (err) {
       console.log(err);
       throw (err);
-    }
-    else
+    } else
       res.json(member);
   });
 });
