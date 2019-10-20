@@ -74,12 +74,15 @@ app.use(
   cors({
     credentials: true,
     origin: [
+      "http://127.0.0.1:3000",
       "http://localhost:4200",
       "http://localhost:3000",
-      // "http://www.psytranceismyreligion.com",
+      "http://www.psytranceismyreligion.com",
+      "https://www.psytranceismyreligion.com",
       // "http://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
       // "https://ec2-3-10-86-129.eu-west-2.compute.amazonaws.com",
       "https://www.psytranceismyreligion.com",
+      "wss://www.psytranceismyreligion.com",
       "https://psytranceismyreligion.com"
     ]
   })
@@ -106,7 +109,8 @@ app.use(
     secret: "psytranceismyreligion-super-secret"
   }).unless({
     path: [
-
+      "/api/socket.io/*",
+      "/socket.io/*",
       "/api/auth",
       "/api/members",
       "/api/members/add",
@@ -155,11 +159,14 @@ const secureServer = https.createServer({
 });
 
 /////////////////////    Socket IO Config ////////////////////////
-
-const io = socketIO(isProd ? secureServer : server, {
+const io = socketIO(server, {
   origins: '*:*',
   transports: ['websocket']
 });
+// const io = socketIO(isProd ? secureServer : server, {
+//   origins: '*:*',
+//   transports: ['websocket']
+// });
 
 const connections = new Set();
 
@@ -181,6 +188,7 @@ io.on("connection", socket => {
 
   socket.on("get-logged-on-users", (null,
     async (user) => {
+      console.log("geting logged on users");
       if (user._id && loggedOnUserCache.get("users").filter(u => u._id == user._id).length > 0) {
         socket.emit("system-message", "Welcome back " + user.uname + "! There are " +
           loggedOnUserCache.get("users").length > 1 ? loggedOnUserCache.get("users").length + " other members online. Why not say Hello? " : "");

@@ -91,7 +91,7 @@ import { Angulartics2Module } from "angulartics2";
 import localeGB from "@angular/common/locales/en-GB";
 import { environment } from "./../environments/environment";
 const socketConfig: SocketIoConfig = {
-  url: environment.baseUri,
+  url: environment.socketUri,
   options: {
     rejectUnauthorized: false,
     transports: ["websocket"],
