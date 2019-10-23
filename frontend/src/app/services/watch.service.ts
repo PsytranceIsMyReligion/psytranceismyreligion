@@ -9,8 +9,7 @@ const baseUri = environment.baseUri;
 @Injectable({
   providedIn: "root"
 })
-export class VideoService {
-
+export class WatchService {
   env: any;
 
   constructor(private http: HttpClient) {
@@ -21,14 +20,12 @@ export class VideoService {
     return this.http.get(`${baseUri}/videos`);
   }
 
-
   createVideoLink(video: Video) {
     return this.http.post(`${baseUri}/videos/add`, video);
   }
 
-
   updateVideoLink(video: Video) {
-    console.log('updating', video)
+    console.log("updating", video);
     return this.http.post(`${baseUri}/videos/update/${video._id}`, video);
   }
 

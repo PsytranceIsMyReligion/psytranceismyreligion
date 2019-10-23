@@ -106,8 +106,6 @@ app.use(
     secret: "psytranceismyreligion-super-secret"
   }).unless({
     path: [
-      // "/api/socket.io/*",
-      // "/socket.io/*",
       "/api/auth",
       "/api/members",
       "/api/members/add",

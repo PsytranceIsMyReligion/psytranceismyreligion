@@ -31,14 +31,14 @@ export class MemberSelectorComponent {
 
   focusMember(member) {
     this.selectedMember$.next(member);
-    this.angulartics2.eventTrack.next({ 
-      action: 'FocusMemberAction', 
+    this.angulartics2.eventTrack.next({
+      action: 'FocusMemberAction',
       properties: { member: member.uname },
     });
   }
 
   focusOnMap(member) {
     this.selectedMember$.next(member);
-    this.router.navigate(["home"], { relativeTo: this.route.parent });
+    this.router.navigate(["/nav/home"]);
   }
 }

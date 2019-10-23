@@ -25,6 +25,7 @@ import { environment } from "../../environments/environment";
 import countries from "../../assets/static-data/countries.json";
 import dropdowns from "../../assets/static-data/dropdowns.json";
 import { Cacheable, CacheBuster } from "ngx-cacheable";
+import { EMPTY } from "rxjs";
 const baseUri = environment.baseUri;
 const memberCacheBuster$ = new Subject<void>();
 @Injectable({
@@ -110,6 +111,18 @@ export class MemberService implements OnInit {
         });
       })
     );
+  }
+
+
+  refreshMembers(updated: Member) {
+    // let mems = this.members$.getValue();
+    // mems.forEach(mem => {
+    //   if(mem._id == updated._id)
+    //     mem = updated;
+    // });
+    // console.log('refreshing members')
+    // this.members$.next(mems);
+    // return this.http.get(`${baseUri}/members`);
   }
 
   initLoggedOnUsers() {

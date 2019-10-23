@@ -4,7 +4,9 @@ export const ROUTES: Routes = [
   {
     path: "landing",
     loadChildren: () =>
-      import(`../components/landing/module/landing.module`).then(m => m.LandingModule)
+      import("../components/landing/module/landing.module").then(
+        m => m.LandingModule
+      )
   },
   {
     path: "nav",
@@ -13,11 +15,16 @@ export const ROUTES: Routes = [
       {
         path: "register/:mode",
         loadChildren: () =>
-          import(`../components/register/module/register.module`).then(m => m.RegisterModule)
+          import("../components/register/module/register.module").then(
+            m => m.RegisterModule
+          )
       },
       {
         path: "home",
-        loadChildren: () => import(`../components/home/module/home.module`).then(m => m.HomeModule)
+        loadChildren: () =>
+          import("../components/home/module/home.module").then(
+            m => m.HomeModule
+          )
       },
       // {
       //   path: "home/:id",
@@ -26,38 +33,52 @@ export const ROUTES: Routes = [
       {
         path: "profile/:mode",
         loadChildren: () =>
-          import(`../components/register/module/register.module`).then(m => m.RegisterModule)
+          import("../components/register/module/register.module").then(
+            m => m.RegisterModule
+          )
       },
       {
         path: "watch",
         loadChildren: () =>
-          import(`../components/watch/module/watch.module`).then(m => m.WatchModule)
+          import("../components/watch/module/watch.module").then(
+            m => m.WatchModule
+          )
       },
       {
         path: "chat",
         loadChildren: () =>
-          import(`../components/chat/module/chat.module`).then(m => m.PsyChatModule)
+          import("../components/chat/module/chat.module").then(
+            m => m.PsyChatModule
+          )
       },
       {
         path: "events",
         loadChildren: () =>
-          import(`../components/events/module/events.module`).then(m => m.EventsModule)
+          import("../components/events/module/events.module").then(
+            m => m.EventsModule
+          )
       },
       {
         path: "learn",
         loadChildren: () =>
-          import(`../components/learn/module/learn.module`).then(m => m.LearnModule)
+          import("../components/learn/module/learn.module").then(
+            m => m.LearnModule
+          )
       },
 
       {
         path: "stats",
         loadChildren: () =>
-          import(`../components/stats/module/stats.module`).then(m => m.StatsModule)
+          import("../components/stats/module/stats.module").then(
+            m => m.StatsModule
+          )
       },
       {
         path: "recruit",
         loadChildren: () =>
-          import(`../components/recruit/module/recruit.module`).then(m => m.RecruitModule)
+          import("../components/recruit/module/recruit.module").then(
+            m => m.RecruitModule
+          )
       }
     ]
   },

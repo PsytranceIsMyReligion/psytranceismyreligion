@@ -39,6 +39,6 @@ export class NavigationComponent implements OnInit {
     this.tokenService.logout();
     setTimeout(() => {
       this.router.navigate(["/landing"]);
-    }, 500);
+    }, 1000);
   }
 }

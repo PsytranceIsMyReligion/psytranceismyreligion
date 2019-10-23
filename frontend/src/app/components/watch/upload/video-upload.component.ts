@@ -1,8 +1,7 @@
-import { Subject, from } from "rxjs";
+import {from } from "rxjs";
 import { MemberService } from "./../../../services/member.service";
 import { Component, OnInit, Inject, ViewChild } from "@angular/core";
 import {
-  MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA
 } from "@angular/material/dialog";
@@ -29,6 +28,7 @@ export class VideoUploadComponent implements OnInit {
 
   ngOnInit() {
     this.tagData = this.data.tags.slice();
+    console.log('data', this.data);
     this.videoGroup = this.fb.group({
       title: [this.data.video.title, Validators.required],
       description: [ this.data.video.description, Validators.required

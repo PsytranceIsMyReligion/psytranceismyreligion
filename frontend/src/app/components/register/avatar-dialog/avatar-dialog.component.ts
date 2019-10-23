@@ -4,7 +4,7 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { MemberService } from "./../../../services/member.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { FileRestrictions } from "@progress/kendo-angular-upload";
+import { FileRestrictions, SuccessEvent } from "@progress/kendo-angular-upload";
 import { FileInfo } from "@progress/kendo-angular-upload";
 import { UploadEvent, RemoveEvent } from '@progress/kendo-angular-upload';
 
@@ -21,7 +21,7 @@ export class AvatarDialogComponent implements OnInit {
   public fileRestrictions: FileRestrictions = {
     allowedExtensions: ["jpg", "jpeg", "png"],
     // minFileSize: 1048576,
-    // maxFileSize: 4194304
+    maxFileSize: 1048576  // 1MB
   };
 
   constructor(
@@ -41,7 +41,17 @@ export class AvatarDialogComponent implements OnInit {
     event.data = {
       id : this.memberService.getUserId()
     }
-    setTimeout(() => this.dialogRef.close(event.files), 500);
+    console.log('event', event)
+    // setTimeout(() => this.dialogRef.close(event.files), 1000);
+  }
+
+  successEventHandler(e: SuccessEvent) {
+    console.log('The ' + e.operation + ' was successful!');
+    this.dialogRef.close(e.files);
+  }
+
+  errorEventHandler(e: ErrorEvent) {
+    console.log('An error occurred');
   }
 
   cancel() {

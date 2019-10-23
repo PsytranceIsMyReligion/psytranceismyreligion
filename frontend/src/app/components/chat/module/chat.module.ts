@@ -8,7 +8,7 @@ import { ChatRoutingModule } from "./chat-routing.module";
 import { ChatModule } from "@progress/kendo-angular-conversational-ui";
 import { Angulartics2Module } from "angulartics2";
 import { ChatComponent } from "../chat.component";
-import { SharedModule } from "../../shared/shared.module";
+import { SharedModule } from "../../../modules/shared.module";
 
 @NgModule({
   declarations: [ChatComponent],

@@ -25,7 +25,10 @@ const storage = multer.diskStorage({
   }
 });
 const uploader = multer({
-  storage: storage
+  storage: storage,
+  limits: {
+    fileSize: 1048576
+  } // 1MB = 1024 *1024
 });
 
 router.route("/landingpagestats").get((req, res) => {

@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SharedModule } from "../../shared/shared.module";
+import { SharedModule } from "../../../modules/shared.module";
 import { ChartModule } from "@progress/kendo-angular-charts";
 import { RecruitComponent } from "../recruit.component";
 import { RecruitRoutingModule } from "./recruit-routing.module";

@@ -25,6 +25,7 @@ import { StaticDataDialogComponent } from "./staticdata-dialog/staticdata-dialog
 import { ToastrService } from "ngx-toastr";
 import { AvatarDialogComponent } from "./avatar-dialog/avatar-dialog.component";
 import { uniqueUsername } from "../../validators/unique-username.validator";
+import { globalCacheBusterNotifier } from "ngx-cacheable";
 export const MY_FORMATS = {
   parse: {
     dateInput: "YYYY"
@@ -632,6 +633,7 @@ export class RegisterComponent implements OnInit {
       let newAvatar = (await toBase64(avatars[0].rawFile)) as string;
       this.memberService.avatarUrl$.next(newAvatar);
       this.member.avatarUrl = newAvatar;
+      globalCacheBusterNotifier.next();
       this.memberService.selectedMember$.next(this.member);
       this.toastrService.success("Avatar Updated", "Info", { timeOut: 2000 });
     });

@@ -4,8 +4,8 @@
     <label style="display: block; margin: .8em 0 .2em">Avatar:</label>
     <img [src]="data" />
     <kendo-upload required formControlName="avatars" (upload)="uploadEventHandler($event)"
-      [restrictions]="fileRestrictions" [saveUrl]="uploadSaveUrl" [multiple]="false" [autoUpload]="false"
-      [(ngModel)]="avatars">
+      (error)="errorEventHandler($event)" (success)="successEventHandler($event)" [restrictions]="fileRestrictions"
+      [saveUrl]="uploadSaveUrl" [multiple]="false" [autoUpload]="false" [(ngModel)]="avatars">
     </kendo-upload>
     <!-- <p style="color: red; font-size: .8em; margin-top: .5em;"
       [hidden]="avatarGroup.controls.avatars.valid || (avatarGroup.controls.avatars.pristine && !submitted)">

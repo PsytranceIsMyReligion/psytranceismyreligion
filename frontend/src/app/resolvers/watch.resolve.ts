@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { VideoService } from '../services/video.service';
+import { WatchService } from '../services/watch.service';
 import { forkJoin } from 'rxjs';
 
 @Injectable()
 export class WatchResolve implements Resolve<any> {
 
-  constructor(private videoService: VideoService) {}
+  constructor(private watchService: WatchService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-      console.log('getting vids')
-      return  this.videoService.getAllVideoLinks();
+      return  this.watchService.getAllVideoLinks();
   }
 }
