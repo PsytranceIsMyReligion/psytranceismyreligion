@@ -26,8 +26,6 @@ import { DeviceDetectorModule } from "ngx-device-detector";
 import { StaticDataDialogComponent } from "./components/register/staticdata-dialog/staticdata-dialog.component";
 import { PostDialogComponent } from "./components/home/wall/post-dialog/post-dialog.component";
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
-import { AvatarDialogComponent } from "./components/register/avatar-dialog/avatar-dialog.component";
-import { UploadModule } from "@progress/kendo-angular-upload";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { MessageDialogComponent } from "./components/home/member-details/message-dialog/message-dialog.component";
 import { LocaleService } from "./services/locale.service";
@@ -71,20 +69,8 @@ export function tokenGetter() {
 }
 
 @NgModule({
-  entryComponents: [
-    StaticDataDialogComponent,
-    PostDialogComponent,
-    AvatarDialogComponent,
-    MessageDialogComponent
-  ],
-  declarations: [
-    AppComponent,
-    NavigationComponent,
-    StaticDataDialogComponent,
-    PostDialogComponent,
-    AvatarDialogComponent,
-    MessageDialogComponent
-  ],
+  entryComponents: [PostDialogComponent, MessageDialogComponent],
+  declarations: [AppComponent, NavigationComponent, PostDialogComponent, MessageDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -96,13 +82,10 @@ export function tokenGetter() {
       preventDuplicates: true
     }),
     SharedModule,
-    UploadModule,
     CKEditorModule,
     HttpClientModule,
     SocialLoginModule,
     AngularFontAwesomeModule,
-    ButtonsModule,
-    MatMomentDateModule,
     DeviceDetectorModule.forRoot(),
     JwtModule.forRoot({
       config: {

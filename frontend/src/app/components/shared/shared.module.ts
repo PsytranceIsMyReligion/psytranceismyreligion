@@ -32,6 +32,8 @@ import { RouterModule } from "@angular/router";
 import { FilterPipeModule } from "ngx-filter-pipe";
 import { SanitizeHtmlPipe } from "src/app/pipes/sanitize-html.pipe";
 import { MemberDetailsComponent } from "../home/member-details/member-details.component";
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { ButtonsModule } from "@progress/kendo-angular-buttons";
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { MemberDetailsComponent } from "../home/member-details/member-details.co
     MatExpansionModule,
     DropDownsModule,
     WindowModule,
-    FilterPipeModule
+    FilterPipeModule,
+    MatMomentDateModule,
+    ButtonsModule
   ],
   exports: [
     MemberSelectorComponent,
@@ -102,7 +106,9 @@ import { MemberDetailsComponent } from "../home/member-details/member-details.co
     DropDownsModule,
     WindowModule,
     FilterPipeModule,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    MatMomentDateModule,
+    ButtonsModule
   ]
 })
 export class SharedModule {}
