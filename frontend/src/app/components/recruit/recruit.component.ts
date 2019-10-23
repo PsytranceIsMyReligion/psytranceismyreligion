@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-recruit',
-  templateUrl: './recruit.component.html',
-  styleUrls: ['./recruit.component.css']
+  selector: "app-recruit",
+  templateUrl: "./recruit.component.html",
+  styleUrls: ["./recruit.component.css"]
 })
 export class RecruitComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

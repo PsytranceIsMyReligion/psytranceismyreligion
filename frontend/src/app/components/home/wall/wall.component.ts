@@ -75,6 +75,7 @@ export class WallComponent implements OnInit {
     this.wall$.subscribe(data => {
       this.wallData = data;
       this.user = this.memberService.getUser();
+      console.log('user is ', this.user)
     });
   }
 
