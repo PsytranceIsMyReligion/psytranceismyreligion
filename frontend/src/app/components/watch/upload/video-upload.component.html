@@ -9,14 +9,13 @@
       <input matInput placeholder="Video Description" formControlName="description" />
       <mat-error>Required</mat-error>
     </mat-form-field>
-    <mat-form-field class="field-full-width">
-        <input matInput style="display: none" />
-        <kendo-multiselect #tagList formControlName="tags" (onSelectionChange)="onSelectionChange($event)" [data]="tagData" [filterable]="true"
-        placeholder="Tags"
-        [allowCustom]="true">
+    <mat-form-field class="field-full-width tags">
+      <input matInput style="display: none" />
+      <kendo-multiselect #tagList formControlName="tags" (onSelectionChange)="onSelectionChange($event)"
+        [data]="tagData" [filterable]="true" placeholder="Tags" [allowCustom]="true">
       </kendo-multiselect>
-        <mat-error>Required</mat-error>
-      </mat-form-field>
+      <mat-error>Required</mat-error>
+    </mat-form-field>
     <mat-form-field class="field-full-width">
       <input matInput placeholder="YouTube Link" formControlName="value" />
       <mat-error>Required</mat-error>

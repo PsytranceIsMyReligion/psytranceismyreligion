@@ -26,7 +26,6 @@ export class NavigationComponent implements OnInit {
   }
 
   logout() {
-    this.socialAuthService.signOut();
     console.log(
       "logging off with ",
       JSON.parse(sessionStorage.getItem("login-record"))
@@ -37,8 +36,8 @@ export class NavigationComponent implements OnInit {
     );
     sessionStorage.removeItem("member");
     this.tokenService.logout();
-    setTimeout(() => {
+    this.socialAuthService.signOut().then(()=> {
       this.router.navigate(["/landing"]);
-    }, 1000);
+    });
   }
 }

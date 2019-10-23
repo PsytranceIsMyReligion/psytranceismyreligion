@@ -622,8 +622,8 @@ export class RegisterComponent implements OnInit {
 
   openAvatarDialog() {
     const dialogRef = this.dialog.open(AvatarDialogComponent, {
-      width: "300px",
-      height: "400px",
+      width: "400px",
+      height: "550px",
       data: this.memberService.avatarUrl$.getValue()
     });
 
@@ -634,7 +634,6 @@ export class RegisterComponent implements OnInit {
       this.memberService.avatarUrl$.next(newAvatar);
       this.member.avatarUrl = newAvatar;
       globalCacheBusterNotifier.next();
-      this.memberService.selectedMember$.next(this.member);
       this.toastrService.success("Avatar Updated", "Info", { timeOut: 2000 });
     });
   }
