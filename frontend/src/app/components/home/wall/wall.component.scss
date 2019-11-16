@@ -16,6 +16,9 @@
   }
 }
 
+.popup-content {
+  padding: 5px;
+}
 .post-container {
   overflow-y: scroll;
   height: inherit;
@@ -59,7 +62,11 @@ mat-card {
   }
 }
 
-
+.post-reactions {
+  display: block;
+  float: right;
+  line-height: 20px;
+}
 
 .inner-card:first {
   margin-top: 150px !important;
@@ -78,8 +85,24 @@ mat-card {
   height: 80px;
 }
 
+.comment {
+  border: 1px solid lightgray;
+  padding-left: 15px;
+  padding-top: 5px;
+}
+
+.comments-container {
+  cursor: pointer;
+}
+
+.post-comments {
+  cursor: pointer;
+  display: block;
+  float: right;
+}
+
 .inner-card ::ng-deep .mat-card-header-text {
-  margin: 0!important;
+  margin: 0 !important;
 }
 
 ::ng-deep label {
@@ -96,7 +119,7 @@ mat-card {
   }
 }
 
-::ng-deep .editor {
+::ng-deep .viewer {
   width: auto;
 }
 

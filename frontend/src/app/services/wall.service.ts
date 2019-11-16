@@ -24,6 +24,7 @@ export class WallService {
     return this.http.post(`${baseUri}/wallposts/update/${id}`, post);
   }
 
+
   deleteWallPost(id: string) {
     return this.http.get(`${baseUri}/wallposts/delete/${id}`);
   }

@@ -1,4 +1,4 @@
-import { Angulartics2 } from 'angulartics2';
+import { Angulartics2 } from "angulartics2";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { environment } from "./../../../../environments/environment.prod";
 import { MemberService } from "./../../../services/member.service";
@@ -6,10 +6,24 @@ import { PostDialogComponent } from "./post-dialog/post-dialog.component";
 import { WallPost, Member } from "./../../../models/member.model";
 import { WallService } from "./../../../services/wall.service";
 import { BehaviorSubject } from "rxjs";
-import { Component, OnInit, LOCALE_ID, Input, Inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  LOCALE_ID,
+  Input,
+  Inject,
+  ViewChild,
+  TemplateRef,
+  ViewChildren,
+  QueryList,
+  ElementRef
+} from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { MatDialog } from "@angular/material";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { findIndex } from "lodash";
+// import Emoji from "@wwalc/ckeditor5-emoji/src/emoji";
+
 const IFRAME_SRC = "//cdn.iframe.ly/api/iframe";
 const API_KEY = "f1a837d9d5c21c46096ba2";
 @Component({
@@ -24,41 +38,52 @@ export class WallComponent implements OnInit {
   editor = ClassicEditor;
   env = environment;
   isMobile = false;
+  editorData = "";
+  // editorConfig = {
+  //   readOnly: true,
+  //   toolbar: [],
+  //   simpleUpload: {
+  //     uploadUrl: `${this.env.baseUri}/staticdata/upload`
+  //   },
+  //   mediaEmbed: {
+  //     providers: [
+  //       {
+  //         name: "iframely previews",
+  //         url: /.+/,
+  //         html: match => {
+  //           const url = match[0];
+  //           var iframeUrl =
+  //             IFRAME_SRC +
+  //             "?app=1&api_key=" +
+  //             API_KEY +
+  //             "&url=" +
+  //             encodeURIComponent(url);
+  //           return (
+  //             // If you need, set maxwidth and other styles for 'iframely-embed' class - it's yours to customize
+  //             '<div class="iframely-embed">' +
+  //             '<div class="iframely-responsive">' +
+  //             `<iframe src="${iframeUrl}" ` +
+  //             'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
+  //             "</iframe>" +
+  //             "</div>" +
+  //             "</div>"
+  //           );
+  //         }
+  //       }
+  //     ]
+  //   }
+  // };
   editorConfig = {
-    readOnly: true,
-    toolbar: [],
-    simpleUpload: {
-      uploadUrl: `${this.env.baseUri}/staticdata/upload`
-    },
     mediaEmbed: {
-      providers: [
-        {
-          name: "iframely previews",
-          url: /.+/,
-          html: match => {
-            const url = match[0];
-            var iframeUrl =
-              IFRAME_SRC +
-              "?app=1&api_key=" +
-              API_KEY +
-              "&url=" +
-              encodeURIComponent(url);
-            return (
-              // If you need, set maxwidth and other styles for 'iframely-embed' class - it's yours to customize
-              '<div class="iframely-embed">' +
-              '<div class="iframely-responsive">' +
-              `<iframe src="${iframeUrl}" ` +
-              'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
-              "</iframe>" +
-              "</div>" +
-              "</div>"
-            );
-          }
-        }
-      ]
-    }
+      previewsInData: true
+    },
+    simpleUpload: {
+      uploadUrl: `${environment.uploadUri}/staticdata/upload`
+    },
+    // plugins: [Emoji],
+    placeholder: "Comment",
+    toolbar: ["undo", "redo", "bold", "italic", "emoji"]
   };
-
   constructor(
     private wallService: WallService,
     private memberService: MemberService,
@@ -66,7 +91,7 @@ export class WallComponent implements OnInit {
     private deviceDetectorService: DeviceDetectorService,
     @Inject(LOCALE_ID) protected localeId: string,
     public dialog: MatDialog,
-    private angulartics2: Angulartics2,
+    private angulartics2: Angulartics2
   ) {
     this.isMobile = this.deviceDetectorService.isMobile();
   }
@@ -75,7 +100,7 @@ export class WallComponent implements OnInit {
     this.wall$.subscribe(data => {
       this.wallData = data;
       this.user = this.memberService.getUser();
-      console.log('user is ', this.user)
+      console.log("user is ", this.user);
     });
   }
 
@@ -121,9 +146,9 @@ export class WallComponent implements OnInit {
             this.toastrService.success("Story created!", "OK", {
               timeOut: 2000
             });
-            this.angulartics2.eventTrack.next({ 
-              action: 'NewWallPostAction', 
-              properties: { author: updatePost.createdBy.uname },
+            this.angulartics2.eventTrack.next({
+              action: "NewWallPostAction",
+              properties: { author: updatePost.createdBy.uname }
             });
           });
       } else {
@@ -142,5 +167,45 @@ export class WallComponent implements OnInit {
           });
       }
     });
+  }
+
+  likeUnlikePost(post, likeFlag) {
+    console.log("like", post, likeFlag);
+    if (likeFlag) {
+      post.likes.push(this.user._id);
+    } else {
+      let idx = findIndex(post.likes, this.user._id);
+      post.likes.splice(idx, 1);
+    }
+    this.wallService
+      .updateWallPost(post._id, post)
+      .subscribe((res: WallPost) => {
+        console.log("res", res);
+        this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
+        this.wall$.next([...this.wallData]);
+      });
+    console.log(post);
+  }
+
+  public saveComment(post) {
+    let comment = {
+      title: "Comment",
+      content: this.editorData,
+      createdBy: this.user._id
+    };
+    post.comments.push(comment);
+    this.wallService
+      .updateWallPost(post._id, post)
+      .subscribe((res: WallPost) => {
+        this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
+        this.wall$.next([...this.wallData]);
+      });
+  }
+
+  userLikesPost(likes) {
+    let idx = findIndex(likes, o => {
+      return o._id == this.user._id;
+    });
+    return idx >= 0;
   }
 }

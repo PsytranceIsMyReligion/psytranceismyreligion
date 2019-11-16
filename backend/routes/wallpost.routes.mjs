@@ -3,7 +3,7 @@ const router = express.Router();
 import WallPost from "../models/wallpost";
 
 router.route("/").get((req, res) => {
-    WallPost.find({}).populate('createdBy').sort({
+    WallPost.find({}).populate('createdBy').populate('comments.createdBy').populate('likes').sort({
         'updatedAt': 'desc'
     }).exec((err, docs) => {
         if (err) {
@@ -31,20 +31,24 @@ router.route("/add").post((req, res) => {
 })
 
 router.route("/update/:id").post((req, res, next) => {
+
     WallPost
         .findOneAndUpdate({
             _id: req.params.id
         }, {
             $set: {
                 title: req.body.title,
-                content: req.body.content
+                content: req.body.content,
+                likes: req.body.likes,
+                comments: req.body.comments
             }
         }, {
             new: true
         }, (err, post) => {
             WallPost.findOne({
                 _id: post._id
-            }).populate('createdBy').exec((err, docs) => {
+            }).populate('createdBy').populate('comments.createdBy').populate('likes').exec((err, docs) => {
+                console.log('returning', docs)
                 res.status(200).json(docs);
             });
         })

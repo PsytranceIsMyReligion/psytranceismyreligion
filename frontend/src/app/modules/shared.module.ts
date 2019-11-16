@@ -1,4 +1,4 @@
-import { CoreModule } from './core.module';
+import { CoreModule } from "./core.module";
 import { WallService } from "./../services/wall.service";
 import { MemberService } from "../services/member.service";
 import { NgModule } from "@angular/core";
@@ -41,6 +41,9 @@ import { LocaleService } from "../services/locale.service";
 import { PostDialogComponent } from "../components/home/wall/post-dialog/post-dialog.component";
 import { MessageDialogComponent } from "../components/home/member-details/message-dialog/message-dialog.component";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
+import { VarDirective } from "../directives/var.directive";
+import { TooltipModule } from "@progress/kendo-angular-tooltip";
+import { PopupModule } from '@progress/kendo-angular-popup';
 
 @NgModule({
   entryComponents: [PostDialogComponent, MessageDialogComponent],
@@ -51,7 +54,8 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     MapComponent,
     WallComponent,
     SanitizeHtmlPipe,
-    MemberDetailsComponent
+    MemberDetailsComponent,
+    VarDirective
   ],
   imports: [
     CommonModule,
@@ -65,6 +69,8 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     FormsModule,
     MatToolbarModule,
     MatDialogModule,
+    TooltipModule,
+    PopupModule,
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
@@ -97,6 +103,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     MatStepperModule,
     ReactiveFormsModule,
     FormsModule,
+    PopupModule,
     MatToolbarModule,
     MatDialogModule,
     MatFormFieldModule,
@@ -116,12 +123,14 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     MatExpansionModule,
     DropDownsModule,
     WindowModule,
+    TooltipModule,
     FilterPipeModule,
     SanitizeHtmlPipe,
     MatMomentDateModule,
     ButtonsModule,
     PostDialogComponent,
-    MessageDialogComponent
+    MessageDialogComponent,
+    VarDirective
   ]
 })
 export class SharedModule {
