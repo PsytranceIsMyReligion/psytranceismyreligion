@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration=local",
+    "start": "ng serve --aot --configuration=local",
+    "start-prod": "ng serve --prod",
     "build": "ng build",
-    "build-prod": "ng build --outputPath ./prod --prod",
+    "build-prod": "ng build --prod --outputPath ./prod ",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -29,7 +30,7 @@
     "@angular/platform-browser-dynamic": "^8.2.2",
     "@angular/router": "^8.2.2",
     "@auth0/angular-jwt": "^3.0.0",
-    "@ckeditor/ckeditor5-angular": "^1.1.0",
+    "@ckeditor/ckeditor5-angular": "^1.1.2",
     "@ckeditor/ckeditor5-build-classic": "^12.4.0",
     "@ckeditor/ckeditor5-media-embed": "^11.1.4",
     "@material/theme": "^3.1.0",

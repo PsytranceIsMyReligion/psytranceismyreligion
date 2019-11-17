@@ -18,43 +18,56 @@
       <mat-card-content *ngIf="true; let commentsHidden">
         <div class="viewer" [innerHTML]="post.content | sanitizeHtml"></div>
         <div class="wall-action-buttons" *ngIf="user._id == post.createdBy._id">
-          <button mat-icon-button color="accent" (click)="openPostDialog(post)">
+          <button mat-icon-button color="accent" class="hvr-pulse" (click)="openPostDialog(post)">
             <mat-icon>edit</mat-icon>Edit
           </button>&nbsp;&nbsp;
-          <button mat-icon-button color="accent" (click)="deletePost(post)">
+          <button mat-icon-button color="accent" class="hvr-pulse" (click)="deletePost(post)">
             <mat-icon>delete</mat-icon>Delete
           </button>
         </div>
-        <div *ngIf="true; let hidePopup;">
+        <div *ngIf="true; let hidePopup; let updateCommentId;">
           <div class="comments-container" (click)="commentsHidden = !commentsHidden" [hidden]="commentsHidden"
             *ngFor="let comment of post.comments">
             <span>Reply from {{ comment.createdBy.uname }}
               {{ comment.createdAt | date: "short":"+0000":localeId }}
             </span>
             <div class="comment" [innerHTML]="comment.content | sanitizeHtml"></div>
+            <button mat-icon-button color="accent" class="hvr-pulse" *ngIf="user._id == comment.createdBy._id"
+              (click)="editReplyPanel.hidden = false; editorData = comment.content; updateCommentId=comment._id;">Edit&nbsp;
+              <i class="fa fa-edit" style="zoom: 1.3;"></i></button>&nbsp;&nbsp;
+            <button mat-icon-button color="accent" class="hvr-pulse" *ngIf="user._id == comment.createdBy._id"
+              (click)="deleteComment(comment._id, post)">Delete&nbsp;
+              <i class="fa fa-trash" style="zoom: 1.3;"> </i></button>
+          </div>
+          <div class="replyPanel" [hidden]="true" #editReplyPanel>
+            <ckeditor [editor]="editor" [(ngModel)]="editorData" [config]="editorConfig">
+            </ckeditor>
+            <button mat-raised-button class="hrv-pulse" color="accent" (click)="updateComment(updateCommentId, post)">
+              Save
+            </button>
           </div>
           <div class="wall-action-buttons" *ngIf="user._id != post.createdBy._id;">
-            <button *ngIf="userLikesPost(post.likes); else likeElseBlock" mat-icon-button color="accent"
+            <button *ngIf="userLikesPost(post.likes); else likeElseBlock" mat-icon-button color="accent" class="hvr-pulse"
               (click)="likeUnlikePost(post, false)">
               Unlike <i class="fa fa-thumbs-down" style="zoom: 1.3;"></i>
             </button>
             <ng-template #likeElseBlock>
-              <button mat-icon-button color="accent" (click)="likeUnlikePost(post, true)">
+              <button mat-icon-button color="accent" class="hvr-pulse" (click)="likeUnlikePost(post, true)">
                 Like <i class="fa fa-thumbs-up" style="zoom: 1.3;"></i>
               </button></ng-template>
             &nbsp;&nbsp;
-            <button mat-icon-button color="accent" (click)="replyPanel.hidden = false">
-               Comment <i class="fa fa-comment" style="zoom: 1.3;"></i>
+            <button mat-icon-button color="accent" class="hvr-pulse" (click)="replyPanel.hidden = false">
+              Comment <i class="fa fa-comment" style="zoom: 1.3;"></i>
             </button>
             <kendo-popup [anchor]="anchor" *ngIf="!hidePopup">
               <div class="popup-content">
                 Liked by<br />
                 <span *ngFor="let like of post.likes">
-                  {{ like.uname }}<br/>
+                  {{ like.uname }}<br />
                 </span>
               </div>
             </kendo-popup>
-            <span (mouseenter)="hidePopup = post.likes.length == 0 ? true : false" (mouseleave)="hidePopup=true"
+            <span class="hvr-pulse" (mouseenter)="hidePopup = post.likes.length == 0 ? true : false" (mouseleave)="hidePopup=true"
               class="post-comments" (click)="commentsHidden = !commentsHidden">
               <span #anchor> {{ post.likes.length }} Likes </span>{{ post.comments.length }}
               Comments

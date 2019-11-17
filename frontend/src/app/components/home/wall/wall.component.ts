@@ -81,8 +81,7 @@ export class WallComponent implements OnInit {
       uploadUrl: `${environment.uploadUri}/staticdata/upload`
     },
     // plugins: [Emoji],
-    placeholder: "Comment",
-    toolbar: ["undo", "redo", "bold", "italic", "emoji"]
+    toolbar: ["undo", "redo", "bold", "italic"]
   };
   constructor(
     private wallService: WallService,
@@ -200,6 +199,33 @@ export class WallComponent implements OnInit {
         this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
         this.wall$.next([...this.wallData]);
       });
+      this.editorData = "";
+  }
+
+  updateComment(updateCommentId, post) {
+
+    let comment = post.comments.filter((c) => c._id == updateCommentId)[0];
+    comment.content = this.editorData;
+    post.comments.filter((c) => c._id != updateCommentId).push(comment);
+    console.log('update',post.comments, updateCommentId)
+    this.wallService
+    .updateWallPost(post._id, post)
+    .subscribe((res: WallPost) => {
+      this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
+      this.wall$.next([...this.wallData]);
+    });
+    this.editorData = "";
+  }
+
+  deleteComment(deleteCommentId, post) {
+    console.log('delete', deleteCommentId, post)
+    post.comments = post.comments.filter((c)=> c._id != deleteCommentId);
+    this.wallService
+    .updateWallPost(post._id, post)
+    .subscribe((res: WallPost) => {
+      this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
+      this.wall$.next([...this.wallData]);
+    });
   }
 
   userLikesPost(likes) {
