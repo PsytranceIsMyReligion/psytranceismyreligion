@@ -19,9 +19,24 @@
 .popup-content {
   padding: 5px;
 }
+
 .post-container {
   overflow-y: scroll;
   height: inherit;
+}
+
+.save-btn {
+  margin: 5px 0 5px 0 !important;
+}
+
+.reactions {
+  position: relative;
+  top: -10px;
+}
+
+.editor-comments {
+  position: relative;
+  top: -30px !important;
 }
 
 mat-card {
@@ -57,8 +72,8 @@ mat-card {
 
   button {
     font-size: 10px;
-    margin: 0 !important;
-    padding: 0px !important;
+    margin: 0;
+    padding: 0;
   }
 }
 

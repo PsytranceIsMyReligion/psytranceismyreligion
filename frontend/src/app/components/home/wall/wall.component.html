@@ -28,7 +28,8 @@
         <div *ngIf="true; let hidePopup; let updateCommentId;">
           <div class="comments-container" (click)="commentsHidden = !commentsHidden" [hidden]="commentsHidden"
             *ngFor="let comment of post.comments">
-            <span>Reply from {{ comment.createdBy.uname }}
+            <span>Reply from <a [routerLink]=""
+                (click)="setSelectedMember$(comment.createdBy)">{{ comment.createdBy.uname }}</a>
               {{ comment.createdAt | date: "short":"+0000":localeId }}
             </span>
             <div class="comment" [innerHTML]="comment.content | sanitizeHtml"></div>
@@ -42,40 +43,42 @@
           <div class="replyPanel" [hidden]="true" #editReplyPanel>
             <ckeditor [editor]="editor" [(ngModel)]="editorData" [config]="editorConfig">
             </ckeditor>
-            <button mat-raised-button class="hrv-pulse" color="accent" (click)="updateComment(updateCommentId, post)">
+            <button mat-raised-button class="hrv-pulse save-btn" color="accent" (click)="updateComment(updateCommentId, post)">
               Save
             </button>
           </div>
-          <div class="wall-action-buttons" *ngIf="user._id != post.createdBy._id;">
-            <button *ngIf="userLikesPost(post.likes); else likeElseBlock" mat-icon-button color="accent" class="hvr-pulse"
-              (click)="likeUnlikePost(post, false)">
-              Unlike <i class="fa fa-thumbs-down" style="zoom: 1.3;"></i>
-            </button>
-            <ng-template #likeElseBlock>
-              <button mat-icon-button color="accent" class="hvr-pulse" (click)="likeUnlikePost(post, true)">
-                Like <i class="fa fa-thumbs-up" style="zoom: 1.3;"></i>
-              </button></ng-template>
-            &nbsp;&nbsp;
-            <button mat-icon-button color="accent" class="hvr-pulse" (click)="replyPanel.hidden = false">
-              Comment <i class="fa fa-comment" style="zoom: 1.3;"></i>
-            </button>
+          <div class="wall-action-buttons" (mouseleave)="hidePopup=true">
+            <span class="reactions" *ngIf="user._id != post.createdBy._id">
+              <button *ngIf="userLikesPost(post.likes); else likeElseBlock" mat-icon-button color="accent"
+                class="hvr-pulse" (click)="likeUnlikePost(post, false)">
+                Unlike <i class="fa fa-thumbs-down" style="zoom: 1.3;"></i>
+              </button>
+              <ng-template #likeElseBlock>
+                <button mat-icon-button color="accent" class="hvr-pulse" (click)="likeUnlikePost(post, true)">
+                  Like <i class="fa fa-thumbs-up" style="zoom: 1.3;"></i>
+                </button></ng-template>
+              &nbsp;&nbsp;
+              <button mat-icon-button color="accent" class="hvr-pulse" (click)="replyPanel.hidden = false">
+                Comment <i class="fa fa-comment" style="zoom: 1.3;"></i>
+              </button>
+            </span>
             <kendo-popup [anchor]="anchor" *ngIf="!hidePopup">
-              <div class="popup-content">
+              <div class="popup-content" (mouseenter)="hidePopup=false" (mouseleave)="hidePopup=true">
                 Liked by<br />
                 <span *ngFor="let like of post.likes">
-                  {{ like.uname }}<br />
+                  <a [routerLink]="" (click)="setSelectedMember$(like)">{{ like.uname }}</a><br />
                 </span>
               </div>
             </kendo-popup>
-            <span class="hvr-pulse" (mouseenter)="hidePopup = post.likes.length == 0 ? true : false" (mouseleave)="hidePopup=true"
-              class="post-comments" (click)="commentsHidden = !commentsHidden">
+            <span class="hvr-pulse" (mouseenter)="hidePopup = post.likes.length == 0 ? true : false"
+              class="post-comments" [ngClass]="{'editor-comments' : user._id == post.createdBy._id }" (click)="commentsHidden = !commentsHidden">
               <span #anchor> {{ post.likes.length }} Likes </span>{{ post.comments.length }}
               Comments
             </span>
             <div class="replyPanel" [hidden]="true" #replyPanel>
               <ckeditor [editor]="editor" [(ngModel)]="editorData" [config]="editorConfig">
               </ckeditor>
-              <button mat-raised-button class="hrv-pulse" color="accent" (click)="saveComment(post)">
+              <button mat-raised-button class="hrv-pulse save-btn" color="accent" (click)="saveComment(post)">
                 Save
               </button>
             </div>

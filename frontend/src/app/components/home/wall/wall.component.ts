@@ -104,6 +104,7 @@ export class WallComponent implements OnInit {
   }
 
   setSelectedMember$(member) {
+    console.log('selecting ', member)
     this.memberService.selectedMember$.next(member);
   }
 
