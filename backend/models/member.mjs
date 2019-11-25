@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import karmicKudoEmitter from "../utils/events";
 const Schema = mongoose.Schema;
 
 let MemberSchema = new Schema({
@@ -104,8 +104,8 @@ let MemberSchema = new Schema({
     type: Number,
     default: 10
   },
-  lastLoggedOn : {
-    type : Date,
+  lastLoggedOn: {
+    type: Date,
     default: Date.now
   }
 }, {
@@ -115,21 +115,40 @@ let MemberSchema = new Schema({
   }
 });
 
-MemberSchema.statics.findMemberById = function(id) {
+MemberSchema.statics.findMemberById = function (id) {
   return this.findById(id).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals');
 };
 
-MemberSchema.statics.getAll = function() {
+MemberSchema.statics.getAll = function () {
   return this.find({}).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals').sort({
     'createdAt': 'desc'
   });
 };
-MemberSchema.statics.logon = function(user) {
+
+MemberSchema.statics.updateKarmicKudos = function (member, amount) {
+  console.log('updating Kudo for ', member.uname);
+
+  return this.findOneAndUpdate({
+    _id: mongoose.Types.ObjectId(member._id)
+  }, {
+    karmicKudos: member.karmicKudos + amount
+  }, {
+    upsert: false,
+    new: true
+  }, (err, res) => {
+    karmicKudoEmitter.emit('karmic-kudos', res);
+    return res;
+    if (err) throw (err);
+  });
+}
+
+MemberSchema.statics.logon = function (user) {
   return this.findOneAndUpdate({
     _id: user._id
   }, {
     $set: {
       lastLoggedOn: new Date(),
-    }});
+    }
+  });
 }
 export default mongoose.model("Member", MemberSchema);

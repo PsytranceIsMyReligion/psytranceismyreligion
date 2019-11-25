@@ -16,7 +16,7 @@ import LoginRecord from "./models/loginrecord";
 import forceHTTPS from './utils';
 import https from 'https';
 import fs from 'fs';
-
+import karmicKudoEmitter from "./utils/events";
 
 import {
   dirname
@@ -33,7 +33,10 @@ import NodeCache from "node-cache";
 
 const __dirname = dirname(fileURLToPath(
   import.meta.url));
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === "productEventEmittern";
+
+
+
 console.log("isProduction?", isProd);
 
 mongoose.set('useNewUrlParser', true);
@@ -161,6 +164,7 @@ const io = socketIO(server, {
 
 const connections = new Set();
 
+
 io.on("connection", socket => {
   connections.add(socket);
   socket.on(
@@ -171,6 +175,7 @@ io.on("connection", socket => {
         if (values) values.map(el => socket.emit("chat-init", el));
       }).bind(messageCache)
   );
+
 
   setInterval(() => {
     io.emit('logged-on-users', loggedOnUserCache.get("users").filter(el => el));
@@ -226,4 +231,10 @@ io.on("connection", socket => {
   socket.on("disconnect", () => {
     connections.delete(socket);
   });
+
+
+  karmicKudoEmitter.on('karmic-kudos', (member) => {
+    socket.emit('karmic-kudos', member);
+  })
+
 });

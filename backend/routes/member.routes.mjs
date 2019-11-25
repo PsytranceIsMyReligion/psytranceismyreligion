@@ -148,30 +148,12 @@ function karmicKudosCheck(member, referer, updateMode) {
   if (updateMode && member.referer && member.referer._id) {
     Member.findById(member._id).populate('referer').exec((err, checkMember) => {
       if (!checkMember.referer) {
-        updateKarmicKudos(referer);
+        Member.updateKarmicKudos(referer,10);
       };
     });
   } else {
-    updateKarmicKudos(referer);
+    Member.updateKarmicKudos(referer, 10);
   }
-
-}
-
-function updateKarmicKudos(referer) {
-  if (referer) {
-    console.log('updating Karmic Kudos for: ', referer._id)
-    console.log('valid', mongoose.Types.ObjectId.isValid(referer._id));
-    Member.findOneAndUpdate({
-      _id: mongoose.Types.ObjectId(referer._id)
-    }, {
-      karmicKudos: referer.karmicKudos + 10
-    }, {
-      upsert: false
-    }, (err, res) => {
-      if (err) throw (err);
-    });
-  }
-
 }
 
 async function sendMessage(message) {

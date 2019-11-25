@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import Video from "../models/videos";
 import WallPost from "../models/wallpost";
+import Member from "../models/member";
 
 
 router.route("/").get((req, res) => {
@@ -60,18 +61,20 @@ router.route("/delete/:id").get((req, res) => {
 
 function addWallPost(video) {
   let payload = {
-    title: video.title,
-    content: video.createdBy.uname + ' uploaded a link ' + video.description + ' ' + '<a target="_blank" href="http://www.youtube.com/watch?v=' + video.value + '">Link</a><br/><br/>',
+    title: video.createdBy.uname + ' just uploaded ' + video.title + ' to the video library',
+    content: '<iframe width="355" height="200" src="https://www.youtube.com/embed/' + video.value + '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
     createdBy: video.createdBy
   }
   let post = new WallPost(payload);
   post.save().then(saved => {
-      console.log('saved log', saved);
+      Member.updateKarmicKudos(video.createdBy, 10);
     })
     .catch(err => {
       console.log(err);
       res.status(400).send("Update post failed");
     });
 }
+
+
 
 export default router;

@@ -1,10 +1,10 @@
 <div class="watch-container">
   <div fxLayout="row" fxLayoutAlign="space-between" class="search-panel">
     <input matInput #search class="form-control" type="text" [(ngModel)]="tagFilter.tags" placeholder="Search by tags">
-    <button *ngIf="!isMobile" mat-raised-button class="add-button hvr-pulse" (click)="openUploadDialog()"
+    <button *ngIf="!isMobile" [disabled]="updateFlag" mat-raised-button class="add-button hvr-pulse" (click)="openUploadDialog()"
       color="accent">
       <i class="material-icons">video_library</i>&nbsp;&nbsp;Add Video</button>
-    <button *ngIf="isMobile" mat-mini-fab class="add-button hvr-pulse" (click)="openUploadDialog()" color="accent">
+    <button *ngIf="isMobile" [disabled]="updateFlag" mat-mini-fab class="add-button hvr-pulse" (click)="openUploadDialog()" color="accent">
       <i class="material-icons">add</i></button>
   </div>
   <div fxLayout="row wrap" class="panel-container" fxLayoutAlign="start start">
@@ -22,9 +22,9 @@
               *ngIf="first">&nbsp;&nbsp;Tags:&nbsp;&nbsp;</span>{{tag}}<span *ngIf="!last">,</span></span>
           <br /><br />
           <youtube-player [height]="height" [width]="width" [videoId]="video.value"></youtube-player><br />
-          <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button
+          <button *ngIf="video.createdBy._id == user._id" [disabled]="updateFlag" class="video-button hvr-pulse" mat-raised-button
             color="accent" (click)="openUploadDialog(video)">Update</button>
-          <button *ngIf="video.createdBy._id == user._id" class="video-button hvr-pulse" mat-raised-button
+          <button *ngIf="video.createdBy._id == user._id"  [disabled]="updateFlag" class="video-button hvr-pulse" mat-raised-button
             color="accent" (click)="deleteVideo(video._id)">Delete</button>
         </div>
       </mat-card-content>

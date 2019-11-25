@@ -48,6 +48,18 @@ export class AppComponent implements OnDestroy, OnInit {
         "Chat Message from " + message.author.name
       );
     });
+    this.socket.on("karmic-kudos", member => {
+      let myMember = this.memberService.getUser();
+      if (member._id == myMember._id) {
+        this.toastrService.info(
+          "Karmic Kudos level up! " +
+            myMember.uname +
+            ", your Karmic Kudos is now " +
+            member.karmicKudos + '. Keep up the good work!'
+        );
+        this.memberService.updateUser(member);
+      }
+    });
     // if(this.env.production){
     window.onbeforeunload = () => this.ngOnDestroy();
     // }

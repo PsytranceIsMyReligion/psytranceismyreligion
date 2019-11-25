@@ -71,6 +71,17 @@ export class MemberService implements OnInit {
     }
   }
 
+  updateUser(user) {
+    this.user = user;
+    let members = this.members$.getValue();
+    members.forEach(mem => {
+      if(mem._id == user._id) {
+        mem = user;
+      }
+    });
+    this.members$.next(members);
+  }
+
   getUser$(): BehaviorSubject<Member> {
     return this.user$;
   }
@@ -113,17 +124,6 @@ export class MemberService implements OnInit {
     );
   }
 
-
-  refreshMembers(updated: Member) {
-    // let mems = this.members$.getValue();
-    // mems.forEach(mem => {
-    //   if(mem._id == updated._id)
-    //     mem = updated;
-    // });
-    // console.log('refreshing members')
-    // this.members$.next(mems);
-    // return this.http.get(`${baseUri}/members`);
-  }
 
   initLoggedOnUsers() {
     this.members$.subscribe(() => {

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot --configuration=local",
+    "start": "ng serve --configuration=local",
     "start-prod": "ng serve --prod",
     "build": "ng build",
     "build-prod": "ng build --prod --outputPath ./prod ",

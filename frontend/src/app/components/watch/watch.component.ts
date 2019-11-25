@@ -7,7 +7,7 @@ import { VideoUploadComponent } from "./upload/video-upload.component";
 import { WatchService } from "../../services/watch.service";
 import { ToastrService } from "ngx-toastr";
 import { DeviceDetectorService } from "ngx-device-detector";
-import { dedup } from "lodash";
+import { dedup, isUndefined } from "lodash";
 import { BehaviorSubject } from "rxjs";
 
 @Component({
@@ -22,6 +22,7 @@ export class WatchComponent implements OnInit {
   width: number = 560;
   tagFilter: any = { tags: ''};
   tags;
+  updateFlag = false;
   isMobile = false;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,38 +63,41 @@ export class WatchComponent implements OnInit {
     this.router.navigate(['home/' + id], { relativeTo : this.activatedRoute.parent })
   }
   deleteVideo(id) {
+    this.updateFlag = true;
     this.watchService.deleteVideoLink(id).subscribe(res => {
       this.toastrService
         .success("Video Link deleted", "OK", { timeOut: 2000 })
         .onHidden.subscribe(res => {
+          this.updateFlag = false;
           this.router.navigate(["/nav/watch"]);
         });
     });
   }
 
   openUploadDialog(updateVideo?: Video): void {
-    let emptyVideo : Video = { title: "", description: "", value: "", createdBy : {}, tags: [] };
+    let video : Video = { title: "", description: "", value: "", createdBy : {}, tags: [] };
     console.log("open", this.tags);
-    // if (updateVideo) {
-    //   video = {
-    //     title: updateVideo.title,
-    //     description: updateVideo.description,
-    //     value: updateVideo.value,
-    //     _id: updateVideo._id,
-    //     createdBy: updateVideo.createdBy,
-    //     tags: updateVideo.tags
-    //   };
-    // }
-    // else updateVideo = videov;
+    if (updateVideo) {
+      video = {
+        title: updateVideo.title,
+        description: updateVideo.description,
+        value: updateVideo.value,
+        _id: updateVideo._id,
+        createdBy: updateVideo.createdBy,
+        tags: updateVideo.tags
+      };
+    }
+    else updateVideo = video;
     const dialogRef = this.dialog.open(VideoUploadComponent, {
       width: "400px",
       height: "500px",
-      data: { video: updateVideo ? updateVideo : emptyVideo, tags: this.tags }
+      data: { video: updateVideo, tags: this.tags }
     });
 
     dialogRef.afterClosed().subscribe((updateVideo: Video) => {
       if (!updateVideo) return;
-      if (updateVideo._id == "") {
+      this.updateFlag = true;
+      if (isUndefined(updateVideo._id)) {
         console.log("creating", updateVideo);
         this.watchService.createVideoLink(updateVideo).subscribe((res: any) => {
           this.videos$.next([
@@ -103,6 +107,7 @@ export class WatchComponent implements OnInit {
           this.toastrService.success("Video Link created!", "OK", {
             timeOut: 2000
           });
+          this.updateFlag = false;
         });
       } else {
         console.log("updating", updateVideo);
@@ -116,6 +121,7 @@ export class WatchComponent implements OnInit {
             this.toastrService.success("Video Link updated!", "OK", {
               timeOut: 2000
             });
+            this.updateFlag = false;
           });
       }
     });
