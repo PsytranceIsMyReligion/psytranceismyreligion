@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import WallPost from "../models/wallpost";
-
+import Member from "../models/member";
 router.route("/").get((req, res) => {
     WallPost.find({}).populate('createdBy').populate('comments.createdBy').populate('likes').sort({
         'updatedAt': 'desc'
@@ -20,9 +20,11 @@ router.route("/add").post((req, res) => {
         .then(post => {
             WallPost.findOne({
                 _id: post._id
-            }).populate('createdBy').exec((err, docs) => {
-                res.status(200).json(docs);
+            }).populate('createdBy').exec((err, member) => {
+                res.status(200).json(member);
+                Member.updateKarmicKudos(member.createdBy, 10);
             });
+
         })
         .catch(err => {
             console.log('error', err);
