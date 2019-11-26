@@ -1,10 +1,10 @@
-<div [hidden]="!isMobile" class="mobile-container" fxLayout="row wrap" fxlayoutAlign="start">
+<div *ngIf="isMobile" class="mobile-container" fxLayout="row wrap" fxlayoutAlign="start">
   <app-wall [wall$]="wall$"></app-wall>
   <div #mobile class="mobile-map"></div>
   <app-member-selector [headerInfo$]="headerInfo$" [members$]="members$"></app-member-selector>
   <app-member-details></app-member-details>
 </div>
-<div [hidden]="isMobile" fxLayout="row" fxlayoutAlign="start stretch" class="desktop-container">
+<div *ngIf="!isMobile" fxLayout="row" fxlayoutAlign="start stretch" class="desktop-container">
   <div fxLayout="row wrap" class="middle-container" fxLayoutAlign="start">
     <div #desktop class="desktop-map"></div>
     <app-member-details></app-member-details>

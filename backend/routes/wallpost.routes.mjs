@@ -22,7 +22,7 @@ router.route("/add").post((req, res) => {
                 _id: post._id
             }).populate('createdBy').exec((err, member) => {
                 res.status(200).json(member);
-                Member.updateKarmicKudos(member.createdBy, 10);
+                Member.updateKarmicKudos(member.createdBy._id, 10);
             });
 
         })

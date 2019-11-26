@@ -39,40 +39,6 @@ export class WallComponent implements OnInit {
   env = environment;
   isMobile = false;
   editorData = "";
-  // editorConfig = {
-  //   readOnly: true,
-  //   toolbar: [],
-  //   simpleUpload: {
-  //     uploadUrl: `${this.env.baseUri}/staticdata/upload`
-  //   },
-  //   mediaEmbed: {
-  //     providers: [
-  //       {
-  //         name: "iframely previews",
-  //         url: /.+/,
-  //         html: match => {
-  //           const url = match[0];
-  //           var iframeUrl =
-  //             IFRAME_SRC +
-  //             "?app=1&api_key=" +
-  //             API_KEY +
-  //             "&url=" +
-  //             encodeURIComponent(url);
-  //           return (
-  //             // If you need, set maxwidth and other styles for 'iframely-embed' class - it's yours to customize
-  //             '<div class="iframely-embed">' +
-  //             '<div class="iframely-responsive">' +
-  //             `<iframe src="${iframeUrl}" ` +
-  //             'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
-  //             "</iframe>" +
-  //             "</div>" +
-  //             "</div>"
-  //           );
-  //         }
-  //       }
-  //     ]
-  //   }
-  // };
   editorConfig = {
     mediaEmbed: {
       previewsInData: true
@@ -99,12 +65,10 @@ export class WallComponent implements OnInit {
     this.wall$.subscribe(data => {
       this.wallData = data;
       this.user = this.memberService.getUser();
-      console.log("user is ", this.user);
     });
   }
 
   setSelectedMember$(member) {
-    console.log('selecting ', member)
     this.memberService.selectedMember$.next(member);
   }
 

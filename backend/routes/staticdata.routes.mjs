@@ -53,12 +53,12 @@ router.route("/").get((rq, res) => {
         res.json(docs);
     }).catch((err) => {
         if (err) res.status(400).send("Failed to get static data");
-        console.log('Error: ', err);
+        console.log('Error getting static data', err);
     });
 });
 
 router.route("/add").post((req, res) => {
-    console.log('adding ', req.body)
+    // console.log('adding ', req.body)
     let staticData = new StaticData(req.body);
     staticData
         .save()

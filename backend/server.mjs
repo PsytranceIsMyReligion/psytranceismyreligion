@@ -14,8 +14,6 @@ import _ from "lodash";
 import Member from "./models/member";
 import LoginRecord from "./models/loginrecord";
 import forceHTTPS from './utils';
-import https from 'https';
-import fs from 'fs';
 import karmicKudoEmitter from "./utils/events";
 
 import {
@@ -182,6 +180,10 @@ io.on("connection", socket => {
   }, 600000); // 10 mins
 
 
+  karmicKudoEmitter.on('karmic-kudos', (member) => {
+    io.emit('karmic-kudos', member);
+  });
+
   socket.on("get-logged-on-users", (null,
     async (user) => {
       console.log("geting logged on users");
@@ -233,8 +235,5 @@ io.on("connection", socket => {
   });
 
 
-  karmicKudoEmitter.on('karmic-kudos', (member) => {
-    socket.emit('karmic-kudos', member);
-  })
 
 });

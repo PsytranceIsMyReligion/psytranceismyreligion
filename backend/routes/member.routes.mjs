@@ -6,6 +6,9 @@ import Member from "../models/member";
 import _ from "lodash";
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
+import {
+  isUndefined
+} from "util";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './public');
@@ -79,16 +82,16 @@ router.route("/bysocialid/:id").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-  console.log('adding', req.body.member.uname, req.body.member._id)
+  console.log('adding', req.body.member.uname, req.body.member.referer)
   let member = new Member(req.body.member);
-  karmicKudosCheck(member, req.body.member.referer, false);
+  karmicKudosCheck(member, false);
   member
     .save()
     .then(member => {
       res.status(200).json(member);
     })
     .catch(err => {
-      console.log(err);
+      console.log('error adding user', err);
       res.status(400).send(err);
     });
 });
@@ -96,20 +99,35 @@ router.route("/add").post((req, res) => {
 
 router.route("/update/:id").post((req, res, next) => {
   let member = new Member(req.body.member);
-  karmicKudosCheck(member, req.body.member.referer, true);
-  if (!mongoose.Types.ObjectId.isValid(member.referer)) {
-    member.referer = mongoose.Types.ObjectId();
-  }
+  karmicKudosCheck(member, true);
   member
     .updateOne(member)
     .then(member => {
       res.status(200).json(member);
     })
     .catch(err => {
-      console.log(err);
+      console.log('error updating user', err);
       res.status(400).send("Update failed");
     });
 });
+
+function karmicKudosCheck(member, updateMode) {
+  if (!mongoose.Types.ObjectId.isValid(member.referer)) {
+    member.referer = mongoose.Types.ObjectId();
+    return;
+  }
+  if (updateMode && member.referer && member.referer._id) {
+    Member.findById(member._id).populate('referer').exec((err, checkMember) => {
+      if (!checkMember.referer) {
+        Member.updateKarmicKudos(member.referer, 10);
+      };
+    });
+  } else {
+    console.log('member ref ', member.referer)
+    if (member.referer)
+      Member.updateKarmicKudos(member.referer, 10);
+  }
+}
 
 router.route("/delete/:id").get((req, res) => {
   Member.findByIdAndDelete({
@@ -121,7 +139,7 @@ router.route("/delete/:id").get((req, res) => {
 });
 
 router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
-  console.log('adding avatar', 'https://www.psytranceismyreligion.com/api/public/' + req.files[0].filename);
+  // console.log('adding avatar', 'https://www.psytranceismyreligion.com/api/public/' + req.files[0].filename);
   Member.findOneAndUpdate({
     _id: req.body.id
   }, {
@@ -131,7 +149,7 @@ router.route("/add/avatar").post(uploader.array('files'), (req, res) => {
     upsert: false
   }, (err, member) => {
     if (err) {
-      console.log(err);
+      console.log('error adding avatar', err);
       throw (err);
     } else
       res.json(member);
@@ -144,17 +162,7 @@ router.route("/message/:id").post((req, res) => {
 });
 
 
-function karmicKudosCheck(member, referer, updateMode) {
-  if (updateMode && member.referer && member.referer._id) {
-    Member.findById(member._id).populate('referer').exec((err, checkMember) => {
-      if (!checkMember.referer) {
-        Member.updateKarmicKudos(referer,10);
-      };
-    });
-  } else {
-    Member.updateKarmicKudos(referer, 10);
-  }
-}
+
 
 async function sendMessage(message) {
   let transporter = nodemailer.createTransport(smtpTransport({

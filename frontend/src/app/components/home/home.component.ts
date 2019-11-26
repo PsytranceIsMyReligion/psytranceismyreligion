@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
     "reason",
     "actions"
   ];
-  @ViewChild("desktop", { static: true }) gmapDesktop: any;
-  @ViewChild("mobile", { static: true }) gmapMobile: any;
+  @ViewChild("desktop", { static: false }) gmapDesktop: any;
+  @ViewChild("mobile", { static: false }) gmapMobile: any;
   desktopMap: google.maps.Map;
   mobileMap: google.maps.Map;
   map: google.maps.Map;
@@ -53,9 +53,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.members$ = this.memberService.members$;
+  }
+
+  ngAfterViewInit() {
+
     this.generateMemberMap();
     if (this.route.snapshot.paramMap.get("id")) {
-      console.log('id', this.route.snapshot.paramMap.get("id"))
+      console.log("id", this.route.snapshot.paramMap.get("id"));
       this.selectedMember$.next(
         this.memberService.getMemberById(this.route.snapshot.paramMap.get("id"))
       );
@@ -63,22 +67,23 @@ export class HomeComponent implements OnInit {
     this.selectedMember$.subscribe(member => this.updateFocusedMember(member));
   }
 
+
   updateFocusedMember(member: Member) {
     // if (member) {
-      const location = new google.maps.LatLng(member.lat, member.long);
-      let marker = new google.maps.Marker({
-        position: location,
-        map: this.map
-      });
-      marker.setAnimation(google.maps.Animation.DROP);
-      marker.setIcon(
-        "https://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png"
-      );
-      if (this.focusMarker) {
-        this.focusMarker.setMap(null);
-      }
-      this.focusMarker = marker;
-      this.map.panTo(location);
+    const location = new google.maps.LatLng(member.lat, member.long);
+    let marker = new google.maps.Marker({
+      position: location,
+      map: this.map
+    });
+    marker.setAnimation(google.maps.Animation.DROP);
+    marker.setIcon(
+      "https://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png"
+    );
+    if (this.focusMarker) {
+      this.focusMarker.setMap(null);
+    }
+    this.focusMarker = marker;
+    this.map.panTo(location);
     // }
   }
 
@@ -94,6 +99,7 @@ export class HomeComponent implements OnInit {
       rotateControl: false,
       fullscreenControl: true
     };
+    console.log("isMobile", this.isMobile);
     if (this.isMobile)
       this.map = new google.maps.Map(this.gmapMobile.nativeElement, mapProp);
     else

@@ -45,11 +45,17 @@ export class MemberService implements OnInit {
 
   constructor(private http: HttpClient, private socket: Socket) {
     this.loadMembers().subscribe(members => {
+      console.log('new member list', members)
       this.members$.next(members as Array<Member>);
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadMembers().subscribe(members => {
+      console.log('new member list', members)
+      this.members$.next(members as Array<Member>);
+    });
+  }
 
   async saveMemberToLocalStorage(_member: Member, initialFlag?: boolean) {
     _member.originDisplay = this.getCountryName(_member.origin);
@@ -117,6 +123,7 @@ export class MemberService implements OnInit {
     console.log("loading members from server");
     return this.http.get(`${baseUri}/members`).pipe(
       map((members: Array<Member>) => {
+        console.log('returned members from server')
         return members.map(member => {
           return this.enrichMember(member);
         });
@@ -124,7 +131,13 @@ export class MemberService implements OnInit {
     );
   }
 
-
+  loadMembersAndUpdateObservable() {
+    this.loadMembers().subscribe(members => {
+      console.log('new member list', members)
+      this.members$.next(members as Array<Member>);
+    });
+  }
+  
   initLoggedOnUsers() {
     this.members$.subscribe(() => {
       console.log("initing user listing");

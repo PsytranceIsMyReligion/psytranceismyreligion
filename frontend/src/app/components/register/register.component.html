@@ -207,7 +207,7 @@
                 (basicInfoGroup.pristine && opinionGroup.pristine && detailGroup.pristine) ||
                 (basicInfoGroup.invalid || opinionGroup.invalid || detailGroup.invalid)
               ">
-              Update
+              {{ member ? 'Update Profile' : 'Create Profile' }}
             </button>
           </div>
         </form>

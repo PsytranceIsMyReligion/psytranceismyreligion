@@ -7,9 +7,5 @@
       (error)="errorEventHandler($event)" (success)="successEventHandler($event)" [restrictions]="fileRestrictions"
       [saveUrl]="uploadSaveUrl" [multiple]="false" [autoUpload]="false" [(ngModel)]="avatars">
     </kendo-upload>
-    <!-- <p style="color: red; font-size: .8em; margin-top: .5em;"
-      [hidden]="avatarGroup.controls.avatars.valid || (avatarGroup.controls.avatars.pristine && !submitted)">
-      Uploading an avatar is required.
-    </p> -->
   </div>
 </div>

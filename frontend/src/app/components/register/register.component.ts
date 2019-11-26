@@ -212,7 +212,7 @@ export class RegisterComponent implements OnInit {
       this.basicInfoGroup.get("lname").setValue(this.member.lname);
       this.basicInfoGroup.get("email").setValue(this.member.email);
       if (this.member.referer)
-        this.basicInfoGroup.get("referer").setValue(this.member.referer);
+        this.basicInfoGroup.get("referer").setValue(this.member.referer._id);
       this.genderSelected = this.member.gender;
       this.basicInfoGroup.get("postcode").setValue(this.member.postcode);
       this.basicInfoGroup
@@ -309,8 +309,8 @@ export class RegisterComponent implements OnInit {
       );
   }
 
-  refererFilter(value): any[] {
-    return this.referers.filter(member => member._id == value._id);
+  refererFilter(id): any[] {
+    return this.referers.filter(member => member._id == id);
   }
 
   countryFilter(value): any[] {
@@ -383,7 +383,9 @@ export class RegisterComponent implements OnInit {
       uname: this.basicInfoGroup.get("uname").value,
       fname: this.basicInfoGroup.get("fname").value,
       lname: this.basicInfoGroup.get("lname").value,
-      referer: this.basicInfoGroup.get("referer").value,
+      referer: this.basicInfoGroup.get("referer").value
+        ? this.basicInfoGroup.get("referer").value._id
+        : "",
       socialid: this.socialid,
       gender: this.genderSelected,
       birthyear: this.basicInfoGroup.get("birthyear").value.year(),
@@ -447,14 +449,15 @@ export class RegisterComponent implements OnInit {
             action: "CreateMemberAction",
             properties: { member: member.uname }
           });
-          console.log("returned membver", member);
-          this.memberService.loadMembers();
+          console.log("returned member", member);
+          this.memberService.loadMembersAndUpdateObservable();
+
           this.memberService.saveMemberToLocalStorage(member, false);
-          this.toastrService
-            .success("Successfully created", "OK", { timeOut: 2000 })
-            .onHidden.subscribe(res => {
-              this.router.navigate([`nav/home/${member._id}`]);
-            });
+          this.router.navigate([`nav/home/${member._id}`]);
+          this.toastrService.success(
+            `Welcome to Psytrance Is My Religion ${member.uname}!`,
+            `Congratulations!`
+          );
         });
     }
   }
@@ -629,7 +632,7 @@ export class RegisterComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async avatars => {
       if (!avatars) return;
-      console.log('returned avatars ', avatars);
+      console.log("returned avatars ", avatars);
       let newAvatar = (await toBase64(avatars[0].rawFile)) as string;
       this.memberService.avatarUrl$.next(newAvatar);
       this.member.avatarUrl = newAvatar;

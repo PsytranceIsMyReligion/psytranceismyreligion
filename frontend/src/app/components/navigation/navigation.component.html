@@ -1,7 +1,7 @@
 <div class="top-container" fxLayoutAlign="center">
   <mat-sidenav-container class="sidenav-content" [ngClass]="{'newMode' : !isMember}">
     <mat-sidenav #sideNav mode="side" class="side-nav" opened role="navigation">
-      <mat-nav-list [hidden]="!isMember">
+      <mat-nav-list *ngIf="isMember">
         <a angulartics2On="click" angularticsAction="HomeClick" class="hvr-wobble-vertical" mat-list-item
           routerLink="home">Home</a>
         <a angulartics2On="click" angularticsAction="ProfileClick" class="hvr-wobble-vertical" mat-list-item

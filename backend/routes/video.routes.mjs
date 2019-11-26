@@ -23,7 +23,7 @@ router.route("/add").post((req, res) => {
       res.status(200).json(updated);
     })
     .catch(err => {
-      console.log('error', err);
+      console.log('error adding video', err);
       res.status(400).send("Failed to create a new video");
     });
 })
@@ -45,7 +45,7 @@ router.route("/update/:id").post((req, res, next) => {
       res.status(200).json(video);
     })
     .catch(err => {
-      console.log(err);
+      console.log('error updating video', err);
       res.status(400).send("Update video failed");
     });
 });
@@ -67,10 +67,10 @@ function addWallPost(video) {
   }
   let post = new WallPost(payload);
   post.save().then(saved => {
-      Member.updateKarmicKudos(video.createdBy, 10);
+      Member.updateKarmicKudos(video.createdBy._id, 10);
     })
     .catch(err => {
-      console.log(err);
+      console.log('error adding wall post for video', err);
       res.status(400).send("Update post failed");
     });
 }

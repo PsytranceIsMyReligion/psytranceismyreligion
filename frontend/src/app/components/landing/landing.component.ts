@@ -47,11 +47,11 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('landing init')
     this.generateMemberMap();
 
     this.socialAuthService.authState.subscribe(user => {
       this.user = user;
-      console.log("social user", user);
       this.loggedIn = user != null;
       if (user) {
         this.memberService

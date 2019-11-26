@@ -125,21 +125,27 @@ MemberSchema.statics.getAll = function () {
   });
 };
 
-MemberSchema.statics.updateKarmicKudos = function (member, amount) {
-  console.log('updating Kudo for ', member.uname);
-
+MemberSchema.statics.updateKarmicKudos = function (memberId, amount) {
   return this.findOneAndUpdate({
-    _id: mongoose.Types.ObjectId(member._id)
-  }, {
-    karmicKudos: member.karmicKudos + amount
-  }, {
-    upsert: false,
-    new: true
-  }, (err, res) => {
-    karmicKudoEmitter.emit('karmic-kudos', res);
-    return res;
-    if (err) throw (err);
-  });
+      _id: mongoose.Types.ObjectId(memberId)
+    }, {
+      $inc: {
+        karmicKudos: amount
+      }
+    }, {
+      upsert: false,
+      new: true
+    },
+    (err, res) => {
+      if (err) {
+        console.log('error updating karmic kudos')
+        throw (err);
+      }
+      console.log('res0', res)
+      if (res)
+        karmicKudoEmitter.emit('karmic-kudos', res);
+      return res;
+    });
 }
 
 MemberSchema.statics.logon = function (user) {
