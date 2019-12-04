@@ -2,18 +2,15 @@ table {
   width: 95%;
 }
 
-.sub-title {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.primary {
-  background-color: #3f51b5;
-  border-color: #3f51b5;
-  background-image: none;
+.stats-panel {
+  opacity: 0.9;
+  padding: 10px;
+  border-radius: 6px;
+  background-image: linear-gradient(yellow, red);
 }
 
 .primary:hover {
+
   background-color: #428bca;
   color: #fff;
   border-color: #428bca;
@@ -85,6 +82,8 @@ table {
 
   .map-container {
     width: 149%;
+    position: relative;
+    left: 20px;
   }
 
   ::-webkit-scrollbar {
@@ -93,7 +92,7 @@ table {
   }
 
   .header {
-    font-size: 24pt;
+    font-size: 18pt;
   }
 
   .map {

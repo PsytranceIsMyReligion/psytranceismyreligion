@@ -1,30 +1,46 @@
 <div fxLayoutAlign="center center" fxLayout="column">
-  <mat-card class="opaque-card">
+
+  <mat-card class="opaque-card" id=".other-element">
+
     <mat-card-content>
+
       <div fxLayoutAlign="center center" fxLayout="column">
-        <span class="title">Hello Multi Dimensional Holographic Universe!</span>
-        <span class="content"><br />
-          There are {{ memberCount }} members of which {{ conversionPercent }}% say 'Psytrance is my
-          Religion'<br /><br /></span>
+        <div (click)="logoHidden=true" [hidden]="logoHidden" style="position:relative;top: -30px;"
+          data-aos-anchor=".other-element" data-aos="fade-up" data-aos-delay="800" data-aos-duration="2000"
+          data-aos-easing="ease-in-out">
+          <img src="./assets/tune-in.jpg" />
+        </div>
+        <div class="stats-panel">
+          <span class="title">
+            We have {{ memberCount }} members<br /><br /></span><span style="font-size: 36pt;">{{ conversionPercent }}%
+            <br /></span><span class="sub-title"> have converted
+            to
+            psytrance<br /><br /></span>
+        </div>
+        <br />
         <span class="sub-title">The Member Map</span>
+        <br />
         <div fxLayout="row" class="map-container" fxLayoutAlign="center">
           <div [hidden]="mapOpened" #gmap class="map"></div>
-          <button kendoButton *ngIf="!mapOpened" (click)="openCloseMap(true)" [icon]="'hyperlink-open'" [primary]="true" class="warn">
+          <button kendoButton *ngIf="!mapOpened" (click)="openCloseMap(true)" [icon]="'hyperlink-open'" [primary]="true"
+            class="warn">
 
           </button>
         </div>
       </div>
 
-      <kendo-window class="expandable-map" title="Expandable Member Map" [top]="100" [left]="100" [width]="1000" [height]="400" [draggable]="true" [keepContent]="true" [hidden]="!mapOpened"
-        (close)="closeWindow()">
+      <kendo-window class="expandable-map" title="Expandable Member Map" [top]="100" [left]="100" [width]="1000"
+        [height]="400" [draggable]="true" [keepContent]="true" [hidden]="!mapOpened" (close)="closeWindow()">
         <div #gmap2 style="width:100%; height:100%; opacity: 1"></div>
       </kendo-window>
       <br />
       <div fxLayoutAlign="center center" class="login-buttons">
-        <button mat-raised-button color="primary" angulartics2On="click" angularticsAction="FBLogonClick" [hidden]="user" (click)="signInWithFB()">
+        <button mat-raised-button color="primary" angulartics2On="click" angularticsAction="FBLogonClick"
+          [hidden]="user" class="hvr-pulse" (click)="signInWithFB()">
           Sign in / Register with Facebook
         </button>
-        <button mat-raised-button color="primary" angulartics2On="click" angularticsAction="GoogleLogonClick" [hidden]="user" (click)="signInWithGoogle()">
+        <button mat-raised-button color="primary" angulartics2On="click" angularticsAction="GoogleLogonClick"
+          [hidden]="user" class="hvr-pulse" (click)="signInWithGoogle()">
           Sign in / Register with Google
         </button>
       </div>
@@ -32,38 +48,124 @@
       <div class="text-container">
         <p>
           <span class="header">
-            Welcome to religion based on the psychedelic trance state of mind and belief in the
-            holographic universe mediated by the experiental proof of psychedelic visionary states.<br /><br />
-            When enough of us come together and say 'Psytrance is my Religion', we will have created a
-            religion! Both <a target="_blank" href="https://www.jedichurch.org/">The Jedi Church</a> and
-            <a target="_blank" href="https://www.venganza.org/">Church of the Flying Spaghetti Monster</a> have both
-            been officially recognised as religions in recent years. Let's do the same for psytrance!
-            <br /><br />
-            <span class="title">What's the point? <br />Let's hack reality!</span><br /><br />
-            If psytrance is officially recognised as religion, we can then lobby our governments to
-            legalise psychedelics, since surely we will be consuming them as part of a religious
-            experience. They would become transformed into the sacrament in our rituals of rave. Surely this would make
-            their illegality an infringement on our inalienable right to freedom of religous
-            expression! Get round that narrow minded hypocritical politicians!
+            <span class="title">Welcome to Crowdsourced Enlightenment</span><br /><br />
+            I know your initial reaction to all of this may be WTF and hostile. Religion is a highly emotive word with
+            all sort of connotations of intolerance, indoctrination, dogma, corruption, perversion and outdated
+            thinking. Religion has
+            been the catalyst to
+            many a murderous conflict during the course of human
+            history, continuing to this day and has led to agonising deaths for countless millions and has been
+            responsible for
+            all sorts of other bullshit we would all like to see disappear from the world. <br /><br />You may be
+            thinking 'Is
+            this guy kidding?
+            The last thing this world needs is another fucking religion'. If this is your reaction, all I can say is
+            please hear me out, don't click away in
+            disgust. I think you'll find what I'm
+            saying
+            interesting and thought provoking at the least.<br /><br />
+
+            I believe we need new religion in this world, a world which is suffering so much enviromental pain and may
+            already
+            have toppled over various tipping points leading us to calamatous global catastrophe. <br /><br />
+            <div data-aos="fade-right" data-aos-delay="2000" data-aos-duration="2000" data-aos-easing="ease-in-out">
+              <img src="./assets/planet.jpg" style="height: 400px; width: 400px;" />
+            </div><br />
+            I believe we need a new religion
+            in this world,
+            one which flows forth from psychedelic induced trance states as it's source and that sense of communion felt
+            with mother nature and
+            that realization that we are all one when we experience them. <br /><br /> A religion which makes people
+            question their consumerist
+            capitalist
+            mindset and inspires and helps them to change their behaviour for the betterment of the planet. A religion
+            which helps people become more open and tolerant of others
+            in their everyday lives. <br /><br />A religion which can help us all reach the zenith of <a
+              href="https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs" target="_blank">Maslow's Heirachy
+              Of Needs</a>:
+            Self actualization or the desire to become the most that one can be.<br /><br />
+            <div data-aos="fade-right" data-aos-delay="2000" data-aos-duration="2000" data-aos-easing="ease-in-out">
+              <img src="./assets/maslow.jpg" style="height: 400px; width: 600px;" />
+            </div><br /> A religion which can help
+            people heal
+            themselves and others,
+            a religion which teaches loving kindness to all beings.
             <br /><br />
 
-            <span class="title">Yeah, but a religion! Really?</span><br /><br />
-            So in part this is a reality hack. However religions are defined by 'a specific
-            fundamental set of beliefs and practices generally agreed upon by a number of persons or
-            sects'. It is my belief that psychedelics reveal to us the true nature of the universe,
-            specifically that visions mediated by the most powerful psychedelic known to man, DMT,
-            gives us direct experiential proof that we live in a Holographic Universe where everything
-            is totally interconnected.<br /><br />
+            My use of psychedelics / entheogens / master medicines / call them what you will has lead me to the
+            conclusion that we live in a
+            Holographic Universe, a universe where everything is entangled with everything else.<br /><br /> A
+            universe where we are
+            literally one.<br /><br />
+            <div data-aos="fade-right" data-aos-delay="2000" data-aos-duration="2000" data-aos-easing="ease-in-out">
+              <img src="./assets/brain.jpeg" style="height: 400px; width: 800px;" />
+            </div>
+            <br />
+            This is a belief, one led to by the experiential proof of psychedelic induced visionary states, the proof
+            encoded in the alien information
+            language of my visions on <a href="https://en.wikipedia.org/wiki/Changa_(drug)" target="_blank">changa</a>.
+            A belief which led to a
+            personal ephiphany and this evangelical pursuit.<br /><br />
+            <div data-aos="fade-left" data-aos-delay="800" data-aos-duration="2000" data-aos-easing="ease-in-out">
+              <img src="./assets/hologram.jpg" style="height: 400px; width: 600px;" />
+            </div>
+            <span class="title">Say what? A Holographic Universe?</span><br /><br />
+            As an introductory explainer I recommend you watch these
+            interviews with Michael Talbot, author of the 1991 book <a
+              href="https://www.amazon.com/Holographic-Universe-Revolutionary-Theory-Reality/dp/0062014102"
+              target="_blank">The Holographic Universe</a>, who tragically died at
+            the age of 38 the year after the book's publication, a book which is a paradigm shift in thinking about the
+            true
+            nature of reality. I highly recommend you read it, the
+            Amazon reviews are glowing if you don't take my word for it!
+            <br /><br />
 
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/6rgYz_BU2Ew" frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <br /><br />
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/9ugQBP3NQ2g" frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <br /><br />
             <span class="title"> WE ARE ONE! Literally!</span><br /><br />
             Each and every one of us holds the universe inside us, it's true! It hasn't been proved
             yet that the universe is holographic but the evidence is mounting in it's favour
             and the consequences and implications of this interconnectedness of everything in the universe are powerful
             and profound. This knowledge can be used by each and every one of us to manefest the
             change we want in the world because belief and intention create reality! You are able with
-            the power of your intention and belief to make your dreams come true! Check out the 'Your
-            Free Upgrade' learning path and the video library for deeper looks into this subject.
+            the power of your thoughts to make your dreams come true! Check out the 'Your
+            Free Upgrade' learning path and the video library for a deep dive into these subjects and evidence for why
+            this is the case.
             <br /><br />
+            <div data-aos="fade-left" data-aos-delay="600" data-aos-duration="2000" data-aos-easing="ease-in-out">
+              <img src="./assets/third-eye.jpg" style="height: 400px; width: 800px;" />
+            </div>
+            <span class="title">Let's hack reality!</span><br /><br />
+            If enough of us come together from round the world and declare 'Psytrance Is My Religion', we will have
+            <a href="https://en.wikipedia.org/wiki/Crowdsourcing" target="_blank">crowdsourced</a> a
+            religion! <a target="_blank" href="https://www.jedichurch.org/">The Jedi Church</a> and
+            <a target="_blank" href="https://www.venganza.org/">Church of the Flying Spaghetti Monster</a> have both
+            been officially recognised as religions in recent years so it's a perfectly achievable objective.
+            <br /><br />
+            <span class="title">The Benefits Of Success</span><br /><br />
+            If psytrance were officially recognised as religion, we would be able to
+            lobby our respective governments to
+            legalise psychedelics with greater force, since surely we will be consuming psychedelics as part of a
+            religious
+            experience? They would become transformed from class A restricted substances into the sacrament in our
+            rituals of rave.
+            Surely this would make
+            their illegality an infringement on our inalienable right to freedom of religous
+            expression. Get round that narrow minded hypocritical politicians!
+            <br /><br />
+
+            <!-- <span class="title">Yeah, but a religion! Really?</span><br /><br />
+            So in part this is a reality hack. However religions are defined by 'a specific
+            fundamental set of beliefs and practices generally agreed upon by a number of persons or
+            sects'. It is my belief that psychedelics reveal to us the true nature of the universe,
+            specifically that visions mediated by the most powerful psychedelic known to man, DMT,
+            gives us direct experiential proof that we live in a Holographic Universe where everything
+            is totally interconnected.<br /><br /> -->
+
 
             <span class="title">But psytrance is music dude!</span><br /><br />
             When talking about psychedelic trance as a religion, I don't necessarily mean psytrance
@@ -76,17 +178,39 @@
             flow state of the trance dance, an active meditation which can be therapeutic,
             revitalising, renewing. We can have moments of peak experience, epiphany and
             revalation, gain creative insight and grow spiritually as well as share great times with
-            good friends and who knows maybe get lucky.<br /><br />
+            good friends and make new ones or who knows maybe even meet the love of our lives in the ultimate
+            moment of dancefloor magic.<br /><br />
+            <span class="title">Come on, Join!<br /> Tune In To More Than A Social Network!</span><br /><br />
 
             Of course psytrance doesn't have to be your religion to join and make use of the social
             networking capabilities of this website. Once you've joined you can discover psytrance
             heads living in your local area and say hello by sending them a message. Maybe you'll make
-            new friends!<br /><br />
+            new friends.<br /><br />
+            You can also see the statistical breakdown of our membership and their opinions, from favourite music
+            genres, artists and festivals and all
+            sorts of other interesting metrics. <br /><br />We've got a video library, events calendar and community
+            wall everyone
+            can contribute to, plus a live chat feature for members logged in.
+            <br /><br />
+            <span class="title">Kudos</span>
+            <br /><br />
+            You'll also generate Karmic Kudos by sharing content,
+            or referring like minded people to the site. Sharing is caring after all! Generate enough and you will
+            unlock hidden features of this site.
+            <br /><br />
+            <span class="title">Help Turn On The World <br />Spread The Meme!</span>
+            <br /><br />
+            Psytrance is my religion is a <a href="https://en.wikipedia.org/wiki/Meme" target="_blank">meme</a>
+            and as such we want you to spread it! For the converts amongst you we
+            offer a range of merchandise,
+            from art, t-shirts, and mugs to key rings to mobile phone cases and various other novelty items for you to
+            broadcast your love, support and psychedelic vibes.
 
-            You can also see the statistical breakdown of our membership and earn Karmic Kudos by
-            downloading flyers and handing them to other psytrance heads at parties. The more members
-            you refer, the more Karmic Kudos you generate! There's also a forum for discussing ideas
-            and a TV channel where you can share your favourite youtube clips with the rest of us.
+            <br /><br />I promise all profits from sales will
+            go into spreading the Psytrance Is My Religion meme further
+            on various media platforms. My own personal finances for this project are not limitless and we are
+            crowdsourcing after all.
+
             <br /><br />
             <span class="title">Stay tuned to the alpha frequency!</span>
           </span>

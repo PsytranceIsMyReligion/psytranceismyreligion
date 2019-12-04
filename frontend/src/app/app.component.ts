@@ -7,7 +7,7 @@ import { AuthService, SocialUser } from "angularx-social-login";
 import { TokenService } from "./services/token.service";
 import { ToastContainerDirective, ToastrService } from "ngx-toastr";
 import { Socket } from "ngx-socket-io";
-
+import * as AOS from 'aos';
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -33,6 +33,7 @@ export class AppComponent implements OnDestroy, OnInit {
   member: Member;
 
   ngOnInit() {
+    AOS.init();
     this.member = this.memberService.getUser();
     this.socket.on("system-message", message => {
       console.log("system-message", message);

@@ -11,7 +11,6 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from "angularx-social-login";
-
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
@@ -29,7 +28,7 @@ export class LandingComponent implements OnInit {
   user: SocialUser;
   loggedIn: boolean;
   mapOpened: boolean = false;
-
+  logoHidden = false;
   constructor(
     private memberService: MemberService,
     private socialAuthService: AuthService,

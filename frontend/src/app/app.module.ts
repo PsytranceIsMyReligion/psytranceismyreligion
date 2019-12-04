@@ -1,5 +1,4 @@
-import { CoreModule } from './modules/core.module';
-import { WallResolve } from "./resolvers/wall.resolve";
+import { CoreModule } from "./modules/core.module";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, LOCALE_ID } from "@angular/core";
@@ -7,9 +6,6 @@ import { RouterModule, PreloadAllModules } from "@angular/router";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
-import { MemberService } from "./services/member.service";
-import { TokenService } from "./services/token.service";
 import { NavigationComponent } from "./components/navigation/navigation.component";
 import { JwtModule } from "@auth0/angular-jwt";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
@@ -22,15 +18,13 @@ import { AngularFontAwesomeModule } from "angular-font-awesome";
 import { ToastrModule } from "ngx-toastr";
 import { DeviceDetectorModule } from "ngx-device-detector";
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
-import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { LocaleService } from "./services/locale.service";
 import { registerLocaleData } from "@angular/common";
 import { Angulartics2Module } from "angulartics2";
-
 import localeGB from "@angular/common/locales/en-GB";
 import { environment } from "./../environments/environment";
 import { SharedModule } from "./modules/shared.module";
-import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { ErrorInterceptor } from "./interceptors/error.interceptor";
 
 const socketConfig: SocketIoConfig = {
   url: environment.socketUri,
@@ -66,10 +60,7 @@ export function tokenGetter() {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavigationComponent,
-  ],
+  declarations: [AppComponent, NavigationComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -99,7 +90,6 @@ export function tokenGetter() {
     })
   ],
   providers: [
-
     {
       useFactory: (localeService: LocaleService) => {
         return localeService.getUsersLocale();

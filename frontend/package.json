@@ -55,6 +55,7 @@
     "angular-jwt": "^0.1.11",
     "angulartics2": "^8.1.0",
     "angularx-social-login": "^1.2.7",
+    "aos": "^2.3.4",
     "core-js": "^3.2.1",
     "font-awesome": "^4.7.0",
     "hammer": "0.0.5",
