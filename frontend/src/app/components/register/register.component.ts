@@ -97,9 +97,9 @@ export class RegisterComponent implements OnInit {
   dropdownData;
   avatarUrl$;
 
-  @ViewChild("musicGenreList", { static: false }) musicGenreList;
-  @ViewChild("artistList", { static: false }) artistList;
-  @ViewChild("festivalList", { static: false }) festivalList;
+  @ViewChild("musicGenreList") musicGenreList;
+  @ViewChild("artistList") artistList;
+  @ViewChild("festivalList") festivalList;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,

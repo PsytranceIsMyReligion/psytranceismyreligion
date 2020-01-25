@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
     "reason",
     "actions"
   ];
-  @ViewChild("desktop", { static: false }) gmapDesktop: any;
-  @ViewChild("mobile", { static: false }) gmapMobile: any;
+  @ViewChild("desktop") gmapDesktop: any;
+  @ViewChild("mobile") gmapMobile: any;
   desktopMap: google.maps.Map;
   mobileMap: google.maps.Map;
   map: google.maps.Map;

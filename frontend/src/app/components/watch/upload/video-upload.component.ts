@@ -15,7 +15,7 @@ import { switchMap, tap, map } from "rxjs/operators";
   styleUrls: ["./video-upload.component.css"]
 })
 export class VideoUploadComponent implements OnInit {
-  @ViewChild("tagList", { static: false }) tagList;
+  @ViewChild("tagList") tagList;
 
   videoGroup: FormGroup;
   tagData: [];

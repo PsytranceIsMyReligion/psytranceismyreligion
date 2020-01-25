@@ -14,7 +14,6 @@ import {
   FacebookLoginProvider
 } from "angularx-social-login";
 import { ROUTES } from "./routes/app.routes";
-import { AngularFontAwesomeModule } from "angular-font-awesome";
 import { ToastrModule } from "ngx-toastr";
 import { DeviceDetectorModule } from "ngx-device-detector";
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
@@ -25,6 +24,7 @@ import localeGB from "@angular/common/locales/en-GB";
 import { environment } from "./../environments/environment";
 import { SharedModule } from "./modules/shared.module";
 import { ErrorInterceptor } from "./interceptors/error.interceptor";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 const socketConfig: SocketIoConfig = {
   url: environment.socketUri,
@@ -75,7 +75,6 @@ export function tokenGetter() {
     CoreModule,
     HttpClientModule,
     SocialLoginModule,
-    AngularFontAwesomeModule,
     DeviceDetectorModule.forRoot(),
     JwtModule.forRoot({
       config: {
@@ -87,7 +86,8 @@ export function tokenGetter() {
     RouterModule.forRoot(ROUTES, {
       onSameUrlNavigation: "reload",
       preloadingStrategy: PreloadAllModules
-    })
+    }),
+    FontAwesomeModule
   ],
   providers: [
     {

@@ -1,7 +1,7 @@
 import { CoreModule } from "./core.module";
 import { WallService } from "./../services/wall.service";
 import { MemberService } from "../services/member.service";
-import { NgModule } from "@angular/core";
+import { NgModule, ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MemberSelectorComponent } from "../components/home/member-selector/member-selector.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -46,7 +46,6 @@ import { TooltipModule } from "@progress/kendo-angular-tooltip";
 import { PopupModule } from '@progress/kendo-angular-popup';
 
 @NgModule({
-  entryComponents: [PostDialogComponent, MessageDialogComponent],
   declarations: [
     PostDialogComponent,
     MessageDialogComponent,
@@ -134,10 +133,10 @@ import { PopupModule } from '@progress/kendo-angular-popup';
   ]
 })
 export class SharedModule {
-  static forRoot() {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
-      ngModule: SharedModule,
-      providers: [MemberService, WallService, LocaleService]
+        ngModule: SharedModule,
+        providers: [MemberService, WallService, LocaleService]
     };
-  }
+}
 }
