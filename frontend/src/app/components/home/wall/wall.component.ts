@@ -22,7 +22,6 @@ import { ToastrService } from "ngx-toastr";
 import { MatDialog } from "@angular/material";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { findIndex } from "lodash";
-// import Emoji from "@wwalc/ckeditor5-emoji/src/emoji";
 
 const IFRAME_SRC = "//cdn.iframe.ly/api/iframe";
 const API_KEY = "f1a837d9d5c21c46096ba2";
@@ -33,6 +32,9 @@ const API_KEY = "f1a837d9d5c21c46096ba2";
 })
 export class WallComponent implements OnInit {
   @Input("wall$") wall$: BehaviorSubject<any> = new BehaviorSubject({});
+  @Input("paginationConfig$") paginationConfig$: BehaviorSubject<
+    any
+  > = new BehaviorSubject({});
   wallData: Array<WallPost> = new Array();
   user: Member;
   editor = ClassicEditor;
@@ -64,7 +66,11 @@ export class WallComponent implements OnInit {
   ngOnInit() {
     this.wall$.subscribe(data => {
       this.wallData = data;
+      console.log("wallData", data);
       this.user = this.memberService.getUser();
+    });
+    this.paginationConfig$.subscribe(data => {
+      console.log("config", data);
     });
   }
 
@@ -82,12 +88,14 @@ export class WallComponent implements OnInit {
   }
 
   openPostDialog(updatePost?: WallPost): void {
-    let data = { title: "", content: "", _id: "" };
+    let data = { title: "", content: "", _id: "", comments : [], likes : [] };
     if (updatePost) {
       data = {
         title: updatePost.title,
         content: updatePost.content,
-        _id: updatePost._id
+        _id: updatePost._id,
+        comments: updatePost.comments,
+        likes : updatePost.likes
       };
     }
     const dialogRef = this.dialog.open(PostDialogComponent, {
@@ -96,14 +104,14 @@ export class WallComponent implements OnInit {
       data: data
     });
 
-    dialogRef.afterClosed().subscribe((updatePost: WallPost) => {
-      if (!updatePost) {
+    dialogRef.afterClosed().subscribe((updatePostResponse: WallPost) => {
+      if (!updatePostResponse) {
         return;
       }
-      if (!updatePost._id) {
-        console.log("creating", updatePost);
+      if (!updatePostResponse._id) {
+        console.log("creating", updatePostResponse);
         this.wallService
-          .createWallPost(updatePost)
+          .createWallPost(updatePostResponse)
           .subscribe((res: WallPost) => {
             console.log("post", res);
             this.wall$.next([res, ...this.wallData]);
@@ -112,14 +120,17 @@ export class WallComponent implements OnInit {
             });
             this.angulartics2.eventTrack.next({
               action: "NewWallPostAction",
-              properties: { author: updatePost.createdBy.uname }
+              properties: { author: updatePostResponse.createdBy.uname }
             });
           });
       } else {
-        console.log("updating", updatePost);
+        updatePostResponse.comments = updatePost.comments;
+        updatePostResponse.likes = updatePost.likes;
+        console.log("updating", updatePostResponse);
         this.wallService
-          .updateWallPost(updatePost._id, updatePost)
+          .updateWallPost(updatePostResponse._id, updatePostResponse)
           .subscribe((res: WallPost) => {
+            console.log("update res", res);
             this.wallData = [
               res,
               ...this.wallData.filter(p => p._id != res._id)
@@ -164,33 +175,32 @@ export class WallComponent implements OnInit {
         this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
         this.wall$.next([...this.wallData]);
       });
-      this.editorData = "";
+    this.editorData = "";
   }
 
   updateComment(updateCommentId, post) {
-
-    let comment = post.comments.filter((c) => c._id == updateCommentId)[0];
+    let comment = post.comments.filter(c => c._id == updateCommentId)[0];
     comment.content = this.editorData;
-    post.comments.filter((c) => c._id != updateCommentId).push(comment);
-    console.log('update',post.comments, updateCommentId)
+    post.comments.filter(c => c._id != updateCommentId).push(comment);
+    console.log("update", post.comments, updateCommentId);
     this.wallService
-    .updateWallPost(post._id, post)
-    .subscribe((res: WallPost) => {
-      this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
-      this.wall$.next([...this.wallData]);
-    });
+      .updateWallPost(post._id, post)
+      .subscribe((res: WallPost) => {
+        this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
+        this.wall$.next([...this.wallData]);
+      });
     this.editorData = "";
   }
 
   deleteComment(deleteCommentId, post) {
-    console.log('delete', deleteCommentId, post)
-    post.comments = post.comments.filter((c)=> c._id != deleteCommentId);
+    console.log("delete", deleteCommentId, post);
+    post.comments = post.comments.filter(c => c._id != deleteCommentId);
     this.wallService
-    .updateWallPost(post._id, post)
-    .subscribe((res: WallPost) => {
-      this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
-      this.wall$.next([...this.wallData]);
-    });
+      .updateWallPost(post._id, post)
+      .subscribe((res: WallPost) => {
+        this.wallData = [res, ...this.wallData.filter(p => p._id != res._id)];
+        this.wall$.next([...this.wallData]);
+      });
   }
 
   userLikesPost(likes) {
@@ -198,5 +208,23 @@ export class WallComponent implements OnInit {
       return o._id == this.user._id;
     });
     return idx >= 0;
+  }
+
+  onScroll() {
+    let config = this.paginationConfig$.getValue();
+
+    if (config.page < config.totalPages) {
+      console.log("scroll", config);
+      let page = { page: config.nextPage };
+      this.wallService.getWallPosts(page).subscribe(res => {
+        this.wallData = this.wallData.concat(res["docs"]);
+        delete res["docs"];
+        console.log("returned config", res);
+        this.paginationConfig$.next(res);
+        this.wall$.next(this.wallData);
+      });
+    } else {
+      console.log("end");
+    }
   }
 }

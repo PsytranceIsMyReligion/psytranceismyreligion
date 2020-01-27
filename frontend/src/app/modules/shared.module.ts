@@ -44,7 +44,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { VarDirective } from "../directives/var.directive";
 import { TooltipModule } from "@progress/kendo-angular-tooltip";
 import { PopupModule } from '@progress/kendo-angular-popup';
-
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
     PostDialogComponent,
@@ -89,7 +89,8 @@ import { PopupModule } from '@progress/kendo-angular-popup';
     WindowModule,
     FilterPipeModule,
     MatMomentDateModule,
-    ButtonsModule
+    ButtonsModule,
+    InfiniteScrollModule
   ],
   exports: [
     MemberSelectorComponent,

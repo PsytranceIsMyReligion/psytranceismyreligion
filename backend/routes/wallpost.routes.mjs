@@ -2,10 +2,30 @@ import express from "express";
 const router = express.Router();
 import WallPost from "../models/wallpost";
 import Member from "../models/member";
+import _ from "lodash";
+const options = {
+    page: 1,
+    limit: 5,
+    collation: {
+        locale: 'en'
+    },
+    populate: [
+        'createdBy',
+        'comments.createdBy',
+        'likes'
+    ],
+    sort: {
+        'updatedAt': -1
+    }
+};
+
 router.route("/").get((req, res) => {
-    WallPost.find({}).populate('createdBy').populate('comments.createdBy').populate('likes').sort({
-        'updatedAt': 'desc'
-    }).exec((err, docs) => {
+    let params = _.cloneDeep(options);
+    if (req.query.page) {
+        options.page = req.query.page;
+    }
+    console.log('options', options);
+    WallPost.paginate({}, params).then((docs, err) => {
         if (err) {
             console.log('error', err)
             res.status(400).send("Failed to get wallposts");
@@ -33,7 +53,6 @@ router.route("/add").post((req, res) => {
 })
 
 router.route("/update/:id").post((req, res, next) => {
-
     WallPost
         .findOneAndUpdate({
             _id: req.params.id
@@ -50,7 +69,6 @@ router.route("/update/:id").post((req, res, next) => {
             WallPost.findOne({
                 _id: post._id
             }).populate('createdBy').populate('comments.createdBy').populate('likes').exec((err, docs) => {
-                console.log('returning', docs)
                 res.status(200).json(docs);
             });
         })

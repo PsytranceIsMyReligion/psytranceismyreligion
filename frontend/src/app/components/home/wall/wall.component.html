@@ -5,7 +5,9 @@
       Share Story&nbsp;<mat-icon>create</mat-icon>
     </button>
   </div>
-  <div fxLayout="column" class="post-container" fxLayoutAlign="start stretch" *ngIf="wall$ | async as wall">
+  <div fxLayout="column" class="post-container" fxLayoutAlign="start stretch" *ngIf="wall$ | async as wall"
+    infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+    [scrollWindow]="false">
     <mat-card class="inner-card" *ngFor="let post of wall$ | async; let idx = index">
       <mat-card-header><span>{{ post.title }} <br />
           By
@@ -43,7 +45,8 @@
           <div class="replyPanel" [hidden]="true" #editReplyPanel>
             <ckeditor [editor]="editor" [(ngModel)]="editorData" [config]="editorConfig">
             </ckeditor>
-            <button mat-raised-button class="hrv-pulse save-btn" color="accent" (click)="updateComment(updateCommentId, post)">
+            <button mat-raised-button class="hrv-pulse save-btn" color="accent"
+              (click)="updateComment(updateCommentId, post)">
               Save
             </button>
           </div>
@@ -70,8 +73,9 @@
                 </span>
               </div>
             </kendo-popup>
-            <span class="hvr-pulse" (mouseenter)="hidePopup = post.likes.length == 0 ? true : false"
-              class="post-comments" [ngClass]="{'editor-comments' : user._id == post.createdBy._id }" (click)="commentsHidden = !commentsHidden">
+            <span class="hvr-pulse" (mouseenter)="hidePopup = post.likes && post.likes.length == 0 ? true : false"
+              class="post-comments" [ngClass]="{'editor-comments' : user._id == post.createdBy._id }"
+              (click)="commentsHidden = !commentsHidden">
               <span #anchor> {{ post.likes.length }} Likes </span>{{ post.comments.length }}
               Comments
             </span>

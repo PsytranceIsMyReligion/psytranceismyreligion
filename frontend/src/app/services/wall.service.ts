@@ -12,8 +12,8 @@ export class WallService {
 
   constructor(private http: HttpClient) {}
 
-  getWallPosts() {
-    return this.http.get(`${baseUri}/wallposts`);
+  getWallPosts(config = {}) {
+    return this.http.get(`${baseUri}/wallposts`, { params: config });
   }
 
   createWallPost(post) {
@@ -23,7 +23,6 @@ export class WallService {
   updateWallPost(id: string, post: WallPost) {
     return this.http.post(`${baseUri}/wallposts/update/${id}`, post);
   }
-
 
   deleteWallPost(id: string) {
     return this.http.get(`${baseUri}/wallposts/delete/${id}`);

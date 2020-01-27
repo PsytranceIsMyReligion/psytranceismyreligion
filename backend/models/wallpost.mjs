@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const Schema = mongoose.Schema;
 
@@ -26,4 +27,5 @@ let WallPostSchema = new Schema({
 WallPostSchema.add({
     comments: [WallPostSchema]
 });
+WallPostSchema.plugin(mongoosePaginate);
 export default mongoose.model("WallPost", WallPostSchema);

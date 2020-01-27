@@ -1,5 +1,5 @@
 <div *ngIf="isMobile" class="mobile-container" fxLayout="row wrap" fxlayoutAlign="start">
-  <app-wall [wall$]="wall$"></app-wall>
+  <app-wall [wall$]="wall$" [paginationConfig$]="paginationConfig$"></app-wall>
   <div #mobile class="mobile-map"></div>
   <app-member-selector [headerInfo$]="headerInfo$" [members$]="members$"></app-member-selector>
   <app-member-details></app-member-details>
@@ -10,5 +10,5 @@
     <app-member-details></app-member-details>
   </div>
   <app-member-selector [headerInfo$]="headerInfo$" [members$]="members$"></app-member-selector>
-  <app-wall [wall$]="wall$"></app-wall>
+  <app-wall [wall$]="wall$" [paginationConfig$]="paginationConfig$"></app-wall>
 </div>

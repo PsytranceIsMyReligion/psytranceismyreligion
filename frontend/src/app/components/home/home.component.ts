@@ -33,14 +33,18 @@ export class HomeComponent implements OnInit {
   members$: BehaviorSubject<Array<Member>>;
   wall$: BehaviorSubject<Array<WallPost>>;
   headerInfo$: BehaviorSubject<any> = new BehaviorSubject({});
-
+  paginationConfig$: BehaviorSubject<any>;
   constructor(
     private memberService: MemberService,
     private router: Router,
     private route: ActivatedRoute,
     private deviceDetectorService: DeviceDetectorService
   ) {
-    this.wall$ = new BehaviorSubject(this.route.snapshot.data["posts"]);
+    this.wall$ = new BehaviorSubject(this.route.snapshot.data["posts"]["docs"]);
+    let config = this.route.snapshot.data["posts"];
+    delete config.docs;
+    console.log("setting config", config);
+    this.paginationConfig$ = new BehaviorSubject(config);
     this.selectedMember$ = this.memberService.getSelectedMember$();
     this.headerInfo$.next({
       count: this.route.snapshot.data["data"]["stats"]["count"],
@@ -56,7 +60,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
     this.generateMemberMap();
     if (this.route.snapshot.paramMap.get("id")) {
       console.log("id", this.route.snapshot.paramMap.get("id"));
@@ -66,7 +69,6 @@ export class HomeComponent implements OnInit {
     }
     this.selectedMember$.subscribe(member => this.updateFocusedMember(member));
   }
-
 
   updateFocusedMember(member: Member) {
     // if (member) {

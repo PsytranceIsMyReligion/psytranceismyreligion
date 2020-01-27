@@ -70,6 +70,8 @@ export interface WallPost {
   tags?: Array<string>;
   content: string;
   createdBy: Member;
+  comments?: [];
+  likes?: [];
   _id?: string;
 }
 
