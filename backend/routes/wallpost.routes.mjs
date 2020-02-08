@@ -20,9 +20,9 @@ const options = {
 };
 
 router.route("/").get((req, res) => {
-    let params = _.cloneDeep(options);
-    if (req.query.page) {
-        options.page = req.query.page;
+    let params = options;
+    if (req.query.options) {
+        options = req.query.options;
     }
     console.log('options', options);
     WallPost.paginate({}, params).then((docs, err) => {

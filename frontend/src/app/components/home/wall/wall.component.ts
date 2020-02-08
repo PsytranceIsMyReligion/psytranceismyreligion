@@ -215,8 +215,7 @@ export class WallComponent implements OnInit {
 
     if (config.page < config.totalPages) {
       console.log("scroll", config);
-      let page = { page: config.nextPage };
-      this.wallService.getWallPosts(page).subscribe(res => {
+      this.wallService.getWallPosts(config).subscribe(res => {
         this.wallData = this.wallData.concat(res["docs"]);
         delete res["docs"];
         console.log("returned config", res);

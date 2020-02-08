@@ -25,7 +25,7 @@ import { environment } from "./../environments/environment";
 import { SharedModule } from "./modules/shared.module";
 import { ErrorInterceptor } from "./interceptors/error.interceptor";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-
+import "@progress/kendo-angular-intl/locales/en";
 const socketConfig: SocketIoConfig = {
   url: environment.socketUri,
   options: {
