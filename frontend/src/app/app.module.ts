@@ -25,7 +25,9 @@ import { environment } from "./../environments/environment";
 import { SharedModule } from "./modules/shared.module";
 import { ErrorInterceptor } from "./interceptors/error.interceptor";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import "@progress/kendo-angular-intl/locales/en";
+import "@progress/kendo-angular-intl/locales/en/all";
+import "@progress/kendo-angular-intl/locales/en/all";
+import { VarDirective } from "./directives/var.directive";
 const socketConfig: SocketIoConfig = {
   url: environment.socketUri,
   options: {
@@ -110,7 +112,8 @@ export function tokenGetter() {
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
-    }
+    },
+    VarDirective
   ],
   bootstrap: [AppComponent]
 })

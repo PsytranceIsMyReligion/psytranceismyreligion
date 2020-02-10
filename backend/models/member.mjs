@@ -59,8 +59,7 @@ let MemberSchema = new Schema({
     type: String
   },
   musictype: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'StaticData'
+    type: String
   }],
   favouriteartists: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -116,11 +115,11 @@ let MemberSchema = new Schema({
 });
 
 MemberSchema.statics.findMemberById = function (id) {
-  return this.findById(id).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals');
+  return this.findById(id).populate('referer').populate('favouriteartists').populate('favouritefestivals');
 };
 
 MemberSchema.statics.getAll = function () {
-  return this.find({}).populate('referer').populate('musictype').populate('favouriteartists').populate('favouritefestivals').sort({
+  return this.find({}).populate('referer').populate('favouriteartists').populate('favouritefestivals').sort({
     'createdAt': 'desc'
   });
 };

@@ -1,31 +1,13 @@
-import { CoreModule } from "./core.module";
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from "@angular/material/datepicker";
 import { WallService } from "./../services/wall.service";
 import { MemberService } from "../services/member.service";
 import { NgModule, ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MemberSelectorComponent } from "../components/home/member-selector/member-selector.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import {
-  MatIconModule,
-  MatCardModule,
-  MatStepperModule,
-  MatToolbarModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatOptionModule,
-  MatSelectModule,
-  MatButtonModule,
-  MatTableModule,
-  MatDividerModule,
-  MatChipsModule,
-  MatAutocompleteModule,
-  MatSidenavModule,
-  MatDatepickerModule,
-  MatListModule,
-  MatRadioModule,
-  MatExpansionModule
-} from "@angular/material";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { DropDownsModule } from "@progress/kendo-angular-dropdowns";
 import { WindowModule } from "@progress/kendo-angular-dialog";
@@ -43,8 +25,22 @@ import { MessageDialogComponent } from "../components/home/member-details/messag
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { VarDirective } from "../directives/var.directive";
 import { TooltipModule } from "@progress/kendo-angular-tooltip";
-import { PopupModule } from '@progress/kendo-angular-popup';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PopupModule } from "@progress/kendo-angular-popup";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { MatInputModule } from "@angular/material/input";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatListModule } from "@angular/material/list";
+import { MatStepperModule } from "@angular/material/stepper";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTableModule } from "@angular/material/table";
+
 @NgModule({
   declarations: [
     PostDialogComponent,
@@ -72,11 +68,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     PopupModule,
     MatFormFieldModule,
     MatInputModule,
-    MatOptionModule,
     MatSelectModule,
     MatButtonModule,
     MatTableModule,
-    MatDividerModule,
     MatChipsModule,
     MatAutocompleteModule,
     MatSidenavModule,
@@ -108,17 +102,14 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatOptionModule,
     MatSelectModule,
     MatButtonModule,
     MatTableModule,
-    MatDividerModule,
     MatChipsModule,
     MatAutocompleteModule,
     MatSidenavModule,
     MatDatepickerModule,
     MatListModule,
-    MatDatepickerModule,
     MatRadioModule,
     MatExpansionModule,
     DropDownsModule,
@@ -136,8 +127,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {
     return {
-        ngModule: SharedModule,
-        providers: [MemberService, WallService, LocaleService]
+      ngModule: SharedModule,
+      providers: [MemberService, WallService, LocaleService]
     };
-}
+  }
 }

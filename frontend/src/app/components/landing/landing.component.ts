@@ -46,7 +46,7 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('landing init')
+    console.log("landing init");
     this.generateMemberMap();
 
     this.socialAuthService.authState.subscribe(user => {
@@ -79,48 +79,50 @@ export class LandingComponent implements OnInit {
   }
 
   generateMemberMap() {
-    let mapProp = {
-      zoom: 1,
-      center: { lat: this.members[0].lat, lng: this.members[0].long },
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      zoomControl: false,
-      mapTypeControl: false,
-      scaleControl: false,
-      streetViewControl: false,
-      rotateControl: false,
-      fullscreenControl: false
-    };
-    this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    this.map2 = new google.maps.Map(this.gmap2Element.nativeElement, mapProp);
-    this.members.forEach((el: Member) => {
-      if (el.lat && el.long) {
-        let location = new google.maps.LatLng(el.lat, el.long);
-        let marker = new google.maps.Marker({
-          position: location,
-          map: this.map
-        });
-        let marker2 = new google.maps.Marker({
-          position: location,
-          map: this.map2
-        });
-        var infowindow = new google.maps.InfoWindow({
-          content: el.uname + " thinks psytrance is " + el.psystatus
-        });
-        marker.addListener("mouseover", () => {
-          infowindow.open(this.map, marker);
-        });
-        marker.addListener("mouseout", () => {
-          infowindow.close();
-        });
-        marker2.addListener("mouseover", () => {
-          infowindow.open(this.map2, marker2);
-        });
-        marker2.addListener("mouseout", () => {
-          infowindow.close();
-        });
-      }
-    });
-
+    if (this.members.length > 0) {
+      let mapProp = {
+        zoom: 1,
+        center: { lat: this.members[0].lat, lng: this.members[0].long },
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false
+      };
+      this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+      this.map2 = new google.maps.Map(this.gmap2Element.nativeElement, mapProp);
+      this.members.forEach((el: Member) => {
+        console.log("member", el);
+        if (el.lat && el.long) {
+          let location = new google.maps.LatLng(el.lat, el.long);
+          let marker = new google.maps.Marker({
+            position: location,
+            map: this.map
+          });
+          let marker2 = new google.maps.Marker({
+            position: location,
+            map: this.map2
+          });
+          var infowindow = new google.maps.InfoWindow({
+            content: el.uname + " thinks psytrance is " + el.psystatus
+          });
+          marker.addListener("mouseover", () => {
+            infowindow.open(this.map, marker);
+          });
+          marker.addListener("mouseout", () => {
+            infowindow.close();
+          });
+          marker2.addListener("mouseover", () => {
+            infowindow.open(this.map2, marker2);
+          });
+          marker2.addListener("mouseout", () => {
+            infowindow.close();
+          });
+        }
+      });
+    }
     this.memberService.landingPageStats().subscribe(data => {
       this.memberCount = data["count"];
       this.conversionPercent = Math.round(data["conversionPercent"]);

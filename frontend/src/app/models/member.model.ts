@@ -18,7 +18,7 @@ export interface Member {
   long?: number;
   membertype?: string;
   membertypeDisplay?: string;
-  musictype?: Array<StaticData>;
+  musictype?: Array<any>;
   startyear?: number;
   bio?: string;
   favouriteparty?: string;

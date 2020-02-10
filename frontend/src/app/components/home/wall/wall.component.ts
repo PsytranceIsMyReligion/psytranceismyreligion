@@ -1,3 +1,4 @@
+import { MatDialog } from "@angular/material/dialog";
 import { Angulartics2 } from "angulartics2";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { environment } from "./../../../../environments/environment.prod";
@@ -19,7 +20,6 @@ import {
   ElementRef
 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { MatDialog } from "@angular/material";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { findIndex } from "lodash";
 
@@ -51,6 +51,7 @@ export class WallComponent implements OnInit {
     // plugins: [Emoji],
     toolbar: ["undo", "redo", "bold", "italic"]
   };
+
   constructor(
     private wallService: WallService,
     private memberService: MemberService,
@@ -88,14 +89,14 @@ export class WallComponent implements OnInit {
   }
 
   openPostDialog(updatePost?: WallPost): void {
-    let data = { title: "", content: "", _id: "", comments : [], likes : [] };
+    let data = { title: "", content: "", _id: "", comments: [], likes: [] };
     if (updatePost) {
       data = {
         title: updatePost.title,
         content: updatePost.content,
         _id: updatePost._id,
         comments: updatePost.comments,
-        likes : updatePost.likes
+        likes: updatePost.likes
       };
     }
     const dialogRef = this.dialog.open(PostDialogComponent, {
@@ -212,8 +213,8 @@ export class WallComponent implements OnInit {
 
   onScroll() {
     let config = this.paginationConfig$.getValue();
-
-    if (config.page < config.totalPages) {
+    config.page = config.nextPage;
+    if (config.page <= config.totalPages && config.hasNextPage) {
       console.log("scroll", config);
       this.wallService.getWallPosts(config).subscribe(res => {
         this.wallData = this.wallData.concat(res["docs"]);

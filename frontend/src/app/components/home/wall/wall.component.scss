@@ -16,6 +16,10 @@
   }
 }
 
+.liked {
+  background-color: lightblue;
+}
+
 .popup-content {
   padding: 5px;
 }
@@ -45,8 +49,12 @@ mat-card {
   margin: 10px 10 10 0px;
 
   .mat-flat-button {
-    margin: 0 !important;
+    margin: 5px 5px 0 0 !important;
+    color: deepskyblue;
     padding: 0 !important;
+    max-height: 25px !important;
+    max-width: 30px !important;
+    line-height: 25px !important;
   }
 
   mat-card-header {

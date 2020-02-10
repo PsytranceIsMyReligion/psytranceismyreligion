@@ -1,68 +1,115 @@
 <div class="details-container">
   <mat-card *ngIf="selectedMember$ | async as selectedMember">
     <mat-card-header>
-      <img *ngIf="selectedMember.avatarUrl" mat-card-avatar src="{{ selectedMember.avatarUrl }}" />
+      <img
+        *ngIf="selectedMember.avatarUrl"
+        mat-card-avatar
+        src="{{ selectedMember.avatarUrl }}"
+      />
       <mat-icon *ngIf="!selectedMember.avatarUrl">person_outline</mat-icon>
-      <span>{{ selectedMember.uname }} <br /> {{ selectedMember.fname }} {{ selectedMember.lname }}</span>
+      <span
+        >{{ selectedMember.uname }} <br />
+        {{ selectedMember.fname }} {{ selectedMember.lname }}</span
+      >
       <span class="links">
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="fa fa-envelope  hvr-pulse" style="cursor: pointer" title="Email"
-          (click)="openMessageDialog(selectedMember)"></a>&nbsp;&nbsp;
-        <a *ngIf="selectedMember.facebookUrl" title="Facebook link" class="fa fa-facebook  hvr-pulse" target="_blank"
-          href="{{ selectedMember.facebookUrl}}"></a>&nbsp;&nbsp;
-        <a *ngIf="selectedMember.soundcloudUrl" title="Soundcloud link" class="fa fa-soundcloud  hvr-pulse"
-          target="_blank" href="{{ selectedMember.soundcloudUrl}}"></a>&nbsp;&nbsp;
-        <a *ngIf="selectedMember.websiteUrl" class="fa fa-link hvr-pulse" target="_blank" title="www link"
-          href="{{ selectedMember.websiteUrl}}"></a>&nbsp;&nbsp;
-
+        <a
+          class="fa fa-envelope  hvr-pulse"
+          style="cursor: pointer"
+          title="Email"
+          (click)="openMessageDialog(selectedMember)"
+        ></a
+        >&nbsp;&nbsp;
+        <a
+          *ngIf="selectedMember.facebookUrl"
+          title="Facebook link"
+          class="fa fa-facebook  hvr-pulse"
+          target="_blank"
+          href="{{ selectedMember.facebookUrl }}"
+        ></a
+        >&nbsp;&nbsp;
+        <a
+          *ngIf="selectedMember.soundcloudUrl"
+          title="Soundcloud link"
+          class="fa fa-soundcloud  hvr-pulse"
+          target="_blank"
+          href="{{ selectedMember.soundcloudUrl }}"
+        ></a
+        >&nbsp;&nbsp;
+        <a
+          *ngIf="selectedMember.websiteUrl"
+          class="fa fa-link hvr-pulse"
+          target="_blank"
+          title="www link"
+          href="{{ selectedMember.websiteUrl }}"
+        ></a
+        >&nbsp;&nbsp;
       </span>
     </mat-card-header>
     <mat-card-content>
-      {{ selectedMember.gender == 'F' ? 'Female' : 'Male' }} aged {{ selectedMember.age }}
-      <br /> From {{ selectedMember.originDisplay }}
-      <br />Living in {{ selectedMember.locationDisplay }}
-      <br /> Member Type : {{ selectedMember.membertypeDisplay }}
-      <br />Into Psytrance since {{ selectedMember.startyear }}
-      <br /> Joined {{ selectedMember.createdAt | date : 'mediumDate' :  '+0000' : localeId }}
-      <span *ngIf="selectedMember.referer"><br /> Referered by {{ selectedMember.referer.uname }}</span>
+      {{ selectedMember.gender == "F" ? "Female" : "Male" }} aged
+      {{ selectedMember.age }} <br />
+      From {{ selectedMember.originDisplay }} <br />Living in
+      {{ selectedMember.locationDisplay }} <br />
+      Member Type : {{ selectedMember.membertypeDisplay }} <br />Into Psytrance
+      since {{ selectedMember.startyear }} <br />
+      Joined
+      {{ selectedMember.createdAt | date: "mediumDate":"+0000":localeId }}
+      <span *ngIf="selectedMember.referer"
+        ><br />
+        Referered by {{ selectedMember.referer.uname }}</span
+      >
       <br />
-      <br /> Goes to parties: {{ selectedMember.partyfrequencyDisplay }}
-      <br /> Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
+      <br />
+      Goes to parties: {{ selectedMember.partyfrequencyDisplay }} <br />
+      Goes to festivals: {{ selectedMember.festivalfrequencyDisplay }}
       <br />
       <span *ngIf="selectedMember.favouriteparty">
-        Favourite parties: {{ selectedMember.favouriteparty }} <br /></span>
+        Favourite parties: {{ selectedMember.favouriteparty }} <br
+      /></span>
       <span *ngIf="selectedMember.favouritefestivals">
-        <span *ngIf="selectedMember.favouritefestivals.length > 0">Favourite festivals:
-          <span *ngFor="let festival of selectedMember.favouritefestivals; let last = last;">{{ festival.name }}<span
-              *ngIf="!last">, </span>
+        <span *ngIf="selectedMember.favouritefestivals.length > 0"
+          >Favourite festivals:
+          <span
+            *ngFor="
+              let festival of selectedMember.favouritefestivals;
+              let last = last
+            "
+            >{{ festival.name }}<span *ngIf="!last">, </span>
           </span>
           <br *ngIf="selectedMember.favouritefestivals.length > 0" />
         </span>
       </span>
       <br *ngIf="selectedMember.musictype" />
-      <span *ngIf="selectedMember.musictype.length > 0">Favourite Music Genres:
-        <span *ngFor="let type of selectedMember.musictype; let last = last;">{{ type.name }}<span *ngIf="!last">,
-          </span>
+      <span *ngIf="selectedMember.musictype.length > 0"
+        >Favourite Music Genres:
+        <span *ngFor="let type of selectedMember.musictype; let last = last"
+          >{{ type.value }}<span *ngIf="!last">, </span>
         </span>
         <br *ngIf="selectedMember.musictype.length > 0" />
       </span>
       <br *ngIf="selectedMember.favouriteartists.length > 0" />
-      <span *ngIf="selectedMember.favouriteartists.length > 0">Favourite Artists:
-        <span *ngFor="let type of selectedMember.favouriteartists; let last = last;">{{ type.name }}<span
-            *ngIf="!last">,
-          </span></span>
+      <span *ngIf="selectedMember.favouriteartists.length > 0"
+        >Favourite Artists:
+        <span
+          *ngFor="let type of selectedMember.favouriteartists; let last = last"
+          >{{ type.name }}<span *ngIf="!last">, </span></span
+        >
         <br />
       </span>
-      <br /> Karmic Kudos Generated: {{ selectedMember.karmicKudos }}
       <br />
-      <br /> Says Psytrance is my {{ selectedMember.psystatus }}
+      Karmic Kudos Generated: {{ selectedMember.karmicKudos }}
       <br />
-      <br /> {{ selectedMember.reason }}
-      <br>
-      <br /> About Me :
-      <br /> {{ selectedMember.bio }}
-      <br>
-
+      <br />
+      Says Psytrance is my {{ selectedMember.psystatus }}
+      <br />
+      <br />
+      {{ selectedMember.reason }}
+      <br />
+      <br />
+      About Me : <br />
+      {{ selectedMember.bio }}
+      <br />
     </mat-card-content>
   </mat-card>
 </div>

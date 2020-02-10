@@ -1,31 +1,60 @@
-<h3 mat-dialog-title>Add {{type}}</h3>
+<h3 mat-dialog-title>Add {{ type }}</h3>
 <div mat-dialog-content>
   <form [formGroup]="staticDataGroup">
     <mat-form-field class="field-full-width">
-      <input matInput placeholder="{{type}} Name" cdkFocusInitial formControlName="name" />
-      <mat-error *ngIf="staticDataGroup.get('name').hasError('required')">Required</mat-error>
-      <mat-error *ngIf="staticDataGroup.get('name').hasError('duplicate')">{{ type }} already exists!
+      <input
+        matInput
+        placeholder="{{ type }} Name"
+        cdkFocusInitial
+        formControlName="name"
+      />
+      <mat-error *ngIf="staticDataGroup.get('name').hasError('required')"
+        >Required</mat-error
+      >
+      <mat-error *ngIf="staticDataGroup.get('name').hasError('duplicate')"
+        >{{ type }} already exists!
       </mat-error>
     </mat-form-field>
     <mat-form-field class="field-full-width">
-      <input type="text" matInput placeholder="{{ staticData.type == 'artist' ? 'Origin' : 'Location' }}"
-        formControlName="origin" [matAutocomplete]="auto" />
+      <input
+        type="text"
+        matInput
+        placeholder="{{ staticData.type == 'artist' ? 'Origin' : 'Location' }}"
+        formControlName="origin"
+        [matAutocomplete]="auto"
+      />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let option of filteredCountriesOrigin | async" [value]="option">
+        <mat-option
+          *ngFor="let option of filteredCountriesOrigin | async"
+          [value]="option"
+        >
           {{ option.name }}
         </mat-option>
       </mat-autocomplete>
       <mat-error>Required</mat-error>
     </mat-form-field>
-    <mat-form-field *ngIf="staticData.type=='artist'" class="field-full-width">
+    <mat-form-field
+      *ngIf="staticData.type == 'artist'"
+      class="field-full-width"
+    >
       <span matPrefix>www.facebook.com/</span>
-      <input matInput placeholder="Fan Page URL" formControlName="facebookUrl" />
+      <input
+        matInput
+        placeholder="Fan Page URL"
+        formControlName="facebookUrl"
+      />
       <mat-error>Required</mat-error>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions>
   <!-- -->
-  <button mat-button [disabled]="!staticDataGroup.valid" (click)="saveStaticData()">Save</button>
+  <button
+    mat-button
+    [disabled]="!staticDataGroup.valid"
+    (click)="saveStaticData()"
+  >
+    Save
+  </button>
   <button mat-button (click)="cancel()">Cancel</button>
 </div>

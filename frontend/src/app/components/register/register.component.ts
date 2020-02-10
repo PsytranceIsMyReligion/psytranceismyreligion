@@ -1,3 +1,4 @@
+import { MatDatepicker } from "@angular/material/datepicker";
 import { Angulartics2 } from "angulartics2";
 import { StaticData } from "./../../models/member.model";
 import { Component, OnInit, ViewChild } from "@angular/core";
@@ -5,7 +6,6 @@ import { Member } from "../../models/member.model";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MemberService } from "../../services/member.service";
-import { MatDatepicker } from "@angular/material/datepicker";
 import { Observable, from } from "rxjs";
 import { switchMap, map, tap, startWith } from "rxjs/operators";
 import { AuthService, SocialUser } from "angularx-social-login";
@@ -129,11 +129,14 @@ export class RegisterComponent implements OnInit {
     this.countries = this.memberService.getAllCountries();
     this.artists = this.activatedRoute.snapshot.data["staticdata"].artists;
     this.festivals = this.activatedRoute.snapshot.data["staticdata"].festivals;
-    this.musicGenres = this.activatedRoute.snapshot.data[
-      "staticdata"
-    ].musicGenres;
+    this.festivals.forEach(el => {
+      el.name = el.name + " - " + el.origin;
+    });
+    this.musicGenres = this.memberService.getMusicGenres();
     this.musicGenreData = this.musicGenres.slice();
+
     this.artistData = this.artists.slice();
+    console.log("artists", this.artistData);
     this.festivalData = this.festivals.slice();
     this.dropdownData = dropdowns;
   }
@@ -608,10 +611,11 @@ export class RegisterComponent implements OnInit {
         this.artists = this.artists.sort((a, b) => {
           return a.name.localeCompare(b.name);
         });
-        this.artistData.push(updateArtist);
-        this.artistData = this.artistData.sort((a, b) => {
-          return a.name.localeCompare(b.name);
-        });
+        this.artistData = this.artists.splice();
+        // this.artistData.push(updateArtist);
+        // this.artistData = this.artistData.sort((a, b) => {
+        //   return a.name.localeCompare(b.name);
+        // });
         this.toastrService.success(
           "Artist added! You may now select them",
           "Success",
@@ -657,13 +661,17 @@ export class RegisterComponent implements OnInit {
       this.memberService.addStaticData(updated).subscribe(res => {
         console.log("update res", res);
         this.festivals.push(updated);
+        this.festivals.forEach(el => {
+          el.name = el.name + " - " + el.origin;
+        });
         this.festivals.sort((a, b) => {
           return a.name.localeCompare(b.name);
         });
-        this.festivalData.push(updated);
-        this.festivalData.sort((a, b) => {
-          return a.name.localeCompare(b.name);
-        });
+        this.festivalData = this.festivals.slice();
+        // this.festivalData.push(updated);
+        // this.festivalData.sort((a, b) => {
+        //   return a.name.localeCompare(b.name);
+        // });
         this.toastrService.success(
           "Festival added! You can now select it.",
           "Success",

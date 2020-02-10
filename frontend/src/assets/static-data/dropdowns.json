@@ -1,4 +1,113 @@
 {
+  "musictype": [{
+      "id": "fullon",
+      "value": "Full On"
+    },
+    {
+      "id": "psytrance",
+      "value": "Psytrance"
+    },
+    {
+      "id": "forest",
+      "value": "Forest"
+    },
+    {
+      "id": "dark",
+      "value": "Dark Psy"
+    },
+    {
+      "id": "twilight",
+      "value": "Twilight"
+    },
+    {
+      "id": "prog",
+      "value": "Progressive"
+    },
+    {
+      "id": "forest",
+      "value": "Forest"
+    },
+    {
+      "id": "hitech",
+      "value": "Hi Tech"
+    },
+    {
+      "id": "suomi",
+      "value": "Suomi"
+    },
+    {
+      "id": "psybreaks",
+      "value": "Psy Breaks"
+    },
+    {
+      "id": "forest",
+      "value": "Forest"
+    },
+    {
+      "id": "psytechtrance",
+      "value": "Psy Tech-Trance"
+    },
+    {
+      "id": "psytechno",
+      "value": "Psytechno"
+    },
+    {
+      "id": "psychill",
+      "value": "Psychill"
+    },
+    {
+      "id": "techno",
+      "value": "Techno"
+    },
+    {
+      "id": "house",
+      "value": "House"
+    },
+    {
+      "id": "techhouse",
+      "value": "Tech House"
+    },
+    {
+      "id": "rock",
+      "value": "Rock N Roll"
+    },
+    {
+      "id": "metal",
+      "value": "Heavy Metal"
+    },
+    {
+      "id": "lounge",
+      "value": "Lounge"
+    },
+    {
+      "id": "funk",
+      "value": "Funk"
+    },
+    {
+      "id": "pop",
+      "value": "Pop"
+    },
+    {
+      "id": "classical",
+      "value": "classical"
+    },
+    {
+      "id": "indie",
+      "value": "Indie"
+    },
+    {
+      "id": "world",
+      "value": "World Music"
+    },
+    {
+      "id": "deep",
+      "value": "Deep House"
+    },
+    {
+      "id": "psychill",
+      "value": "Psychill"
+    }
+  ],
   "membertype": [{
       "id": "raver",
       "value": "a Raver"

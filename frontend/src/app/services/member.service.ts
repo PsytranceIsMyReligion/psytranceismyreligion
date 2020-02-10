@@ -45,14 +45,14 @@ export class MemberService implements OnInit {
 
   constructor(private http: HttpClient, private socket: Socket) {
     this.loadMembers().subscribe(members => {
-      console.log('new member list', members)
+      console.log("new member list", members);
       this.members$.next(members as Array<Member>);
     });
   }
 
   ngOnInit() {
     this.loadMembers().subscribe(members => {
-      console.log('new member list', members)
+      console.log("new member list", members);
       this.members$.next(members as Array<Member>);
     });
   }
@@ -81,7 +81,7 @@ export class MemberService implements OnInit {
     this.user = user;
     let members = this.members$.getValue();
     members.forEach(mem => {
-      if(mem._id == user._id) {
+      if (mem._id == user._id) {
         mem = user;
       }
     });
@@ -123,7 +123,7 @@ export class MemberService implements OnInit {
     console.log("loading members from server");
     return this.http.get(`${baseUri}/members`).pipe(
       map((members: Array<Member>) => {
-        console.log('returned members from server')
+        console.log("returned members from server");
         return members.map(member => {
           return this.enrichMember(member);
         });
@@ -133,11 +133,11 @@ export class MemberService implements OnInit {
 
   loadMembersAndUpdateObservable() {
     this.loadMembers().subscribe(members => {
-      console.log('new member list', members)
+      console.log("new member list", members);
       this.members$.next(members as Array<Member>);
     });
   }
-  
+
   initLoggedOnUsers() {
     this.members$.subscribe(() => {
       console.log("initing user listing");
@@ -174,8 +174,11 @@ export class MemberService implements OnInit {
     member.favouritefestivals = member.favouritefestivals.sort((a, b) => {
       return a.name.localeCompare(b.name);
     });
-    member.musictype = member.musictype.sort((a, b) => {
-      return a.name.localeCompare(b.name);
+    member.musictype = member.musictype.map(el => {
+      return this.getMusicGenres().find(type => type.id == el);
+    });
+    member.musictype.sort((a:any, b:any) => {
+      return a.value.toString().localeCompare(b.value.toString());
     });
     return member;
   }
@@ -220,6 +223,10 @@ export class MemberService implements OnInit {
 
   getDropdownDisplay(dataset, value) {
     return dropdowns[dataset].filter(el => el.id === value)[0]["value"];
+  }
+
+  getMusicGenres() {
+    return dropdowns["musictype"];
   }
 
   getStaticData() {

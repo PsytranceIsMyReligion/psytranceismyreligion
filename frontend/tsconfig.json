@@ -1,5 +1,5 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
@@ -10,27 +10,15 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
-    "types": [
-      "hammerjs"
-    ],
+    "types": ["hammerjs"],
     "paths": {
-      "core-js/es7/reflect": [
-        "node_modules/core-js/proposals/reflect-metadata"
-      ]
+      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"]
     },
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/json-d-ts"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types", "node_modules/json-d-ts"],
+    "lib": ["es2017", "dom"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": []
 }

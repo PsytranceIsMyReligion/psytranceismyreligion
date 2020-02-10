@@ -4,7 +4,6 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "angularx-social-login";
 import { TokenService } from "src/app/services/token.service";
-import { MatSidenav } from "@angular/material";
 
 @Component({
   selector: "app-navigation",
@@ -36,7 +35,7 @@ export class NavigationComponent implements OnInit {
     );
     sessionStorage.removeItem("member");
     this.tokenService.logout();
-    this.socialAuthService.signOut().then(()=> {
+    this.socialAuthService.signOut().then(() => {
       this.router.navigate(["/landing"]);
     });
   }

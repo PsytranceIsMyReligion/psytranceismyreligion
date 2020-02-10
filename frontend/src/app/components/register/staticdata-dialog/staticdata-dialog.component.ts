@@ -26,8 +26,8 @@ export class StaticDataDialogComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.staticData = this.data.payload as StaticData;
-    this.type = _.capitalize(this.staticData.type);
-    if (this.type == "Artist") {
+    this.type = this.staticData.type;
+    if (this.type == "artist") {
       this.staticDataGroup = this.fb.group({
         name: [
           this.staticData.name,
@@ -36,7 +36,7 @@ export class StaticDataDialogComponent implements OnInit {
         origin: [this.staticData.origin, Validators.required],
         facebookUrl: [this.staticData.facebookUrl, Validators.required]
       });
-    } else if (this.type == "Festival") {
+    } else if (this.type == "festival") {
       this.staticDataGroup = this.fb.group({
         name: [
           this.staticData.name,
@@ -60,10 +60,11 @@ export class StaticDataDialogComponent implements OnInit {
   }
 
   countryFilter(value) {
-    console.log(value)
-    if (value) {
+    if (!_.isNull(value) && !_.isUndefined(value)) {
       return this.data.countries.filter(option =>
-        option.name.toLowerCase().includes(value.name.toLowerCase())
+        _.isObject(value)
+          ? option.name.toLowerCase().includes(value.name.toLowerCase())
+          : option.name.toLowerCase().includes(value.toLowerCase())
       );
     }
   }

@@ -1,19 +1,19 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { environment } from 'src/environments/environment';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { PostDialogComponent } from '../../wall/post-dialog/post-dialog.component';
-import { Message, Member } from 'src/app/models/member.model';
-import { MemberService } from 'src/app/services/member.service';
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Component, OnInit, Inject } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { environment } from "src/environments/environment";
+import { PostDialogComponent } from "../../wall/post-dialog/post-dialog.component";
+import { Message, Member } from "src/app/models/member.model";
+import { MemberService } from "src/app/services/member.service";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
 @Component({
-  selector: 'app-message-dialog',
-  templateUrl: './message-dialog.component.html',
-  styleUrls: ['./message-dialog.component.css']
+  selector: "app-message-dialog",
+  templateUrl: "./message-dialog.component.html",
+  styleUrls: ["./message-dialog.component.css"]
 })
 export class MessageDialogComponent implements OnInit {
-
   postGroup: FormGroup;
   editor = ClassicEditor;
   saveButtonEnabled = true;
@@ -25,7 +25,7 @@ export class MessageDialogComponent implements OnInit {
       uploadUrl: `${environment.uploadUri}/staticdata/upload`
     }
   };
-  receiver : Member;
+  receiver: Member;
 
   constructor(
     private fb: FormBuilder,
@@ -44,16 +44,14 @@ export class MessageDialogComponent implements OnInit {
     });
   }
 
-  public onChange( { editor }: ChangeEvent ) {
-    if(editor) {
+  public onChange({ editor }: ChangeEvent) {
+    if (editor) {
       const data = editor.getData();
-      if(data.indexOf("<img>") > -1) {
+      if (data.indexOf("<img>") > -1) {
         this.saveButtonEnabled = false;
-      }
-      else
-        this.saveButtonEnabled = true;
+      } else this.saveButtonEnabled = true;
     }
-}
+  }
 
   saveMessage() {
     let message: Message = {
@@ -63,7 +61,7 @@ export class MessageDialogComponent implements OnInit {
       receiver: this.receiver
     };
     if (message.content.indexOf("<img") > -1) {
-      console.log('timeout')
+      console.log("timeout");
       setTimeout(() => {
         this.dialogRef.close(message);
       });

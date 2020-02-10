@@ -20,11 +20,11 @@ const options = {
 };
 
 router.route("/").get((req, res) => {
-    let params = options;
-    if (req.query.options) {
-        options = req.query.options;
+    let params = _.cloneDeep(options);
+    if (req.query && req.query.page) {
+        params.page = req.query.page;
     }
-    console.log('options', options);
+
     WallPost.paginate({}, params).then((docs, err) => {
         if (err) {
             console.log('error', err)
