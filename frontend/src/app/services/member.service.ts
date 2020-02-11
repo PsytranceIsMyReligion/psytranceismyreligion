@@ -107,9 +107,11 @@ export class MemberService implements OnInit {
   }
 
   getCountryName(code) {
-    return this.countries.filter(country => country["alpha3Code"] == code)[0][
-      "name"
-    ];
+    let country = this.countries.filter(country => {
+      return country["alpha3Code"] == code;
+    });
+    console.log("country", country, code);
+    if (country && country.length > 0) return country[0]["name"];
   }
 
   setSelectedMember$(member) {
@@ -177,7 +179,7 @@ export class MemberService implements OnInit {
     member.musictype = member.musictype.map(el => {
       return this.getMusicGenres().find(type => type.id == el);
     });
-    member.musictype.sort((a:any, b:any) => {
+    member.musictype.sort((a: any, b: any) => {
       return a.value.toString().localeCompare(b.value.toString());
     });
     return member;

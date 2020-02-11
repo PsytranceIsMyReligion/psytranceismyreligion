@@ -20,9 +20,10 @@
       <mat-card-content [var]="commentsHidden">
         <div class="viewer" [innerHTML]="post.content | sanitizeHtml"></div>
         <div class="wall-action-buttons" *ngIf="user._id == post.createdBy._id">
-          <button *ngIf="userLikesPost(post.likes); else likeElseBlock" mat-flat-button color="accent" class="liked"
+          <button *ngIf="userLikesPost(post.likes); else likeElseBlock" mat-flat-button class="liked"
             (click)="likeUnlikePost(post, false)">
-            Liked <i class="fa fa-thumbs-up" style="zoom: 1.3;position: relative;top: -2px;"></i>
+            Liked
+            <i class="fa fa-thumbs-up" style="zoom: 1.3;position: relative;top: -2px;"></i>
           </button>
           <ng-template #likeElseBlock>
             <button mat-flat-button class="hvr-pulse" (click)="likeUnlikePost(post, true)">
@@ -43,13 +44,13 @@
               {{ comment.createdAt | date: "short":"+0000":localeId }}
             </span>
             <div class="comment" [innerHTML]="comment.content | sanitizeHtml"></div>
-            <button mat-icon-button color="accent" class="hvr-pulse" *ngIf="user._id == comment.createdBy._id" (click)="
+            <button mat-flat-button class="hvr-pulse" *ngIf="user._id == comment.createdBy._id" (click)="
                 editReplyPanel.hidden = false;
                 editorData = comment.content;
                 updateCommentId = comment._id
               ">
               Edit&nbsp; <i class="fa fa-edit" style="zoom: 1.3;"></i></button>&nbsp;&nbsp;
-            <button mat-icon-button color="accent" class="hvr-pulse" *ngIf="user._id == comment.createdBy._id"
+            <button mat-flat-button class="hvr-pulse" *ngIf="user._id == comment.createdBy._id"
               (click)="deleteComment(comment._id, post)">
               Delete&nbsp; <i class="fa fa-trash" style="zoom: 1.3;"> </i>
             </button>
@@ -64,18 +65,29 @@
           </div>
           <div class="wall-action-buttons" (mouseleave)="post.hidePopup = true">
             <span class="reactions" *ngIf="user._id != post.createdBy._id">
-              <button *ngIf="userLikesPost(post.likes); else likeElseBlock" mat-icon-button color="accent"
-                class="hvr-pulse" (click)="likeUnlikePost(post, false)">
-                Unlike <i class="fa fa-thumbs-down" style="zoom: 1.3;"></i>
+              <button *ngIf="userLikesPost(post.likes); else likeElseBlock" mat-flat-button class="liked"
+                style="margin-top: 15px!important;" (click)="likeUnlikePost(post, false)">
+                Liked
+                <i class="fa fa-thumbs-up" style="zoom: 1.3;position: relative;top: -2px;"></i>
               </button>
               <ng-template #likeElseBlock>
-                <button mat-icon-button color="accent" class="hvr-pulse" (click)="likeUnlikePost(post, true)">
+                <button mat-flat-button class="hvr-pulse" style="margin-top: 15px!important;"
+                  (click)="likeUnlikePost(post, true)">
                   Like
                   <i class="fa fa-thumbs-up" style="zoom: 1.3;"></i></button></ng-template>
               &nbsp;&nbsp;
-              <button mat-icon-button color="accent" class="hvr-pulse" (click)="replyPanel.hidden = false">
+              <button mat-flat-button class="hvr-pulse" style="margin-top: 15px!important;"
+                (click)="replyPanel.hidden = false">
                 Comment <i class="fa fa-comment" style="zoom: 1.3;"></i>
               </button>
+            </span>
+            <span class="hvr-pulse" style="margin-top: 10px;" (mouseenter)="
+            post.hidePopup =
+              post.likes && post.likes.length == 0 ? true : false
+          " class="post-comments" [ngClass]="{ 'editor-comments': user._id == post.createdBy._id }"
+              (click)="commentsHidden = !commentsHidden">
+              <span #anchor> {{ post.likes.length }} Likes </span>{{ post.comments.length }}
+              Comments
             </span>
             <div (mouseenter)="post.hidePopup = false">
               <kendo-popup [anchor]="anchor" *ngIf="post.hidePopup == false">
@@ -83,19 +95,20 @@
                   Liked by<br />
                   <span *ngFor="let like of post.likes">
                     <a [routerLink]="" (click)="setSelectedMember$(like)">{{
-                    like.uname
-                  }}</a><br />
+                      like.uname
+                    }}</a><br />
                   </span>
                 </div>
               </kendo-popup>
             </div>
-            <span class="hvr-pulse" (mouseenter)="
-            post.hidePopup = post.likes && post.likes.length == 0 ? true : false
-          " class="post-comments" [ngClass]="{ 'editor-comments': user._id == post.createdBy._id }"
+            <!-- <span class="hvr-pulse" (mouseenter)="
+                post.hidePopup =
+                  post.likes && post.likes.length == 0 ? true : false
+              " class="post-comments" [ngClass]="{ 'editor-comments': user._id == post.createdBy._id }"
               (click)="commentsHidden = !commentsHidden">
               <span #anchor> {{ post.likes.length }} Likes </span>{{ post.comments.length }}
               Comments
-            </span>
+            </span> -->
             <div class="replyPanel" [hidden]="true" #replyPanel>
               <ckeditor [editor]="editor" [(ngModel)]="editorData" [config]="editorConfig">
               </ckeditor>
