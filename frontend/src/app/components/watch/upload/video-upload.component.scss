@@ -1,0 +1,12 @@
+.tags ::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+
+@media only screen and (min-width : 1224px) {
+
+  .field-full-width {
+    width: 500px !important;
+    margin-bottom: 10px !important;
+  }
+}

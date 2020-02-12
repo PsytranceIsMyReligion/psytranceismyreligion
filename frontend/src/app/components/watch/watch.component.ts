@@ -20,7 +20,7 @@ export class WatchComponent implements OnInit {
   user: Member;
   height: number = 400;
   width: number = 560;
-  tagFilter: any = { tags: ''};
+  tagFilter: any = { tags: "" };
   tags;
   updateFlag = false;
   isMobile = false;
@@ -45,22 +45,29 @@ export class WatchComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe(data => {
       this.videos$ = new BehaviorSubject(data["videos"]);
-      this.videos$.subscribe((vids) => {
-        let allTags = this.videos$
-        .getValue()
-        .filter(el => el.tags)
-        .map(el => el.tags)
-        .reduce((prev, next) => {
-          return prev.concat(next);
-        });
-        this.tags = Array.from(new Set(allTags));
-      })
-      console.log('tags', this.videos$.getValue().filter(el => el.tags));
+      this.videos$.subscribe(vids => {
+        console.log("vides", vids);
+        if (vids.length > 0) {
+          let allTags = vids
+            .filter(el => el.tags)
+            .map(el => el.tags)
+            .reduce((prev, next) => {
+              return prev.concat(next);
+            });
+          this.tags = Array.from(new Set(allTags));
+          console.log(
+            "tags",
+            this.videos$.getValue().filter(el => el.tags)
+          );
+        }
+      });
     });
   }
 
   navigateToMember(id) {
-    this.router.navigate(['home/' + id], { relativeTo : this.activatedRoute.parent })
+    this.router.navigate(["home/" + id], {
+      relativeTo: this.activatedRoute.parent
+    });
   }
   deleteVideo(id) {
     this.updateFlag = true;
@@ -75,7 +82,13 @@ export class WatchComponent implements OnInit {
   }
 
   openUploadDialog(updateVideo?: Video): void {
-    let video : Video = { title: "", description: "", value: "", createdBy : {}, tags: [] };
+    let video: Video = {
+      title: "",
+      description: "",
+      value: "",
+      createdBy: {},
+      tags: []
+    };
     console.log("open", this.tags);
     if (updateVideo) {
       video = {
@@ -86,10 +99,9 @@ export class WatchComponent implements OnInit {
         createdBy: updateVideo.createdBy,
         tags: updateVideo.tags
       };
-    }
-    else updateVideo = video;
+    } else updateVideo = video;
     const dialogRef = this.dialog.open(VideoUploadComponent, {
-      width: "400px",
+      width: "600px",
       height: "500px",
       data: { video: updateVideo, tags: this.tags }
     });
@@ -101,8 +113,8 @@ export class WatchComponent implements OnInit {
         console.log("creating", updateVideo);
         this.watchService.createVideoLink(updateVideo).subscribe((res: any) => {
           this.videos$.next([
-            updateVideo,
-            ...this.videos$.getValue().filter(el => el._id != updateVideo._id)
+            res,
+            ...this.videos$.getValue().filter(el => el._id != res._id)
           ]);
           this.toastrService.success("Video Link created!", "OK", {
             timeOut: 2000
@@ -111,18 +123,17 @@ export class WatchComponent implements OnInit {
         });
       } else {
         console.log("updating", updateVideo);
-        this.watchService
-          .updateVideoLink(updateVideo)
-          .subscribe((res: any) => {
-            this.videos$.next([
-              updateVideo,
-              ...this.videos$.getValue().filter(el => el._id != updateVideo._id)
-            ]);
-            this.toastrService.success("Video Link updated!", "OK", {
-              timeOut: 2000
-            });
-            this.updateFlag = false;
+        this.watchService.updateVideoLink(updateVideo).subscribe((res: any) => {
+          console.log("updated", res);
+          this.videos$.next([
+            res,
+            ...this.videos$.getValue().filter(el => el._id != res._id)
+          ]);
+          this.toastrService.success("Video Link updated!", "OK", {
+            timeOut: 2000
           });
+          this.updateFlag = false;
+        });
       }
     });
   }

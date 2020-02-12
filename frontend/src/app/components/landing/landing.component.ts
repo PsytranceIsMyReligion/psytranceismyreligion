@@ -94,7 +94,6 @@ export class LandingComponent implements OnInit {
       this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
       this.map2 = new google.maps.Map(this.gmap2Element.nativeElement, mapProp);
       this.members.forEach((el: Member) => {
-        console.log("member", el);
         if (el.lat && el.long) {
           let location = new google.maps.LatLng(el.lat, el.long);
           let marker = new google.maps.Marker({

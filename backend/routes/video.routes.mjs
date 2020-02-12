@@ -20,7 +20,11 @@ router.route("/add").post((req, res) => {
     .save()
     .then(updated => {
       addWallPost(req.body);
-      res.status(200).json(updated);
+      Video.populate(updated, {
+        path: 'createdBy'
+      }, (err, video) => {
+        res.status(200).json(video);
+      })
     })
     .catch(err => {
       console.log('error adding video', err);
@@ -42,7 +46,11 @@ router.route("/update/:id").post((req, res, next) => {
     }, {
       new: true
     }, (err, video) => {
-      res.status(200).json(video);
+      Video.populate(video, {
+        path: 'createdBy'
+      }, (err, video) => {
+        res.status(200).json(video);
+      })
     })
     .catch(err => {
       console.log('error updating video', err);

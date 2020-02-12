@@ -1,10 +1,7 @@
-import {from } from "rxjs";
+import { from } from "rxjs";
 import { MemberService } from "./../../../services/member.service";
 import { Component, OnInit, Inject, ViewChild } from "@angular/core";
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA
-} from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Video } from "../../../models/member.model";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { switchMap, tap, map } from "rxjs/operators";
@@ -12,7 +9,7 @@ import { switchMap, tap, map } from "rxjs/operators";
 @Component({
   selector: "app-video-upload",
   templateUrl: "./video-upload.component.html",
-  styleUrls: ["./video-upload.component.css"]
+  styleUrls: ["./video-upload.component.scss"]
 })
 export class VideoUploadComponent implements OnInit {
   @ViewChild("tagList") tagList;
@@ -27,12 +24,10 @@ export class VideoUploadComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.tagData = this.data.tags.slice();
-    console.log('data', this.data);
+    if (this.data && this.data.tags) this.tagData = this.data.tags.slice();
     this.videoGroup = this.fb.group({
       title: [this.data.video.title, Validators.required],
-      description: [ this.data.video.description, Validators.required
-      ],
+      description: [this.data.video.description, Validators.required],
       value: [this.data.video.value, Validators.required],
       tags: [this.data.video.tags, Validators.required],
       _id: [this.data.video_id]
@@ -62,7 +57,7 @@ export class VideoUploadComponent implements OnInit {
   }
 
   onSelectionChange(event) {
-    console.log(event)
+    console.log(event);
   }
 
   saveVideo() {
@@ -72,9 +67,9 @@ export class VideoUploadComponent implements OnInit {
       value: this.getYoutubeId(this.videoGroup.get("value").value),
       createdBy: this.memberService.getUser(),
       tags: this.videoGroup.get("tags").value,
-      _id: this.data.video._id,
+      _id: this.data.video._id
     };
-    console.log('closing on',video)
+    console.log("closing on", video);
     this.dialogRef.close(video);
   }
 

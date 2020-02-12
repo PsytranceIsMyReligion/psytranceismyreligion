@@ -13,44 +13,33 @@ import path from "path";
 import _ from "lodash";
 import Member from "./models/member";
 import LoginRecord from "./models/loginrecord";
-import forceHTTPS from './utils';
+import forceHTTPS from "./utils";
 import karmicKudoEmitter from "./utils/events";
 
-import {
-  dirname
-} from "path";
-import {
-  fileURLToPath
-} from "url";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
-import {
-  resolve
-} from "path";
+import { resolve } from "path";
 import dotenv from "dotenv";
 import NodeCache from "node-cache";
 
-const __dirname = dirname(fileURLToPath(
-  import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const isProd = process.env.NODE_ENV === "productEventEmittern";
-
-
 
 console.log("isProduction?", isProd);
 
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
+mongoose.set("useUnifiedTopology", true);
 
 dotenv.config({
   path: resolve(__dirname, ".env")
 });
-console.log('__dirname', __dirname);
+console.log("__dirname", __dirname);
 const app = express();
 
 const router = express.Router();
-
-
 
 ////////////////////// Cache Config ////////////////////////////
 const messageCache = new NodeCache({
@@ -58,7 +47,7 @@ const messageCache = new NodeCache({
   checkperiod: 120
 });
 const loggedOnUsersCache = new NodeCache({
-  stdTTL: 0,
+  stdTTL: 0
 });
 loggedOnUsersCache.set("users", []);
 messageCache.set("messages", []);
@@ -67,8 +56,6 @@ const loggedOnUserCache = new NodeCache({
   checkperiod: 120
 });
 loggedOnUserCache.set("users", []);
-
-
 
 ///////////////////////////////////     App Config  /////////////////////////////
 app.use(
@@ -86,8 +73,7 @@ app.use(
   })
 );
 
-
-app.use('/api/public', express.static(path.join(__dirname, "public")));
+app.use("/api/public", express.static(path.join(__dirname, "public")));
 console.log("setting public folder to ", path.join(__dirname, "public"));
 app.options("*", cors());
 router.use(
@@ -115,15 +101,18 @@ app.use(
       /\/api\/members\/bysocialid\/.*/,
       /\/api\/staticdata\/*/,
       /\/api\/upload\/*/,
-      /\/api\/public\/*/,
+      /\/api\/public\/*/
     ]
   })
 );
 if (isProd) {
-  console.log('forcing use of https');
+  console.log("forcing use of https");
   app.use(forceHTTPS());
 }
-let dbUrl = process.env.NODE_ENV === "production" ? process.env.DB_HOST_PROD : process.env.DB_HOST_DEV;
+let dbUrl =
+  process.env.NODE_ENV === "production"
+    ? process.env.DB_HOST_PROD
+    : process.env.DB_HOST_DEV;
 console.log("Loading environment " + process.env.NODE_ENV);
 console.log("connecting to " + dbUrl);
 mongoose.connect(dbUrl, {
@@ -141,8 +130,6 @@ app.use("/api/videos", videoRoutes);
 app.use("/api/staticdata", staticDataRoutes);
 app.use("/api/wallposts", wallPostRoutes);
 
-
-
 app.use("/", router);
 const server = app.listen(process.env.PORT, () =>
   console.log("express server running on port " + process.env.PORT)
@@ -156,47 +143,80 @@ const server = app.listen(process.env.PORT, () =>
 
 /////////////////////    Socket IO Config ////////////////////////
 const io = socketIO(server, {
-  origins: '*:*',
-  transports: ['websocket']
+  origins: "*:*",
+  transports: ["websocket"]
 });
 
 const connections = new Set();
-
 
 io.on("connection", socket => {
   connections.add(socket);
   socket.on(
     "chat-init",
     (null,
-      () => {
-        let values = messageCache.get("messages");
-        if (values) values.map(el => socket.emit("chat-init", el));
-      }).bind(messageCache)
+    () => {
+      let values = messageCache.get("messages");
+      if (values) values.map(el => socket.emit("chat-init", el));
+    }).bind(messageCache)
   );
 
-
   setInterval(() => {
-    io.emit('logged-on-users', loggedOnUserCache.get("users").filter(el => el));
+    io.emit(
+      "logged-on-users",
+      loggedOnUserCache.get("users").filter(el => el)
+    );
   }, 600000); // 10 mins
 
-
-  karmicKudoEmitter.on('karmic-kudos', (member) => {
-    io.emit('karmic-kudos', member);
+  karmicKudoEmitter.on("karmic-kudos", member => {
+    io.emit("karmic-kudos", member);
   });
 
-  socket.on("get-logged-on-users", (null,
-    async (user) => {
-      console.log("geting logged on users");
-      if (user._id && loggedOnUserCache.get("users").filter(u => u._id == user._id).length > 0) {
-        socket.emit("system-message", "Welcome back " + user.uname + "! There are " +
-          loggedOnUserCache.get("users").length > 1 ? loggedOnUserCache.get("users").length + " other members online. Why not say Hello? " : "");
-      } else {
+  socket.on(
+    "get-logged-on-users",
+    (null,
+    async user => {
+      debugger;
+      console.log("myid", user._id);
+      console.log("cache contnents", loggedOnUserCache.get("users"));
+      console.log(
+        "others",
+        loggedOnUserCache.get("users").filter(u => u._id != user._id)
+      );
+      console.log(
+        "me",
+        loggedOnUserCache.get("users").filter(u => u._id == user._id)
+      );
+      if (
+        user._id &&
+        loggedOnUserCache.get("users").filter(u => u._id != user._id).length > 0
+      ) {
+        console.log("other users found");
+        socket.emit(
+          "system-message",
+          "Welcome back " +
+            user.uname +
+            "! There are " +
+            loggedOnUserCache.get("users").length +
+            " other members online. Why not say Hello? "
+        );
+        loggedOnUserCache.set("users", [
+          user._id,
+          ...loggedOnUserCache.get("users")
+        ]);
+      } else if (
+        user._id &&
+        loggedOnUserCache.get("users").filter(u => u._id == user._id).length ==
+          0
+      ) {
+        loggedOnUserCache.set("users", [
+          user._id,
+          ...loggedOnUserCache.get("users")
+        ]);
+        console.log("no other users logged in");
         socket.emit("system-message", "Welcome back " + user.uname + "!");
       }
       // isProd ?
-      loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users").filter(el => el != user._id)])
-      //  : loggedOnUserCache.set("users", [user._id, ...loggedOnUserCache.get("users")]);
-
+      console.log("user added to caccche", loggedOnUserCache.get("users"));
       Member.logon(user);
       let loginRecord = new LoginRecord({
         memberId: user._id
@@ -204,36 +224,50 @@ io.on("connection", socket => {
       loginRecord = await loginRecord.save();
       socket.emit("login-record", loginRecord);
       socket.broadcast.emit("system-message", user.uname + " has logged on!");
-      socket.emit("logged-on-users", loggedOnUserCache.get("users").filter(el => el));
-    }).bind(loggedOnUserCache));
+      socket.emit(
+        "logged-on-users",
+        loggedOnUserCache.get("users").filter(el => el)
+      );
+    }).bind(loggedOnUserCache)
+  );
 
-  socket.on("logoff", (null, async (loginRecord) => {
-    if (loginRecord) {
-      loginRecord = await LoginRecord.logoff(loginRecord);
-      isProd ? loggedOnUserCache.set("users", [...loggedOnUserCache.get("users").filter(el => el != loginRecord.memberId)]) :
-        loggedOnUserCache.set("users", [...loggedOnUserCache.get("users")]);
+  socket.on(
+    "logoff",
+    (null,
+    async loginRecord => {
+      if (loginRecord) {
+        loginRecord = await LoginRecord.logoff(loginRecord);
+        // isProd ?
+        loggedOnUserCache.set("users", [
+          ...loggedOnUserCache
+            .get("users")
+            .filter(el => el != loginRecord.memberId)
+        ]);
+        // : loggedOnUserCache.set("users", [...loggedOnUserCache.get("users")]);
 
-      let member = await Member.findMemberById(loginRecord.memberId);
-      if (member) {
-        socket.broadcast.emit("system-message", member.uname + " logged off");
+        let member = await Member.findMemberById(loginRecord.memberId);
+        if (member) {
+          socket.broadcast.emit("system-message", member.uname + " logged off");
+        }
+        console.log(
+          "user logged out. Cache size ",
+          loggedOnUserCache.get("users").length
+        );
       }
-    }
-  }).bind(loggedOnUserCache));
+    }).bind(loggedOnUserCache)
+  );
 
   socket.on(
     "chat-message",
     (null,
-      message => {
-        let values = messageCache.get("messages");
-        if (values) messageCache.set("messages", [message, ...values]);
-        else messageCache.set("messages", [message]);
-        socket.broadcast.emit("chat-message", message);
-      }).bind(messageCache)
+    message => {
+      let values = messageCache.get("messages");
+      if (values) messageCache.set("messages", [message, ...values]);
+      else messageCache.set("messages", [message]);
+      socket.broadcast.emit("chat-message", message);
+    }).bind(messageCache)
   );
   socket.on("disconnect", () => {
     connections.delete(socket);
   });
-
-
-
 });

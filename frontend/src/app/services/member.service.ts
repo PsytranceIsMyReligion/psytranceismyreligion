@@ -110,7 +110,6 @@ export class MemberService implements OnInit {
     let country = this.countries.filter(country => {
       return country["alpha3Code"] == code;
     });
-    console.log("country", country, code);
     if (country && country.length > 0) return country[0]["name"];
   }
 
@@ -144,13 +143,15 @@ export class MemberService implements OnInit {
     this.members$.subscribe(() => {
       console.log("initing user listing");
       this.socket.on("logged-on-users", (users: Array<String>) => {
-        let user = users.map(el => this.getMemberById(el));
-        this.loggedOnMembers$.next(user);
+        let enrichedUsers = users.map(el => this.getMemberById(el));
+        console.log("user------", enrichedUsers);
+        this.loggedOnMembers$.next(enrichedUsers);
       });
       console.log("get lgd on", this.user$.getValue());
-      setTimeout(() => {
-        this.socket.emit("get-logged-on-users", this.user$.getValue());
-      });
+      this.socket.emit("get-logged-on-users", this.user$.getValue());
+      // setTimeout(() => {
+      //   this.socket.emit("get-logged-on-users", this.user$.getValue());
+      // });
     });
   }
 
