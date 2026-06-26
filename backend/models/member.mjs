@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import karmicKudoEmitter from "../utils/events";
+import karmicKudoEmitter from "../utils/events.mjs";
 const Schema = mongoose.Schema;
 
 let MemberSchema = new Schema({
