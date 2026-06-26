@@ -36,15 +36,22 @@ export class StatsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.members.forEach(
-      m => (this.allCountries = this.allCountries.concat(m.origin))
-    );
     this.members.forEach(m => {
-      this.allFestivals = this.allFestivals.concat(m.favouritefestivals);
+      this.allCountries.push(m.origin);
+
+      if (Array.isArray(m.favouritefestivals)) {
+        this.allFestivals.push(...m.favouritefestivals);
+      } else {
+        this.allFestivals.push(m.favouritefestivals);
+      }
+
+      if (Array.isArray(m.favouriteartists)) {
+        this.allArtists.push(...m.favouriteartists);
+      } else {
+        this.allArtists.push(m.favouriteartists);
+      }
     });
-    this.members.forEach(m => {
-      this.allArtists = this.allArtists.concat(m.favouriteartists);
-    });
+
     this.buildCharts();
 
     console.log("all countries", this.allCountries);
