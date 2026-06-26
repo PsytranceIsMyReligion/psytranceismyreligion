@@ -165,13 +165,15 @@ export class StatsComponent implements OnInit {
   }
 
   buildAgeSeries() {
-    let ages = this.members.map(m => m.age);
-    return ages.map(age => {
-      return {
-        age: age,
-        count: this.members.map(m => m.age == age).length
-      };
-    });
+    return Object.values(
+      this.members.reduce((acc, m) => {
+        if (!acc[m.age]) {
+          acc[m.age] = { age: m.age, count: 0 };
+        }
+        acc[m.age].count++;
+        return acc;
+      }, {} as any)
+    );
   }
 
   private countOf(items: any[], field?) {
