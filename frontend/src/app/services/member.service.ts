@@ -244,6 +244,7 @@ export class MemberService implements OnInit {
   }
 
   calculateAge(birthday) {
+    if (!birthday) return 0;
     let bdate = moment()
       .set("year", birthday)
       .toDate();
