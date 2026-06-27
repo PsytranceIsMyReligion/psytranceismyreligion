@@ -149,9 +149,6 @@ export class MemberService implements OnInit {
       });
       console.log("get lgd on", this.user$.getValue());
       this.socket.emit("get-logged-on-users", this.user$.getValue());
-      // setTimeout(() => {
-      //   this.socket.emit("get-logged-on-users", this.user$.getValue());
-      // });
     });
   }
 
