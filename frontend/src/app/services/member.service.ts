@@ -139,10 +139,21 @@ export class MemberService implements OnInit {
   }
 
   initLoggedOnUsers() {
-    this.members$.subscribe(() => {
+    this.members$.subscribe(members => {
       console.log("initing user listing");
+      const memberMap = new Map<string, Member>();
+      if (members) {
+        for (const member of members) {
+          if (member._id) {
+            memberMap.set(member._id.toString(), member);
+          }
+        }
+      }
       this.socket.on("logged-on-users", (users: Array<String>) => {
-        let enrichedUsers = users.map(el => this.getMemberById(el));
+        let enrichedUsers = users.map(el => {
+          const idStr = el != null ? el.toString() : "";
+          return memberMap.get(idStr) || this.getMemberById(el);
+        });
         console.log("user------", enrichedUsers);
         this.loggedOnMembers$.next(enrichedUsers);
       });
