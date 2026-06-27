@@ -45,14 +45,17 @@ export class StatsComponent implements OnInit {
       } else {
         this.allFestivals.push(m.favouritefestivals);
       }
-    });
-    this.members.forEach(m => {
-      if (m.favouriteartists) {
-        this.allArtists.push(...m.favouriteartists);
-      } else {
-        this.allArtists.push(m.favouriteartists);
+
+      if (Array.isArray(m.favouriteartists)) {
+      this.members.forEach(m => {
+        if (m.favouriteartists) {
+          this.allArtists.push(...m.favouriteartists);
+        } else {
+          this.allArtists.push(m.favouriteartists);
+        }
       }
     });
+
     this.buildCharts();
 
     console.log("all countries", this.allCountries);
