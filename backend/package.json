@@ -7,7 +7,7 @@
     "dev": "nodemon --experimental-modules server.mjs",
     "dev-static": "nodemon --experimental-modules static-server.mjs",
     "debug": "nodemon --experimental-modules  --inspect server.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha \"**/*.spec.js\""
   },
   "keywords": [],
   "author": "",
@@ -19,7 +19,10 @@
     "@babel/register": "^7.8.3",
     "babel-preset-env": "^1.7.0",
     "babel-watch": "^7.0.0",
-    "nodemon": "^1.19.4"
+    "chai": "^6.2.2",
+    "mocha": "^11.7.6",
+    "nodemon": "^1.19.4",
+    "sinon": "^22.0.0"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",
