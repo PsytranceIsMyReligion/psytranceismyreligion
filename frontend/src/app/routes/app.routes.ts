@@ -26,10 +26,6 @@ export const ROUTES: Routes = [
             m => m.HomeModule
           )
       },
-      // {
-      //   path: "home/:id",
-      //   loadChildren: () => import(`../components/home/module/home.module`).then(m => m.HomeModule)
-      // },
       {
         path: "profile/:mode",
         loadChildren: () =>

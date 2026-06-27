@@ -135,12 +135,6 @@ const server = app.listen(process.env.PORT, () =>
   console.log("express server running on port " + process.env.PORT)
 );
 
-// const secureServer = https.createServer({
-//   key: fs.readFileSync(isProd ? process.env.SSL_KEY_PATH_PROD : process.env.SSL_KEY_PATH_DEV),
-//   cert: fs.readFileSync(isProd ? process.env.SSL_CRT_PATH_PROD : process.env.SSL_CRT_PATH_DEV),
-//   passphrase: process.env.HTTPS_PASSPHRASE || 'psytrance'
-// });
-
 /////////////////////    Socket IO Config ////////////////////////
 const io = socketIO(server, {
   origins: "*:*",
@@ -175,7 +169,6 @@ io.on("connection", socket => {
     "get-logged-on-users",
     (null,
     async user => {
-      debugger;
       console.log("myid", user._id);
       console.log("cache contnents", loggedOnUserCache.get("users"));
       console.log(
