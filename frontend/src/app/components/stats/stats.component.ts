@@ -36,14 +36,22 @@ export class StatsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.members.forEach(
-      m => (this.allCountries = this.allCountries.concat(m.origin))
-    );
     this.members.forEach(m => {
-      this.allFestivals = this.allFestivals.concat(m.favouritefestivals);
+      this.allCountries.push(m.origin);
     });
     this.members.forEach(m => {
-      this.allArtists = this.allArtists.concat(m.favouriteartists);
+      if (m.favouritefestivals) {
+        this.allFestivals.push(...m.favouritefestivals);
+      } else {
+        this.allFestivals.push(m.favouritefestivals);
+      }
+    });
+    this.members.forEach(m => {
+      if (m.favouriteartists) {
+        this.allArtists.push(...m.favouriteartists);
+      } else {
+        this.allArtists.push(m.favouriteartists);
+      }
     });
     this.buildCharts();
 
@@ -93,7 +101,11 @@ export class StatsComponent implements OnInit {
   buildArtistSeries() {
     let allArtists = [];
     this.members.forEach(mem => {
-      allArtists = allArtists.concat(mem.favouriteartists);
+      if (mem.favouriteartists) {
+        allArtists.push(...mem.favouriteartists);
+      } else {
+        allArtists.push(mem.favouriteartists);
+      }
     });
     return this.countOfStaticData(allArtists);
   }
@@ -104,7 +116,7 @@ export class StatsComponent implements OnInit {
   buildFestivalsByLocationSeries() {
     let festivalCountries = [];
     this.festivals.forEach(
-      el => (festivalCountries = festivalCountries.concat(el.location))
+      el => festivalCountries.push(el.location)
     );
     let festivalsByLocation = groupBy(this.festivals, [{ field: "location" }]);
     let festivalCount = this.countOf(festivalCountries);
@@ -137,7 +149,7 @@ export class StatsComponent implements OnInit {
     let artistByLocation: any = groupBy(this.artists, [{ field: "origin" }]);
     let artistCountries = [];
     this.artists.forEach(
-      el => (artistCountries = artistCountries.concat(el.origin))
+      el => artistCountries.push(el.origin)
     );
     let artistCount = this.countOf(artistCountries);
     artistCount.forEach((dat, index, array) => {
@@ -160,7 +172,7 @@ export class StatsComponent implements OnInit {
 
   buildPsyStatusSeries() {
     let psystatus = [];
-    this.members.forEach(el => (psystatus = psystatus.concat(el.psystatus)));
+    this.members.forEach(el => psystatus.push(el.psystatus));
     return this.countOf(psystatus);
   }
 
