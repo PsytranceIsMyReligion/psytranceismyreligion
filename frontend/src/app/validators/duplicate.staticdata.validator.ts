@@ -7,7 +7,6 @@ export function notDuplicateValidator(staticData: Array<StaticData>): ValidatorF
     let includes = staticData
       .map((el: StaticData) => el.name.toLowerCase())
       .includes(control.value.toLowerCase());
-    // debugger;
     return includes ? { duplicate: { value: control.value } } : null;
   };
 }

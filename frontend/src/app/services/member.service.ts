@@ -80,11 +80,10 @@ export class MemberService implements OnInit {
   updateUser(user) {
     this.user = user;
     let members = this.members$.getValue();
-    members.forEach(mem => {
-      if (mem._id == user._id) {
-        mem = user;
-      }
-    });
+    const index = members.findIndex(mem => mem._id == user._id);
+    if (index !== -1) {
+      members[index] = user;
+    }
     this.members$.next(members);
   }
 
@@ -149,9 +148,6 @@ export class MemberService implements OnInit {
       });
       console.log("get lgd on", this.user$.getValue());
       this.socket.emit("get-logged-on-users", this.user$.getValue());
-      // setTimeout(() => {
-      //   this.socket.emit("get-logged-on-users", this.user$.getValue());
-      // });
     });
   }
 
@@ -244,6 +240,7 @@ export class MemberService implements OnInit {
   }
 
   calculateAge(birthday) {
+    if (!birthday) return 0;
     let bdate = moment()
       .set("year", birthday)
       .toDate();
