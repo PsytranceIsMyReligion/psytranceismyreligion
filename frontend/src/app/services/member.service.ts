@@ -80,11 +80,10 @@ export class MemberService implements OnInit {
   updateUser(user) {
     this.user = user;
     let members = this.members$.getValue();
-    members.forEach(mem => {
-      if (mem._id == user._id) {
-        mem = user;
-      }
-    });
+    const index = members.findIndex(mem => mem._id == user._id);
+    if (index !== -1) {
+      members[index] = user;
+    }
     this.members$.next(members);
   }
 
