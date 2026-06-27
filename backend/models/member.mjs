@@ -22,13 +22,7 @@ let MemberSchema = new Schema({
     type: String
   },
   email: {
-    type: String,
-    // required: true,
-    // unique: true,
-    // lowercase: true,
-    // validate: (value) => {
-    //   return validator.isEmail(value)
-    // }
+    type: String
   },
   referer: {
     type: mongoose.Schema.Types.ObjectId,
