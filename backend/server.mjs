@@ -175,7 +175,6 @@ io.on("connection", socket => {
     "get-logged-on-users",
     (null,
     async user => {
-      debugger;
       console.log("myid", user._id);
       console.log("cache contnents", loggedOnUserCache.get("users"));
       console.log(
