@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import mongoose from "mongoose";
 import multer from "multer";
-import Member from "../models/member";
+import Member from "../models/member.mjs";
 import _ from "lodash";
 import nodemailer from "nodemailer";
 import smtpTransport from "nodemailer-smtp-transport";
@@ -204,3 +204,4 @@ async function sendMessage(message) {
 }
 
 export default router;
+export { karmicKudosCheck };
