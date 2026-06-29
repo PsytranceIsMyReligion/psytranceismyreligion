@@ -44,5 +44,6 @@
 /secrets
 
 # System Files
+.env
 .DS_Store
 Thumbs.db
