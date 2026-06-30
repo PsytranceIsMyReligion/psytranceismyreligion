@@ -1,34 +1,50 @@
-# Project Overview
-This repository contains the codebase for the "Psytrance Is My Religion" application. It serves as a community platform and interactive toolset. The primary goal is to maintain a highly responsive, audio-friendly user experience.
+# Project Guidelines: Angular 9
 
-# Tech Stack
-- **Frontend:**
-# Frontend # Tech Stack & Tooling
-- **Framework:** Angular (v22+)
-- **Language:** TypeScript (Strict Mode)
-- **Styling:** SCSS / Tailwind CSS
-- **State & Reactivity:** Angular Signals (exclusive)
-- **Testing:** Vitest (Do NOT use Karma/Jasmine)
-- **UI & Accessibility:** Angular ARIA
+## Project Overview
 
-# Architectural Rules
-Our application follows the modern, boilerplate-free Angular architecture. Do not use legacy patterns.
-1. **Zoneless:** The app uses `provideZonelessChangeDetection()`. Do not include, import, or rely on `zone.js`. Do not use `NgZone` or `setTimeout` hacks to trigger change detection.
-2. **Standalone by Default:** All components, pipes, and directives must be `standalone: true`. **Never generate or modify an `NgModule`.**
-3. **Change Detection:** Do not set `ChangeDetectionStrategy` explicitly; `OnPush` is the default in our version.
+This project is built on **Angular 9**. AI agents must adhere to the conventions of this version and avoid newer features (e.g., Standalone components, Signals, `inject()`) unless explicitly requested.
 
-# Reactivity & State Conventions
-1. **Data Fetching:** Use the stable `resource()` and `httpResource()` APIs for asynchronous state and data fetching. Do not use RxJS for basic HTTP requests.
-2. **Local State:** Use Angular Signals (`signal`, `computed`, `effect`, `linkedSignal`) exclusively for synchronous UI state. 
-3. **Form Management:** Use **Signal Forms** (from `@angular/forms/signals`). Do NOT use the legacy RxJS `ReactiveFormsModule` (`FormGroup`, `FormControl`). Use declarative signal form validation (e.g., `required()`, `disabled()`).
+## Package Manager & Commands
 
-# Dependency Injection
-1. **Services:** Use the new `@Service()` decorator for all new services instead of `@Injectable({ providedIn: 'root' })`. 
-2. **Component Injection:** Always use the `inject()` function for dependencies inside components instead of constructor injection.
-3. **Lazy Loading Services:** Use `injectAsync()` when a heavy service is only needed conditionally.
+- **Package Manager:** `npm` (Use `npm` for all operations).
+- **Start Dev Server:** `npm start`
+- **Build:** `npm run build`
+- **Test:** `npm test`
+- **Lint:** `npm run lint`
 
-# AI Boundaries & Formatting
-- **File Naming:** Adhere to the Angular CLI conventions (e.g., `feature-name.component.ts`).
-- **Control Flow:** Use the built-in control flow syntax (`@if`, `@for`, `@switch`) in all templates. Do NOT use legacy structural directives (`*ngIf`, `*ngFor`).
-- **Dependencies:** Do not introduce third-party libraries for state managenent
-- **E2E Testing:** Do NOT write, modify, or run E2E tests. If the user asks for E2E testing, instruct them to switch to the `@test-agent` which utilizes Playwright.
+## Angular 9 Architecture & Best Practices
+
+- **Modules (NgModules):** Angular 9 relies on `NgModules`. Every component, directive, and pipe must be declared in a module. Ensure new components are imported into the appropriate feature module.
+- **Lazy Loading:** Use `loadChildren` with the string-based syntax:
+  `{ path: 'feature', loadChildren: () => import('./feature/feature.module').then(m => m.FeatureModule) }`
+- **Dependency Injection:** Use the `@Injectable({ providedIn: 'root' })` decorator for services to ensure tree-shaking.
+- **State Management:** Use RxJS `BehaviorSubject` or `ReplaySubject` for state. Avoid complex store libraries unless they are already in `package.json`.
+- **Component Logic:**
+  - Keep components thin. Move business logic into Services.
+  - Use `OnPush` change detection strategy where performance is critical.
+  - Always use `trackBy` in `*ngFor` loops to prevent unnecessary DOM re-rendering.
+- **Observables:**
+  - Always clean up subscriptions. Use the `async` pipe in templates whenever possible.
+  - If manual subscription is required, use `takeUntil` with a `destroy$` subject.
+
+## Coding Standards
+
+- **Strict Typing:** Avoid `any`. Use interfaces for all data models.
+- **Naming Conventions:**
+  - Files: `feature.component.ts`, `feature.service.ts`, `feature.module.ts`.
+  - Class Names: PascalCase.
+  - Method/Variable Names: lowerCamelCase.
+- **Styling:** Use SCSS. Keep styles encapsulated by using `ViewEncapsulation.Emulated` (default).
+
+## AI Agent Instructions
+
+1. **Context Check:** Always assume the environment is Node 12-14 compatible. Do not suggest modern ES2022 features unless polyfilled.
+2. **Library Compatibility:** If suggesting third-party libraries, check that they were compatible with Angular 9 (e.g., RxJS 6.x).
+3. **No Standalone Components:** Do not use the `standalone: true` flag.
+4. **Code Structure:** If asked to generate a new feature, provide the `component`, `module`, and `routing` files as a single coherent set.
+5. **Efficiency:** If the code becomes complex, favor splitting into smaller, single-responsibility components.
+
+## Troubleshooting
+
+- If a build error occurs, check `tsconfig.json` for strict mode settings (if enabled).
+- If you see `ExpressionChangedAfterItHasBeenCheckedError`, review the use of asynchronous data binding in lifecycle hooks (`ngAfterViewInit`).
