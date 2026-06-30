@@ -80,11 +80,10 @@ export class MemberService implements OnInit {
   updateUser(user) {
     this.user = user;
     let members = this.members$.getValue();
-    members.forEach(mem => {
-      if (mem._id == user._id) {
-        mem = user;
-      }
-    });
+    const index = members.findIndex(mem => mem._id == user._id);
+    if (index !== -1) {
+      members[index] = user;
+    }
     this.members$.next(members);
   }
 
@@ -140,18 +139,26 @@ export class MemberService implements OnInit {
   }
 
   initLoggedOnUsers() {
-    this.members$.subscribe(() => {
+    this.members$.subscribe(members => {
       console.log("initing user listing");
+      const memberMap = new Map<string, Member>();
+      if (members) {
+        for (const member of members) {
+          if (member._id) {
+            memberMap.set(member._id.toString(), member);
+          }
+        }
+      }
       this.socket.on("logged-on-users", (users: Array<String>) => {
-        let enrichedUsers = users.map(el => this.getMemberById(el));
+        let enrichedUsers = users.map(el => {
+          const idStr = el != null ? el.toString() : "";
+          return memberMap.get(idStr) || this.getMemberById(el);
+        });
         console.log("user------", enrichedUsers);
         this.loggedOnMembers$.next(enrichedUsers);
       });
       console.log("get lgd on", this.user$.getValue());
       this.socket.emit("get-logged-on-users", this.user$.getValue());
-      // setTimeout(() => {
-      //   this.socket.emit("get-logged-on-users", this.user$.getValue());
-      // });
     });
   }
 
@@ -244,6 +251,7 @@ export class MemberService implements OnInit {
   }
 
   calculateAge(birthday) {
+    if (!birthday) return 0;
     let bdate = moment()
       .set("year", birthday)
       .toDate();

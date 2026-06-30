@@ -18,11 +18,6 @@ let LoginRecordSchema = new Schema({
     }
 });
 
-// LoginRecordSchema.statics.login = function (user) {
-//     return LoginRecordSchema.save({
-//         memberId: user._id
-//     });
-// }
 LoginRecordSchema.statics.logoff = function (loginRecord) {
     if (loginRecord) {
         let duration = new Date().getTime() - moment(loginRecord.createdAt).toDate().getTime();

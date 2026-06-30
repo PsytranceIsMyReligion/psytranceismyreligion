@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import karmicKudoEmitter from "../utils/events";
+import karmicKudoEmitter from "../utils/events.mjs";
 const Schema = mongoose.Schema;
 
 let MemberSchema = new Schema({
@@ -22,13 +22,7 @@ let MemberSchema = new Schema({
     type: String
   },
   email: {
-    type: String,
-    // required: true,
-    // unique: true,
-    // lowercase: true,
-    // validate: (value) => {
-    //   return validator.isEmail(value)
-    // }
+    type: String
   },
   referer: {
     type: mongoose.Schema.Types.ObjectId,
