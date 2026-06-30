@@ -64,7 +64,7 @@ router.route("/").get(async (req, res) => {
 router.route("/:id").get(async (req, res) => {
   let member;
   try {
-    member = await Member.findByMemberId(req.params.id);
+    member = await Member.findMemberById(req.params.id);
   } catch (err) {
     console.error("Http error", err);
     return res.status(500).send();

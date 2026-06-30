@@ -79,7 +79,6 @@ function addWallPost(video) {
     })
     .catch(err => {
       console.log('error adding wall post for video', err);
-      res.status(400).send("Update post failed");
     });
 }
 

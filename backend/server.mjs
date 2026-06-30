@@ -24,7 +24,7 @@ import dotenv from "dotenv";
 import NodeCache from "node-cache";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const isProd = process.env.NODE_ENV === "productEventEmittern";
+const isProd = process.env.NODE_ENV === "production";
 
 console.log("isProduction?", isProd);
 
