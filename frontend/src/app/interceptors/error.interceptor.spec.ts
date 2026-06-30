@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HTTP_INTERCEPTORS, HttpClient, HttpErrorResponse, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorInterceptor } from './error.interceptor';
-import { throwError, Observable } from 'rxjs';
+import { throwError, Observable, of } from 'rxjs';
 
 describe('ErrorInterceptor', () => {
   let httpClient: HttpClient;
@@ -52,20 +52,36 @@ describe('ErrorInterceptor', () => {
   });
 
   it('should catch HttpErrorResponse, call toastrService.error, and return the error via of()', () => {
-    httpClient.get('/test').subscribe({
+    const interceptor = new ErrorInterceptor(toastrServiceSpy as any);
+    const req = new HttpRequest('GET', '/test');
+
+    const errResp = new HttpErrorResponse({
+      error: 'Failed',
+      status: 500,
+      statusText: 'Internal Server Error',
+      url: '/test'
+    });
+
+    const mockHandler: HttpHandler = {
+      handle: () => throwError(errResp) as Observable<HttpEvent<any>>
+    };
+
+    let handled = false;
+    interceptor.intercept(req, mockHandler).subscribe({
       next: (res: any) => {
         expect(res instanceof HttpErrorResponse).toBe(true);
-        expect(toastrServiceSpy.error).toHaveBeenCalled();
-        const expectedMessage = "Exception\n Http failure response for /test: 500 Internal Server Error";
-        expect(toastrServiceSpy.error).toHaveBeenCalledWith(expectedMessage, 'Error');
+        expect(res.status).toBe(500);
+        handled = true;
       },
       error: () => {
         fail('Should not throw error because interceptor returns of(err)');
       }
     });
 
-    const req = httpMock.expectOne('/test');
-    req.flush('Failed', { status: 500, statusText: 'Internal Server Error' });
+    expect(handled).toBe(true);
+    expect(toastrServiceSpy.error).toHaveBeenCalled();
+    const expectedMessage = "Exception\n Http failure response for /test: 500 Internal Server Error";
+    expect(toastrServiceSpy.error).toHaveBeenCalledWith(expectedMessage, 'Error');
   });
 
   it('should handle exception thrown by toastrService.error in try block', () => {
@@ -78,15 +94,34 @@ describe('ErrorInterceptor', () => {
       return null as any;
     });
 
-    httpClient.get('/test').subscribe({
+    const interceptor = new ErrorInterceptor(toastrServiceSpy as any);
+    const req = new HttpRequest('GET', '/test');
+
+    const errResp = new HttpErrorResponse({
+      error: 'Failed',
+      status: 404,
+      statusText: 'Not Found',
+      url: '/test'
+    });
+
+    const mockHandler: HttpHandler = {
+      handle: () => throwError(errResp) as Observable<HttpEvent<any>>
+    };
+
+    let handled = false;
+    interceptor.intercept(req, mockHandler).subscribe({
       next: (res: any) => {
         expect(res instanceof HttpErrorResponse).toBe(true);
-        expect(toastrServiceSpy.error).toHaveBeenCalledTimes(2);
+        expect(res.status).toBe(404);
+        handled = true;
+      },
+      error: () => {
+        fail('Should not throw error because interceptor returns of(err)');
       }
     });
 
-    const req = httpMock.expectOne('/test');
-    req.flush('Failed', { status: 404, statusText: 'Not Found' });
+    expect(handled).toBe(true);
+    expect(toastrServiceSpy.error).toHaveBeenCalledTimes(2);
   });
 
   it('should not call toastrService.error if error is not HttpErrorResponse', () => {
@@ -97,12 +132,19 @@ describe('ErrorInterceptor', () => {
       handle: () => throwError(new Error('Normal error')) as Observable<HttpEvent<any>>
     };
 
+    let handled = false;
     interceptor.intercept(req, mockHandler).subscribe({
       next: (res: any) => {
         expect(res instanceof Error).toBe(true);
         expect(res.message).toBe('Normal error');
-        expect(toastrServiceSpy.error).not.toHaveBeenCalled();
+        handled = true;
+      },
+      error: () => {
+        fail('Should not throw error because interceptor returns of(err)');
       }
     });
+
+    expect(handled).toBe(true);
+    expect(toastrServiceSpy.error).not.toHaveBeenCalled();
   });
 });
